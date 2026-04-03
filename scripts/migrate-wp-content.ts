@@ -1,3 +1,12 @@
+/**
+ * WordPress → Payload CMS migration script
+ * Full rewrite — clean HTML before parse, strict Lexical validation, slug = final path segment only.
+ *
+ * Usage:
+ *   pnpm migrate:wp            full migration
+ *   pnpm migrate:wp --test     dry-run against post 9491 (basel-compliance-checklist), no DB writes
+ */
+
 import { getPayload } from 'payload'
 import config from '../src/payload.config'
 import { XMLParser } from 'fast-xml-parser'
@@ -7,6 +16,8 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ManifestEntry {
   postId: number
@@ -18,14 +29,14 @@ interface ManifestEntry {
   newPath: string
 }
 
-interface WordPressPost {
-  post_id: string | number
+interface WpPost {
+  postId: number
   title: string
   content: string
-  wpUrl: string
   postDate: string
-  status: string
 }
+
+// ─── Manifest ─────────────────────────────────────────────────────────────────
 
 const MANIFEST: ManifestEntry[] = [
   { postId: 12125, section: 'API', pageType: 'landing', priority: 'P1', title: 'Basel API - Automate Competent Authority Lookups', wpUrl: 'https://dexmetal.com/basel-api/', newPath: '/basel-ca-api' },
@@ -115,11 +126,11 @@ const MANIFEST: ManifestEntry[] = [
   { postId: 6359, section: 'PIC Workflows', pageType: 'guide', priority: 'P1', title: 'Transit Country Consent', wpUrl: 'https://dexmetal.com/data-library/pic-procedure/transit-country-consent/', newPath: '/knowledge-hub/pic-transit-country-consent' },
   { postId: 6376, section: 'PIC Workflows', pageType: 'guide', priority: 'P2', title: 'Appealing Rejections', wpUrl: 'https://dexmetal.com/data-library/pic-procedure/appealing-rejections/', newPath: '/knowledge-hub/pic-appealing-rejections' },
   { postId: 6379, section: 'PIC Workflows', pageType: 'guide', priority: 'P2', title: 'Notification Modifications', wpUrl: 'https://dexmetal.com/data-library/pic-procedure/notification-modifications/', newPath: '/knowledge-hub/pic-notification-modifications' },
-  { postId: 503, section: 'Shell', pageType: 'landing', priority: 'P1', title: 'Home', wpUrl: 'https://dexmetal.com/', newPath: '/' },
-  { postId: 474, section: 'Shell', pageType: 'static', priority: 'P2', title: 'About', wpUrl: 'https://dexmetal.com/about/', newPath: '/about' },
-  { postId: 476, section: 'Shell', pageType: 'index', priority: 'P2', title: 'Blog', wpUrl: 'https://dexmetal.com/blog/', newPath: '/blog' },
-  { postId: 478, section: 'Shell', pageType: 'static', priority: 'P2', title: 'Contact', wpUrl: 'https://dexmetal.com/contact/', newPath: '/contact' },
-  { postId: 3, section: 'Shell', pageType: 'static', priority: 'P3', title: 'Privacy Policy', wpUrl: 'https://dexmetal.com/privacy-policy/', newPath: '/privacy-policy' },
+  { postId: 503,   section: 'Shell', pageType: 'landing', priority: 'P1', title: 'Home', wpUrl: 'https://dexmetal.com/', newPath: '/' },
+  { postId: 474,   section: 'Shell', pageType: 'static',  priority: 'P2', title: 'About', wpUrl: 'https://dexmetal.com/about/', newPath: '/about' },
+  { postId: 476,   section: 'Shell', pageType: 'index',   priority: 'P2', title: 'Blog', wpUrl: 'https://dexmetal.com/blog/', newPath: '/blog' },
+  { postId: 478,   section: 'Shell', pageType: 'static',  priority: 'P2', title: 'Contact', wpUrl: 'https://dexmetal.com/contact/', newPath: '/contact' },
+  { postId: 3,     section: 'Shell', pageType: 'static',  priority: 'P1', title: 'Privacy Policy', wpUrl: 'https://dexmetal.com/privacy-policy/', newPath: '/privacy-policy' },
   { postId: 6397, section: 'Supporting Docs', pageType: 'reference', priority: 'P1', title: 'Complete Document Checklist', wpUrl: 'https://dexmetal.com/data-library/supporting-documents/document-checklist/', newPath: '/knowledge-hub/basel-complete-document-checklist' },
   { postId: 6400, section: 'Supporting Docs', pageType: 'reference', priority: 'P1', title: 'Contract Requirements', wpUrl: 'https://dexmetal.com/data-library/supporting-documents/contract-requirements/', newPath: '/knowledge-hub/basel-contract-requirements' },
   { postId: 6412, section: 'Supporting Docs', pageType: 'reference', priority: 'P1', title: 'Environmentally Sound Management Documentation', wpUrl: 'https://dexmetal.com/data-library/supporting-documents/esm-documentation/', newPath: '/knowledge-hub/esm-documentation-requirements' },
@@ -134,11 +145,51 @@ const MANIFEST: ManifestEntry[] = [
   { postId: 19486, section: 'Tools', pageType: 'tool', priority: 'P1', title: 'Basel Notification Document — Quick View Checklist', wpUrl: 'https://dexmetal.com/notification-quick-view/', newPath: '/tools/notification-document-checklist' },
   { postId: 19490, section: 'Tools', pageType: 'tool', priority: 'P1', title: 'Basel Waste Code Quick Lookup Table', wpUrl: 'https://dexmetal.com/quick-code-lookup/', newPath: '/tools/basel-waste-code-lookup' },
   { postId: 10553, section: 'Tools', pageType: 'tool', priority: 'P1', title: 'Get the Basel Checklist', wpUrl: 'https://dexmetal.com/checklist/', newPath: '/tools/basel-compliance-checklist' },
-  { postId: 1265, section: 'Tools', pageType: 'tool', priority: 'P1', title: 'ULAB Value Estimator', wpUrl: 'https://dexmetal.com/ulab-value-estimator/', newPath: '/tools/ulab-value-estimator' },
+  { postId: 1265,  section: 'Tools', pageType: 'tool', priority: 'P1', title: 'ULAB Value Estimator', wpUrl: 'https://dexmetal.com/ulab-value-estimator/', newPath: '/tools/ulab-value-estimator' },
   { postId: 18296, section: 'Tools', pageType: 'tool', priority: 'P2', title: 'Shipment Schedule Log Template', wpUrl: 'https://dexmetal.com/shipment-schedule-log-template/', newPath: '/tools/shipment-schedule-log' },
 ]
 
-// ─── Lexical node factories ────────────────────────────────────────────────
+// ─── Slug helper ──────────────────────────────────────────────────────────────
+
+// Store only the final path segment — never "knowledge-hub/foo" or "tools/foo".
+function toSlug(newPath: string): string {
+  const parts = newPath.split('/').filter(Boolean)
+  return parts.length > 0 ? parts[parts.length - 1] : newPath
+}
+
+// ─── Content cleaning (runs before any HTML parsing) ─────────────────────────
+
+function cleanHtml(raw: string): string {
+  let html = raw
+
+  // Remove <style>…</style> blocks entirely
+  html = html.replace(/<style[\s\S]*?<\/style>/gi, '')
+
+  // Remove <script>…</script> blocks entirely
+  html = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+
+  // Remove HTML comments — includes WordPress <!-- wp:block --> markers
+  html = html.replace(/<!--[\s\S]*?-->/g, '')
+
+  // Remove WordPress shortcode tags (opening, closing, self-closing) — keep inner text
+  // Matches: [word], [word attr="val"], [/word], [word /]
+  html = html.replace(/\[[^\]]*\]/g, '')
+
+  // Remove style="" attributes
+  html = html.replace(/\s+style=(?:"[^"]*"|'[^']*')/gi, '')
+
+  // Remove class="" attributes
+  html = html.replace(/\s+class=(?:"[^"]*"|'[^']*')/gi, '')
+
+  // Normalize line endings and collapse excess whitespace between tags
+  html = html.replace(/\r\n?/g, '\n')
+  html = html.replace(/>\s*\n\s*</g, '><')
+  html = html.trim()
+
+  return html
+}
+
+// ─── Lexical node factories ───────────────────────────────────────────────────
 
 function makeTextNode(text: string, format: number = 0): any {
   return { detail: 0, format, mode: 'normal', style: '', text, type: 'text', version: 1 }
@@ -160,9 +211,7 @@ function makeListItemNode(children: any[], value: number): any {
   return { checked: false, children, direction: 'ltr', format: '', indent: 0, type: 'listitem', value, version: 1 }
 }
 
-// Payload's LinkFeature (v3) expects url inside node.fields, not directly on the node.
-// The link validator calls fieldSchemasToFormState({ data: node.fields }) — if node.fields
-// is undefined the required url validation fails and Payload rejects the entire content field.
+// Payload LinkFeature v3 — url must live inside node.fields
 function makeLinkNode(url: string, children: any[]): any {
   return {
     children,
@@ -171,26 +220,14 @@ function makeLinkNode(url: string, children: any[]): any {
     indent: 0,
     type: 'link',
     version: 3,
-    fields: {
-      linkType: 'custom',
-      newTab: false,
-      url,
-    },
+    fields: { linkType: 'custom', newTab: false, url },
   }
 }
 
-function emptyLexical(): any {
-  return { root: { children: [], direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
-}
+// ─── Fallbacks ────────────────────────────────────────────────────────────────
 
-// Strip all markup and produce a guaranteed-valid single-paragraph document
-function plainTextFallback(rawHtml: string): any {
-  const text = decodeEntities(
-    stripShortcodes(rawHtml)
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim(),
-  )
+function plainTextFallback(cleanedHtml: string): any {
+  const text = decodeEntities(cleanedHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
   return {
     root: {
       children: [makeParagraphNode([makeTextNode(text || '(no content)')])],
@@ -203,10 +240,11 @@ function plainTextFallback(rawHtml: string): any {
   }
 }
 
-// Returns true only if doc has root.children with ≥1 node each having ≥1 child
+// ─── Validation ───────────────────────────────────────────────────────────────
+
 function validateLexical(doc: any): boolean {
   if (!doc || typeof doc !== 'object') return false
-  const root = doc.root
+  const { root } = doc
   if (!root || !Array.isArray(root.children) || root.children.length === 0) return false
   for (const child of root.children) {
     if (!child || typeof child !== 'object') return false
@@ -216,7 +254,7 @@ function validateLexical(doc: any): boolean {
   return true
 }
 
-// ─── HTML utilities ────────────────────────────────────────────────────────
+// ─── HTML entity decoder ──────────────────────────────────────────────────────
 
 function decodeEntities(text: string): string {
   return text
@@ -232,14 +270,10 @@ function decodeEntities(text: string): string {
     .replace(/&#8220;/g, '"').replace(/&#8221;/g, '"')
     .replace(/&#8230;/g, '...').replace(/&#8211;/g, '–').replace(/&#8212;/g, '—')
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+    .replace(/&[a-z]+;/gi, ' ')
 }
 
-function stripShortcodes(html: string): string {
-  // Remove WordPress shortcodes: [tag], [/tag], [tag attr="val"], [tag /]
-  return html.replace(/\[[^\]]*\]/g, '')
-}
-
-// ─── Inline parser ─────────────────────────────────────────────────────────
+// ─── Inline HTML parser ───────────────────────────────────────────────────────
 
 function parseInlineNodes(html: string): any[] {
   const nodes: any[] = []
@@ -277,10 +311,8 @@ function parseInlineNodes(html: string): any[] {
       const closeIdx = html.toLowerCase().indexOf(closeTag, tagEnd + 1)
       if (closeIdx !== -1) {
         const inner = parseInlineNodes(html.slice(tagEnd + 1, closeIdx))
-        for (const n of inner) {
-          if (n.type === 'text') n.format = n.format | 1
-          nodes.push(n)
-        }
+        for (const n of inner) { if (n.type === 'text') n.format = n.format | 1 }
+        nodes.push(...inner)
         pos = closeIdx + closeTag.length
       } else {
         pos = tagEnd + 1
@@ -293,10 +325,8 @@ function parseInlineNodes(html: string): any[] {
       const closeIdx = html.toLowerCase().indexOf(closeTag, tagEnd + 1)
       if (closeIdx !== -1) {
         const inner = parseInlineNodes(html.slice(tagEnd + 1, closeIdx))
-        for (const n of inner) {
-          if (n.type === 'text') n.format = n.format | 2
-          nodes.push(n)
-        }
+        for (const n of inner) { if (n.type === 'text') n.format = n.format | 2 }
+        nodes.push(...inner)
         pos = closeIdx + closeTag.length
       } else {
         pos = tagEnd + 1
@@ -326,7 +356,7 @@ function parseInlineNodes(html: string): any[] {
   return nodes.filter((n) => n.type !== 'text' || n.text.length > 0)
 }
 
-// ─── List item parser ──────────────────────────────────────────────────────
+// ─── List item parser ─────────────────────────────────────────────────────────
 
 function parseListItems(html: string): any[] {
   const items: any[] = []
@@ -351,22 +381,19 @@ function parseListItems(html: string): any[] {
   return items
 }
 
-// ─── Main HTML → Lexical converter ────────────────────────────────────────
+// ─── HTML → Lexical converter ─────────────────────────────────────────────────
+// Expects already-cleaned HTML (no style blocks, comments, shortcodes, class/style attrs).
 
-function htmlToLexical(rawHtml: string): any {
-  if (!rawHtml || rawHtml.trim().length === 0) return plainTextFallback('')
-
-  // Strip WordPress shortcodes, normalize newlines
-  let html = stripShortcodes(rawHtml)
-  html = html.replace(/\r\n?/g, '\n').replace(/>\s*\n\s*</g, '><').trim()
+function htmlToLexical(cleanedHtml: string): any {
+  if (!cleanedHtml || cleanedHtml.trim().length === 0) return plainTextFallback('')
 
   const children: any[] = []
-  let remaining = html
+  let remaining = cleanedHtml.trim()
 
-  while (remaining.trim().length > 0) {
+  while (remaining.length > 0) {
     remaining = remaining.trim()
 
-    // Headings h1–h6
+    // h1–h6
     const hMatch = remaining.match(/^<(h[1-6])[^>]*>([\s\S]*?)<\/\1>/i)
     if (hMatch) {
       const inlineNodes = parseInlineNodes(hMatch[2])
@@ -375,7 +402,7 @@ function htmlToLexical(rawHtml: string): any {
       continue
     }
 
-    // Paragraph
+    // <p>
     const pMatch = remaining.match(/^<p[^>]*>([\s\S]*?)<\/p>/i)
     if (pMatch) {
       const inlineNodes = parseInlineNodes(pMatch[1])
@@ -384,7 +411,7 @@ function htmlToLexical(rawHtml: string): any {
       continue
     }
 
-    // Unordered list
+    // <ul>
     const ulMatch = remaining.match(/^<ul[^>]*>([\s\S]*?)<\/ul>/i)
     if (ulMatch) {
       const items = parseListItems(ulMatch[1])
@@ -393,7 +420,7 @@ function htmlToLexical(rawHtml: string): any {
       continue
     }
 
-    // Ordered list
+    // <ol>
     const olMatch = remaining.match(/^<ol[^>]*>([\s\S]*?)<\/ol>/i)
     if (olMatch) {
       const items = parseListItems(olMatch[1])
@@ -402,7 +429,7 @@ function htmlToLexical(rawHtml: string): any {
       continue
     }
 
-    // Skip tables (complex, rare in this content)
+    // Skip tables — complex structure, low value in this content set
     const tableMatch = remaining.match(/^<table[\s\S]*?<\/table>/i)
     if (tableMatch) { remaining = remaining.slice(tableMatch[0].length); continue }
 
@@ -419,7 +446,7 @@ function htmlToLexical(rawHtml: string): any {
     const tagMatch = remaining.match(/^<[^>]+>/)
     if (tagMatch) { remaining = remaining.slice(tagMatch[0].length); continue }
 
-    // Plain text at block level — wrap in paragraph
+    // Bare text at block level — wrap in paragraph
     const textMatch = remaining.match(/^([^<]+)/)
     if (textMatch) {
       const text = decodeEntities(textMatch[1]).trim()
@@ -434,16 +461,41 @@ function htmlToLexical(rawHtml: string): any {
   if (children.length > 0) {
     return { root: { children, direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
   }
-  // Nothing parseable — fall back to stripped plain text
-  return plainTextFallback(rawHtml)
+
+  return plainTextFallback(cleanedHtml)
 }
 
+// ─── XML helpers ─────────────────────────────────────────────────────────────
+
+function extractRawContent(item: any): string {
+  const raw = item['content:encoded']
+  if (!raw) return ''
+  if (typeof raw === 'object') return raw.__cdata || raw['#text'] || ''
+  return String(raw)
+}
+
+function extractPostId(item: any): number {
+  return parseInt(item['wp:post_id'] || item.post_id || '0', 10)
+}
+
+function extractPostDate(item: any): string {
+  return item['wp:post_date'] || item.pubDate || ''
+}
+
+function parsePostDate(raw: string): string {
+  if (!raw) return new Date().toISOString()
+  const d = new Date(raw)
+  return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString()
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
 async function main() {
+  const isTest = process.argv.includes('--test')
   const xmlPath = path.resolve(__dirname, 'dexmetal_WordPress_2026-04-03.xml')
 
   if (!fs.existsSync(xmlPath)) {
-    console.error(`ERROR: WordPress XML file not found at ${xmlPath}`)
-    console.error('Copy your WordPress export to scripts/dexmetal_WordPress_2026-04-03.xml and re-run.')
+    console.error(`ERROR: WordPress XML not found at ${xmlPath}`)
     process.exit(1)
   }
 
@@ -462,50 +514,72 @@ async function main() {
   const parsed = parser.parse(xmlContent)
   const channel = parsed.rss?.channel
   if (!channel) {
-    console.error('ERROR: Could not parse WordPress XML — no <channel> found')
+    console.error('ERROR: No <channel> found in XML')
     process.exit(1)
   }
 
-  const items = Array.isArray(channel.item) ? channel.item : channel.item ? [channel.item] : []
-  console.log(`Found ${items.length} items in WordPress XML`)
+  const xmlItems = Array.isArray(channel.item) ? channel.item : channel.item ? [channel.item] : []
+  console.log(`Found ${xmlItems.length} items in WordPress XML`)
 
-  const manifestByPostId = new Map<number, ManifestEntry>()
-  for (const entry of MANIFEST) {
-    manifestByPostId.set(entry.postId, entry)
-  }
-
-  const wpPosts = new Map<number, WordPressPost>()
-  for (const item of items) {
-    const postId = parseInt(item['wp:post_id'] || item.post_id || '0', 10)
+  const wpPosts = new Map<number, WpPost>()
+  for (const item of xmlItems) {
+    const postId = extractPostId(item)
     if (postId > 0) {
       wpPosts.set(postId, {
-        post_id: postId,
+        postId,
         title: item.title || item['title']?.['#text'] || '',
-        content: (() => {
-          const raw = item['content:encoded']
-          if (!raw) return ''
-          if (typeof raw === 'object') return raw.__cdata || raw['#text'] || ''
-          return String(raw)
-        })(),
-        wpUrl: item['wp:post_name'] || item.link || '',
-        postDate: item['wp:post_date'] || item.pubDate || '',
-        status: item['wp:status'] || 'publish',
+        content: extractRawContent(item),
+        postDate: extractPostDate(item),
       })
     }
   }
+  console.log(`Indexed ${wpPosts.size} WordPress posts`)
 
-  console.log(`Indexed ${wpPosts.size} WordPress posts by post_id`)
+  // ── --test mode: validate cleaning + Lexical for post 9491 ────────────────
+  if (isTest) {
+    const testPost = wpPosts.get(9491)
+    if (!testPost) {
+      console.error('TEST FAILED: post 9491 not found in XML')
+      process.exit(1)
+    }
 
+    const cleaned = cleanHtml(testPost.content)
+    const plainText = cleaned.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+
+    console.log('\n=== CLEANED TEXT (first 300 chars) ===')
+    console.log(plainText.slice(0, 300))
+
+    // Verify no CSS or shortcodes remain
+    const hasStyle = /<style/i.test(cleaned) || /style=/i.test(cleaned)
+    const hasClass = /class=/i.test(cleaned)
+    const hasShortcode = /\[[a-z]/i.test(cleaned)
+    console.log(`\nCSS blocks:   ${hasStyle ? 'FAIL — style present' : 'PASS'}`)
+    console.log(`class attrs:  ${hasClass ? 'FAIL — class present' : 'PASS'}`)
+    console.log(`Shortcodes:   ${hasShortcode ? 'FAIL — shortcodes present' : 'PASS'}`)
+
+    const lexical = htmlToLexical(cleaned)
+    const valid = validateLexical(lexical)
+    console.log(`Lexical:      ${valid ? 'PASS' : 'FAIL'}`)
+
+    console.log('\n=== LEXICAL JSON (first 2000 chars) ===')
+    console.log(JSON.stringify(lexical, null, 2).slice(0, 2000))
+
+    if (hasStyle || hasClass || hasShortcode || !valid) {
+      console.log('\nTEST FAILED')
+      process.exit(1)
+    }
+    console.log('\nTEST PASSED — safe to deploy')
+    process.exit(0)
+  }
+
+  // ── Full migration ─────────────────────────────────────────────────────────
   console.log('\nInitializing Payload...')
-  const payload = await getPayload({
-    config,
-  })
+  const payload = await getPayload({ config })
 
   let created = 0
   let updated = 0
   let skipped = 0
   let errors = 0
-
   const total = MANIFEST.length
 
   for (let i = 0; i < total; i++) {
@@ -513,28 +587,21 @@ async function main() {
     const wpPost = wpPosts.get(entry.postId)
 
     if (!wpPost) {
-      console.log(`[${i + 1}/${total}] SKIP (not found in XML): ${entry.title} (post_id: ${entry.postId})`)
+      console.log(`[${i + 1}/${total}] SKIP (not in XML): ${entry.title} (post_id: ${entry.postId})`)
       skipped++
       continue
     }
 
-    const slug = entry.newPath.split('/').filter(Boolean).pop()!
-
+    const slug = toSlug(entry.newPath)
     console.log(`[${i + 1}/${total}] Migrating: ${entry.title}`)
 
     try {
-      const existing = await payload.find({
-        collection: 'knowledge-hub-pages',
-        where: {
-          slug: { equals: slug },
-        },
-        limit: 1,
-      })
+      const cleaned = cleanHtml(wpPost.content)
+      let lexical = htmlToLexical(cleaned)
 
-      let lexicalContent = htmlToLexical(wpPost.content)
-      if (!validateLexical(lexicalContent)) {
-        console.log(`  -> WARNING: htmlToLexical produced invalid structure, using plain-text fallback`)
-        lexicalContent = plainTextFallback(wpPost.content)
+      if (!validateLexical(lexical)) {
+        console.log('  -> WARNING: invalid Lexical structure, using plain-text fallback')
+        lexical = plainTextFallback(cleaned)
       }
 
       const recordData = {
@@ -543,16 +610,18 @@ async function main() {
         section: entry.section as any,
         pageType: entry.pageType as any,
         priority: entry.priority as any,
-        content: lexicalContent,
+        content: lexical,
         wpUrl: entry.wpUrl,
         wpPostId: entry.postId,
         redirectFrom: entry.newPath,
-        publishedAt: (() => {
-          if (!wpPost.postDate) return new Date().toISOString()
-          const d = new Date(wpPost.postDate)
-          return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString()
-        })(),
+        publishedAt: parsePostDate(wpPost.postDate),
       }
+
+      const existing = await payload.find({
+        collection: 'knowledge-hub-pages',
+        where: { slug: { equals: slug } },
+        limit: 1,
+      })
 
       if (existing.docs.length > 0) {
         await payload.update({
@@ -569,6 +638,7 @@ async function main() {
           overrideAccess: true,
           data: recordData,
         })
+        console.log(`  -> Created (slug: ${slug})`)
         created++
       }
     } catch (err: any) {
