@@ -40,40 +40,31 @@ export default async function KnowledgeHubSlugPage({ params }: Args) {
   }
 
   return (
-    <article className="min-h-screen" style={{ backgroundColor: '#1C1B18', color: '#ffffff' }}>
+    <article className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <nav className="mb-8 text-sm" style={{ color: '#1D9E75' }}>
+        <nav className="mb-8 text-sm" style={{ color: 'var(--color-primary)' }}>
           <a href="/knowledge-hub" className="hover:underline">
             Knowledge Hub
           </a>
           <span className="mx-2">/</span>
-          <span className="text-white/70">{page.title}</span>
+          <span style={{ color: 'var(--color-muted)' }}>{page.title}</span>
         </nav>
 
-        <h1
-          className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
-          style={{ fontFamily: 'var(--font-play-bold, inherit)', color: '#ffffff' }}
-        >
+        <h1 className="text-4xl md:text-5xl mb-6 leading-tight">
           {page.title}
         </h1>
 
         {page.metaDescription && (
-          <p
-            className="text-lg mb-10 leading-relaxed"
-            style={{ fontFamily: 'var(--font-dm-sans, inherit)', color: '#ffffffb3' }}
-          >
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: 'var(--color-muted)' }}>
             {page.metaDescription}
           </p>
         )}
 
-        <div
-          className="prose prose-lg prose-invert max-w-none"
-          style={{ fontFamily: 'var(--font-dm-sans, inherit)' }}
-        >
+        <div className="prose prose-lg max-w-none" style={{ color: 'var(--color-text)' }}>
           <RichText data={page.content as any} enableGutter={false} enableProse={false} />
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 text-sm text-white/40">
+        <div className="mt-16 pt-8 border-t text-sm" style={{ borderColor: 'var(--color-border)', color: 'var(--color-muted)' }}>
           Section: {page.section} &middot; Type: {page.pageType}
         </div>
       </div>

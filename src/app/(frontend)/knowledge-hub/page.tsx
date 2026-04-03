@@ -37,8 +37,8 @@ export default async function KnowledgeHubPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1C1B18', color: '#ffffff' }}>
-        <p className="text-red-400 text-lg">Error loading Knowledge Hub: {error}</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg" style={{ color: 'var(--color-accent)' }}>Error loading Knowledge Hub: {error}</p>
       </div>
     )
   }
@@ -57,36 +57,26 @@ export default async function KnowledgeHubPage() {
   const allSections = [...orderedSections, ...remainingSections]
 
   return (
-    <article className="min-h-screen" style={{ backgroundColor: '#1C1B18', color: '#ffffff' }}>
+    <article className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-5xl">
-        <h1
-          className="text-4xl md:text-5xl font-bold mb-4"
-          style={{ fontFamily: 'var(--font-play-bold, inherit)', color: '#1D9E75' }}
-        >
+        <h1 className="text-4xl md:text-5xl mb-4" style={{ color: 'var(--color-primary)' }}>
           Knowledge Hub
         </h1>
-        <p
-          className="text-lg mb-12"
-          style={{ fontFamily: 'var(--font-dm-sans, inherit)', color: '#ffffffb3' }}
-        >
+        <p className="text-lg mb-12" style={{ color: 'var(--color-muted)' }}>
           {pages.length} guides, references, and tools for Basel Convention compliance.
         </p>
 
         {allSections.map((section) => (
           <section key={section} className="mb-12">
             <h2
-              className="text-2xl font-bold mb-4 pb-2 border-b"
+              className="text-2xl mb-4 pb-2 border-b"
               style={{
-                fontFamily: 'var(--font-play-bold, inherit)',
-                color: '#1D9E75',
-                borderColor: '#1D9E7533',
+                color: 'var(--color-primary)',
+                borderColor: 'var(--color-primary)',
               }}
             >
               {section}
-              <span
-                className="ml-3 text-base font-normal"
-                style={{ color: '#ffffff66' }}
-              >
+              <span className="ml-3 text-base font-normal" style={{ color: 'var(--color-muted)' }}>
                 {grouped[section].length}
               </span>
             </h2>
@@ -98,11 +88,8 @@ export default async function KnowledgeHubPage() {
                   <li key={page.id} className="py-1">
                     <a
                       href={`/knowledge-hub/${page.slug}`}
-                      className="inline-block py-1 transition-colors duration-150 hover:text-[#1D9E75]"
-                      style={{
-                        fontFamily: 'var(--font-dm-sans, inherit)',
-                        color: '#ffffffcc',
-                      }}
+                      className="inline-block py-1 transition-colors duration-150 hover:text-[var(--color-primary)]"
+                      style={{ color: 'var(--color-text)', opacity: 0.8 }}
                     >
                       {page.title}
                     </a>
