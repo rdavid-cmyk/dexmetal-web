@@ -5,7 +5,7 @@ import React, { cache } from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
-import RichText from '@/components/RichText'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 import type { KnowledgeHubPage } from '@/payload-types'
 
@@ -40,31 +40,111 @@ export default async function KnowledgeHubSlugPage({ params }: Args) {
   }
 
   return (
-    <article className="min-h-screen">
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <nav className="mb-8 text-sm" style={{ color: 'var(--color-primary)' }}>
-          <a href="/knowledge-hub" className="hover:underline">
+    <article className="min-h-screen bg-dex-bg">
+      <div className="max-w-4xl mx-auto px-8 py-16">
+        <nav className="mb-6 text-sm font-body" style={{ color: '#a0a09a' }}>
+          <a href="/knowledge-hub" className="hover:text-dex-primary transition-colors">
             Knowledge Hub
           </a>
           <span className="mx-2">/</span>
-          <span style={{ color: 'var(--color-muted)' }}>{page.title}</span>
+          <span>{page.title}</span>
         </nav>
 
-        <h1 className="text-4xl md:text-5xl mb-6 leading-tight">
+        <h1
+          className="font-display font-bold text-white mb-4"
+          style={{ fontSize: '2.5rem' }}
+        >
           {page.title}
         </h1>
 
         {page.metaDescription && (
-          <p className="text-lg mb-10 leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+          <p className="font-body text-lg mb-10 leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
             {page.metaDescription}
           </p>
         )}
 
-        <div className="prose prose-lg max-w-none" style={{ color: 'var(--color-text)' }}>
-          <RichText data={page.content as any} enableGutter={false} enableProse={false} />
+        <div
+          className="max-w-none"
+          style={{
+            color: 'rgba(255,255,255,0.9)',
+            fontFamily: 'var(--font-dm-sans), sans-serif',
+            lineHeight: '1.8',
+          }}
+        >
+          <style>{`
+            .kh-content h2, .kh-content h3 {
+              font-family: var(--font-play), sans-serif;
+              color: #1D9E75;
+              margin-bottom: 0.75rem;
+              margin-top: 2rem;
+            }
+            .kh-content h2 { font-size: 1.5rem; }
+            .kh-content h3 { font-size: 1.25rem; }
+            .kh-content p {
+              font-family: var(--font-dm-sans), sans-serif;
+              color: rgba(255,255,255,0.9);
+              line-height: 1.8;
+              margin-bottom: 1rem;
+            }
+            .kh-content ul, .kh-content ol {
+              font-family: var(--font-dm-sans), sans-serif;
+              color: rgba(255,255,255,0.9);
+              margin-left: 1.5rem;
+              margin-bottom: 1rem;
+            }
+            .kh-content li { margin-bottom: 0.25rem; }
+            .kh-content a {
+              color: #1D9E75;
+              text-decoration: none;
+            }
+            .kh-content a:hover {
+              text-decoration: underline;
+            }
+            .kh-content strong { color: #fff; }
+            .kh-content blockquote {
+              border-left: 3px solid #1D9E75;
+              padding-left: 1rem;
+              margin: 1rem 0;
+              color: rgba(255,255,255,0.7);
+            }
+            .kh-content code {
+              background: #2c2c2a;
+              padding: 0.125rem 0.375rem;
+              border-radius: 0.25rem;
+              font-size: 0.875rem;
+            }
+            .kh-content pre {
+              background: #2c2c2a;
+              padding: 1rem;
+              border-radius: 0.5rem;
+              overflow-x: auto;
+              margin: 1rem 0;
+            }
+            .kh-content pre code {
+              background: none;
+              padding: 0;
+            }
+            .kh-content table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 1rem 0;
+            }
+            .kh-content th, .kh-content td {
+              border: 1px solid #3a3a38;
+              padding: 0.5rem 0.75rem;
+              text-align: left;
+            }
+            .kh-content th {
+              background: #2c2c2a;
+              color: #1D9E75;
+            }
+          `}</style>
+          <div className="kh-content">
+            <RichText data={page.content as any} />
+          </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t text-sm" style={{ borderColor: 'var(--color-border)', color: 'var(--color-muted)' }}>
+        <div className="mt-16 pt-8 border-t text-sm font-body" style={{ borderColor: '#3a3a38', color: '#a0a09a' }}>
           Section: {page.section} &middot; Type: {page.pageType}
         </div>
       </div>
