@@ -168,6 +168,39 @@ function emptyLexical(): any {
   return { root: { children: [], direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
 }
 
+// Strip all markup and produce a guaranteed-valid single-paragraph document
+function plainTextFallback(rawHtml: string): any {
+  const text = decodeEntities(
+    stripShortcodes(rawHtml)
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim(),
+  )
+  return {
+    root: {
+      children: [makeParagraphNode([makeTextNode(text || '(no content)')])],
+      direction: 'ltr',
+      format: '',
+      indent: 0,
+      type: 'root',
+      version: 1,
+    },
+  }
+}
+
+// Returns true only if doc has root.children with ≥1 node each having ≥1 child
+function validateLexical(doc: any): boolean {
+  if (!doc || typeof doc !== 'object') return false
+  const root = doc.root
+  if (!root || !Array.isArray(root.children) || root.children.length === 0) return false
+  for (const child of root.children) {
+    if (!child || typeof child !== 'object') return false
+    if (!Array.isArray(child.children) || child.children.length === 0) return false
+    if (!child.type || !child.version) return false
+  }
+  return true
+}
+
 // ─── HTML utilities ────────────────────────────────────────────────────────
 
 function decodeEntities(text: string): string {
@@ -306,7 +339,7 @@ function parseListItems(html: string): any[] {
 // ─── Main HTML → Lexical converter ────────────────────────────────────────
 
 function htmlToLexical(rawHtml: string): any {
-  if (!rawHtml || rawHtml.trim().length === 0) return emptyLexical()
+  if (!rawHtml || rawHtml.trim().length === 0) return plainTextFallback('')
 
   // Strip WordPress shortcodes, normalize newlines
   let html = stripShortcodes(rawHtml)
@@ -383,9 +416,11 @@ function htmlToLexical(rawHtml: string): any {
     remaining = remaining.slice(1) // safety escape
   }
 
-  return children.length > 0
-    ? { root: { children, direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
-    : emptyLexical()
+  if (children.length > 0) {
+    return { root: { children, direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
+  }
+  // Nothing parseable — fall back to stripped plain text
+  return plainTextFallback(rawHtml)
 }
 
 async function main() {
@@ -481,7 +516,11 @@ async function main() {
         limit: 1,
       })
 
-      const lexicalContent = htmlToLexical(wpPost.content)
+      let lexicalContent = htmlToLexical(wpPost.content)
+      if (!validateLexical(lexicalContent)) {
+        console.log(`  -> WARNING: htmlToLexical produced invalid structure, using plain-text fallback`)
+        lexicalContent = plainTextFallback(wpPost.content)
+      }
 
       const recordData = {
         title: entry.title,
