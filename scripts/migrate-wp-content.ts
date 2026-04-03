@@ -145,11 +145,11 @@ function makeTextNode(text: string, format: number = 0): any {
 }
 
 function makeParagraphNode(children: any[]): any {
-  return { children, direction: 'ltr', format: '', indent: 0, type: 'paragraph', version: 1 }
+  return { children, direction: 'ltr', format: '', indent: 0, textFormat: 0, type: 'paragraph', version: 1 }
 }
 
 function makeHeadingNode(tag: string, children: any[]): any {
-  return { children, direction: 'ltr', format: '', indent: 0, tag, type: 'heading', version: 1 }
+  return { children, direction: 'ltr', format: '', indent: 0, tag, textFormat: 0, type: 'heading', version: 1 }
 }
 
 function makeListNode(listType: 'bullet' | 'number', tag: string, children: any[]): any {
@@ -157,11 +157,26 @@ function makeListNode(listType: 'bullet' | 'number', tag: string, children: any[
 }
 
 function makeListItemNode(children: any[], value: number): any {
-  return { children, direction: 'ltr', format: '', indent: 0, type: 'listitem', value, version: 1 }
+  return { checked: false, children, direction: 'ltr', format: '', indent: 0, type: 'listitem', value, version: 1 }
 }
 
+// Payload's LinkFeature (v3) expects url inside node.fields, not directly on the node.
+// The link validator calls fieldSchemasToFormState({ data: node.fields }) — if node.fields
+// is undefined the required url validation fails and Payload rejects the entire content field.
 function makeLinkNode(url: string, children: any[]): any {
-  return { children, direction: 'ltr', format: '', indent: 0, rel: null, target: null, title: null, type: 'link', url, version: 1 }
+  return {
+    children,
+    direction: 'ltr',
+    format: '',
+    indent: 0,
+    type: 'link',
+    version: 3,
+    fields: {
+      linkType: 'custom',
+      newTab: false,
+      url,
+    },
+  }
 }
 
 function emptyLexical(): any {
