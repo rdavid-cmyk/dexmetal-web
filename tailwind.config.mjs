@@ -1,7 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/blocks/**/*.{js,ts,jsx,tsx}',
+    './src/heros/**/*.{js,ts,jsx,tsx}',
+    './src/Footer/**/*.{js,ts,jsx,tsx}',
+    './src/Header/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
+      colors: {
+        dex: {
+          bg: '#1C1B18',
+          surface: '#2c2c2a',
+          primary: '#1D9E75',
+          accent: '#FF5C00',
+          text: '#ffffff',
+          muted: '#a0a09a',
+          border: '#3a3a38',
+        },
+      },
+      fontFamily: {
+        display: ['var(--font-play)', 'sans-serif'],
+        body: ['var(--font-dm-sans)', 'sans-serif'],
+      },
       typography: () => ({
         DEFAULT: {
           css: [

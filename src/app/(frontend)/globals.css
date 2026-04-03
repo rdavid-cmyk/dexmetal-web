@@ -5,6 +5,13 @@
 
 @plugin "@tailwindcss/typography";
 
+@source "../../../src/components/**/*.tsx";
+@source "../../../src/app/**/*.tsx";
+@source "../../../src/blocks/**/*.tsx";
+@source "../../../src/heros/**/*.tsx";
+@source "../../../src/Footer/**/*.{js,ts,jsx,tsx}";
+@source "../../../src/Header/**/*.{js,ts,jsx,tsx}";
+
 @source inline("lg:col-span-4");
 @source inline("lg:col-span-6");
 @source inline("lg:col-span-8");
