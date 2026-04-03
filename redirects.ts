@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { REDIRECTS } from './src/lib/redirects'
 
 export const redirects: NextConfig['redirects'] = async () => {
   const internetExplorerRedirect = {
@@ -7,12 +8,18 @@ export const redirects: NextConfig['redirects'] = async () => {
       {
         type: 'header' as const,
         key: 'user-agent',
-        value: '(.*Trident.*)', // all ie browsers
+        value: '(.*Trident.*)',
       },
     ],
     permanent: false,
-    source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
+    source: '/:path((?!ie-incompatible.html$).*)',
   }
 
-  return [internetExplorerRedirect]
+  const wpMigrationRedirects = REDIRECTS.map((r) => ({
+    source: r.from,
+    destination: r.to,
+    permanent: r.permanent,
+  }))
+
+  return [internetExplorerRedirect, ...wpMigrationRedirects]
 }

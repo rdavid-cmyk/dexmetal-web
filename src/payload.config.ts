@@ -5,10 +5,13 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { KnowledgeHubPages } from './collections/KnowledgeHubPages'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { BlogPosts } from './collections/BlogPosts'
+import { Tools } from './collections/Tools'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -62,7 +65,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, KnowledgeHubPages, Tools, BlogPosts],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
