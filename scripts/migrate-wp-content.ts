@@ -518,7 +518,7 @@ async function main() {
       continue
     }
 
-    const slug = entry.newPath.replace(/^\//, '')
+    const slug = entry.newPath.split('/').filter(Boolean).pop()!
 
     console.log(`[${i + 1}/${total}] Migrating: ${entry.title}`)
 
