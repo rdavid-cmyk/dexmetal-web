@@ -185,3 +185,293 @@
     color: var(--color-primary);
   }
 }
+
+/* ─── Knowledge Hub Content ─────────────────────────────────────────────── */
+
+.kh-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-dm-sans), sans-serif;
+  line-height: 1.8;
+}
+
+/* Headings */
+.kh-content h1 {
+  font-family: var(--font-play), sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.kh-content h2 {
+  font-family: var(--font-play), sans-serif;
+  font-weight: 400;
+  color: #1D9E75;
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #2c2c2a;
+}
+
+.kh-content h3 {
+  font-family: var(--font-play), sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.kh-content h4, .kh-content h5, .kh-content h6 {
+  font-family: var(--font-play), sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 1.25rem 0 0.5rem;
+}
+
+/* Paragraphs */
+.kh-content p {
+  font-family: var(--font-dm-sans), sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* Lists */
+.kh-content ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.kh-content ul li {
+  font-family: var(--font-dm-sans), sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  list-style: disc;
+  padding-left: 0.5rem;
+}
+
+.kh-content ol {
+  margin-left: 0;
+  margin-bottom: 1rem;
+  counter-reset: step-counter;
+  list-style: none;
+  padding-left: 0;
+}
+
+.kh-content ol li {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 1rem;
+  min-height: 28px;
+}
+
+.kh-content ol li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #1D9E75;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+/* Links */
+.kh-content a {
+  color: #1D9E75;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.kh-content a:hover {
+  text-decoration: underline;
+  color: #1D9E75;
+}
+
+/* Strong / Emphasis */
+.kh-content strong, .kh-content b {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Code */
+.kh-content code {
+  background: #2c2c2a;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: monospace;
+}
+
+.kh-content pre {
+  background: #2c2c2a;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.kh-content pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Blockquote */
+.kh-content blockquote {
+  border-left: 3px solid #1D9E75;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Tables */
+.kh-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.kh-content th {
+  background: #2c2c2a;
+  color: #1D9E75;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.kh-content td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #333;
+  font-size: 0.875rem;
+}
+
+/* Details/summary (FAQ accordions) */
+.kh-content details {
+  border: 1px solid #3a3a38;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.kh-content summary {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #2c2c2a;
+  font-family: var(--font-dm-sans), sans-serif;
+  color: #ffffff;
+}
+
+.kh-content summary:hover {
+  background: #333;
+}
+
+.kh-content details > div,
+.kh-content details > p {
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid #3a3a38;
+}
+
+/* Images / emojis */
+.kh-content img.emoji {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: middle;
+}
+
+/* HR */
+.kh-content hr {
+  border: none;
+  border-top: 1px solid #3a3a38;
+  margin: 2rem 0;
+}
+
+/* ─── Content-enhanced patterns (classes added by client script) ────────── */
+
+/* Quick Reference card */
+.kh-content .kh-quick-ref {
+  background: #2c2c2a;
+  border-left: 4px solid #1D9E75;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.kh-content .kh-quick-ref-label {
+  font-size: 0.7rem;
+  color: #1D9E75;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.kh-content .kh-quick-ref-value {
+  color: #ffffff;
+  font-weight: 500;
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+/* Warning box */
+.kh-content .kh-warning {
+  background: rgba(255, 92, 0, 0.1);
+  border-left: 4px solid #FF5C00;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+/* Expert Tip box */
+.kh-content .kh-tip {
+  background: rgba(29, 158, 117, 0.1);
+  border-left: 4px solid #1D9E75;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+/* Comparison table cells */
+.kh-content .kh-wrong {
+  color: #FF5C00;
+}
+
+.kh-content .kh-correct {
+  color: #1D9E75;
+}
+
+/* Navigation block */
+.kh-content .kh-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.kh-content .kh-nav a {
+  background: #2c2c2a;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease;
+  flex: 1;
+  text-decoration: none;
+}
+
+.kh-content .kh-nav a:hover {
+  border-color: #1D9E75;
+  text-decoration: none;
+}
