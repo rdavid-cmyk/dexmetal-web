@@ -336,23 +336,36 @@
 }
 
 /* Tables */
+.kh-content .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
 .kh-content table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  margin: 0;
+}
+
+.kh-content th,
+.kh-content td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  padding: 0.5rem;
 }
 
 .kh-content th {
   background: #2c2c2a;
   color: #1D9E75;
-  padding: 0.75rem;
   text-align: left;
   font-weight: 600;
   font-size: 0.875rem;
 }
 
 .kh-content td {
-  padding: 0.75rem;
   border-bottom: 1px solid #333;
   font-size: 0.875rem;
 }
