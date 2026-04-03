@@ -138,72 +138,254 @@ const MANIFEST: ManifestEntry[] = [
   { postId: 18296, section: 'Tools', pageType: 'tool', priority: 'P2', title: 'Shipment Schedule Log Template', wpUrl: 'https://dexmetal.com/shipment-schedule-log-template/', newPath: '/tools/shipment-schedule-log' },
 ]
 
-function htmlToLexical(html: string): any {
-  if (!html || html.trim().length === 0) {
-    return {
-      root: {
-        children: [],
-        direction: 'ltr',
-        format: '',
-        indent: 0,
-        type: 'root',
-        version: 1,
-      },
+// ─── Lexical node factories ────────────────────────────────────────────────
+
+function makeTextNode(text: string, format: number = 0): any {
+  return { detail: 0, format, mode: 'normal', style: '', text, type: 'text', version: 1 }
+}
+
+function makeParagraphNode(children: any[]): any {
+  return { children, direction: 'ltr', format: '', indent: 0, type: 'paragraph', version: 1 }
+}
+
+function makeHeadingNode(tag: string, children: any[]): any {
+  return { children, direction: 'ltr', format: '', indent: 0, tag, type: 'heading', version: 1 }
+}
+
+function makeListNode(listType: 'bullet' | 'number', tag: string, children: any[]): any {
+  return { children, direction: 'ltr', format: '', indent: 0, listType, start: 1, tag, type: 'list', version: 1 }
+}
+
+function makeListItemNode(children: any[], value: number): any {
+  return { children, direction: 'ltr', format: '', indent: 0, type: 'listitem', value, version: 1 }
+}
+
+function makeLinkNode(url: string, children: any[]): any {
+  return { children, direction: 'ltr', format: '', indent: 0, rel: null, target: null, title: null, type: 'link', url, version: 1 }
+}
+
+function emptyLexical(): any {
+  return { root: { children: [], direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
+}
+
+// ─── HTML utilities ────────────────────────────────────────────────────────
+
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ldquo;/g, '"').replace(/&rdquo;/g, '"')
+    .replace(/&lsquo;/g, "'").replace(/&rsquo;/g, "'")
+    .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–')
+    .replace(/&hellip;/g, '...')
+    .replace(/&#8217;/g, "'").replace(/&#8216;/g, "'")
+    .replace(/&#8220;/g, '"').replace(/&#8221;/g, '"')
+    .replace(/&#8230;/g, '...').replace(/&#8211;/g, '–').replace(/&#8212;/g, '—')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+}
+
+function stripShortcodes(html: string): string {
+  // Remove WordPress shortcodes: [tag], [/tag], [tag attr="val"], [tag /]
+  return html.replace(/\[[^\]]*\]/g, '')
+}
+
+// ─── Inline parser ─────────────────────────────────────────────────────────
+
+function parseInlineNodes(html: string): any[] {
+  const nodes: any[] = []
+  let pos = 0
+
+  while (pos < html.length) {
+    const tagStart = html.indexOf('<', pos)
+
+    if (tagStart === -1) {
+      const text = decodeEntities(html.slice(pos)).replace(/\s+/g, ' ').trim()
+      if (text) nodes.push(makeTextNode(text))
+      break
     }
+
+    if (tagStart > pos) {
+      const text = decodeEntities(html.slice(pos, tagStart)).replace(/\s+/g, ' ').trim()
+      if (text) nodes.push(makeTextNode(text))
+    }
+
+    const tagEnd = html.indexOf('>', tagStart)
+    if (tagEnd === -1) { pos = html.length; break }
+
+    const tagInner = html.slice(tagStart + 1, tagEnd)
+
+    // Skip closing tags and self-closing tags
+    if (tagInner.startsWith('/') || tagInner.endsWith('/')) {
+      pos = tagEnd + 1
+      continue
+    }
+
+    const tagName = tagInner.split(/[\s/]/)[0].toLowerCase()
+
+    if (tagName === 'strong' || tagName === 'b') {
+      const closeTag = `</${tagName}>`
+      const closeIdx = html.toLowerCase().indexOf(closeTag, tagEnd + 1)
+      if (closeIdx !== -1) {
+        const inner = parseInlineNodes(html.slice(tagEnd + 1, closeIdx))
+        for (const n of inner) {
+          if (n.type === 'text') n.format = n.format | 1
+          nodes.push(n)
+        }
+        pos = closeIdx + closeTag.length
+      } else {
+        pos = tagEnd + 1
+      }
+      continue
+    }
+
+    if (tagName === 'em' || tagName === 'i') {
+      const closeTag = `</${tagName}>`
+      const closeIdx = html.toLowerCase().indexOf(closeTag, tagEnd + 1)
+      if (closeIdx !== -1) {
+        const inner = parseInlineNodes(html.slice(tagEnd + 1, closeIdx))
+        for (const n of inner) {
+          if (n.type === 'text') n.format = n.format | 2
+          nodes.push(n)
+        }
+        pos = closeIdx + closeTag.length
+      } else {
+        pos = tagEnd + 1
+      }
+      continue
+    }
+
+    if (tagName === 'a') {
+      const hrefMatch = tagInner.match(/href="([^"]*)"/)
+      const url = hrefMatch ? hrefMatch[1] : ''
+      const closeIdx = html.toLowerCase().indexOf('</a>', tagEnd + 1)
+      if (closeIdx !== -1) {
+        const inner = parseInlineNodes(html.slice(tagEnd + 1, closeIdx))
+        if (inner.length > 0 && url) nodes.push(makeLinkNode(url, inner))
+        else if (inner.length > 0) nodes.push(...inner)
+        pos = closeIdx + 4
+      } else {
+        pos = tagEnd + 1
+      }
+      continue
+    }
+
+    // Skip any other inline tag
+    pos = tagEnd + 1
   }
 
-  const paragraphs = html.split(/<\/?p[^>]*>/g).filter((p) => p.trim().length > 0)
+  return nodes.filter((n) => n.type !== 'text' || n.text.length > 0)
+}
 
-  const children = paragraphs.map((text) => ({
-    children: [
-      {
-        detail: 0,
-        format: 0,
-        mode: 'normal',
-        style: '',
-        text: text.replace(/<[^>]+>/g, '').trim(),
-        type: 'text',
-        version: 1,
-      },
-    ],
-    direction: 'ltr',
-    format: '',
-    indent: 0,
-    type: 'paragraph',
-    version: 1,
-  }))
+// ─── List item parser ──────────────────────────────────────────────────────
 
-  if (children.length === 0) {
-    children.push({
-      children: [
-        {
-          detail: 0,
-          format: 0,
-          mode: 'normal',
-          style: '',
-          text: html.replace(/<[^>]+>/g, '').trim(),
-          type: 'text',
-          version: 1,
-        },
-      ],
-      direction: 'ltr',
-      format: '',
-      indent: 0,
-      type: 'paragraph',
-      version: 1,
-    })
+function parseListItems(html: string): any[] {
+  const items: any[] = []
+  let remaining = html.trim()
+  let value = 1
+
+  while (remaining.length > 0) {
+    const liMatch = remaining.match(/^<li[^>]*>([\s\S]*?)<\/li>/i)
+    if (liMatch) {
+      const inlineNodes = parseInlineNodes(liMatch[1])
+      if (inlineNodes.length > 0) items.push(makeListItemNode(inlineNodes, value++))
+      remaining = remaining.slice(liMatch[0].length).trim()
+      continue
+    }
+    const skipTag = remaining.match(/^<[^>]+>/)
+    if (skipTag) { remaining = remaining.slice(skipTag[0].length).trim(); continue }
+    const skipText = remaining.match(/^[^<]+/)
+    if (skipText) { remaining = remaining.slice(skipText[0].length).trim(); continue }
+    remaining = remaining.slice(1)
   }
 
-  return {
-    root: {
-      children,
-      direction: 'ltr',
-      format: '',
-      indent: 0,
-      type: 'root',
-      version: 1,
-    },
+  return items
+}
+
+// ─── Main HTML → Lexical converter ────────────────────────────────────────
+
+function htmlToLexical(rawHtml: string): any {
+  if (!rawHtml || rawHtml.trim().length === 0) return emptyLexical()
+
+  // Strip WordPress shortcodes, normalize newlines
+  let html = stripShortcodes(rawHtml)
+  html = html.replace(/\r\n?/g, '\n').replace(/>\s*\n\s*</g, '><').trim()
+
+  const children: any[] = []
+  let remaining = html
+
+  while (remaining.trim().length > 0) {
+    remaining = remaining.trim()
+
+    // Headings h1–h6
+    const hMatch = remaining.match(/^<(h[1-6])[^>]*>([\s\S]*?)<\/\1>/i)
+    if (hMatch) {
+      const inlineNodes = parseInlineNodes(hMatch[2])
+      if (inlineNodes.length > 0) children.push(makeHeadingNode(hMatch[1].toLowerCase(), inlineNodes))
+      remaining = remaining.slice(hMatch[0].length)
+      continue
+    }
+
+    // Paragraph
+    const pMatch = remaining.match(/^<p[^>]*>([\s\S]*?)<\/p>/i)
+    if (pMatch) {
+      const inlineNodes = parseInlineNodes(pMatch[1])
+      if (inlineNodes.length > 0) children.push(makeParagraphNode(inlineNodes))
+      remaining = remaining.slice(pMatch[0].length)
+      continue
+    }
+
+    // Unordered list
+    const ulMatch = remaining.match(/^<ul[^>]*>([\s\S]*?)<\/ul>/i)
+    if (ulMatch) {
+      const items = parseListItems(ulMatch[1])
+      if (items.length > 0) children.push(makeListNode('bullet', 'ul', items))
+      remaining = remaining.slice(ulMatch[0].length)
+      continue
+    }
+
+    // Ordered list
+    const olMatch = remaining.match(/^<ol[^>]*>([\s\S]*?)<\/ol>/i)
+    if (olMatch) {
+      const items = parseListItems(olMatch[1])
+      if (items.length > 0) children.push(makeListNode('number', 'ol', items))
+      remaining = remaining.slice(olMatch[0].length)
+      continue
+    }
+
+    // Skip tables (complex, rare in this content)
+    const tableMatch = remaining.match(/^<table[\s\S]*?<\/table>/i)
+    if (tableMatch) { remaining = remaining.slice(tableMatch[0].length); continue }
+
+    // Generic block containers — recurse into inner content
+    const blockMatch = remaining.match(/^<(div|section|article|aside|blockquote|figure|main)[^>]*>([\s\S]*?)<\/\1>/i)
+    if (blockMatch) {
+      const inner = htmlToLexical(blockMatch[2])
+      children.push(...inner.root.children)
+      remaining = remaining.slice(blockMatch[0].length)
+      continue
+    }
+
+    // Skip any other tag
+    const tagMatch = remaining.match(/^<[^>]+>/)
+    if (tagMatch) { remaining = remaining.slice(tagMatch[0].length); continue }
+
+    // Plain text at block level — wrap in paragraph
+    const textMatch = remaining.match(/^([^<]+)/)
+    if (textMatch) {
+      const text = decodeEntities(textMatch[1]).trim()
+      if (text) children.push(makeParagraphNode([makeTextNode(text)]))
+      remaining = remaining.slice(textMatch[0].length)
+      continue
+    }
+
+    remaining = remaining.slice(1) // safety escape
   }
+
+  return children.length > 0
+    ? { root: { children, direction: 'ltr', format: '', indent: 0, type: 'root', version: 1 } }
+    : emptyLexical()
 }
 
 async function main() {
@@ -224,6 +406,7 @@ async function main() {
     textNodeName: '#text',
     parseTagValue: true,
     trimValues: true,
+    cdataPropName: '__cdata',
   })
 
   const parsed = parser.parse(xmlContent)
@@ -248,7 +431,12 @@ async function main() {
       wpPosts.set(postId, {
         post_id: postId,
         title: item.title || item['title']?.['#text'] || '',
-        content: item['content:encoded'] || item.content || '',
+        content: (() => {
+          const raw = item['content:encoded']
+          if (!raw) return ''
+          if (typeof raw === 'object') return raw.__cdata || raw['#text'] || ''
+          return String(raw)
+        })(),
         wpUrl: item['wp:post_name'] || item.link || '',
         postDate: item['wp:post_date'] || item.pubDate || '',
         status: item['wp:status'] || 'publish',
@@ -264,6 +452,7 @@ async function main() {
   })
 
   let created = 0
+  let updated = 0
   let skipped = 0
   let errors = 0
 
@@ -292,39 +481,49 @@ async function main() {
         limit: 1,
       })
 
-      if (existing.docs.length > 0) {
-        console.log(`  -> Already exists (slug: ${slug}), skipping`)
-        skipped++
-        continue
-      }
-
       const lexicalContent = htmlToLexical(wpPost.content)
 
-      await payload.create({
-        collection: 'knowledge-hub-pages',
-        overrideAccess: true,
-        data: {
-          title: entry.title,
-          slug,
-          section: entry.section as any,
-          pageType: entry.pageType as any,
-          priority: entry.priority as any,
-          content: lexicalContent,
-          wpUrl: entry.wpUrl,
-          wpPostId: entry.postId,
-          redirectFrom: entry.newPath,
-          publishedAt: wpPost.postDate ? new Date(wpPost.postDate).toISOString() : undefined,
-        },
-      })
+      const recordData = {
+        title: entry.title,
+        slug,
+        section: entry.section as any,
+        pageType: entry.pageType as any,
+        priority: entry.priority as any,
+        content: lexicalContent,
+        wpUrl: entry.wpUrl,
+        wpPostId: entry.postId,
+        redirectFrom: entry.newPath,
+        publishedAt: (() => {
+          if (!wpPost.postDate) return new Date().toISOString()
+          const d = new Date(wpPost.postDate)
+          return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString()
+        })(),
+      }
 
-      created++
+      if (existing.docs.length > 0) {
+        await payload.update({
+          collection: 'knowledge-hub-pages',
+          id: existing.docs[0].id,
+          overrideAccess: true,
+          data: recordData,
+        })
+        console.log(`  -> Updated (slug: ${slug})`)
+        updated++
+      } else {
+        await payload.create({
+          collection: 'knowledge-hub-pages',
+          overrideAccess: true,
+          data: recordData,
+        })
+        created++
+      }
     } catch (err: any) {
       console.error(`  -> ERROR: ${err.message}`)
       errors++
     }
   }
 
-  console.log(`\nDone. Created: ${created}, Skipped: ${skipped}, Errors: ${errors}`)
+  console.log(`\nDone. Created: ${created}, Updated: ${updated}, Skipped: ${skipped}, Errors: ${errors}`)
   process.exit(0)
 }
 
