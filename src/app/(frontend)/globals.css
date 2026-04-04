@@ -337,35 +337,32 @@
 
 /* Tables */
 .kh-content table {
-  display: block;
   width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  table-layout: auto;
   border-collapse: collapse;
   margin: 1.5rem 0;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  display: block;
 }
 
 .kh-content th,
 .kh-content td {
-  word-break: break-word;
-  overflow-wrap: break-word;
+  border: 1px solid #2a2a27;
+  padding: 0.6rem 0.75rem;
+  text-align: left;
   vertical-align: top;
-  padding: 0.5rem 0.75rem;
-  min-width: 80px;
+  min-width: 120px;
 }
 
 .kh-content th {
-  background: #2c2c2a;
+  background: #222220;
   color: #1D9E75;
-  text-align: left;
   font-weight: 600;
-  font-size: 0.875rem;
+  white-space: nowrap;
 }
 
-.kh-content td {
-  border-bottom: 1px solid #333;
-  font-size: 0.875rem;
+.kh-content tr:nth-child(even) td {
+  background: #1f1f1c;
 }
 
 /* Details/summary (FAQ accordions) */
