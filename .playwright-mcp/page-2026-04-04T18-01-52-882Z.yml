@@ -1,0 +1,66 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "DexMetal" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Knowledge Hub" [ref=e6] [cursor=pointer]:
+          - /url: /knowledge-hub
+        - link "Tools" [ref=e7] [cursor=pointer]:
+          - /url: /tools
+        - link "Basel CA API" [ref=e8] [cursor=pointer]:
+          - /url: /basel-ca-api
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+  - main [ref=e10]:
+    - article [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - heading "Compliance Tools" [level=1] [ref=e14]
+          - paragraph [ref=e15]: Templates, checklists, lookup tables, and workflow guides for Basel compliance practitioners.
+        - generic [ref=e16]:
+          - link "Basel Form Tool Open tool →" [ref=e17] [cursor=pointer]:
+            - /url: /knowledge-hub/basel-notification-form
+            - heading "Basel Form Tool" [level=2] [ref=e18]
+            - generic [ref=e19]: Open tool →
+          - link "Basel Movement Document — Quick View Checklist Open tool →" [ref=e20] [cursor=pointer]:
+            - /url: /knowledge-hub/movement-document-checklist
+            - heading "Basel Movement Document — Quick View Checklist" [level=2] [ref=e21]
+            - generic [ref=e22]: Open tool →
+          - link "Basel Notification Document — Quick View Checklist Open tool →" [ref=e23] [cursor=pointer]:
+            - /url: /knowledge-hub/notification-document-checklist
+            - heading "Basel Notification Document — Quick View Checklist" [level=2] [ref=e24]
+            - generic [ref=e25]: Open tool →
+          - link "Basel Waste Code Quick Lookup Table Open tool →" [ref=e26] [cursor=pointer]:
+            - /url: /knowledge-hub/basel-waste-code-lookup
+            - heading "Basel Waste Code Quick Lookup Table" [level=2] [ref=e27]
+            - generic [ref=e28]: Open tool →
+          - link "Get the Basel Checklist Open tool →" [ref=e29] [cursor=pointer]:
+            - /url: /knowledge-hub/basel-compliance-checklist
+            - heading "Get the Basel Checklist" [level=2] [ref=e30]
+            - generic [ref=e31]: Open tool →
+          - link "Shipment Schedule Log Template Open tool →" [ref=e32] [cursor=pointer]:
+            - /url: /knowledge-hub/shipment-schedule-log
+            - heading "Shipment Schedule Log Template" [level=2] [ref=e33]
+            - generic [ref=e34]: Open tool →
+          - link "ULAB Value Estimator Open tool →" [ref=e35] [cursor=pointer]:
+            - /url: /knowledge-hub/ulab-value-estimator
+            - heading "ULAB Value Estimator" [level=2] [ref=e36]
+            - generic [ref=e37]: Open tool →
+        - paragraph [ref=e39]:
+          - text: All tools are free to use.
+          - link "Browse the full Knowledge Hub →" [ref=e40] [cursor=pointer]:
+            - /url: /knowledge-hub
+  - contentinfo [ref=e41]:
+    - generic [ref=e42]:
+      - link "DexMetal" [ref=e43] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e44]:
+        - link "About" [ref=e45] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e46] [cursor=pointer]:
+          - /url: /contact
+        - link "Privacy Policy" [ref=e47] [cursor=pointer]:
+          - /url: /privacy-policy
+      - paragraph [ref=e48]: © 2026 DexMetal LLC. All rights reserved.
+  - alert [ref=e49]

@@ -1,0 +1,65 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "DexMetal" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Knowledge Hub" [ref=e6] [cursor=pointer]:
+          - /url: /knowledge-hub
+        - link "Tools" [ref=e7] [cursor=pointer]:
+          - /url: /tools
+        - link "Basel CA API" [ref=e8] [cursor=pointer]:
+          - /url: /basel-ca-api
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+  - main [ref=e10]:
+    - article [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - heading "Contact DexMetal" [level=1] [ref=e14]
+          - paragraph [ref=e15]: Basel compliance question? Need guidance on a specific notification, country, or waste code? We can help.
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - generic [ref=e18]: ⚡
+            - heading "Async Consulting — Free to Start" [level=2] [ref=e19]
+          - paragraph [ref=e20]: Submit your question. A practitioner-drafted response — grounded in 20+ years of operational Basel compliance experience — delivered to your inbox within 24 hours. No commitment, no billing until demand is proven.
+          - paragraph [ref=e21]: This covers notification questions, movement document issues, PIC workflow guidance, country-specific requirements, waste code classification, and more.
+        - generic [ref=e22]:
+          - heading "Submit a Question" [level=2] [ref=e23]
+          - generic [ref=e24]:
+            - generic [ref=e25]:
+              - generic [ref=e26]: Your Name
+              - textbox "Your Name" [ref=e27]:
+                - /placeholder: e.g. Maria Santos
+            - generic [ref=e28]:
+              - generic [ref=e29]: Company / Organisation
+              - textbox "Company / Organisation" [ref=e30]:
+                - /placeholder: Optional
+            - generic [ref=e31]:
+              - generic [ref=e32]: Your Basel Compliance Question
+              - textbox "Your Basel Compliance Question" [ref=e33]:
+                - /placeholder: Describe your situation, the countries involved, waste type, and what you need guidance on.
+            - button "Send Question" [ref=e34]
+          - paragraph [ref=e35]: This opens your email client pre-filled. Response within 24 hours.
+        - generic [ref=e36]:
+          - heading "Direct Contact" [level=2] [ref=e37]
+          - generic [ref=e38]:
+            - paragraph [ref=e39]:
+              - text: "Email:"
+              - link "rdavid@gvoltt.com" [ref=e40] [cursor=pointer]:
+                - /url: mailto:rdavid@gvoltt.com
+            - paragraph [ref=e41]: Location:Diego Martin, Trinidad & Tobago
+            - paragraph [ref=e42]: "Company: DexMetal LLC | GreenVoltt Ltd."
+  - contentinfo [ref=e43]:
+    - generic [ref=e44]:
+      - link "DexMetal" [ref=e45] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e46]:
+        - link "About" [ref=e47] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e48] [cursor=pointer]:
+          - /url: /contact
+        - link "Privacy Policy" [ref=e49] [cursor=pointer]:
+          - /url: /privacy-policy
+      - paragraph [ref=e50]: © 2026 DexMetal LLC. All rights reserved.
+  - alert [ref=e51]

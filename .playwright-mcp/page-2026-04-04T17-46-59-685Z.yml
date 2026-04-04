@@ -1,0 +1,126 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "DexMetal" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Knowledge Hub" [ref=e6] [cursor=pointer]:
+          - /url: /knowledge-hub
+        - link "Tools" [ref=e7] [cursor=pointer]:
+          - /url: /tools
+        - link "Basel CA API" [ref=e8] [cursor=pointer]:
+          - /url: /basel-ca-api
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+  - main [ref=e10]:
+    - article [ref=e11]:
+      - generic [ref=e12]:
+        - navigation [ref=e13]:
+          - link "Knowledge Hub" [ref=e14] [cursor=pointer]:
+            - /url: /knowledge-hub
+          - text: "/Block 1: Exporter-Notifier Registration"
+        - 'heading "Block 1: Exporter-Notifier Registration" [level=1] [ref=e15]'
+        - generic [ref=e17]:
+          - paragraph [ref=e18]:
+            - link "← Basel Knowledge Hub" [ref=e19] [cursor=pointer]:
+              - /url: /data-library/
+            - text: /
+            - link "Basel Form Guide" [ref=e20] [cursor=pointer]:
+              - /url: /data-library/form-fields/
+            - text: / Block 1
+          - generic [ref=e21]:
+            - generic [ref=e22]: Block 1 – Quick Reference
+            - generic [ref=e23]: Exporter-Notifier Registration
+            - generic [ref=e24]: Identifies the legally accountable notifier responsible for initiating and managing the transboundary movement.
+            - generic [ref=e25]:
+              - generic [ref=e26]:
+                - generic [ref=e27]: Basel Basis
+                - generic [ref=e28]: vCOP8 Section IV
+              - generic [ref=e29]:
+                - generic [ref=e30]: ID Type
+                - generic [ref=e31]: Exporter registration number
+              - generic [ref=e32]:
+                - generic [ref=e33]: Required For
+                - generic [ref=e34]: All Basel notifications
+          - heading "What Block 1 Captures" [level=2] [ref=e35]
+          - paragraph [ref=e36]: The Exporter-Notifier Registration block is the regulatory anchor of any Basel notification. It identifies the legal entity responsible for the accuracy of the filing and compliance of the movement.
+          - paragraph [ref=e37]: This entity remains legally accountable for the waste from origin until formal acceptance by the disposal or recovery facility. Under vCOP8 guidance, the notifier may be the waste generator, a recognized trader, or a competent authority of the State of export.
+          - heading "How to Complete Block 1" [level=2] [ref=e38]
+          - list [ref=e39]:
+            - listitem [ref=e40]:
+              - strong [ref=e41]: Enter the full legal entity name.
+              - generic [ref=e42]: Match official business registration records exactly.
+            - listitem [ref=e43]:
+              - strong [ref=e44]: Add the valid registration number.
+              - generic [ref=e45]: Use the currently active identifier issued in the State of export.
+            - listitem [ref=e46]:
+              - strong [ref=e47]: Provide the registered physical address.
+              - generic [ref=e48]: Use headquarters or legal address, not warehouse or logistics addresses.
+            - listitem [ref=e49]:
+              - strong [ref=e50]: Include direct contact details.
+              - generic [ref=e51]: Add phone, fax, email, and a designated contact person authorized to manage the notification.
+          - generic [ref=e52]:
+            - generic [ref=e53]: Notifier Identity Must Match Registration
+            - generic [ref=e54]: Do not list a dispatch warehouse, broker, or logistics provider as the notifier unless they hold legal standing. Block 1 must reflect the registered entity that is legally liable for the movement.
+          - heading "Common Errors – Correct Approach" [level=2] [ref=e55]
+          - table [ref=e56]:
+            - rowgroup [ref=e57]:
+              - row "✗ Wrong ✓ Correct" [ref=e58]:
+                - columnheader "✗ Wrong" [ref=e59]
+                - columnheader "✓ Correct" [ref=e60]
+            - rowgroup [ref=e61]:
+              - row "Using dispatch center address Use legal registered headquarters address" [ref=e62]:
+                - cell "Using dispatch center address" [ref=e63]
+                - cell "Use legal registered headquarters address" [ref=e64]
+              - row "Listing logistics provider as notifier List only entity with legal notifier authority" [ref=e65]:
+                - cell "Listing logistics provider as notifier" [ref=e66]
+                - cell "List only entity with legal notifier authority" [ref=e67]
+              - row "Using outdated registration details Use current registration matching valid license" [ref=e68]:
+                - cell "Using outdated registration details" [ref=e69]
+                - cell "Use current registration matching valid license" [ref=e70]
+          - heading "Frequently Asked Questions" [level=2] [ref=e71]
+          - group [ref=e72]:
+            - generic "Can a freight forwarder be listed as the notifier? ▼" [ref=e73] [cursor=pointer]
+          - group [ref=e74]:
+            - generic "If exporter and generator are the same, what should Block 9 show? ▼" [ref=e75] [cursor=pointer]
+          - group [ref=e76]:
+            - generic "Are PO boxes acceptable for Block 1? ▼" [ref=e77] [cursor=pointer]
+          - heading "Supporting Documents" [level=2] [ref=e78]
+          - list [ref=e79]:
+            - listitem [ref=e80]:
+              - 'link "Doc 1: Exporter Registration Certificate" [ref=e81] [cursor=pointer]':
+                - /url: https://www.basel.int/Portals/4/Basel%20Convention/docs/pub/modlegis.pdf
+              - text: – Model legal framework for permits, licenses and compliance controls.
+            - listitem [ref=e82]:
+              - 'link "Doc 18: Notification Summary Sheet (Annex V-A)" [ref=e83] [cursor=pointer]':
+                - /url: https://www.basel.int/Portals/4/Basel%20Convention/docs/techmatters/forms-notif-mov/vCOP8.pdf
+              - text: – Official Annex V-A/V-B forms and completion instructions.
+          - generic [ref=e84]:
+            - generic [ref=e85]: DexMetal Expert Tip
+            - generic [ref=e86]: For ULAB and e-waste exports, confirm the notifier registration number matches the current environmental license. Expired or mismatched registrations are a leading cause of shipment holds.
+          - navigation [ref=e87]:
+            - generic [ref=e88] [cursor=pointer]:
+              - generic [ref=e89]: ← BACK TO
+              - generic [ref=e90]: Basel Form Guide
+            - generic [ref=e91] [cursor=pointer]:
+              - generic [ref=e92]: NEXT →
+              - generic [ref=e93]: "Block 2: Importer-Consignee Information"
+          - heading "Need Help Completing Your Notification?" [level=3] [ref=e94]
+          - paragraph [ref=e95]: DexMetal's Basel compliance tools guide you through every block with validation and country-specific guidance.
+          - paragraph [ref=e96]:
+            - link "Explore the Knowledge Hub →" [ref=e97] [cursor=pointer]:
+              - /url: /data-library/
+        - generic [ref=e98]: "Section: Notification Doc · Type: reference"
+  - contentinfo [ref=e99]:
+    - generic [ref=e100]:
+      - link "DexMetal" [ref=e101] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e102]:
+        - link "About" [ref=e103] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e104] [cursor=pointer]:
+          - /url: /contact
+        - link "Privacy Policy" [ref=e105] [cursor=pointer]:
+          - /url: /privacy-policy
+      - paragraph [ref=e106]: © 2026 DexMetal LLC. All rights reserved.
+  - alert [ref=e107]

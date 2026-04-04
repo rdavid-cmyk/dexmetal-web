@@ -1,0 +1,60 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "DexMetal" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Knowledge Hub" [ref=e6] [cursor=pointer]:
+          - /url: /knowledge-hub
+        - link "Tools" [ref=e7] [cursor=pointer]:
+          - /url: /tools
+        - link "Basel CA API" [ref=e8] [cursor=pointer]:
+          - /url: /basel-ca-api
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+  - main [ref=e10]:
+    - article [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Free API
+          - heading "Basel CA API" [level=1] [ref=e15]
+          - paragraph [ref=e16]: Competent Authority contact data for 182 countries. Look up the national Basel authority for any country — free, no login required.
+        - generic [ref=e17]:
+          - heading "Country Lookup" [level=2] [ref=e18]
+          - paragraph [ref=e19]: Enter a country name to retrieve its Basel Competent Authority contact information.
+          - generic [ref=e20]:
+            - textbox "e.g. Germany, Japan, Nigeria…" [ref=e21]
+            - button "Look Up" [ref=e22]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - heading "API Endpoint" [level=3] [ref=e25]
+            - code [ref=e26]: GET https://api.dexmetal.com/api/competent-authorities
+            - paragraph [ref=e27]:
+              - text: "Query params:"
+              - code [ref=e28]: country
+              - text: ","
+              - code [ref=e29]: limit
+              - text: . No API key required.
+          - generic [ref=e30]:
+            - heading "Coverage" [level=3] [ref=e31]
+            - list [ref=e32]:
+              - listitem [ref=e33]: ✓ 182 countries
+              - listitem [ref=e34]: ✓ Authority name, contact, email, phone
+              - listitem [ref=e35]: ✓ Updated from official Basel Convention data
+              - listitem [ref=e36]: ✓ Free, no authentication needed
+        - generic [ref=e37]:
+          - heading "Quick Start" [level=3] [ref=e38]
+          - generic [ref=e39]: fetch('https://api.dexmetal.com/api/competent-authorities?country=Germany') .then(r => r.json()) .then(data => console.log(data.items))
+  - contentinfo [ref=e40]:
+    - generic [ref=e41]:
+      - link "DexMetal" [ref=e42] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e43]:
+        - link "About" [ref=e44] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e45] [cursor=pointer]:
+          - /url: /contact
+        - link "Privacy Policy" [ref=e46] [cursor=pointer]:
+          - /url: /privacy-policy
+      - paragraph [ref=e47]: © 2026 DexMetal LLC. All rights reserved.
+  - alert [ref=e48]

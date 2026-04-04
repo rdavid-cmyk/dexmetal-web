@@ -1,0 +1,65 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "DexMetal" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Knowledge Hub" [ref=e6] [cursor=pointer]:
+          - /url: /knowledge-hub
+        - link "Tools" [ref=e7] [cursor=pointer]:
+          - /url: /tools
+        - link "Basel CA API" [ref=e8] [cursor=pointer]:
+          - /url: /basel-ca-api
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+  - main [ref=e10]:
+    - article [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - heading "About DexMetal" [level=1] [ref=e14]
+          - paragraph [ref=e15]: Movement infrastructure for the Circular Economy and Right to Repair.
+        - generic [ref=e16]:
+          - heading "The Mission" [level=2] [ref=e17]
+          - paragraph [ref=e18]: DexMetal is not just a compliance tool — it is movement infrastructure for the Circular Economy and Right to Repair.
+          - paragraph [ref=e19]: Basel compliance enables legal, documented flow of recoverable materials across borders. DexMetal makes circular trade legally defensible globally — so devices move to repair shops and responsible recyclers, not landfills.
+          - paragraph [ref=e20]: "Canonical tagline: DexMetal — Navigating Circularity, Compliance, and Global Trade in e-Waste Metals and Components."
+        - generic [ref=e21]:
+          - heading "Who Built This" [level=2] [ref=e22]
+          - generic [ref=e23]:
+            - heading "Richard David" [level=3] [ref=e24]
+            - paragraph [ref=e25]: Founder & CEO, DexMetal LLC | Diego Martin, Trinidad & Tobago
+            - paragraph [ref=e26]: 20+ years of Basel Convention compliance. Filed 100+ transboundary notifications across 41 countries. Every guide, tool, and workflow in this platform is grounded in real operational experience — not theory.
+            - paragraph [ref=e27]: Also founder of GreenVoltt Ltd., a physical node in the circular economy operating in the Caribbean.
+        - generic [ref=e28]:
+          - heading "What DexMetal Provides" [level=2] [ref=e29]
+          - generic [ref=e30]:
+            - generic [ref=e31]:
+              - generic [ref=e32]: ☰
+              - heading "Knowledge Hub" [level=3] [ref=e33]
+              - paragraph [ref=e34]: 108 compliance guides covering notification documents, movement documents, PIC workflows, country requirements, and e-waste classifications.
+            - generic [ref=e35]:
+              - generic [ref=e36]: 🌐
+              - heading "Basel CA API" [level=3] [ref=e37]
+              - paragraph [ref=e38]: Competent Authority contact data for 182 countries. Automate lookups and integrate compliance data directly into your workflow.
+            - generic [ref=e39]:
+              - generic [ref=e40]: 🛠
+              - heading "Compliance Tools" [level=3] [ref=e41]
+              - paragraph [ref=e42]: Templates, checklists, waste code lookup tables, and shipment scheduling tools — built for practitioners.
+        - generic [ref=e43]:
+          - link "Explore Knowledge Hub" [ref=e44] [cursor=pointer]:
+            - /url: /knowledge-hub
+          - link "Get in Touch" [ref=e45] [cursor=pointer]:
+            - /url: /contact
+  - contentinfo [ref=e46]:
+    - generic [ref=e47]:
+      - link "DexMetal" [ref=e48] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e49]:
+        - link "About" [ref=e50] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e51] [cursor=pointer]:
+          - /url: /contact
+        - link "Privacy Policy" [ref=e52] [cursor=pointer]:
+          - /url: /privacy-policy
+      - paragraph [ref=e53]: © 2026 DexMetal LLC. All rights reserved.
+  - alert [ref=e54]
