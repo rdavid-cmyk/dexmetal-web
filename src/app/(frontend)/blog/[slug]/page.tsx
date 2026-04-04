@@ -4,7 +4,7 @@ import { cache } from 'react'
 import { draftMode } from 'next/headers'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import RichText from '@/components/RichText'
 import Link from 'next/link'
 
 import type { Post } from '@/payload-types'
@@ -126,7 +126,7 @@ export default async function BlogSlugPage({ params }: Args) {
           className="font-body leading-relaxed prose-invert"
           style={{ color: '#c8c8c2' }}
         >
-          {post.content && <RichText data={post.content as any} />}
+          {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
         </div>
 
         {/* Related Knowledge Hub Resources */}
