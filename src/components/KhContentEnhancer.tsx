@@ -4,12 +4,13 @@ import { useEffect } from 'react'
 export function KhContentEnhancer() {
   useEffect(() => {
     const run = () => {
-      const content = document.querySelector('.kh-content')
+      const content = document.querySelector<HTMLElement>('.kh-content')
       if (!content) return false
       if (content.dataset.khEnhanced) return true
       const paras = Array.from(content.querySelectorAll('p'))
       if (paras.length < 5) return false
       content.dataset.khEnhanced = 'true'
+      console.log('[KHE] running, paras found:', paras.length, 'first:', paras[0]?.textContent?.trim().slice(0, 30))
 
       const used = new Set<Element>()
       const domRemove = new Set<Element>()
@@ -261,7 +262,13 @@ export function KhContentEnhancer() {
       return true
     }
 
-    if (!run()) {
+    const attempt = () => run()
+    if (!attempt()) {
+      setTimeout(() => {
+        if (!attempt()) {
+          setTimeout(() => attempt(), 1000)
+        }
+      }, 300)
       const observer = new MutationObserver(() => {
         if (run()) observer.disconnect()
       })
