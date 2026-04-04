@@ -20,24 +20,18 @@ export function KhContentEnhancer() {
       if (firstHeading) firstHeading.remove()
 
       // 1. Quick Reference card
-      // Pattern: p[//Block X], p[Block X – Quick Reference], h3[Title], p[desc], p[label], p[value] x3
+      // Pattern: p[Block X – Quick Reference], p[desc], p[label], p[value] x3
       for (let i = 0; i < paras.length - 8; i++) {
         if (used.has(paras[i])) continue
         const t0 = paras[i].textContent?.trim() || ''
-        const t1 = paras[i + 1]?.textContent?.trim() || ''
-        if (
-          (t0.startsWith('//') || t0.match(/^\/\//)) &&
-          t1.includes('Quick Reference')
-        ) {
+        if (t0.includes('Quick Reference')) {
           const card = document.createElement('div')
           card.className = 'kh-quick-ref'
 
           const codeLabel = document.createElement('div')
           codeLabel.className = 'kh-quick-ref-code'
-          codeLabel.textContent = paras[i + 1].textContent?.trim() || ''
-
-          // h3 sits between paras[i+1] and paras[i+2] in the DOM
-          const maybeH3 = paras[i + 1].nextElementSibling
+          codeLabel.textContent = t0
+          const maybeH3 = paras[i].nextElementSibling
           const titleEl = document.createElement('div')
           titleEl.className = 'kh-quick-ref-title'
           if (maybeH3 && /^H[1-6]$/.test(maybeH3.tagName)) {
@@ -47,7 +41,7 @@ export function KhContentEnhancer() {
 
           const desc = document.createElement('div')
           desc.className = 'kh-quick-ref-desc'
-          desc.textContent = paras[i + 2]?.textContent?.trim() || ''
+          desc.textContent = paras[i + 1]?.textContent?.trim() || ''
 
           const cols = document.createElement('div')
           cols.className = 'kh-quick-ref-cols'
@@ -56,10 +50,10 @@ export function KhContentEnhancer() {
             col.className = 'kh-quick-ref-col'
             const lbl = document.createElement('div')
             lbl.className = 'kh-quick-ref-label'
-            lbl.textContent = paras[i + 3 + k * 2]?.textContent?.trim() || ''
+            lbl.textContent = paras[i + 2 + k * 2]?.textContent?.trim() || ''
             const val = document.createElement('div')
             val.className = 'kh-quick-ref-value'
-            val.textContent = paras[i + 4 + k * 2]?.textContent?.trim() || ''
+            val.textContent = paras[i + 3 + k * 2]?.textContent?.trim() || ''
             col.appendChild(lbl)
             col.appendChild(val)
             cols.appendChild(col)
@@ -72,8 +66,7 @@ export function KhContentEnhancer() {
           paras[i].parentNode?.insertBefore(card, paras[i])
 
           used.add(paras[i])
-          used.add(paras[i + 1])
-          for (let k = 2; k <= 8; k++) used.add(paras[i + k])
+          for (let k = 1; k <= 7; k++) used.add(paras[i + k])
           break
         }
       }
