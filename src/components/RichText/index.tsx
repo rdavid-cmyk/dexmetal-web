@@ -38,6 +38,21 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
+  table: ({ node, nodesToJSX }) => (
+    <div style={{ overflowX: 'auto', width: '100%', marginBottom: '1.5rem' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'auto' }}>
+        <tbody>{nodesToJSX({ nodes: node.children })}</tbody>
+      </table>
+    </div>
+  ),
+  tablerow: ({ node, nodesToJSX }) => (
+    <tr>{nodesToJSX({ nodes: node.children })}</tr>
+  ),
+  tablecell: ({ node, nodesToJSX }) => {
+    const isHeader = node.headerState === 1 || node.headerState === 3
+    const Tag = isHeader ? 'th' : 'td'
+    return <Tag>{nodesToJSX({ nodes: node.children })}</Tag>
+  },
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
