@@ -33,3 +33,35 @@ Last updated: 2026-04-05
 3. Build /tools from real content
 4. Verify all rebuilt pages on staging server after deploy
 5. DNS move — after Richard approves all pages
+
+## SESSION UPDATE 2026-04-05
+### COMPLETED THIS SESSION
+- [...slug] catch-all route live for /knowledge-hub/
+- 82 DB slugs updated with section prefixes
+- 7 section index pages built and sorted
+- Internal content links remapped (82 rows)
+- Prev/next nav built on leaf pages
+- 120 redirects built in redirects.ts
+- Knowledge Hub index rebuilt to match WordPress 7-card design
+- Homepage built from live WordPress content
+- /about built from live WordPress content
+- /basel-ca-api built, updated to 182 countries
+- /checklist built with email capture form
+- /blog built pulling from Payload posts collection
+- Navigation updated: Home, Blog, Services, Resources, About, Contact
+- 8 WordPress blog posts imported into Payload with images
+- Build clean: 142 static pages, 0 errors, PM2 online
+
+### KNOWN ISSUES
+- Blog hero images not all imported correctly
+- /contact needs real WordPress content
+- /tools needs real content
+- DNS not moved yet
+
+### NEXT SESSION (in order)
+1. Fix blog hero images
+2. Build /contact from real WordPress content
+3. Build /tools from real content
+4. Richard approves all pages
+5. DNS move
+
