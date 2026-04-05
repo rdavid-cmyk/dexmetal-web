@@ -1,107 +1,336 @@
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import Link from 'next/link'
 
-export default function HomePage() {
+import { Media } from '@/components/Media'
+import type { Category, Media as MediaType } from '@/payload-types'
+
+const CIRCULAR_STAGES = [
+  {
+    step: 'Stage 1',
+    title: 'Recover',
+    description:
+      'Capture electronics, batteries, and metal-bearing fractions before value is lost to disposal.',
+  },
+  {
+    step: 'Stage 2',
+    title: 'Classify',
+    description:
+      'Map materials to the correct Basel codes, control status, and documentation requirements.',
+  },
+  {
+    step: 'Stage 3',
+    title: 'Move',
+    description:
+      'Coordinate notification forms, movement documents, and PIC approvals across borders.',
+  },
+  {
+    step: 'Stage 4',
+    title: 'Monetize',
+    description:
+      'Convert compliant circular trade into reliable revenue, stronger partnerships, and repeatable workflows.',
+  },
+] as const
+
+const FREE_TOOLS = [
+  {
+    title: 'Basel Checklist',
+    href: '/checklist',
+    accent: '#1D9E75',
+    description:
+      'A practical export-prep checklist for e-waste shipments, notification forms, and movement document readiness.',
+  },
+  {
+    title: 'Basel CA API',
+    href: '/basel-ca-api',
+    accent: '#FF5C00',
+    description:
+      'Search competent authority contact data for 182 countries and embed verified records into your workflow.',
+  },
+  {
+    title: 'Knowledge Hub',
+    href: '/knowledge-hub',
+    accent: '#1D9E75',
+    description:
+      'Field-tested guidance covering notification documents, movement docs, PIC procedure, and country requirements.',
+  },
+] as const
+
+const TRUST_STATS = [
+  { value: '182', label: 'Countries Covered' },
+  { value: '20+', label: 'Years Experience' },
+  { value: '67+', label: 'Pages of Guidance' },
+  { value: 'Free', label: 'Core Resources' },
+] as const
+
+function getCategoryTitle(category: number | Category | null | undefined) {
+  return typeof category === 'object' && category?.title ? category.title : 'Industry Insights'
+}
+
+function getPreviewImage(post: {
+  heroImage?: number | MediaType | null
+  meta?: { image?: number | MediaType | null } | null
+}) {
+  if (post.heroImage && typeof post.heroImage === 'object') return post.heroImage
+  if (post.meta?.image && typeof post.meta.image === 'object') return post.meta.image
+  return null
+}
+
+export default async function HomePage() {
+  const payload = await getPayload({ config: configPromise })
+  const posts = await payload.find({
+    collection: 'posts',
+    depth: 2,
+    limit: 3,
+    overrideAccess: false,
+    sort: '-publishedAt',
+    select: {
+      title: true,
+      slug: true,
+      heroImage: true,
+      categories: true,
+      meta: true,
+      publishedAt: true,
+    },
+  })
+
   return (
-    <>
-      {/* Hero */}
-      <section className="min-h-screen flex items-center justify-center bg-dex-bg px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1
-            className="font-display font-bold text-white mb-6 leading-tight"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 3.5rem)' }}
-          >
-            Bridging Circular Economy and Basel Convention Compliance
-          </h1>
-          <p
-            className="font-body text-lg md:text-xl mb-10 max-w-2xl mx-auto"
-            style={{ color: '#a0a09a', lineHeight: '1.7' }}
-          >
-            The compliance intelligence platform for hazardous waste exporters. Built on 20 years of operational experience.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/knowledge-hub"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg font-body font-medium text-white transition-all duration-200 hover:opacity-90"
-              style={{ backgroundColor: '#1D9E75' }}
+    <article className="bg-dex-bg text-white">
+      <section className="relative overflow-hidden border-b border-[#2f2f2b]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
+        <div className="container relative py-20 md:py-28">
+          <div className="max-w-4xl">
+            <p
+              className="mb-5 text-sm font-medium uppercase tracking-[0.22em]"
+              style={{ color: '#1D9E75' }}
             >
-              Explore Knowledge Hub
-            </Link>
-            <Link
-              href="/basel-ca-api"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-lg font-body font-medium transition-all duration-200 hover:opacity-80"
-              style={{ border: '2px solid #1D9E75', color: '#1D9E75' }}
+              Navigating Circularity, Compliance, and Global Trade
+            </p>
+            <h1
+              className="max-w-3xl font-display font-bold leading-[1.05] text-white"
+              style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
             >
-              Access Basel CA API
+              Transforming e-Waste Into Opportunity
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
+              DexMetal turns Basel Convention complexity into practical systems for recyclers,
+              exporters, and circular economy operators. We combine field-tested compliance
+              guidance, verified authority data, and free tools that help good materials move
+              legally across borders.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/knowledge-hub"
+                className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#1D9E75' }}
+              >
+                Explore the Knowledge Hub
+              </Link>
+              <Link
+                href="/checklist"
+                className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium transition-colors hover:text-white"
+                style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
+              >
+                Get the Basel Checklist
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b] bg-[#171613]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+              Circular Economy Workflow
+            </p>
+            <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
+              Four stages that turn compliance into a competitive advantage
+            </h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {CIRCULAR_STAGES.map((stage) => (
+              <div
+                key={stage.title}
+                className="rounded-3xl border p-6"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                  {stage.step}
+                </p>
+                <h3 className="mb-3 font-display text-2xl font-bold text-white">{stage.title}</h3>
+                <p className="text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                  {stage.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                Free Tools
+              </p>
+              <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
+                Start with the resources practitioners actually use
+              </h2>
+            </div>
+            <Link href="/blog" className="text-sm font-medium" style={{ color: '#FF5C00' }}>
+              Read the latest guidance →
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#2c2c2a' }}>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div
-            className="p-6 rounded-xl"
-            style={{ backgroundColor: '#1C1B18' }}
-          >
-            <div className="text-3xl mb-4" style={{ color: '#1D9E75' }}>
-              &#9776;
-            </div>
-            <h2 className="font-display font-bold text-white text-xl mb-3">
-              Basel Knowledge Hub
-            </h2>
-            <p className="font-body text-sm leading-relaxed" style={{ color: '#a0a09a' }}>
-              106 compliance guides covering notification documents, movement documents, PIC workflows, country requirements, and e-waste classifications. Free access.
-            </p>
-          </div>
-
-          {/* Card 2 */}
-          <div
-            className="p-6 rounded-xl"
-            style={{ backgroundColor: '#1C1B18' }}
-          >
-            <div className="text-3xl mb-4" style={{ color: '#1D9E75' }}>
-              &#127760;
-            </div>
-            <h2 className="font-display font-bold text-white text-xl mb-3">
-              Basel CA API
-            </h2>
-            <p className="font-body text-sm leading-relaxed" style={{ color: '#a0a09a' }}>
-              Competent Authority contact data for 182 countries. Automate your lookups and integrate compliance data directly into your workflow.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div
-            className="p-6 rounded-xl"
-            style={{ backgroundColor: '#1C1B18' }}
-          >
-            <div className="text-3xl mb-4" style={{ color: '#1D9E75' }}>
-              &#128736;
-            </div>
-            <h2 className="font-display font-bold text-white text-xl mb-3">
-              Compliance Tools
-            </h2>
-            <p className="font-body text-sm leading-relaxed" style={{ color: '#a0a09a' }}>
-              Templates, checklists, and workflow guides. Quick-view document checklists, waste code lookup tables, and shipment scheduling tools.
-            </p>
+          <div className="grid gap-5 lg:grid-cols-3">
+            {FREE_TOOLS.map((tool) => (
+              <Link
+                key={tool.title}
+                href={tool.href}
+                className="rounded-3xl border p-6 transition-transform hover:-translate-y-1"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <div
+                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg font-bold text-white"
+                  style={{ backgroundColor: tool.accent }}
+                >
+                  {tool.title.charAt(0)}
+                </div>
+                <h3 className="mb-3 font-display text-2xl font-bold text-white">{tool.title}</h3>
+                <p className="text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                  {tool.description}
+                </p>
+                <span className="mt-5 inline-flex text-sm font-medium" style={{ color: tool.accent }}>
+                  Open resource →
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Credibility Strip */}
-      <section className="py-12 px-4 bg-dex-bg">
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-body text-sm" style={{ color: '#a0a09a' }}>
-          <span>20+ Years Experience</span>
-          <span style={{ color: '#1D9E75' }}>&middot;</span>
-          <span>106 Compliance Guides</span>
-          <span style={{ color: '#1D9E75' }}>&middot;</span>
-          <span>182 Countries Covered</span>
-          <span style={{ color: '#1D9E75' }}>&middot;</span>
-          <span>Built by practitioners</span>
+      <section className="border-b border-[#2f2f2b] bg-[#171613]">
+        <div className="container py-12">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {TRUST_STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border px-5 py-6 text-center"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <div className="font-display text-4xl font-bold text-white">{stat.value}</div>
+                <div className="mt-2 text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-    </>
+
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+                Latest Posts
+              </p>
+              <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
+                Practical insight from the front lines of Basel trade
+              </h2>
+            </div>
+            <Link href="/blog" className="text-sm font-medium" style={{ color: '#1D9E75' }}>
+              Browse all posts →
+            </Link>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {posts.docs.map((post) => {
+              const image = getPreviewImage(post)
+              const category = getCategoryTitle(post.categories?.[0])
+              const date = post.publishedAt
+                ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                : null
+
+              return (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="overflow-hidden rounded-3xl border transition-transform hover:-translate-y-1"
+                  style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+                >
+                  <div className="relative h-56 overflow-hidden bg-[#151411]">
+                    {image ? (
+                      <Media
+                        resource={image}
+                        imgClassName="h-full w-full object-cover"
+                        pictureClassName="block h-full w-full"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-sm" style={{ color: '#8f8d86' }}>
+                        DexMetal
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                      {category}
+                    </p>
+                    <h3 className="font-display text-2xl font-bold text-white">{post.title}</h3>
+                    {date && (
+                      <p className="mt-3 text-sm" style={{ color: '#8f8d86' }}>
+                        {date}
+                      </p>
+                    )}
+                    <p className="mt-4 line-clamp-3 text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                      {post.meta?.description || 'Read the full article for DexMetal guidance and field-tested insight.'}
+                    </p>
+                    <span className="mt-5 inline-flex text-sm font-medium" style={{ color: '#FF5C00' }}>
+                      Read more →
+                    </span>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,92,0,0.14),_transparent_38%)]" />
+        <div className="container relative py-16 md:py-20">
+          <div
+            className="rounded-[2rem] border px-6 py-10 md:px-10 md:py-12"
+            style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+          >
+            <p className="max-w-4xl font-display text-3xl font-bold leading-tight text-white md:text-4xl">
+              &ldquo;With the right guidance and tools, compliance becomes your competitive
+              advantage. We&apos;ll show you how to turn regulatory complexity into clear workflows
+              that actually help grow your business.&rdquo;
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white"
+                style={{ backgroundColor: '#1D9E75' }}
+              >
+                More About Us
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium"
+                style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
+              >
+                Talk to DexMetal
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
   )
 }

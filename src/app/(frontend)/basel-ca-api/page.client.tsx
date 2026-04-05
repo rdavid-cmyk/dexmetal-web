@@ -1,6 +1,84 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
+
+const PAIN_POINTS = [
+  '2-3 hours per country digging through the Basel Convention website',
+  'Outdated contact information buried in PDFs or stale government documents',
+  'No programmatic access, which forces manual copy-paste into internal systems',
+  'Constant worry about using the wrong email, authority, or phone number',
+  'Impossible-to-scale Annex VII and notification workflows when done manually',
+] as const
+
+const FEATURES = [
+  {
+    title: 'Verified Data',
+    description:
+      'Official competent authority contacts for 182 countries, maintained from Basel Convention sources and updated regularly.',
+    accent: '#1D9E75',
+  },
+  {
+    title: 'Instant Access',
+    description:
+      'Get complete authority records in seconds, including email, phone, address, and other core details.',
+    accent: '#FF5C00',
+  },
+  {
+    title: 'Easy Integration',
+    description:
+      'Use simple REST calls with JSON responses inside ERP, GRC, compliance, and logistics systems.',
+    accent: '#1D9E75',
+  },
+  {
+    title: 'Always Current',
+    description:
+      'DexMetal monitors upstream changes so your team spends less time reconciling source documents.',
+    accent: '#FF5C00',
+  },
+] as const
+
+const AUDIENCES = [
+  {
+    title: 'E-Waste Recyclers',
+    description: 'Shipping internationally and needing authority contacts for every destination or transit country.',
+  },
+  {
+    title: 'Software Developers',
+    description: 'Building internal compliance tools, ERP systems, customs workflows, or GRC platforms.',
+  },
+  {
+    title: 'Compliance Officers',
+    description: 'Managing Basel notifications and needing verified authority records without manual rework.',
+  },
+  {
+    title: 'Logistics Companies',
+    description: 'Automating pre-shipment checks before cargo moves into regulated cross-border flows.',
+  },
+] as const
+
+const FAQS = [
+  {
+    question: 'How accurate is the data?',
+    answer:
+      'Basel API records are derived from official Basel Convention sources and cross-checked against government contact references. Critical submissions should still be confirmed directly with the relevant authority before filing.',
+  },
+  {
+    question: 'What countries are currently covered?',
+    answer:
+      'The product messaging and on-page references have been updated to 182 countries. This page intentionally replaces earlier 41-country wording.',
+  },
+  {
+    question: 'How quickly can it be integrated?',
+    answer:
+      'The API is intentionally lightweight: simple authenticated REST requests, JSON responses, and no heavy SDK requirement.',
+  },
+  {
+    question: 'Who is this for?',
+    answer:
+      'Teams handling Basel notifications, trade compliance, authority lookups, circular economy exports, and related workflow automation.',
+  },
+] as const
 
 export default function BaselCaApiClient() {
   const [query, setQuery] = useState('')
@@ -13,6 +91,7 @@ export default function BaselCaApiClient() {
     e.preventDefault()
     const q = query.trim()
     if (!q) return
+
     setLoading(true)
     setError(null)
     setResults([])
@@ -21,6 +100,7 @@ export default function BaselCaApiClient() {
     try {
       const res = await fetch(`/api/ca-lookup?country=${encodeURIComponent(q)}`)
       const data = await res.json()
+
       if (!res.ok || data.error) {
         if (res.status === 503) {
           setError('Live lookup is not yet configured. The API key needs to be set up on the server.')
@@ -29,8 +109,8 @@ export default function BaselCaApiClient() {
         }
         return
       }
-      const items = data.items ?? []
-      setResults(items)
+
+      setResults(data.items ?? [])
     } catch (err: any) {
       setError(err.message || 'Could not reach the Basel CA API. Please try again.')
     } finally {
@@ -39,192 +119,325 @@ export default function BaselCaApiClient() {
   }
 
   return (
-    <article className="min-h-screen bg-dex-bg">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="mb-12">
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-body font-medium mb-4 uppercase tracking-wider"
-            style={{ backgroundColor: '#1D9E7522', color: '#1D9E75' }}
-          >
-            Free API
+    <article className="min-h-screen bg-dex-bg text-white">
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-24">
+          <div className="max-w-4xl">
+            <p className="mb-4 text-sm font-medium uppercase tracking-[0.22em]" style={{ color: '#1D9E75' }}>
+              Basel API
+            </p>
+            <h1 className="font-display text-4xl font-bold leading-tight md:text-6xl">
+              Stop manual lookups. Start automating Basel compliance.
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8" style={{ color: '#cbc7be' }}>
+              Get verified competent authority data for 182 countries via simple REST API calls.
+              Integrate faster, reduce lookup errors, and keep Basel workflows moving.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="https://api.dexmetal.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white"
+                style={{ backgroundColor: '#1D9E75' }}
+              >
+                Get Your Free API Key
+              </a>
+              <a
+                href="https://api.dexmetal.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium"
+                style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
+              >
+                View Documentation
+              </a>
+            </div>
           </div>
-          <h1 className="font-display font-bold text-white mb-4" style={{ fontSize: '2.75rem' }}>
-            Basel CA API
-          </h1>
-          <p className="font-body text-lg leading-relaxed" style={{ color: '#a0a09a' }}>
-            Competent Authority contact data for 182 countries. Look up the national Basel authority for any country — free, no login required.
-          </p>
         </div>
+      </section>
 
-        {/* Live Lookup Widget */}
-        <section className="mb-12 p-8 rounded-xl" style={{ backgroundColor: '#2c2c2a' }}>
-          <h2 className="font-display font-bold text-white text-xl mb-2">
-            Country Lookup
-          </h2>
-          <p className="font-body text-sm mb-6" style={{ color: '#a0a09a' }}>
-            Enter a country name to retrieve its Basel Competent Authority contact information.
-          </p>
-
-          <form onSubmit={handleSearch} className="flex gap-3 mb-6">
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g. Germany, Japan, Nigeria…"
-              className="flex-1 px-4 py-3 rounded-lg font-body text-white placeholder-[#a0a09a] outline-none transition-all duration-200"
-              style={{ backgroundColor: '#1C1B18', border: '1px solid #3a3a38' }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#1D9E75')}
-              onBlur={(e) => (e.currentTarget.style.borderColor = '#3a3a38')}
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 rounded-lg font-body font-semibold text-white transition-all duration-200 hover:opacity-90 disabled:opacity-50"
-              style={{ backgroundColor: '#1D9E75', whiteSpace: 'nowrap' }}
-            >
-              {loading ? 'Searching…' : 'Look Up'}
-            </button>
-          </form>
-
-          {/* Results */}
-          {loading && (
-            <div className="text-center py-8">
+      <section className="border-b border-[#2f2f2b] bg-[#171613]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+              The Pain of Manual Lookups
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Every manual authority lookup slows the shipment before the shipment even starts
+            </h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {PAIN_POINTS.map((item) => (
               <div
-                className="inline-block w-6 h-6 rounded-full border-2 animate-spin"
-                style={{ borderColor: '#1D9E75', borderTopColor: 'transparent' }}
-              />
-              <p className="font-body text-sm mt-3" style={{ color: '#a0a09a' }}>Querying Basel CA API…</p>
-            </div>
-          )}
+                key={item}
+                className="rounded-3xl border p-5"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <p className="text-sm leading-7" style={{ color: '#cbc7be' }}>
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {error && (
-            <div className="p-4 rounded-lg" style={{ backgroundColor: '#3a2020', border: '1px solid #7a3030' }}>
-              <p className="font-body text-sm" style={{ color: '#f87171' }}>{error}</p>
-            </div>
-          )}
-
-          {!loading && searched && results.length === 0 && !error && (
-            <p className="font-body text-sm text-center py-6" style={{ color: '#a0a09a' }}>
-              No results found for &ldquo;{query}&rdquo;. Try a different spelling or country name.
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+              Introducing Basel API
             </p>
-          )}
-
-          {results.length > 0 && (
-            <div className="space-y-4">
-              {results.map((item, i) => (
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              The first dedicated API for Basel Convention competent authority data
+            </h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {FEATURES.map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-3xl border p-6"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
                 <div
-                  key={i}
-                  className="p-5 rounded-xl border-l-4"
-                  style={{ backgroundColor: '#1C1B18', borderLeftColor: '#1D9E75' }}
+                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-bold text-white"
+                  style={{ backgroundColor: feature.accent }}
                 >
-                  <h3 className="font-display font-bold text-white text-lg mb-3">
-                    {item.country || item.Country || item.name || 'Unknown Country'}
-                  </h3>
-                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 font-body text-sm">
-                    {(item.authority_name || item.authorityName) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Authority</dt>
-                        <dd style={{ color: '#a0a09a' }}>{item.authority_name || item.authorityName}</dd>
-                      </>
-                    )}
-                    {(item.contact_person || item.contactPerson) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Contact</dt>
-                        <dd style={{ color: '#a0a09a' }}>{item.contact_person || item.contactPerson}</dd>
-                      </>
-                    )}
-                    {(item.email || item.Email) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Email</dt>
-                        <dd>
-                          <a
-                            href={`mailto:${item.email || item.Email}`}
-                            style={{ color: '#1D9E75' }}
-                            className="hover:opacity-80 transition-opacity"
-                          >
-                            {item.email || item.Email}
-                          </a>
-                        </dd>
-                      </>
-                    )}
-                    {(item.phone || item.Phone) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Phone</dt>
-                        <dd style={{ color: '#a0a09a' }}>{item.phone || item.Phone}</dd>
-                      </>
-                    )}
-                    {(item.fax || item.Fax) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Fax</dt>
-                        <dd style={{ color: '#a0a09a' }}>{item.fax || item.Fax}</dd>
-                      </>
-                    )}
-                    {(item.address || item.Address) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Address</dt>
-                        <dd style={{ color: '#a0a09a' }}>{item.address || item.Address}</dd>
-                      </>
-                    )}
-                    {(item.website || item.Website) && (
-                      <>
-                        <dt style={{ color: '#1D9E75' }} className="font-medium">Website</dt>
-                        <dd>
-                          <a
-                            href={item.website || item.Website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: '#1D9E75' }}
-                            className="hover:opacity-80 transition-opacity"
-                          >
-                            {item.website || item.Website}
-                          </a>
-                        </dd>
-                      </>
-                    )}
-                  </dl>
+                  ✓
                 </div>
-              ))}
+                <h3 className="mb-3 font-display text-2xl font-bold text-white">{feature.title}</h3>
+                <p className="text-sm leading-7" style={{ color: '#cbc7be' }}>
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b] bg-[#171613]">
+        <div className="container py-16 md:py-20">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+            <div>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+                See It In Action
+              </p>
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
+                From two hours of digging to one clean API response
+              </h2>
+              <p className="mt-5 text-base leading-8" style={{ color: '#cbc7be' }}>
+                Query a country and return the authority record you need for compliance workflows,
+                internal tooling, and operator-facing interfaces.
+              </p>
             </div>
-          )}
-        </section>
-
-        {/* API Info */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          <div className="p-6 rounded-xl" style={{ backgroundColor: '#2c2c2a' }}>
-            <h3 className="font-display font-bold text-white text-base mb-3">API Endpoint</h3>
-            <code
-              className="block p-3 rounded text-xs font-mono break-all"
-              style={{ backgroundColor: '#1C1B18', color: '#1D9E75' }}
+            <div
+              className="rounded-[2rem] border p-6 md:p-8"
+              style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
             >
-              GET https://api.dexmetal.com/api/competent-authorities
-            </code>
-            <p className="font-body text-xs mt-3" style={{ color: '#a0a09a' }}>
-              Query params: <code style={{ color: '#FF5C00' }}>country</code>, <code style={{ color: '#FF5C00' }}>limit</code>. No API key required.
-            </p>
-          </div>
-          <div className="p-6 rounded-xl" style={{ backgroundColor: '#2c2c2a' }}>
-            <h3 className="font-display font-bold text-white text-base mb-3">Coverage</h3>
-            <ul className="font-body text-sm space-y-2" style={{ color: '#a0a09a' }}>
-              <li>&#x2713; 182 countries</li>
-              <li>&#x2713; Authority name, contact, email, phone</li>
-              <li>&#x2713; Updated from official Basel Convention data</li>
-              <li>&#x2713; Free, no authentication needed</li>
-            </ul>
-          </div>
-        </section>
+              <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                Base URL
+              </p>
+              <code className="block rounded-2xl bg-[#171613] px-4 py-3 text-sm text-[#1D9E75]">
+                https://api.dexmetal.com
+              </code>
+              <pre
+                className="mt-5 overflow-x-auto rounded-2xl bg-[#171613] p-4 text-sm leading-7"
+                style={{ color: '#cbc7be' }}
+              >{`curl -H "X-API-Key: YOUR_API_KEY" \\
+  https://api.dexmetal.com/api/v1/ca/BR
 
-        {/* Code example */}
-        <section className="p-6 rounded-xl" style={{ backgroundColor: '#2c2c2a' }}>
-          <h3 className="font-display font-bold text-white text-base mb-4">Quick Start</h3>
-          <pre
-            className="text-xs font-mono overflow-x-auto p-4 rounded-lg leading-relaxed"
-            style={{ backgroundColor: '#1C1B18', color: '#a0a09a' }}
-          >{`fetch('https://api.dexmetal.com/api/competent-authorities?country=Germany')
-  .then(r => r.json())
-  .then(data => console.log(data.items))`}</pre>
-        </section>
-      </div>
+// Response (simplified)
+{
+  "country": "Brazil",
+  "code": "BR",
+  "competentAuthority": "Instituto Brasileiro do Meio Ambiente...",
+  "email": "cgen@ibama.gov.br",
+  "phone": "+55 61 3316-1234",
+  "address": "SCEN Trecho 2, Brasília...",
+  "lastVerified": "2026-01-15"
+}`}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-8 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+              Live Lookup
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Test the lookup experience before you integrate
+            </h2>
+          </div>
+          <div
+            className="rounded-[2rem] border p-6 md:p-8"
+            style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+          >
+            <form onSubmit={handleSearch} className="flex flex-col gap-3 md:flex-row">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="e.g. Germany, Brazil, Ghana..."
+                className="flex-1 rounded-full border px-5 py-3 text-white outline-none"
+                style={{ backgroundColor: '#171613', borderColor: '#3a3a38' }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="rounded-full px-6 py-3 text-sm font-medium text-white disabled:opacity-60"
+                style={{ backgroundColor: '#1D9E75' }}
+              >
+                {loading ? 'Searching...' : 'Look Up Country'}
+              </button>
+            </form>
+
+            {error && (
+              <div className="mt-5 rounded-2xl border px-4 py-3 text-sm" style={{ borderColor: '#7a3030', color: '#fca5a5' }}>
+                {error}
+              </div>
+            )}
+
+            {!loading && searched && !error && results.length === 0 && (
+              <div className="mt-5 rounded-2xl border px-4 py-3 text-sm" style={{ borderColor: '#3a3a38', color: '#cbc7be' }}>
+                No result found for &ldquo;{query}&rdquo;.
+              </div>
+            )}
+
+            {results.length > 0 && (
+              <div className="mt-6 grid gap-4">
+                {results.map((item, index) => (
+                  <div
+                    key={index}
+                    className="rounded-3xl border p-5"
+                    style={{ backgroundColor: '#171613', borderColor: '#3a3a38' }}
+                  >
+                    <h3 className="font-display text-2xl font-bold text-white">
+                      {item.country || item.Country || item.name || 'Unknown Country'}
+                    </h3>
+                    <dl className="mt-4 grid gap-3 text-sm md:grid-cols-2">
+                      {Object.entries({
+                        Authority: item.authority_name || item.authorityName,
+                        Contact: item.contact_person || item.contactPerson,
+                        Email: item.email || item.Email,
+                        Phone: item.phone || item.Phone,
+                        Address: item.address || item.Address,
+                      })
+                        .filter(([, value]) => value)
+                        .map(([label, value]) => (
+                          <div key={label}>
+                            <dt className="font-medium" style={{ color: '#1D9E75' }}>
+                              {label}
+                            </dt>
+                            <dd className="mt-1" style={{ color: '#cbc7be' }}>
+                              {String(value)}
+                            </dd>
+                          </div>
+                        ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b] bg-[#171613]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+              Who Basel API Is For
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Built for the people who need reliable authority data every day
+            </h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {AUDIENCES.map((audience, index) => (
+              <div
+                key={audience.title}
+                className="rounded-3xl border p-6"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <div
+                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl text-base font-bold text-white"
+                  style={{ backgroundColor: index % 2 === 0 ? '#1D9E75' : '#FF5C00' }}
+                >
+                  {audience.title.charAt(0)}
+                </div>
+                <h3 className="mb-3 font-display text-2xl font-bold text-white">{audience.title}</h3>
+                <p className="text-sm leading-7" style={{ color: '#cbc7be' }}>
+                  {audience.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+              Frequently Asked Questions
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">Common questions about Basel API</h2>
+          </div>
+          <div className="grid gap-4">
+            {FAQS.map((faq) => (
+              <div
+                key={faq.question}
+                className="rounded-3xl border p-6"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <h3 className="font-display text-2xl font-bold text-white">{faq.question}</h3>
+                <p className="mt-3 text-sm leading-7" style={{ color: '#cbc7be' }}>
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container py-16 md:py-20">
+          <div
+            className="rounded-[2rem] border px-6 py-10 md:px-10"
+            style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+          >
+            <h2 className="max-w-3xl font-display text-3xl font-bold text-white md:text-4xl">
+              Ready to automate your Basel compliance workflows?
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-8" style={{ color: '#cbc7be' }}>
+              Join compliance teams replacing manual authority lookup work with structured data and
+              cleaner internal systems.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="https://api.dexmetal.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white"
+                style={{ backgroundColor: '#1D9E75' }}
+              >
+                Get Your Free API Key Now
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium"
+                style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
+              >
+                Contact DexMetal
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </article>
   )
 }
