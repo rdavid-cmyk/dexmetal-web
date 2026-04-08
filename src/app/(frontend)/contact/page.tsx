@@ -107,7 +107,6 @@ export default function ContactPage() {
               </a>
             </p>
             <p>
-              <span className="text-white font-medium">Location:</span> 7100 Redmiles Rd, Laurel MD 20707
             </p>
             <p>
               <span className="text-white font-medium">Company:</span> DexMetal LLC
