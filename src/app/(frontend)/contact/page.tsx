@@ -38,7 +38,7 @@ export default function ContactPage() {
             Submit a Question
           </h2>
           <form
-            action="mailto:rdavid@gvoltt.com"
+            action="mailto:info@dexmetal.com"
             method="get"
             className="space-y-4"
           >
@@ -102,15 +102,15 @@ export default function ContactPage() {
           <div className="space-y-3 font-body text-sm" style={{ color: '#a0a09a' }}>
             <p>
               <span className="text-white font-medium">Email:</span>{' '}
-              <a href="mailto:rdavid@gvoltt.com" className="transition-colors hover:opacity-80" style={{ color: '#1D9E75' }}>
-                rdavid@gvoltt.com
+              <a href="mailto:info@dexmetal.com" className="transition-colors hover:opacity-80" style={{ color: '#1D9E75' }}>
+                info@dexmetal.com
               </a>
             </p>
             <p>
               <span className="text-white font-medium">Location:</span> Diego Martin, Trinidad &amp; Tobago
             </p>
             <p>
-              <span className="text-white font-medium">Company:</span> DexMetal LLC | GreenVoltt Ltd.
+              <span className="text-white font-medium">Company:</span> DexMetal LLC
             </p>
           </div>
         </section>
