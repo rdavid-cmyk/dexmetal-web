@@ -124,6 +124,21 @@ export default async function BlogSlugPage({ params }: Args) {
       )}
 
       <div className="min-h-screen" style={{ backgroundColor: '#1C1B18' }}>
+        {/* Hero Section */}
+        {post.heroImage && typeof post.heroImage === 'object' && (
+          <div className="relative w-full h-[400px] overflow-hidden">
+            <Media
+              resource={post.heroImage as MediaType}
+              imgClassName="w-full h-full object-cover"
+              pictureClassName="block w-full h-full"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to bottom, transparent 30%, #1C1B18 100%)' }}
+            />
+          </div>
+        )}
+
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sticky TOC Sidebar - Desktop */}
