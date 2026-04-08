@@ -1,14 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
@@ -17,6 +8,15 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 
 import {
   MetaDescriptionField,
@@ -98,6 +98,95 @@ export const Posts: CollectionConfig<'posts'> = {
               }),
               label: false,
               required: true,
+            },
+            {
+              name: 'at_a_glance',
+              type: 'textarea',
+              label: 'At a Glance Summary',
+              admin: {
+                rows: 4,
+              },
+            },
+            {
+              name: 'toc_enabled',
+              type: 'checkbox',
+              label: 'Show Table of Contents',
+              defaultValue: true,
+            },
+            {
+              name: 'difficulty',
+              type: 'select',
+              label: 'Difficulty',
+              options: [
+                { label: 'Beginner', value: 'beginner' },
+                { label: 'Intermediate', value: 'intermediate' },
+                { label: 'Advanced', value: 'advanced' },
+              ],
+            },
+            {
+              name: 'read_time',
+              type: 'number',
+              label: 'Read Time (minutes)',
+              min: 1,
+              max: 120,
+            },
+            {
+              name: 'risk_table',
+              type: 'array',
+              label: 'Risk Table',
+              fields: [
+                {
+                  name: 'level',
+                  type: 'select',
+                  label: 'Risk Level',
+                  options: [
+                    { label: 'Low', value: 'low' },
+                    { label: 'Medium', value: 'medium' },
+                    { label: 'High', value: 'high' },
+                  ],
+                  required: true,
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  label: 'Description',
+                  required: true,
+                },
+                {
+                  name: 'country',
+                  type: 'text',
+                  label: 'Country',
+                },
+              ],
+            },
+            {
+              name: 'faq',
+              type: 'array',
+              label: 'FAQ',
+              fields: [
+                {
+                  name: 'question',
+                  type: 'text',
+                  label: 'Question',
+                  required: true,
+                },
+                {
+                  name: 'answer',
+                  type: 'textarea',
+                  label: 'Answer',
+                  required: true,
+                },
+              ],
+            },
+            {
+              name: 'cta_label',
+              type: 'text',
+              label: 'CTA Button Label',
+            },
+            {
+              name: 'cta_url',
+              type: 'text',
+              label: 'CTA Button URL',
             },
           ],
           label: 'Content',
