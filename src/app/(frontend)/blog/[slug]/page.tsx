@@ -356,68 +356,6 @@ export default async function BlogSlugPage({ params }: Args) {
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .blog-content {
-          font-family: var(--font-dm-sans), sans-serif;
-          font-size: 16px;
-          line-height: 1.7;
-          color: #c8c8c2;
-        }
-        .blog-content h2 {
-          font-family: var(--font-play), sans-serif;
-          font-weight: 700;
-          font-size: 1.75rem;
-          color: #1D9E75;
-          margin-top: 2.5rem;
-          margin-bottom: 1rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px solid #3a3a38;
-        }
-        .blog-content h3 {
-          font-family: var(--font-play), sans-serif;
-          font-weight: 700;
-          font-size: 1.25rem;
-          color: #ffffff;
-          margin-top: 2rem;
-          margin-bottom: 0.75rem;
-        }
-        .blog-content p {
-          margin-bottom: 1.5rem;
-        }
-        .blog-content img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 8px;
-          display: block;
-          margin: 2rem auto;
-        }
-        .blog-content ul, .blog-content ol {
-          margin-bottom: 1.5rem;
-          padding-left: 1.5rem;
-        }
-        .blog-content li {
-          margin-bottom: 0.5rem;
-        }
-        .blog-content a {
-          color: #1D9E75;
-          text-decoration: none;
-        }
-        .blog-content a:hover {
-          text-decoration: underline;
-        }
-        .blog-content blockquote {
-          border-left: 4px solid #FF5C00;
-          padding-left: 1rem;
-          margin: 1.5rem 0;
-          color: #a0a09a;
-          font-style: italic;
-        }
-        .blog-content strong {
-          color: #ffffff;
-          font-weight: 600;
-        }
-      `}</style>
     </>
   )
 }
