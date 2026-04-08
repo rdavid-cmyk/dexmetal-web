@@ -234,13 +234,12 @@ export default async function BlogSlugPage({ params }: Args) {
                 </p>
               )}
 
-              {/* At-a-Glance Box */}
-              {post.at_a_glance && (
+              {/* Series Info Box */}
+              {post.read_time && (
                 <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
-                  <h2 className="font-display font-bold text-white text-lg mb-3">At a Glance</h2>
-                  <div className="font-body text-base leading-relaxed" style={{ color: '#c8c8c2' }}>
-                    <RichText data={post.at_a_glance as any} enableGutter={false} enableProse={false} />
-                  </div>
+                  <p className="font-display font-bold text-white text-lg">
+                    {post.read_time ? `Reading Time: ${post.read_time} minutes` : ''}
+                  </p>
                 </div>
               )}
 
