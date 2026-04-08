@@ -249,6 +249,41 @@ export interface Post {
     };
     [k: string]: unknown;
   };
+  at_a_glance?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  toc_enabled?: boolean | null;
+  difficulty?: ('beginner' | 'intermediate' | 'advanced') | null;
+  read_time?: number | null;
+  risk_table?:
+    | {
+        level: 'low' | 'medium' | 'high';
+        description: string;
+        country?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  cta_label?: string | null;
+  cta_url?: string | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   meta?: {
@@ -1324,6 +1359,27 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
   content?: T;
+  at_a_glance?: T;
+  toc_enabled?: T;
+  difficulty?: T;
+  read_time?: T;
+  risk_table?:
+    | T
+    | {
+        level?: T;
+        description?: T;
+        country?: T;
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  cta_label?: T;
+  cta_url?: T;
   relatedPosts?: T;
   categories?: T;
   meta?:

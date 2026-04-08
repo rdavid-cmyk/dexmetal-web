@@ -5,69 +5,10 @@ import { draftMode } from 'next/headers'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import RichText from '@/components/RichText'
+import { Media } from '@/components/Media'
 import Link from 'next/link'
 
-import type { Post } from '@/payload-types'
-
-// Basel terminology → KH slug mapping for contextual links
-const TERM_MAP: Record<string, { slug: string; label: string }> = {
-  notification: { slug: 'notification-number-shipment-type', label: 'Notification Document Guide' },
-  'competent authority': { slug: 'notification-competent-authority-acknowledgement', label: 'Competent Authority Acknowledgement' },
-  'waste code': { slug: 'basel-waste-code-lookup', label: 'Basel Waste Code Lookup' },
-  'movement document': { slug: 'movement-document-checklist', label: 'Movement Document Checklist' },
-  'prior informed consent': { slug: 'pic-prior-informed-consent-workflows', label: 'PIC Workflow Guide' },
-  pic: { slug: 'pic-prior-informed-consent-workflows', label: 'PIC Workflow Guide' },
-  exporter: { slug: 'notification-exporter-notifier-registration', label: 'Exporter-Notifier Registration' },
-  importer: { slug: 'notification-importer-consignee-information', label: 'Importer/Consignee Information' },
-  'e-waste': { slug: 'ewaste-basel-classifications', label: 'E-Waste Basel Classifications' },
-  'hazardous waste': { slug: 'hazardous-characteristics-assessment-ewaste', label: 'Hazardous Characteristics Assessment' },
-  annex: { slug: 'notification-annexes-attached', label: 'Notification Annexes Guide' },
-  ulab: { slug: 'ulab-value-estimator', label: 'ULAB Value Estimator' },
-  'transit country': { slug: 'notification-countries-border-crossings', label: 'Transit Countries & Border Crossings' },
-  'financially guarantee': { slug: 'financial-guarantee-insurance-basel', label: 'Financial Guarantee & Insurance' },
-  checklist: { slug: 'basel-complete-document-checklist', label: 'Basel Complete Document Checklist' },
-  'circular economy': { slug: 'ewaste-basel-classifications', label: 'E-Waste Basel Classifications' },
-  recycl: { slug: 'environmentally-sound-management-criteria', label: 'Environmentally Sound Management Criteria' },
-}
-
-// Cornerstone KH pages shown when no keyword matches
-const CORNERSTONE_PAGES = [
-  { slug: 'movement-document-checklist', label: 'Movement Document Checklist' },
-  { slug: 'notification-document-guide', label: 'Notification Document Guide' },
-  { slug: 'basel-waste-code-lookup', label: 'Waste Code Lookup Table' },
-  { slug: 'pic-prior-informed-consent-workflows', label: 'PIC Workflows' },
-]
-
-function extractTextFromLexical(content: any): string {
-  if (!content) return ''
-  if (typeof content === 'string') return content
-  if (content.text) return content.text
-  if (Array.isArray(content.children)) {
-    return content.children.map(extractTextFromLexical).join(' ')
-  }
-  if (content.root) return extractTextFromLexical(content.root)
-  return ''
-}
-
-function getRelatedKhPages(post: Post): { slug: string; label: string }[] {
-  const text = (
-    (post.title || '') + ' ' +
-    extractTextFromLexical(post.content) + ' ' +
-    (post.meta?.description || '')
-  ).toLowerCase()
-
-  const matched = new Map<string, { slug: string; label: string }>()
-  for (const [term, page] of Object.entries(TERM_MAP)) {
-    if (text.includes(term) && !matched.has(page.slug)) {
-      matched.set(page.slug, page)
-      if (matched.size >= 4) break
-    }
-  }
-
-  return matched.size > 0
-    ? Array.from(matched.values())
-    : CORNERSTONE_PAGES
-}
+import type { Post, Media as MediaType, Category } from '@/payload-types'
 
 type Args = { params: Promise<{ slug: string }> }
 
@@ -86,77 +27,398 @@ export async function generateStaticParams() {
   return posts.docs.map(({ slug }) => ({ slug }))
 }
 
+function extractTextFromLexical(content: any): string {
+  if (!content) return ''
+  if (typeof content === 'string') return content
+  if (content.text) return content.text
+  if (Array.isArray(content.children)) {
+    return content.children.map(extractTextFromLexical).join(' ')
+  }
+  if (content.root) return extractTextFromLexical(content.root)
+  return ''
+}
+
+function extractHeadingsFromContent(content: any): Array<{ level: number; text: string; id: string }> {
+  const headings: Array<{ level: number; text: string; id: string }> = []
+
+  function traverse(node: any) {
+    if (!node) return
+
+    if (node.type === 'heading') {
+      const level = node.tag ? parseInt(node.tag.replace('h', '')) : 2
+      const text = extractTextFromLexical(node)
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+      headings.push({ level, text, id })
+    }
+
+    if (node.children && Array.isArray(node.children)) {
+      node.children.forEach(traverse)
+    }
+  }
+
+  traverse(content)
+  return headings
+}
+
+function getDifficultyLabel(difficulty: string): string {
+  switch (difficulty) {
+    case 'beginner': return 'Beginner'
+    case 'intermediate': return 'Intermediate'
+    case 'advanced': return 'Advanced'
+    default: return 'Intermediate'
+  }
+}
+
+function getDifficultyColor(difficulty: string): string {
+  switch (difficulty) {
+    case 'beginner': return '#22c55e'
+    case 'intermediate': return '#f59e0b'
+    case 'advanced': return '#ef4444'
+    default: return '#f59e0b'
+  }
+}
+
+function getCategoryTitle(category: number | Category | null | undefined): string {
+  return typeof category === 'object' && category?.title ? category.title : ''
+}
+
+function getFirstParagraph(content: any): string {
+  if (!content) return ''
+  const text = extractTextFromLexical(content)
+  const sentences = text.split(/\.\s+/)
+  const firstFew = sentences.slice(0, 2).join('. ')
+  return firstFew.length > 200 ? firstFew.substring(0, 200) + '...' : firstFew
+}
+
 export default async function BlogSlugPage({ params }: Args) {
   const { slug } = await params
   const post = await queryPost({ slug: decodeURIComponent(slug) })
   if (!post) return notFound()
 
-  const related = getRelatedKhPages(post)
   const publishedDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : null
+  const headings = post.toc_enabled && post.content ? extractHeadingsFromContent(post.content) : []
+  const categoryTitle = getCategoryTitle(post.categories?.[0])
 
   return (
-    <article className="min-h-screen bg-dex-bg">
-      <div className="max-w-3xl mx-auto px-4 py-16">
-        {/* Breadcrumb */}
-        <nav className="mb-8 text-sm font-body" style={{ color: '#a0a09a' }}>
-          <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-          <span className="mx-2">/</span>
-          <span>{post.title}</span>
-        </nav>
+    <>
+      {post.faq && post.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": post.faq.map((item: any) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": item.answer
+                }
+              }))
+            })
+          }}
+        />
+      )}
 
-        {/* Header */}
-        {publishedDate && (
-          <p className="font-body text-xs mb-3 uppercase tracking-wider" style={{ color: '#1D9E75' }}>
-            {publishedDate}
-          </p>
-        )}
-        <h1 className="font-display font-bold text-white mb-6 leading-tight" style={{ fontSize: '2.25rem' }}>
-          {post.title}
-        </h1>
-        {post.meta?.description && (
-          <p className="font-body text-lg mb-10 leading-relaxed" style={{ color: '#a0a09a' }}>
-            {post.meta.description}
-          </p>
-        )}
-
-        <hr style={{ borderColor: '#3a3a38', marginBottom: '2.5rem' }} />
-
-        {/* Post content */}
-        <div
-          className="font-body leading-relaxed prose-invert"
-          style={{ color: '#c8c8c2' }}
-        >
-          {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
+      <div className="min-h-screen" style={{ backgroundColor: '#1C1B18' }}>
+        {/* Hero Section */}
+        <div className="relative">
+          {post.heroImage && typeof post.heroImage === 'object' && (
+            <div className="w-full h-[400px] md:h-[500px] overflow-hidden">
+              <Media
+                resource={post.heroImage as MediaType}
+                imgClassName="w-full h-full object-cover"
+                pictureClassName="block w-full h-full"
+              />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1B18] via-[#1C1B18]/60 to-transparent" />
         </div>
 
-        {/* Related Knowledge Hub Resources */}
-        <aside className="mt-16 pt-8 border-t" style={{ borderColor: '#3a3a38' }}>
-          <h2 className="font-display font-bold text-white text-lg mb-4">
-            Related Knowledge Hub Resources
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {related.map(({ slug: khSlug, label }) => (
-              <Link
-                key={khSlug}
-                href={`/knowledge-hub/${khSlug}`}
-                className="flex items-center gap-3 p-4 rounded-lg border-l-4 transition-all duration-200 hover:brightness-110"
-                style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
-              >
-                <span className="text-lg" style={{ color: '#1D9E75' }}>&#9776;</span>
-                <span className="font-body text-sm font-medium text-white leading-snug">{label}</span>
-              </Link>
-            ))}
+        <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sticky TOC Sidebar - Desktop */}
+            {headings.length > 0 && (
+              <aside className="hidden lg:block w-64 flex-shrink-0">
+                <div className="sticky top-8 p-4 rounded-lg" style={{ backgroundColor: '#2c2c2a' }}>
+                  <h3 className="font-display font-bold text-white text-sm mb-4 uppercase tracking-wider">Contents</h3>
+                  <nav>
+                    <ul className="space-y-2">
+                      {headings.map((heading, index) => (
+                        <li key={index} style={{ marginLeft: `${(heading.level - 2) * 0.75}rem` }}>
+                          <a
+                            href={`#${heading.id}`}
+                            className="font-body text-sm hover:text-white transition-colors block py-1"
+                            style={{ color: '#a0a09a' }}
+                          >
+                            {heading.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+              </aside>
+            )}
+
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              {/* Mobile TOC Drawer Trigger */}
+              {headings.length > 0 && (
+                <details className="lg:hidden mb-6">
+                  <summary 
+                    className="cursor-pointer p-4 rounded-lg font-display font-bold text-white"
+                    style={{ backgroundColor: '#2c2c2a' }}
+                  >
+                    📑 Table of Contents
+                  </summary>
+                  <nav className="mt-2 p-4 rounded-lg" style={{ backgroundColor: '#2c2c2a' }}>
+                    <ul className="space-y-2">
+                      {headings.map((heading, index) => (
+                        <li key={index} style={{ marginLeft: `${(heading.level - 2) * 0.75}rem` }}>
+                          <a
+                            href={`#${heading.id}`}
+                            className="font-body text-sm"
+                            style={{ color: '#a0a09a' }}
+                          >
+                            {heading.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </details>
+              )}
+
+              {/* Category Badge & Meta */}
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                {categoryTitle && (
+                  <span 
+                    className="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider"
+                    style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}
+                  >
+                    {categoryTitle}
+                  </span>
+                )}
+                {post.difficulty && (
+                  <span
+                    className="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider"
+                    style={{
+                      backgroundColor: `${getDifficultyColor(post.difficulty)}20`,
+                      color: getDifficultyColor(post.difficulty),
+                      border: `1px solid ${getDifficultyColor(post.difficulty)}`
+                    }}
+                  >
+                    {getDifficultyLabel(post.difficulty)}
+                  </span>
+                )}
+                {post.read_time && (
+                  <span className="font-body text-sm" style={{ color: '#a0a09a' }}>
+                    {post.read_time} min read
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h1 className="font-display font-bold text-white mb-4 leading-tight" style={{ fontSize: '2.5rem' }}>
+                {post.title}
+              </h1>
+
+              {publishedDate && (
+                <p className="font-body text-sm mb-8" style={{ color: '#1D9E75' }}>
+                  {publishedDate}
+                </p>
+              )}
+
+              {/* At-a-Glance Box */}
+              {post.at_a_glance && (
+                <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
+                  <h2 className="font-display font-bold text-white text-lg mb-3">At a Glance</h2>
+                  <div className="font-body text-base leading-relaxed" style={{ color: '#c8c8c2' }}>
+                    <RichText data={post.at_a_glance as any} enableGutter={false} enableProse={false} />
+                  </div>
+                </div>
+              )}
+
+              <hr className="mb-8" style={{ borderColor: '#3a3a38' }} />
+
+              {/* Main Content Body */}
+              <div className="blog-content">
+                {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
+              </div>
+
+              {/* CTA Block - After Content */}
+              {post.cta_label && post.cta_url && (
+                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
+                  <h3 className="font-display font-bold text-white text-xl mb-4">
+                    Ready to Get Started?
+                  </h3>
+                  <Link
+                    href={post.cta_url}
+                    className="inline-block px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: '#1C1B18' }}
+                  >
+                    {post.cta_label}
+                  </Link>
+                </div>
+              )}
+
+              {/* Risk Table */}
+              {post.risk_table && post.risk_table.length > 0 && (
+                <div className="mt-12">
+                  <h2 className="font-display font-bold text-white text-2xl mb-6" style={{ color: '#1D9E75' }}>
+                    Risk Assessment Table
+                  </h2>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse rounded-lg overflow-hidden" style={{ borderColor: '#3a3a38' }}>
+                      <thead>
+                        <tr style={{ backgroundColor: '#2c2c2a' }}>
+                          <th className="p-4 text-left font-display font-bold text-white border" style={{ borderColor: '#3a3a38' }}>Risk Level</th>
+                          <th className="p-4 text-left font-display font-bold text-white border" style={{ borderColor: '#3a3a38' }}>Description</th>
+                          <th className="p-4 text-left font-display font-bold text-white border" style={{ borderColor: '#3a3a38' }}>Scope</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {post.risk_table.map((risk: any, index: number) => {
+                          const levelColor = risk.level?.toLowerCase() === 'high' ? '#ef4444' 
+                            : risk.level?.toLowerCase() === 'medium' ? '#f59e0b' 
+                            : '#22c55e'
+                          return (
+                            <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#2c2c2a' : '#1a1a18' }}>
+                              <td className="p-4 font-body text-sm border" style={{ borderColor: '#3a3a38' }}>
+                                <span 
+                                  className="inline-block px-2 py-1 rounded text-xs font-medium uppercase"
+                                  style={{ backgroundColor: `${levelColor}20`, color: levelColor }}
+                                >
+                                  {risk.level}
+                                </span>
+                              </td>
+                              <td className="p-4 font-body text-sm border" style={{ borderColor: '#3a3a38', color: '#c8c8c2' }}>
+                                {risk.description}
+                              </td>
+                              <td className="p-4 font-body text-sm border" style={{ borderColor: '#3a3a38', color: '#c8c8c2' }}>
+                                {risk.country || 'All contexts'}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* FAQ Section */}
+              {post.faq && post.faq.length > 0 && (
+                <div className="mt-12">
+                  <h2 className="font-display font-bold text-white text-2xl mb-6" style={{ color: '#1D9E75' }}>
+                    Frequently Asked Questions
+                  </h2>
+                  <div className="space-y-4">
+                    {post.faq.map((item: any, index: number) => (
+                      <details
+                        key={index}
+                        className="p-6 rounded-lg cursor-pointer group"
+                        style={{ backgroundColor: '#2c2c2a' }}
+                      >
+                        <summary className="font-display font-bold text-white text-lg mb-0 list-none flex justify-between items-center">
+                          {item.question}
+                          <span className="text-xl transition-transform group-open:rotate-180" style={{ color: '#FF5C00' }}>▼</span>
+                        </summary>
+                        <div className="mt-4 font-body text-base leading-relaxed" style={{ color: '#c8c8c2' }}>
+                          {item.answer}
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* CTA Block - Final */}
+              {post.cta_label && post.cta_url && (
+                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
+                  <h3 className="font-display font-bold text-white text-xl mb-4">
+                    Need Help With Compliance?
+                  </h3>
+                  <Link
+                    href={post.cta_url}
+                    className="inline-block w-full md:w-auto px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: '#1C1B18' }}
+                  >
+                    {post.cta_label}
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
-          <p className="mt-4 font-body text-sm" style={{ color: '#a0a09a' }}>
-            <Link href="/knowledge-hub" className="transition-colors hover:opacity-80" style={{ color: '#1D9E75' }}>
-              Browse all 108 compliance guides →
-            </Link>
-          </p>
-        </aside>
+        </div>
       </div>
-    </article>
+
+      <style jsx global>{`
+        .blog-content {
+          font-family: var(--font-dm-sans), sans-serif;
+          font-size: 16px;
+          line-height: 1.7;
+          color: #c8c8c2;
+        }
+        .blog-content h2 {
+          font-family: var(--font-play), sans-serif;
+          font-weight: 700;
+          font-size: 1.75rem;
+          color: #1D9E75;
+          margin-top: 2.5rem;
+          margin-bottom: 1rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid #3a3a38;
+        }
+        .blog-content h3 {
+          font-family: var(--font-play), sans-serif;
+          font-weight: 700;
+          font-size: 1.25rem;
+          color: #ffffff;
+          margin-top: 2rem;
+          margin-bottom: 0.75rem;
+        }
+        .blog-content p {
+          margin-bottom: 1.5rem;
+        }
+        .blog-content img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          display: block;
+          margin: 2rem auto;
+        }
+        .blog-content ul, .blog-content ol {
+          margin-bottom: 1.5rem;
+          padding-left: 1.5rem;
+        }
+        .blog-content li {
+          margin-bottom: 0.5rem;
+        }
+        .blog-content a {
+          color: #1D9E75;
+          text-decoration: none;
+        }
+        .blog-content a:hover {
+          text-decoration: underline;
+        }
+        .blog-content blockquote {
+          border-left: 4px solid #FF5C00;
+          padding-left: 1rem;
+          margin: 1.5rem 0;
+          color: #a0a09a;
+          font-style: italic;
+        }
+        .blog-content strong {
+          color: #ffffff;
+          font-weight: 600;
+        }
+      `}</style>
+    </>
   )
 }
 
@@ -180,6 +442,25 @@ const queryPost = cache(async ({ slug }: { slug: string }): Promise<Post | null>
     overrideAccess: draft,
     pagination: false,
     where: { slug: { equals: slug } },
+    select: {
+      title: true,
+      slug: true,
+      content: true,
+      heroImage: true,
+      categories: true,
+      meta: true,
+      publishedAt: true,
+      createdAt: true,
+      updatedAt: true,
+      at_a_glance: true,
+      toc_enabled: true,
+      difficulty: true,
+      read_time: true,
+      risk_table: true,
+      faq: true,
+      cta_label: true,
+      cta_url: true,
+    },
   })
   return result.docs?.[0] || null
 })
