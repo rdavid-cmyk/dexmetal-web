@@ -124,21 +124,7 @@ export default async function BlogSlugPage({ params }: Args) {
       )}
 
       <div className="min-h-screen" style={{ backgroundColor: '#1C1B18' }}>
-        {/* Hero Section */}
-        <div className="relative">
-          {post.heroImage && typeof post.heroImage === 'object' && (
-            <div className="w-full h-[400px] md:h-[500px] overflow-hidden">
-              <Media
-                resource={post.heroImage as MediaType}
-                imgClassName="w-full h-full object-cover"
-                pictureClassName="block w-full h-full"
-              />
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1B18] via-[#1C1B18]/60 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sticky TOC Sidebar - Desktop */}
             {headings.length > 0 && (
