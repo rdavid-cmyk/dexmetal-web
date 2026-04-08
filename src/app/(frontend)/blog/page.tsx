@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Media } from '@/components/Media'
 import type { Category, Media as MediaType } from '@/payload-types'
 
+export const revalidate = 60
+
 export const metadata = {
   title: 'Blog | DexMetal',
   description:

@@ -71,6 +71,8 @@ function getRelatedKhPages(post: Post): { slug: string; label: string }[] {
 
 type Args = { params: Promise<{ slug: string }> }
 
+export const revalidate = 60
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
