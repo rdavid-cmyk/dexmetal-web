@@ -238,7 +238,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {post.read_time && (
                 <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
                   <p className="font-display font-bold text-white text-lg">
-                    {post.read_time ? `Reading Time: ${post.read_time} minutes` : ''}
+                    {post.read_time ? `Episode 1 – E-Waste Opportunity Series | Reading Time: ${post.read_time} minutes` : ''}
                   </p>
                 </div>
               )}
