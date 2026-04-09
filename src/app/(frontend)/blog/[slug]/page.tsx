@@ -238,7 +238,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {post.read_time && (
                 <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
                   <p className="font-display font-bold text-white text-lg">
-                    {post.read_time ? `Episode 1 – E-Waste Opportunity Series | Reading Time: ${post.read_time} minutes` : ''}
+                    {post.read_time ? `Reading Time: ${post.read_time} minutes` : ''}
                   </p>
                 </div>
               )}
@@ -400,5 +400,8 @@ const queryPost = cache(async ({ slug }: { slug: string }): Promise<Post | null>
       cta_url: true,
     },
   })
-  return result.docs?.[0] || null
+  const post = result.docs?.[0]
+  if (post && !post.cta_label) post.cta_label = 'Check Your Compliance Status'
+  if (post && !post.cta_url) post.cta_url = '/checklist'
+  return post
 })
