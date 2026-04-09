@@ -101,15 +101,18 @@ export default function ContactPage() {
           </h2>
           <div className="space-y-3 font-body text-sm" style={{ color: '#a0a09a' }}>
             <p>
+              <span className="text-white font-medium">Location:</span>{' '}
+              Laurel MD 20707
+            </p>
+            <p>
               <span className="text-white font-medium">Email:</span>{' '}
               <a href="mailto:info@dexmetal.com" className="transition-colors hover:opacity-80" style={{ color: '#1D9E75' }}>
                 info@dexmetal.com
               </a>
             </p>
             <p>
-            </p>
-            <p>
-              <span className="text-white font-medium">Company:</span> DexMetal LLC
+              <span className="text-white font-medium">Company:</span>{' '}
+              DexMetal LLC
             </p>
           </div>
         </section>
