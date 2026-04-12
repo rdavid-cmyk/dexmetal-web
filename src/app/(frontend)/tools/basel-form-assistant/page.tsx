@@ -1,6 +1,45 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import JSZip from 'jszip'
+
+interface SupportingDoc {
+  id: number
+  name: string
+  blocks: number[]
+  mandatory: boolean
+}
+
+const SUPPORTING_DOCS: SupportingDoc[] = [
+  { id: 1, name: "Exporter/Notifier Registration Certificate", blocks: [1], mandatory: true },
+  { id: 2, name: "Consignee/Importer Authorization", blocks: [2], mandatory: true },
+  { id: 3, name: "Facility Pre-Authorization / Permit", blocks: [7], mandatory: true },
+  { id: 4, name: "Waste Generator Declaration", blocks: [6], mandatory: true },
+  { id: 5, name: "Carrier Authorization(s)", blocks: [5], mandatory: true },
+  { id: 6, name: "Waste Composition Analysis Report", blocks: [14, 16], mandatory: true },
+  { id: 7, name: "Packaging Declaration", blocks: [12], mandatory: true },
+  { id: 8, name: "UN Dangerous Goods Declaration", blocks: [13, 14], mandatory: false },
+  { id: 9, name: "Financial Guarantee / Insurance Certificate", blocks: [15], mandatory: true },
+  { id: 10, name: "Contract between Notifier and Facility", blocks: [7], mandatory: true },
+  { id: 11, name: "Customs Broker Authorization", blocks: [16], mandatory: false },
+  { id: 12, name: "Basel Y-Code Classification Worksheet", blocks: [14], mandatory: true },
+  { id: 13, name: "Physical Characteristics Statement", blocks: [13], mandatory: true },
+  { id: 14, name: "Process Description (Waste Generation)", blocks: [15], mandatory: true },
+  { id: 15, name: "Non-Hazardous Declaration", blocks: [14], mandatory: false },
+  { id: 16, name: "Import Country CA Consent Letter", blocks: [20], mandatory: true },
+  { id: 17, name: "Export Country CA Acknowledgement", blocks: [8], mandatory: true },
+  { id: 18, name: "Transit Country CA Consent(s)", blocks: [10], mandatory: false },
+  { id: 19, name: "Movement Document (pre-prepared)", blocks: [11], mandatory: true },
+  { id: 20, name: "Pre-Shipment Inspection Certificate", blocks: [5, 12], mandatory: false },
+  { id: 21, name: "Port of Loading Documentation", blocks: [11], mandatory: false },
+  { id: 22, name: "Port of Discharge Documentation", blocks: [11], mandatory: false },
+  { id: 23, name: "IATA/IMDG Compliance Certificate", blocks: [13], mandatory: false },
+  { id: 24, name: "Deed of Indemnity", blocks: [7], mandatory: false },
+  { id: 25, name: "EMA / National CA Pre-Approval (T&T)", blocks: [8], mandatory: false },
+  { id: 26, name: "Waste Testing / Characterization Report", blocks: [14, 16], mandatory: true },
+  { id: 27, name: "Compliance Checklist (self-certification)", blocks: [18], mandatory: true },
+  { id: 28, name: "Correspondence Log", blocks: [], mandatory: true }
+]
 
 interface Block {
   number: number
@@ -146,7 +185,7 @@ function getFormNumber(val: string | string[] | boolean | number | null | undefi
 }
 
 export default function BaselFormAssistantPage() {
-  const [activeTab, setActiveTab] = useState<'reference' | 'fill'>('reference')
+  const [activeTab, setActiveTab] = useState<'reference' | 'fill' | 'submission'>('reference')
   const [selectedDoc, setSelectedDoc] = useState<'notification' | 'movement'>('notification')
   const [currentStep, setCurrentStep] = useState(0)
   const [formData, setFormData] = useState<FormData>({})
@@ -158,6 +197,14 @@ export default function BaselFormAssistantPage() {
   const [syncMessage, setSyncMessage] = useState<string | null>(null)
   const [cloudSaveMessage, setCloudSaveMessage] = useState<string | null>(null)
   const movementFileInputRef = useRef<HTMLInputElement>(null)
+
+  interface DocState {
+    file: File | null
+    fileName: string
+    confirmed: boolean
+  }
+  const [docStates, setDocStates] = useState<Record<number, DocState>>({})
+  const submissionFileInputRef = useRef<HTMLInputElement>(null)
 
   const blocks = NOTIFICATION_BLOCKS
   const movementBlocks = MOVEMENT_BLOCKS
@@ -217,6 +264,71 @@ export default function BaselFormAssistantPage() {
       JSON.stringify({ formData: movementFormData, currentStep: movementStep }),
     )
   }, [movementFormData, movementStep])
+
+  useEffect(() => {
+    const savedDocs = localStorage.getItem('dexmetal_submission_docs')
+    if (savedDocs) {
+      try {
+        const parsed = JSON.parse(savedDocs)
+        setDocStates(parsed)
+      } catch {}
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('dexmetal_submission_docs', JSON.stringify(docStates))
+  }, [docStates])
+
+  const handleDocUpload = (docId: number, file: File | null) => {
+    setDocStates(prev => ({
+      ...prev,
+      [docId]: {
+        ...prev[docId],
+        file,
+        fileName: file?.name || '',
+      }
+    }))
+  }
+
+  const handleDocConfirm = (docId: number, confirmed: boolean) => {
+    setDocStates(prev => ({
+      ...prev,
+      [docId]: {
+        ...prev[docId],
+        confirmed
+      }
+    }))
+  }
+
+  const handleDownloadPackage = async () => {
+    const zip = new JSZip()
+    let hasFiles = false
+    
+    for (const doc of SUPPORTING_DOCS) {
+      const state = docStates[doc.id]
+      if (state?.file) {
+        const arrayBuffer = await state.file.arrayBuffer()
+        zip.file(state.fileName, arrayBuffer)
+        hasFiles = true
+      }
+    }
+    
+    if (!hasFiles) {
+      alert('No files uploaded to include in the package.')
+      return
+    }
+    
+    const blob = await zip.generateAsync({ type: 'blob' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    const today = new Date().toISOString().split('T')[0]
+    a.href = url
+    a.download = `basel_submission_package_${today}.zip`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
 
   const handleInputChange = (field: string, value: string | string[] | boolean | number | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -846,6 +958,7 @@ const handleGeneratePDF = async () => {
           <div className="flex gap-4 mb-8 border-b" style={{ borderColor: '#e5e5e0' }}>
             <button onClick={() => setActiveTab('reference')} className="px-4 py-2 font-display font-bold border-b-2" style={{ borderColor: '#FF5C00', color: '#FF5C00' }}>Reference</button>
             <button onClick={() => setActiveTab('fill')} className="px-4 py-2 font-display font-bold" style={{ color: '#999990' }}>Fill Form</button>
+            <button onClick={() => setActiveTab('submission')} className="px-4 py-2 font-display font-bold" style={{ color: '#999990' }}>Submission Package</button>
           </div>
           <div className="space-y-4">
             {NOTIFICATION_BLOCKS.map((block) => (
@@ -870,6 +983,100 @@ const handleGeneratePDF = async () => {
     return renderMovementForm()
   }
 
+  if (activeTab === 'submission') {
+    const mandatoryDocs = SUPPORTING_DOCS.filter(d => d.mandatory)
+    const completedMandatory = mandatoryDocs.filter(d => docStates[d.id]?.file || docStates[d.id]?.confirmed).length
+    const mandatoryRemaining = mandatoryDocs.length - completedMandatory
+    const totalComplete = SUPPORTING_DOCS.filter(d => docStates[d.id]?.file || docStates[d.id]?.confirmed).length
+    const progressPercent = Math.round((completedMandatory / mandatoryDocs.length) * 100)
+    const canDownload = mandatoryRemaining === 0
+
+    const handleFileUpload = (docId: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) {
+        if (file.size > 10 * 1024 * 1024) {
+          alert('File size must be under 10MB')
+          return
+        }
+        handleDocUpload(docId, file)
+      }
+    }
+
+    return (
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Submission Package</h1>
+          <p className="text-lg mb-6" style={{ color: '#666660' }}>Track and upload all 28 required supporting documents for your Basel notification.</p>
+          {DISCLAIMER_BANNER}
+          <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e0' }}>
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-display font-bold" style={{ color: '#1a1a1a' }}>{completedMandatory} of {mandatoryDocs.length} mandatory documents complete</span>
+              <span className="font-display font-bold" style={{ color: progressPercent === 100 ? '#1D9E75' : '#FF5C00' }}>{progressPercent}%</span>
+            </div>
+            <div className="w-full h-3 rounded-full" style={{ backgroundColor: '#e5e5e0' }}>
+              <div className="h-3 rounded-full transition-all" style={{ width: `${progressPercent}%`, backgroundColor: progressPercent === 100 ? '#1D9E75' : '#FF5C00' }} />
+            </div>
+            {mandatoryRemaining > 0 && (
+              <p className="mt-2 text-sm" style={{ color: '#666660' }}>{mandatoryRemaining} mandatory document(s) remaining</p>
+            )}
+            {canDownload && (
+              <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: '#e8f4f0', border: '1px solid #1D9E75' }}>
+                <p className="font-display font-bold" style={{ color: '#1D9E75' }}>All mandatory documents completed! You can now download your submission package.</p>
+              </div>
+            )}
+          </div>
+          <div className="space-y-3">
+            {SUPPORTING_DOCS.map(doc => {
+              const state = docStates[doc.id] || {}
+              const isComplete = !!state.file || state.confirmed
+              return (
+                <div key={doc.id} className="p-4 rounded-lg flex items-center justify-between" style={{ backgroundColor: '#ffffff', border: `1px solid ${isComplete ? '#1D9E75' : '#e5e5e0'}` }}>
+                  <div className="flex items-center gap-3">
+                    <span className="font-display font-bold text-sm" style={{ color: '#1a1a1a', minWidth: '24px' }}>{doc.id}.</span>
+                    <div>
+                      <span className="font-display font-bold" style={{ color: '#1a1a1a' }}>{doc.name}</span>
+                      {doc.blocks.length > 0 && (
+                        <div className="flex gap-1 mt-1">
+                          {doc.blocks.map(b => (
+                            <span key={b} className="px-2 py-0.5 rounded text-xs" style={{ backgroundColor: '#f5f5f0', color: '#666660' }}>Block {b}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-1 rounded text-xs font-bold ${doc.mandatory ? '' : 'optional-badge'}`} style={doc.mandatory ? { backgroundColor: '#FF5C00', color: '#ffffff' } : { backgroundColor: '#2c2c2a', color: '#a0a09a' }}>{doc.mandatory ? 'MANDATORY' : 'OPTIONAL'}</span>
+                    <input
+                      type="file"
+                      ref={submissionFileInputRef}
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={handleFileUpload(doc.id)}
+                      style={{ display: 'none' }}
+                    />
+                    <button onClick={() => submissionFileInputRef.current?.click()} className="px-3 py-1 rounded text-sm font-display" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Upload</button>
+                    {state.file && (
+                      <span className="text-sm flex items-center gap-1" style={{ color: '#1D9E75' }}>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                        {state.fileName}
+                      </span>
+                    )}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={state.confirmed || false} onChange={(e) => handleDocConfirm(doc.id, e.target.checked)} className="w-4 h-4" style={{ accentColor: '#1D9E75' }} />
+                      <span className="text-sm" style={{ color: state.confirmed ? '#1D9E75' : '#666660' }}>{state.confirmed ? 'Confirmed' : 'Confirm'}</span>
+                    </label>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <div className="mt-6 flex justify-end">
+            <button onClick={handleDownloadPackage} disabled={!canDownload} className="px-6 py-3 rounded-lg font-display font-bold transition-all disabled:opacity-50" style={{ backgroundColor: canDownload ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Download Submission Package</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
       <div className="max-w-5xl mx-auto">
@@ -883,6 +1090,7 @@ const handleGeneratePDF = async () => {
         <div className="flex gap-4 mb-6 border-b" style={{ borderColor: '#e5e5e0' }}>
           <button onClick={() => { setActiveTab('reference'); setSelectedDoc('notification'); }} className="px-4 py-2 font-display font-bold border-b-2" style={{ borderColor: '#FF5C00', color: '#FF5C00' }}>Reference</button>
           <button onClick={() => setActiveTab('fill')} className="px-4 py-2 font-display font-bold border-b-2" style={{ borderColor: '#1D9E75', color: '#1D9E75' }}>Smart Form</button>
+          <button onClick={() => setActiveTab('submission')} className="px-4 py-2 font-display font-bold" style={{ color: '#999990' }}>Submission Package</button>
         </div>
         <div className="mb-4 flex gap-2">
           <button onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
