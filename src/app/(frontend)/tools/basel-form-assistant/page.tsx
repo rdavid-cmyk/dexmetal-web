@@ -156,6 +156,7 @@ export default function BaselFormAssistantPage() {
   const [movementFormData, setMovementFormData] = useState<FormData>({})
   const [movementStep, setMovementStep] = useState(0)
   const [syncMessage, setSyncMessage] = useState<string | null>(null)
+  const [cloudSaveMessage, setCloudSaveMessage] = useState<string | null>(null)
   const movementFileInputRef = useRef<HTMLInputElement>(null)
 
   const blocks = NOTIFICATION_BLOCKS
@@ -172,6 +173,23 @@ export default function BaselFormAssistantPage() {
         setIsEuRoute(parsed.isEuRoute || false)
         setCurrentStep(parsed.currentStep || 0)
       } catch {}
+    }
+    
+    // Load project from URL ?project=<id> param
+    const projectId = new URLSearchParams(window.location.search).get('project')
+    if (projectId) {
+      fetch(`/api/form-projects?id=${projectId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.id) {
+            setFormData(data.notification_data || {})
+            setMovementFormData(data.movement_data || {})
+            setIsEuRoute(data.is_eu_route || false)
+            localStorage.setItem('dexmetal_project_id', data.id)
+            setCloudSaveMessage(`Project loaded: https://dexmetal.com/tools/basel-form-assistant?project=${data.id}`)
+          }
+        })
+        .catch(console.error)
     }
   }, [])
 
@@ -230,6 +248,16 @@ export default function BaselFormAssistantPage() {
     if (currentStep < totalSteps - 1) {
       setCurrentStep((prev) => prev + 1)
     }
+    
+    // Auto-patch to cloud
+    const projectId = localStorage.getItem('dexmetal_project_id')
+    if (projectId) {
+      fetch(`/api/form-projects/${projectId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notification_data: formData, movement_data: movementFormData })
+      }).catch(console.error)
+    }
   }
 
   const handlePrev = () => {
@@ -258,6 +286,45 @@ export default function BaselFormAssistantPage() {
   const handleMovementSaveProgress = () => {
     localStorage.setItem('dexmetal_movement_form', JSON.stringify({ formData: movementFormData, currentStep: movementStep }))
     alert('Movement form progress saved!')
+  }
+
+  const handleSaveToCloud = async () => {
+    try {
+      const projectId = localStorage.getItem('dexmetal_project_id')
+      if (projectId) {
+        // PATCH
+        const res = await fetch(`/api/form-projects/${projectId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notification_data: formData, movement_data: movementFormData })
+        })
+        const data = await res.json()
+        if (data.id) setCloudSaveMessage(`Saved: https://dexmetal.com/tools/basel-form-assistant?project=${data.id}`)
+        else setCloudSaveMessage('Save failed')
+      } else {
+        // POST new
+        const res = await fetch('/api/form-projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            notification_data: formData,
+            movement_data: movementFormData,
+            export_country_iso: String(formData.block1_country || '').slice(0, 2).toUpperCase() || null,
+            import_country_iso: String(formData.block2_country || '').slice(0, 2).toUpperCase() || null,
+            is_eu_route: isEuRoute
+          })
+        })
+        const data = await res.json()
+        if (data.id) {
+          localStorage.setItem('dexmetal_project_id', data.id)
+          setCloudSaveMessage(`Saved: https://dexmetal.com/tools/basel-form-assistant?project=${data.id}`)
+        } else {
+          setCloudSaveMessage('Save failed')
+        }
+      }
+    } catch (e: any) {
+      setCloudSaveMessage('Save failed: ' + e.message)
+    }
   }
 
   const handleSyncFromNotification = () => {
@@ -820,6 +887,7 @@ const handleGeneratePDF = async () => {
         <div className="mb-4 flex gap-2">
           <button onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
           <button onClick={handleSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
+          <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save to Cloud</button>
           <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
           <button onClick={handleLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load JSON</button>
           <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept=".json" style={{ display: 'none' }} />
