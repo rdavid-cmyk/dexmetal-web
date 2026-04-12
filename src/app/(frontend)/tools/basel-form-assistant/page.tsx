@@ -9,6 +9,7 @@ interface Block {
   slug: string
   hasLearnMore?: boolean
   isReserved?: boolean
+  isSynced?: boolean
 }
 
 const NOTIFICATION_BLOCKS: Block[] = [
@@ -35,6 +36,28 @@ const NOTIFICATION_BLOCKS: Block[] = [
   { number: 21, title: 'Reserved for Competent Authority', description: 'For official use only', slug: '', isReserved: true },
 ]
 
+const MOVEMENT_BLOCKS: Block[] = [
+  { number: 1, title: 'Corresponding notification + serial/total', description: 'Notification number and shipment serial', slug: 'notification-serial' },
+  { number: 2, title: 'Actual quantity of waste', description: 'Actual quantity shipped (may differ from notification)', slug: 'actual-quantity' },
+  { number: 3, title: 'Exporter – Notifier', description: 'Name, address, contact (synced from Notification)', slug: 'exporter-notifier-synced', isSynced: true },
+  { number: 4, title: 'Importer – Consignee', description: 'Name, address, contact (synced from Notification)', slug: 'importer-consignee-synced', isSynced: true },
+  { number: 5, title: 'Date of shipment', description: 'Actual date of shipment', slug: 'shipment-date' },
+  { number: 6, title: 'Packaging + number of packages', description: 'Packaging type and count', slug: 'packaging' },
+  { number: 7, title: 'Carrier(s)', description: 'Carrier details', slug: 'carriers' },
+  { number: 8, title: 'Waste generator(s)', description: 'Generator info (synced from Notification)', slug: 'generator-synced', isSynced: true },
+  { number: 9, title: 'Disposal/recovery facility', description: 'Facility details (synced from Notification)', slug: 'facility-synced', isSynced: true },
+  { number: 10, title: 'Disposal/recovery operation', description: 'Operation code (synced from Notification)', slug: 'operation-synced', isSynced: true },
+  { number: 11, title: 'Designation and composition', description: 'Waste designation (synced from Notification)', slug: 'designation-synced', isSynced: true },
+  { number: 12, title: 'Physical characteristics', description: 'Physical form (synced from Notification)', slug: 'physical-synced', isSynced: true },
+  { number: 13, title: 'Waste identification codes', description: 'Waste codes (synced from Notification)', slug: 'codes-synced', isSynced: true },
+  { number: 14, title: 'Countries concerned', description: 'Export, transit, import countries', slug: 'countries' },
+  { number: 15, title: 'Exporter/generator declaration', description: 'Declaration by exporter/generator', slug: 'exporter-declaration' },
+  { number: 16, title: 'Additional information', description: 'Additional info for those involved', slug: 'additional-info' },
+  { number: 17, title: 'Received by importer', description: 'Shipment received by importer/consignee', slug: 'received-importer', isReserved: true },
+  { number: 18, title: 'Received at facility', description: 'Shipment received at disposal/recovery facility', slug: 'received-facility', isReserved: true },
+  { number: 19, title: 'Disposal/recovery certification', description: 'Certification of completion by facility', slug: 'certification', isReserved: true },
+]
+
 const SHIPMENT_TYPES = [{ value: 'single', label: 'Single' }, { value: 'multiple', label: 'Multiple' }]
 const OPERATION_TYPES = [{ value: 'disposal', label: 'Disposal' }, { value: 'recovery', label: 'Recovery' }]
 const PHYSICAL_FORMS = [{ value: 'solid', label: 'Solid' }, { value: 'liquid', label: 'Liquid' }, { value: 'sludge', label: 'Sludge' }, { value: 'gas', label: 'Gas' }, { value: 'powder', label: 'Powder' }, { value: 'other', label: 'Other' }]
@@ -44,7 +67,7 @@ const DISPOSAL_CODES = [{ value: 'D1', label: 'D1 - Controlled landfill' }, { va
 const RECOVERY_CODES = [{ value: 'R1', label: 'R1 - Use as fuel' }, { value: 'R2', label: 'R2 - Solvent reclamation' }, { value: 'R3', label: 'R3 - Recycling/reclamation of organics' }, { value: 'R4', label: 'R4 - Recycling/reclamation of metals' }, { value: 'R5', label: 'R5 - Recycling/reclamation of inorganics' }, { value: 'R6', label: 'R6 - Regeneration of acids/bases' }, { value: 'R7', label: 'R7 - Recovery of components' }, { value: 'R8', label: 'R8 - Recovery of catalysts' }, { value: 'R9', label: 'R9 - Re-refining used oil' }, { value: 'R10', label: 'R10 - Land treatment' }, { value: 'R11', label: 'R11 - Uses of waste' }, { value: 'R12', label: 'R12 - Waste exchange' }, { value: 'R13', label: 'R13 - Accumulation of R1-R12' }]
 
 interface FormData {
-  [key: string]: string | string[] | boolean
+  [key: string]: string | string[] | boolean | number | null
 }
 
 const SAMPLE_DATA: FormData = {
@@ -109,6 +132,19 @@ const DISCLAIMER_BANNER = (
   </div>
 )
 
+function getFormString(val: string | string[] | boolean | number | null | undefined, fallback = ''): string {
+  if (typeof val === 'string') return val
+  if (typeof val === 'number') return String(val)
+  if (typeof val === 'boolean') return String(val)
+  return fallback
+}
+
+function getFormNumber(val: string | string[] | boolean | number | null | undefined): number {
+  if (typeof val === 'number') return val
+  if (typeof val === 'string') return parseFloat(val) || 0
+  return 0
+}
+
 export default function BaselFormAssistantPage() {
   const [activeTab, setActiveTab] = useState<'reference' | 'fill'>('reference')
   const [selectedDoc, setSelectedDoc] = useState<'notification' | 'movement'>('notification')
@@ -116,9 +152,16 @@ export default function BaselFormAssistantPage() {
   const [formData, setFormData] = useState<FormData>({})
   const [isEuRoute, setIsEuRoute] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  const [movementFormData, setMovementFormData] = useState<FormData>({})
+  const [movementStep, setMovementStep] = useState(0)
+  const [syncMessage, setSyncMessage] = useState<string | null>(null)
+  const movementFileInputRef = useRef<HTMLInputElement>(null)
 
   const blocks = NOTIFICATION_BLOCKS
+  const movementBlocks = MOVEMENT_BLOCKS
   const totalSteps = 21
+  const movementTotalSteps = 19
 
   useEffect(() => {
     const saved = localStorage.getItem('basel_notification_form')
@@ -133,14 +176,36 @@ export default function BaselFormAssistantPage() {
   }, [])
 
   useEffect(() => {
+    const saved = localStorage.getItem('dexmetal_movement_form')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        setMovementFormData(parsed.formData || {})
+        setMovementStep(parsed.currentStep || 0)
+      } catch {}
+    }
+  }, [])
+
+  useEffect(() => {
     localStorage.setItem(
       'basel_notification_form',
       JSON.stringify({ formData, isEuRoute, currentStep }),
     )
   }, [formData, isEuRoute, currentStep])
 
-  const handleInputChange = (field: string, value: string | string[] | boolean) => {
+  useEffect(() => {
+    localStorage.setItem(
+      'dexmetal_movement_form',
+      JSON.stringify({ formData: movementFormData, currentStep: movementStep }),
+    )
+  }, [movementFormData, movementStep])
+
+  const handleInputChange = (field: string, value: string | string[] | boolean | number | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleMovementInputChange = (field: string, value: string | string[] | boolean | number | null) => {
+    setMovementFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleCheckboxChange = (field: string, value: string, checked: boolean) => {
@@ -149,6 +214,15 @@ export default function BaselFormAssistantPage() {
       setFormData((prev) => ({ ...prev, [field]: [...current, value] }))
     } else {
       setFormData((prev) => ({ ...prev, [field]: current.filter((v: string) => v !== value) }))
+    }
+  }
+
+  const handleMovementCheckboxChange = (field: string, value: string, checked: boolean) => {
+    const current = (movementFormData[field] as string[]) || []
+    if (checked) {
+      setMovementFormData((prev) => ({ ...prev, [field]: [...current, value] }))
+    } else {
+      setMovementFormData((prev) => ({ ...prev, [field]: current.filter((v: string) => v !== value) }))
     }
   }
 
@@ -164,9 +238,89 @@ export default function BaselFormAssistantPage() {
     }
   }
 
+  const handleMovementNext = () => {
+    if (movementStep < movementTotalSteps - 1) {
+      setMovementStep((prev) => prev + 1)
+    }
+  }
+
+  const handleMovementPrev = () => {
+    if (movementStep > 0) {
+      setMovementStep((prev) => prev - 1)
+    }
+  }
+
   const handleSaveProgress = () => {
     localStorage.setItem('basel_notification_form', JSON.stringify({ formData, isEuRoute, currentStep }))
     alert('Progress saved!')
+  }
+
+  const handleMovementSaveProgress = () => {
+    localStorage.setItem('dexmetal_movement_form', JSON.stringify({ formData: movementFormData, currentStep: movementStep }))
+    alert('Movement form progress saved!')
+  }
+
+  const handleSyncFromNotification = () => {
+    const notificationData = localStorage.getItem('basel_notification_form')
+    if (!notificationData) {
+      setSyncMessage('No Notification data found. Complete the Notification form first.')
+      return
+    }
+    try {
+      const parsed = JSON.parse(notificationData)
+      const nf = parsed.formData || {}
+      const syncedData: FormData = {}
+      
+      syncedData['mv_block1_notification_no'] = (nf['block3_notification_no'] as string) || ''
+      syncedData['mv_block1_serial'] = '1'
+      syncedData['mv_block1_total'] = String(nf['block4_shipments'] || '1')
+      
+      syncedData['mv_block3_name'] = (nf['block1_name'] as string) || ''
+      syncedData['mv_block3_address'] = (nf['block1_address'] as string) || ''
+      syncedData['mv_block3_contact'] = (nf['block1_contact'] as string) || ''
+      syncedData['mv_block3_phone'] = (nf['block1_phone'] as string) || ''
+      syncedData['mv_block3_email'] = (nf['block1_email'] as string) || ''
+      
+      syncedData['mv_block4_name'] = (nf['block2_name'] as string) || ''
+      syncedData['mv_block4_address'] = (nf['block2_address'] as string) || ''
+      syncedData['mv_block4_contact'] = (nf['block2_contact'] as string) || ''
+      syncedData['mv_block4_phone'] = (nf['block2_phone'] as string) || ''
+      syncedData['mv_block4_email'] = (nf['block2_email'] as string) || ''
+      
+      syncedData['mv_block8_name'] = (nf['block9_name'] as string) || ''
+      syncedData['mv_block8_address'] = (nf['block9_address'] as string) || ''
+      syncedData['mv_block8_contact'] = (nf['block9_contact'] as string) || ''
+      syncedData['mv_block8_phone'] = (nf['block9_phone'] as string) || ''
+      
+      syncedData['mv_block9_name'] = (nf['block10_name'] as string) || ''
+      syncedData['mv_block9_address'] = (nf['block10_address'] as string) || ''
+      syncedData['mv_block9_permit'] = (nf['block10_permit'] as string) || ''
+      syncedData['mv_block9_contact'] = (nf['block10_contact'] as string) || ''
+      
+      syncedData['mv_block10_code'] = (nf['block11_code'] as string) || ''
+      
+      syncedData['mv_block11_description'] = (nf['block12_description'] as string) || ''
+      syncedData['mv_block11_composition'] = (nf['block12_composition'] as string) || ''
+      
+      syncedData['mv_block12_form'] = (nf['block13_form'] as string) || ''
+      
+      syncedData['mv_block13_basel'] = (nf['block14_basel'] as string) || ''
+      syncedData['mv_block13_oecd'] = (nf['block14_oecd'] as string) || ''
+      syncedData['mv_block13_eu'] = (nf['block14_eu'] as string) || ''
+      syncedData['mv_block13_un_class'] = (nf['block14_un_class'] as string) || ''
+      syncedData['mv_block13_un_number'] = (nf['block14_un_number'] as string) || ''
+      syncedData['mv_block13_y_code'] = (nf['block14_y_code'] as string) || ''
+      syncedData['mv_block13_h_code'] = (nf['block14_h_code'] as string) || ''
+      
+      syncedData['mv_block14_export'] = (nf['block15_export'] as string) || ''
+      syncedData['mv_block14_import'] = (nf['block15_import'] as string) || ''
+      syncedData['mv_block14_transit'] = (nf['block15_transit'] as string) || ''
+      
+      setMovementFormData((prev) => ({ ...prev, ...syncedData }))
+      setSyncMessage('Synced from Notification — review fields before submitting')
+    } catch {
+      setSyncMessage('Error syncing data. Please try again.')
+    }
   }
 
 const handleGeneratePDF = async () => {
@@ -248,6 +402,85 @@ const handleGeneratePDF = async () => {
       alert('Failed to generate PDF. Please try again.')
     }
   }
+  
+  const handleMovementPDF = async () => {
+    const saved = localStorage.getItem('dexmetal_movement_form')
+    if (!saved) {
+      alert('No movement form data found. Please fill out the form first.')
+      return
+    }
+
+    try {
+      const { formData: mfd } = JSON.parse(saved)
+      const notificationSaved = localStorage.getItem('basel_notification_form')
+      const nf = notificationSaved ? (JSON.parse(notificationSaved).formData || {}) : {}
+      
+      const transitList = ((mfd.mv_block14_transit as string) || '').split(',').filter(Boolean).map((c: string) => ({ country: c.trim(), ca_code: null, entry_point: null, exit_point: null }))
+      
+      const formProject = {
+        project: {
+          id: crypto.randomUUID(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          status: 'draft',
+          jurisdiction: {
+            export_country_iso: (nf.block1_country as string)?.slice(0, 2).toUpperCase() || 'TT',
+            import_country_iso: (nf.block2_country as string)?.slice(0, 2).toUpperCase() || 'US',
+            transit_country_isos: ((mfd.mv_block14_transit as string) || '').split(',').filter(Boolean).map((c: string) => c.trim().slice(0, 2).toUpperCase()),
+            is_eu_route: false
+          }
+        },
+        notification: null,
+        movement: {
+          block_1: { notification_no: mfd.mv_block1_notification_no || null, serial_number: parseInt(String(mfd.mv_block1_serial)) || 1, total_shipments: parseInt(String(mfd.mv_block1_total)) || 1 },
+          block_3: { registration_no: '', name: mfd.mv_block3_name || '', address: mfd.mv_block3_address || '', contact_person: mfd.mv_block3_contact || '', tel: mfd.mv_block3_phone || '', fax: null, email: mfd.mv_block3_email || '' },
+          block_4: { registration_no: '', name: mfd.mv_block4_name || '', address: mfd.mv_block4_address || '', contact_person: mfd.mv_block4_contact || '', tel: mfd.mv_block4_phone || '', fax: null, email: mfd.mv_block4_email || '' },
+          block_5: { quantity_tonnes: parseFloat(String(mfd.mv_block2_quantity)) || null, quantity_cubic_metres: null },
+          block_6: { actual_date: mfd.mv_block5_date || '' },
+          block_7: { packaging_types: (mfd.mv_block6_packaging as string[]) || ['1'], number_of_packages: parseInt(String(mfd.mv_block6_packages)) || 1, special_handling_required: !!mfd.mv_block6_special, special_handling_detail: mfd.mv_block6_special || null },
+          block_8: { carrier_a: { registration_no: '', name: mfd.mv_block7_name || '', address: mfd.mv_block7_address || '', tel: mfd.mv_block7_phone || '', fax: null, email: null, means_of_transport: (mfd.mv_block7_transport as string)?.charAt(0).toUpperCase() || 'S', date_of_transfer: null }, carrier_b: null, carrier_c: null, more_than_3_carriers: false },
+          block_9: { same_as_block_1: false, generators: [{ registration_no: '', name: mfd.mv_block8_name || '', address: mfd.mv_block8_address || '', contact_person: mfd.mv_block8_contact || null, tel: mfd.mv_block8_phone || null, fax: null, email: null, site_and_process_of_generation: null }] },
+          block_10: { facility_type: (nf.block3_operation_type as string) || 'recovery', registration_no: mfd.mv_block9_permit || null, name: mfd.mv_block9_name || '', address: mfd.mv_block9_address || '', contact_person: mfd.mv_block9_contact || null, tel: '', fax: null, email: null, actual_site_if_different: null },
+          block_11: { operation_code: mfd.mv_block10_code || 'R4', technology_employed: '', reason_for_export: '' },
+          block_12: { common_name: mfd.mv_block11_description || '', major_constituents: mfd.mv_block11_composition || '', hazardous_constituents: null, chemical_analysis_attached: false },
+          block_13: { physical_characteristics: [mfd.mv_block12_form || '2'], physical_characteristics_other: null },
+          block_14: { i_basel_annex: mfd.mv_block13_basel || null, ii_oecd_code: mfd.mv_block13_oecd || null, iii_ec_list: mfd.mv_block13_eu || null, iv_national_export: null, v_national_import: null, vi_other: null, vii_y_code: mfd.mv_block13_y_code || null, viii_h_codes: mfd.mv_block13_h_code ? [mfd.mv_block13_h_code] : [], ix_un_class: mfd.mv_block13_un_class || null, x_un_number: mfd.mv_block13_un_number || null, xi_un_shipping_name: null, xii_customs_code_hs: null },
+          block_15: { name: mfd.mv_block15_name || '', date: mfd.mv_block15_date || '', signature_status: mfd.mv_block15_signed ? 'signed' : 'pending' },
+          block_16: { additional_info: mfd.mv_block16_info || null },
+          block_17: { date: null, name: null, signature_status: null },
+          block_18: { facility_type: null, date_of_reception: null, accepted: null, quantity_received_tonnes: null, quantity_received_cubic: null, approximate_date_of_disposal_recovery: null, disposal_recovery_operation_code: null, name: null, signature_status: null },
+          block_19: { certifier_name: null, date: null, signature_status: null }
+        },
+        supporting_documents: null,
+        validation: null,
+        meta: { schema_version: '1.0.0', exported_at: new Date().toISOString(), tool: 'DexMetal Basel Form Assistant' }
+      }
+
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formProject)
+      })
+
+      if (!response.ok) {
+        throw new Error('PDF generation failed')
+      }
+
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'basel_movement_draft.pdf'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('PDF generation error:', error)
+      alert('Failed to generate PDF. Please try again.')
+    }
+  }
+
   const handleDownloadProgress = () => {
     const data = { formData, isEuRoute, currentStep }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -262,8 +495,26 @@ const handleGeneratePDF = async () => {
     URL.revokeObjectURL(url)
   }
 
+  const handleMovementDownloadProgress = () => {
+    const data = { formData: movementFormData, currentStep: movementStep }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    const today = new Date().toISOString().split('T')[0]
+    a.href = url
+    a.download = `basel_movement_${today}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   const handleLoadProgressClick = () => {
     fileInputRef.current?.click()
+  }
+
+  const handleMovementLoadProgressClick = () => {
+    movementFileInputRef.current?.click()
   }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -289,10 +540,233 @@ const handleGeneratePDF = async () => {
     e.target.value = ''
   }
 
+  const handleMovementFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target?.result as string)
+        if (parsed.formData) {
+          setMovementFormData(parsed.formData)
+          setMovementStep(parsed.currentStep || 0)
+          alert('Movement form progress restored!')
+        } else {
+          alert('Invalid file — could not restore progress')
+        }
+      } catch {
+        alert('Invalid file — could not restore progress')
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+  }
+
   const handleLoadSampleData = () => {
     setFormData(SAMPLE_DATA)
     setIsEuRoute(false)
     setCurrentStep(0)
+  }
+
+  const renderMovementForm = () => {
+    const currentBlock = movementBlocks[movementStep]
+    const isReserved = currentBlock?.isReserved
+    const isSynced = currentBlock?.isSynced
+
+    return (
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Movement Document</h1>
+          <p className="text-lg mb-6" style={{ color: '#666660' }}>Complete the vCOP8 Movement Document fields below.</p>
+          {DISCLAIMER_BANNER}
+          
+          <div className="mb-4 flex gap-2 flex-wrap">
+            <button onClick={handleSyncFromNotification} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#FF5C00', color: '#ffffff' }}>Sync from Notification</button>
+            <button onClick={handleMovementSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
+            <button onClick={handleMovementDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
+            <button onClick={handleMovementLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load JSON</button>
+            <input type="file" ref={movementFileInputRef} onChange={handleMovementFileSelect} accept=".json" style={{ display: 'none' }} />
+          </div>
+
+          {syncMessage && (
+            <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: syncMessage.includes('Synced') ? '#e8f4f0' : '#fce8e8', border: `1px solid ${syncMessage.includes('Synced') ? '#1D9E75' : '#e53e3e'}` }}>
+              <p style={{ color: syncMessage.includes('Synced') ? '#1D9E75' : '#e53e3e', fontSize: '14px' }}>{syncMessage}</p>
+            </div>
+          )}
+
+          <div className="flex justify-between items-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e0' }}>
+            <button onClick={handleMovementPrev} disabled={movementStep === 0} className="px-4 py-2 rounded font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>← Prev</button>
+            <span className="font-display font-bold" style={{ color: '#1a1a1a' }}>Step {movementStep + 1} of {movementTotalSteps}: Block {currentBlock?.number}</span>
+            <button onClick={handleMovementNext} disabled={movementStep === movementTotalSteps - 1} className="px-4 py-2 rounded font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Next →</button>
+          </div>
+
+          <div className="p-6 rounded-lg mb-6" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e0' }}>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-block px-2 py-1 rounded text-sm font-bold" style={{ backgroundColor: '#FF5C00', color: '#ffffff' }}>Block {currentBlock?.number}</span>
+              {isSynced && <span className="px-2 py-1 rounded text-xs font-bold" style={{ backgroundColor: '#e8f4f0', color: '#1D9E75' }}>Synced</span>}
+            </div>
+            <h2 className="text-2xl font-display font-bold mb-4" style={{ color: '#1a1a1a' }}>{currentBlock?.title}</h2>
+            <p className="mb-6" style={{ color: '#666660' }}>{currentBlock?.description}</p>
+
+            {isReserved && (
+              <div className="p-4 rounded-lg" style={{ backgroundColor: '#f0f0e0', color: '#888880' }}>
+                <p className="font-bold">This section is reserved for the Competent Authority or facility.</p>
+                <p className="text-sm mt-1">Leave blank. The relevant party will complete this.</p>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 0 && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Notification Number</label>
+                  <input type="text" value={getFormString(movementFormData.mv_block1_notification_no)} onChange={(e) => handleMovementInputChange('mv_block1_notification_no', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., TT-2026-001" />
+                </div>
+                <div>
+                  <label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Serial Number</label>
+                  <input type="number" value={getFormNumber(movementFormData.mv_block1_serial) || 1} onChange={(e) => handleMovementInputChange('mv_block1_serial', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} min="1" />
+                </div>
+                <div>
+                  <label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Total Shipments</label>
+                  <input type="number" value={getFormNumber(movementFormData.mv_block1_total) || 1} onChange={(e) => handleMovementInputChange('mv_block1_total', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} min="1" />
+                </div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 1 && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Actual Quantity (tonnes)</label>
+                  <input type="number" step="0.01" value={getFormNumber(movementFormData.mv_block2_quantity) || ''} onChange={(e) => handleMovementInputChange('mv_block2_quantity', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., 24.5" />
+                </div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 2 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Name</label><input type="text" value={getFormString(movementFormData.mv_block3_name)} onChange={(e) => handleMovementInputChange('mv_block3_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Address</label><input type="text" value={getFormString(movementFormData.mv_block3_address)} onChange={(e) => handleMovementInputChange('mv_block3_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Contact Person</label><input type="text" value={getFormString(movementFormData.mv_block3_contact)} onChange={(e) => handleMovementInputChange('mv_block3_contact', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Phone</label><input type="text" value={getFormString(movementFormData.mv_block3_phone)} onChange={(e) => handleMovementInputChange('mv_block3_phone', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Email</label><input type="email" value={getFormString(movementFormData.mv_block3_email)} onChange={(e) => handleMovementInputChange('mv_block3_email', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 3 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Name</label><input type="text" value={getFormString(movementFormData.mv_block4_name)} onChange={(e) => handleMovementInputChange('mv_block4_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Address</label><input type="text" value={getFormString(movementFormData.mv_block4_address)} onChange={(e) => handleMovementInputChange('mv_block4_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Contact Person</label><input type="text" value={getFormString(movementFormData.mv_block4_contact)} onChange={(e) => handleMovementInputChange('mv_block4_contact', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Phone</label><input type="text" value={getFormString(movementFormData.mv_block4_phone)} onChange={(e) => handleMovementInputChange('mv_block4_phone', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Email</label><input type="email" value={getFormString(movementFormData.mv_block4_email)} onChange={(e) => handleMovementInputChange('mv_block4_email', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 4 && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Actual Date of Shipment</label>
+                  <input type="date" value={getFormString(movementFormData.mv_block5_date)} onChange={(e) => handleMovementInputChange('mv_block5_date', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} />
+                </div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 5 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Packaging Type</label><select value={getFormString((movementFormData.mv_block6_packaging as string[])?.[0] || '')} onChange={(e) => handleMovementInputChange('mv_block6_packaging', [e.target.value])} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }}><option value="">Select...</option>{PACKAGING_TYPES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}</select></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Number of Packages</label><input type="number" value={getFormNumber(movementFormData.mv_block6_packages) || ''} onChange={(e) => handleMovementInputChange('mv_block6_packages', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Special Handling</label><input type="text" value={getFormString(movementFormData.mv_block6_special)} onChange={(e) => handleMovementInputChange('mv_block6_special', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 6 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Carrier Name</label><input type="text" value={getFormString(movementFormData.mv_block7_name)} onChange={(e) => handleMovementInputChange('mv_block7_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Address</label><input type="text" value={getFormString(movementFormData.mv_block7_address)} onChange={(e) => handleMovementInputChange('mv_block7_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Phone</label><input type="text" value={getFormString(movementFormData.mv_block7_phone)} onChange={(e) => handleMovementInputChange('mv_block7_phone', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Means of Transport</label><select value={getFormString(movementFormData.mv_block7_transport)} onChange={(e) => handleMovementInputChange('mv_block7_transport', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }}><option value="">Select...</option>{TRANSPORT_MODES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}</select></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 7 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Generator Name</label><input type="text" value={getFormString(movementFormData.mv_block8_name)} onChange={(e) => handleMovementInputChange('mv_block8_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Address</label><input type="text" value={getFormString(movementFormData.mv_block8_address)} onChange={(e) => handleMovementInputChange('mv_block8_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Contact</label><input type="text" value={getFormString(movementFormData.mv_block8_contact)} onChange={(e) => handleMovementInputChange('mv_block8_contact', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Phone</label><input type="text" value={getFormString(movementFormData.mv_block8_phone)} onChange={(e) => handleMovementInputChange('mv_block8_phone', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 8 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Facility Name</label><input type="text" value={getFormString(movementFormData.mv_block9_name)} onChange={(e) => handleMovementInputChange('mv_block9_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Address</label><input type="text" value={getFormString(movementFormData.mv_block9_address)} onChange={(e) => handleMovementInputChange('mv_block9_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Permit No</label><input type="text" value={getFormString(movementFormData.mv_block9_permit)} onChange={(e) => handleMovementInputChange('mv_block9_permit', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Contact</label><input type="text" value={getFormString(movementFormData.mv_block9_contact)} onChange={(e) => handleMovementInputChange('mv_block9_contact', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 9 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Operation Code</label><select value={getFormString(movementFormData.mv_block10_code)} onChange={(e) => handleMovementInputChange('mv_block10_code', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }}><option value="">Select...</option>{RECOVERY_CODES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}{DISPOSAL_CODES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 10 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Common Name</label><textarea value={getFormString(movementFormData.mv_block11_description)} onChange={(e) => handleMovementInputChange('mv_block11_description', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} rows={3} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Major Constituents</label><textarea value={getFormString(movementFormData.mv_block11_composition)} onChange={(e) => handleMovementInputChange('mv_block11_composition', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} rows={3} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 11 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Physical Form</label><select value={getFormString(movementFormData.mv_block12_form)} onChange={(e) => handleMovementInputChange('mv_block12_form', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }}><option value="">Select...</option>{PHYSICAL_FORMS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}</select></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 12 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Basel Code</label><input type="text" value={getFormString(movementFormData.mv_block13_basel)} onChange={(e) => handleMovementInputChange('mv_block13_basel', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., A1160" /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">OECD Code</label><input type="text" value={getFormString(movementFormData.mv_block13_oecd)} onChange={(e) => handleMovementInputChange('mv_block13_oecd', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., GC020" /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">EU List Code</label><input type="text" value={getFormString(movementFormData.mv_block13_eu)} onChange={(e) => handleMovementInputChange('mv_block13_eu', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">UN Class</label><input type="text" value={getFormString(movementFormData.mv_block13_un_class)} onChange={(e) => handleMovementInputChange('mv_block13_un_class', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">UN Number</label><input type="text" value={getFormString(movementFormData.mv_block13_un_number)} onChange={(e) => handleMovementInputChange('mv_block13_un_number', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., UN2794" /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Y Code</label><input type="text" value={getFormString(movementFormData.mv_block13_y_code)} onChange={(e) => handleMovementInputChange('mv_block13_y_code', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">H Code</label><input type="text" value={getFormString(movementFormData.mv_block13_h_code)} onChange={(e) => handleMovementInputChange('mv_block13_h_code', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 13 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Export Country</label><input type="text" value={getFormString(movementFormData.mv_block14_export)} onChange={(e) => handleMovementInputChange('mv_block14_export', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Import Country</label><input type="text" value={getFormString(movementFormData.mv_block14_import)} onChange={(e) => handleMovementInputChange('mv_block14_import', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Transit Countries (comma-separated)</label><input type="text" value={getFormString(movementFormData.mv_block14_transit)} onChange={(e) => handleMovementInputChange('mv_block14_transit', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} placeholder="e.g., Jamaica, Cuba" /></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 14 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Declarant Name</label><input type="text" value={getFormString(movementFormData.mv_block15_name)} onChange={(e) => handleMovementInputChange('mv_block15_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="block font-display text-sm font-bold mb-1">Date</label><input type="date" value={getFormString(movementFormData.mv_block15_date)} onChange={(e) => handleMovementInputChange('mv_block15_date', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
+                <div><label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={!!movementFormData.mv_block15_signed} onChange={(e) => handleMovementInputChange('mv_block15_signed', e.target.checked)} className="w-4 h-4" style={{ accentColor: '#1D9E75' }} /><span className="font-display font-bold" style={{ color: '#1a1a1a' }}>Signed</span></label></div>
+              </div>
+            )}
+
+            {!isReserved && movementStep === 15 && (
+              <div className="space-y-4">
+                <div><label className="block font-display text-sm font-bold mb-1">Additional Information</label><textarea value={getFormString(movementFormData.mv_block16_info)} onChange={(e) => handleMovementInputChange('mv_block16_info', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} rows={4} /></div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-between">
+            <button onClick={handleMovementPrev} disabled={movementStep === 0} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>← Previous Block</button>
+            <button onClick={handleMovementPDF} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
+            <button onClick={handleMovementNext} disabled={movementStep === movementTotalSteps - 1} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Next Block →</button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   if (activeTab === 'reference') {
@@ -325,6 +799,10 @@ const handleGeneratePDF = async () => {
     )
   }
 
+  if (selectedDoc === 'movement' && activeTab === 'fill') {
+    return renderMovementForm()
+  }
+
   return (
     <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
       <div className="max-w-5xl mx-auto">
@@ -333,7 +811,7 @@ const handleGeneratePDF = async () => {
         {DISCLAIMER_BANNER}
         <div className="flex gap-2 mb-6">
           <button onClick={() => setSelectedDoc('notification')} className={`px-4 py-2 rounded font-display font-bold ${selectedDoc === 'notification' ? '' : 'opacity-50'}`} style={{ backgroundColor: selectedDoc === 'notification' ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Notification</button>
-          <button onClick={() => setSelectedDoc('movement')} className={`px-4 py-2 rounded font-display font-bold ${selectedDoc === 'movement' ? '' : 'opacity-50'}`} style={{ backgroundColor: selectedDoc === 'movement' ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Movement</button>
+          <button onClick={() => setSelectedDoc('movement')} className={`px-4 py-2 rounded font-display font-bold ${selectedDoc === 'movement' ? '' : 'opacity-50'}`} style={{ backgroundColor: selectedDoc === 'movement' ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Movement Document</button>
         </div>
         <div className="flex gap-4 mb-6 border-b" style={{ borderColor: '#e5e5e0' }}>
           <button onClick={() => { setActiveTab('reference'); setSelectedDoc('notification'); }} className="px-4 py-2 font-display font-bold border-b-2" style={{ borderColor: '#FF5C00', color: '#FF5C00' }}>Reference</button>
