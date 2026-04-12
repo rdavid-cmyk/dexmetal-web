@@ -1,0 +1,644 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dexmetal.com/schemas/basel-submission/v1.0.0",
+  "title": "Basel Form Assistant — Full Submission Schema",
+  "description": "Complete data structure for a Basel Convention transboundary movement submission package. Covers vCOP8 Notification Document (21 blocks), Movement Document (19 blocks), and 28 supporting documents. Movement document shared fields are copied from Notification at sync time — user may edit independently for compliance accuracy.",
+  "version": "1.0.0",
+  "vcop_version": "COP8",
+
+  "type": "object",
+  "required": ["project", "notification"],
+
+  "properties": {
+
+    "project": {
+      "type": "object",
+      "description": "FormProject envelope — links all documents in one submission",
+      "required": ["id", "created_at", "updated_at", "status", "jurisdiction"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Unique project identifier" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "complete", "submitted", "approved", "rejected"],
+          "default": "draft"
+        },
+        "vcop_version": { "type": "string", "default": "COP8", "description": "Version of vCOP8 template used" },
+        "jurisdiction": {
+          "type": "object",
+          "description": "Country pair — drives conditional logic and CA lookup",
+          "required": ["export_country_iso", "import_country_iso"],
+          "properties": {
+            "export_country_iso": { "type": "string", "minLength": 2, "maxLength": 3, "description": "ISO 3166 country code" },
+            "import_country_iso": { "type": "string", "minLength": 2, "maxLength": 3 },
+            "transit_country_isos": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 2, "maxLength": 3 },
+              "description": "Ordered list of transit countries"
+            },
+            "is_eu_route": { "type": "boolean", "description": "True if any country is EU member — triggers Block 16" }
+          }
+        },
+        "movement_synced_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Last time Movement document was synced from Notification. Null if never synced."
+        },
+        "disclaimer_accepted": { "type": "boolean", "default": false },
+        "disclaimer_accepted_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+
+    "notification": {
+      "type": "object",
+      "description": "Notification Document — vCOP8 pages 2-3. Blocks 1-18 completed by exporter. Blocks 19-21 reserved for competent authority.",
+
+      "properties": {
+
+        "block_1": {
+          "description": "Exporter – Notifier",
+          "type": "object",
+          "properties": {
+            "registration_no": { "type": "string" },
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "contact_person": { "type": "string" },
+            "tel": { "type": "string" },
+            "fax": { "type": ["string", "null"] },
+            "email": { "type": "string", "format": "email" }
+          },
+          "required": ["registration_no", "name", "address", "contact_person", "tel", "email"]
+        },
+
+        "block_2": {
+          "description": "Importer – Consignee",
+          "type": "object",
+          "properties": {
+            "registration_no": { "type": "string" },
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "contact_person": { "type": "string" },
+            "tel": { "type": "string" },
+            "fax": { "type": ["string", "null"] },
+            "email": { "type": "string", "format": "email" }
+          },
+          "required": ["registration_no", "name", "address", "contact_person", "tel", "email"]
+        },
+
+        "block_3": {
+          "description": "Notification No + Type + Operation + Pre-consent",
+          "type": "object",
+          "properties": {
+            "notification_no": { "type": ["string", "null"], "description": "Assigned by competent authority — may be null at submission time" },
+            "shipment_type": { "type": "string", "enum": ["individual", "multiple"] },
+            "operation_category": { "type": "string", "enum": ["disposal", "recovery"] },
+            "pre_consented_facility": { "type": "boolean", "description": "Pre-consented recovery facility under OECD Decision" }
+          },
+          "required": ["shipment_type", "operation_category", "pre_consented_facility"]
+        },
+
+        "block_4": {
+          "description": "Total intended number of shipments",
+          "type": "object",
+          "properties": {
+            "total_shipments": { "type": "integer", "minimum": 1 }
+          },
+          "required": ["total_shipments"]
+        },
+
+        "block_5": {
+          "description": "Total intended quantity",
+          "type": "object",
+          "properties": {
+            "quantity_tonnes": { "type": ["number", "null"], "minimum": 0 },
+            "quantity_cubic_metres": { "type": ["number", "null"], "minimum": 0 },
+            "unit_note": { "type": ["string", "null"], "description": "If non-standard unit used, specify here per vCOP8 instructions" }
+          }
+        },
+
+        "block_6": {
+          "description": "Intended period of time for shipment(s)",
+          "type": "object",
+          "properties": {
+            "first_departure": { "type": "string", "format": "date" },
+            "last_departure": { "type": ["string", "null"], "format": "date", "description": "Required for multiple shipments" }
+          },
+          "required": ["first_departure"]
+        },
+
+        "block_7": {
+          "description": "Packaging type(s) + special handling requirements",
+          "type": "object",
+          "properties": {
+            "packaging_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+                "description": "1=Drum, 2=Wooden barrel, 3=Jerrican, 4=Box, 5=Bag, 6=Composite, 7=Pressure receptacle, 8=Bulk, 9=Other"
+              },
+              "minItems": 1
+            },
+            "packaging_other_specify": { "type": ["string", "null"] },
+            "special_handling_required": { "type": "boolean" },
+            "special_handling_detail": { "type": ["string", "null"], "description": "Required if special_handling_required is true" }
+          },
+          "required": ["packaging_types", "special_handling_required"]
+        },
+
+        "block_8": {
+          "description": "Intended carrier(s) — supports multiple carriers",
+          "type": "object",
+          "properties": {
+            "carriers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "registration_no": { "type": ["string", "null"] },
+                  "name": { "type": "string" },
+                  "address": { "type": "string" },
+                  "contact_person": { "type": ["string", "null"] },
+                  "tel": { "type": "string" },
+                  "fax": { "type": ["string", "null"] },
+                  "email": { "type": ["string", "null"], "format": "email" },
+                  "means_of_transport": {
+                    "type": "array",
+                    "items": { "type": "string", "enum": ["R", "T", "S", "A", "W"] },
+                    "description": "R=Road, T=Train/rail, S=Sea, A=Air, W=Inland waterways"
+                  }
+                },
+                "required": ["name", "address", "tel", "means_of_transport"]
+              }
+            }
+          },
+          "required": ["carriers"]
+        },
+
+        "block_9": {
+          "description": "Waste generator(s) – producer(s)",
+          "type": "object",
+          "properties": {
+            "same_as_block_1": { "type": "boolean", "default": false },
+            "generators": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "registration_no": { "type": ["string", "null"] },
+                  "name": { "type": "string" },
+                  "address": { "type": "string" },
+                  "contact_person": { "type": ["string", "null"] },
+                  "tel": { "type": ["string", "null"] },
+                  "fax": { "type": ["string", "null"] },
+                  "email": { "type": ["string", "null"], "format": "email" },
+                  "site_and_process_of_generation": { "type": ["string", "null"] }
+                },
+                "required": ["name", "address"]
+              }
+            }
+          }
+        },
+
+        "block_10": {
+          "description": "Disposal or recovery facility",
+          "type": "object",
+          "properties": {
+            "facility_type": { "type": "string", "enum": ["disposal", "recovery"] },
+            "registration_no": { "type": ["string", "null"] },
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "contact_person": { "type": ["string", "null"] },
+            "tel": { "type": "string" },
+            "fax": { "type": ["string", "null"] },
+            "email": { "type": ["string", "null"], "format": "email" },
+            "actual_site_if_different": { "type": ["string", "null"] }
+          },
+          "required": ["facility_type", "name", "address", "tel"]
+        },
+
+        "block_11": {
+          "description": "Disposal/recovery operation(s)",
+          "type": "object",
+          "properties": {
+            "operation_code": {
+              "type": "string",
+              "enum": ["D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","D11","D12","D13","D14","D15","R1","R2","R3","R4","R5","R6","R7","R8","R9","R10","R11","R12","R13"],
+              "description": "D-codes = disposal operations, R-codes = recovery operations per vCOP8 abbreviation table"
+            },
+            "technology_employed": { "type": "string" },
+            "reason_for_export": { "type": "string", "description": "Not required by OECD Decision but required by Basel Convention" }
+          },
+          "required": ["operation_code", "technology_employed"]
+        },
+
+        "block_12": {
+          "description": "Designation and composition of the waste",
+          "type": "object",
+          "properties": {
+            "common_name": { "type": "string" },
+            "major_constituents": { "type": "string", "description": "Names and relative concentrations (%) of major constituents" },
+            "hazardous_constituents": { "type": ["string", "null"] },
+            "chemical_analysis_attached": { "type": "boolean", "default": false }
+          },
+          "required": ["common_name", "major_constituents"]
+        },
+
+        "block_13": {
+          "description": "Physical characteristics",
+          "type": "object",
+          "properties": {
+            "physical_characteristics": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5", "6", "7"],
+                "description": "1=Powdery/powder, 2=Solid, 3=Viscous/paste, 4=Sludgy, 5=Liquid, 6=Gaseous, 7=Other"
+              },
+              "minItems": 1
+            },
+            "physical_characteristics_other": { "type": ["string", "null"] }
+          },
+          "required": ["physical_characteristics"]
+        },
+
+        "block_14": {
+          "description": "Waste identification codes (i–xii) — all 12 sub-fields from vCOP8",
+          "type": "object",
+          "properties": {
+            "i_basel_annex": { "type": ["string", "null"], "description": "(i) Basel Annex VIII (or IX if applicable) code — e.g. A1181" },
+            "ii_oecd_code": { "type": ["string", "null"], "description": "(ii) OECD code if different from (i) — e.g. GC020" },
+            "iii_ec_list": { "type": ["string", "null"], "description": "(iii) EC list of wastes — e.g. 20 01 35*" },
+            "iv_national_export": { "type": ["string", "null"], "description": "(iv) National code in country of export" },
+            "v_national_import": { "type": ["string", "null"], "description": "(v) National code in country of import" },
+            "vi_other": { "type": ["string", "null"], "description": "(vi) Other codes if useful or required by CA" },
+            "vii_y_code": { "type": ["string", "null"], "description": "(vii) Y-code — e.g. Y29" },
+            "viii_h_codes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["H1","H3","H4.1","H4.2","H4.3","H5.1","H5.2","H6.1","H6.2","H8","H10","H11","H12","H13"]
+              },
+              "description": "(viii) H-codes — hazardous characteristics"
+            },
+            "ix_un_class": { "type": ["string", "null"], "description": "(ix) UN class — e.g. 9" },
+            "x_un_number": { "type": ["string", "null"], "description": "(x) UN Number — e.g. UN3077" },
+            "xi_un_shipping_name": { "type": ["string", "null"], "description": "(xi) UN Shipping name" },
+            "xii_customs_code_hs": { "type": ["string", "null"], "description": "(xii) Customs/HS code — e.g. 8549.99" }
+          }
+        },
+
+        "block_15": {
+          "description": "Countries/states concerned — (a) country, (b) CA code, (c) border crossing/port",
+          "type": "object",
+          "properties": {
+            "export_state": {
+              "type": "object",
+              "properties": {
+                "country": { "type": "string" },
+                "ca_code": { "type": ["string", "null"], "description": "Competent authority code — from api.dexmetal.com" },
+                "border_point": { "type": ["string", "null"] }
+              },
+              "required": ["country"]
+            },
+            "transit_states": {
+              "type": "array",
+              "description": "Ordered list of transit countries — dynamic rows",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "country": { "type": "string" },
+                  "ca_code": { "type": ["string", "null"] },
+                  "entry_point": { "type": ["string", "null"] },
+                  "exit_point": { "type": ["string", "null"] }
+                },
+                "required": ["country"]
+              }
+            },
+            "import_state": {
+              "type": "object",
+              "properties": {
+                "country": { "type": "string" },
+                "ca_code": { "type": ["string", "null"] },
+                "border_point": { "type": ["string", "null"] }
+              },
+              "required": ["country"]
+            }
+          },
+          "required": ["export_state", "import_state"]
+        },
+
+        "block_16": {
+          "description": "EU customs offices — only required if project.jurisdiction.is_eu_route is true",
+          "type": "object",
+          "properties": {
+            "entry": { "type": ["string", "null"] },
+            "exit": { "type": ["string", "null"] },
+            "export": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_17": {
+          "description": "Exporter/generator declaration — signatures",
+          "type": "object",
+          "properties": {
+            "exporter_name": { "type": "string" },
+            "exporter_date": { "type": "string", "format": "date" },
+            "exporter_signature_status": { "type": "string", "enum": ["pending", "signed"] },
+            "generator_name": { "type": ["string", "null"] },
+            "generator_date": { "type": ["string", "null"], "format": "date" },
+            "generator_signature_status": { "type": ["string", "null"], "enum": ["pending", "signed", null] }
+          },
+          "required": ["exporter_name", "exporter_date", "exporter_signature_status"]
+        },
+
+        "block_18": {
+          "description": "Number of annexes attached",
+          "type": "object",
+          "properties": {
+            "total_annexes": { "type": "integer", "minimum": 0 },
+            "annex_descriptions": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["total_annexes"]
+        },
+
+        "block_19": {
+          "description": "COMPETENT AUTHORITY ONLY — Acknowledgement of notification receipt",
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "country": { "type": ["string", "null"] },
+            "notification_received_on": { "type": ["string", "null"], "format": "date" },
+            "acknowledgement_sent_on": { "type": ["string", "null"], "format": "date" },
+            "ca_name": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_20": {
+          "description": "COMPETENT AUTHORITY ONLY — Written consent to movement",
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "country": { "type": ["string", "null"] },
+            "consent_given_on": { "type": ["string", "null"], "format": "date" },
+            "consent_valid_from": { "type": ["string", "null"], "format": "date" },
+            "consent_valid_until": { "type": ["string", "null"], "format": "date" },
+            "specific_conditions": { "type": "boolean", "default": false },
+            "ca_name": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_21": {
+          "description": "COMPETENT AUTHORITY ONLY — Specific conditions or reasons for objecting",
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "conditions_or_reasons": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+
+    "movement": {
+      "type": "object",
+      "description": "Movement Document — vCOP8 pages 6-7. Shared fields copied from Notification at sync time. User may edit independently.",
+
+      "properties": {
+
+        "block_1": {
+          "description": "Corresponding notification no + serial/total shipments",
+          "type": "object",
+          "properties": {
+            "notification_no": { "type": ["string", "null"], "description": "Copied from notification.block_3.notification_no at sync" },
+            "serial_number": { "type": "integer", "minimum": 1 },
+            "total_shipments": { "type": "integer", "minimum": 1, "description": "Copied from notification.block_4.total_shipments at sync" }
+          }
+        },
+
+        "block_3": {
+          "description": "Exporter – Notifier (copied from notification.block_1 at sync)",
+          "$ref": "#/properties/notification/properties/block_1",
+          "description": "Copied from Notification Block 1 at sync. Editable independently."
+        },
+
+        "block_4": {
+          "description": "Importer – Consignee (copied from notification.block_2 at sync)",
+          "$ref": "#/properties/notification/properties/block_2"
+        },
+
+        "block_5": {
+          "description": "Actual quantity (may differ from notification.block_5 — this is the real shipped amount)",
+          "type": "object",
+          "properties": {
+            "quantity_tonnes": { "type": ["number", "null"] },
+            "quantity_cubic_metres": { "type": ["number", "null"] }
+          }
+        },
+
+        "block_6": {
+          "description": "Actual date of shipment",
+          "type": "object",
+          "properties": {
+            "actual_date": { "type": "string", "format": "date" }
+          },
+          "required": ["actual_date"]
+        },
+
+        "block_7": {
+          "description": "Packaging type(s) + number of packages (copied from notification.block_7 at sync)",
+          "type": "object",
+          "properties": {
+            "packaging_types": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["1","2","3","4","5","6","7","8","9"] }
+            },
+            "number_of_packages": { "type": "integer", "minimum": 1 },
+            "special_handling_required": { "type": "boolean" },
+            "special_handling_detail": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_8": {
+          "description": "Carriers — up to 3 listed on form (a=1st, b=2nd, c=last). Additional carriers in annex.",
+          "type": "object",
+          "properties": {
+            "carrier_a": {
+              "type": "object",
+              "description": "1st carrier",
+              "properties": {
+                "registration_no": { "type": ["string", "null"] },
+                "name": { "type": "string" },
+                "address": { "type": "string" },
+                "tel": { "type": "string" },
+                "fax": { "type": ["string", "null"] },
+                "email": { "type": ["string", "null"] },
+                "means_of_transport": { "type": "string", "enum": ["R","T","S","A","W"] },
+                "date_of_transfer": { "type": ["string", "null"], "format": "date" }
+              },
+              "required": ["name", "address", "tel"]
+            },
+            "carrier_b": { "type": ["object", "null"] },
+            "carrier_c": { "type": ["object", "null"] },
+            "more_than_3_carriers": { "type": "boolean", "default": false }
+          }
+        },
+
+        "block_9": {
+          "description": "Waste generator(s) — copied from notification.block_9 at sync",
+          "$ref": "#/properties/notification/properties/block_9"
+        },
+
+        "block_10": {
+          "description": "Disposal/recovery facility — copied from notification.block_10 at sync",
+          "$ref": "#/properties/notification/properties/block_10"
+        },
+
+        "block_11": {
+          "description": "Disposal/recovery operation — copied from notification.block_11 at sync",
+          "$ref": "#/properties/notification/properties/block_11"
+        },
+
+        "block_12": {
+          "description": "Designation and composition — copied from notification.block_12 at sync",
+          "$ref": "#/properties/notification/properties/block_12"
+        },
+
+        "block_13": {
+          "description": "Physical characteristics — copied from notification.block_13 at sync",
+          "$ref": "#/properties/notification/properties/block_13"
+        },
+
+        "block_14": {
+          "description": "Waste identification codes — copied from notification.block_14 at sync",
+          "$ref": "#/properties/notification/properties/block_14"
+        },
+
+        "block_15": {
+          "description": "Exporter/generator declaration",
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "date": { "type": "string", "format": "date" },
+            "signature_status": { "type": "string", "enum": ["pending", "signed"] }
+          },
+          "required": ["name", "date", "signature_status"]
+        },
+
+        "block_16": {
+          "description": "Additional information — for use by any person involved",
+          "type": "object",
+          "properties": {
+            "additional_info": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_17": {
+          "description": "Shipment received by importer/consignee (if not facility)",
+          "type": "object",
+          "properties": {
+            "date": { "type": ["string", "null"], "format": "date" },
+            "name": { "type": ["string", "null"] },
+            "signature_status": { "type": ["string", "null"], "enum": ["pending", "signed", null] }
+          }
+        },
+
+        "block_18": {
+          "description": "Shipment received at disposal/recovery facility",
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "facility_type": { "type": ["string", "null"], "enum": ["disposal", "recovery", null] },
+            "date_of_reception": { "type": ["string", "null"], "format": "date" },
+            "accepted": { "type": ["boolean", "null"] },
+            "quantity_received_tonnes": { "type": ["number", "null"] },
+            "quantity_received_cubic": { "type": ["number", "null"] },
+            "approximate_date_of_disposal_recovery": { "type": ["string", "null"], "format": "date" },
+            "disposal_recovery_operation_code": { "type": ["string", "null"] },
+            "name": { "type": ["string", "null"] },
+            "signature_status": { "type": ["string", "null"] }
+          }
+        },
+
+        "block_19": {
+          "description": "Certification of disposal/recovery completion — completed by facility",
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "certifier_name": { "type": ["string", "null"] },
+            "date": { "type": ["string", "null"], "format": "date" },
+            "signature_status": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+
+    "supporting_documents": {
+      "type": "object",
+      "description": "28 supporting documents checklist — Phase 3",
+      "properties": {
+        "manifest": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "doc_id": { "type": "integer", "minimum": 1, "maximum": 28 },
+              "label": { "type": "string" },
+              "related_blocks": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Which vCOP8 blocks this document relates to"
+              },
+              "required": { "type": "boolean" },
+              "conditional_on": { "type": ["string", "null"], "description": "JSON path condition that triggers requirement — e.g. notification.block_3.operation_category === recovery" },
+              "uploaded": { "type": "boolean", "default": false },
+              "file_ref": { "type": ["string", "null"], "description": "Storage reference — Phase 3" },
+              "notes": { "type": ["string", "null"] }
+            },
+            "required": ["doc_id", "label", "required", "uploaded"]
+          }
+        }
+      }
+    },
+
+    "validation": {
+      "type": "object",
+      "description": "Validation state — populated by rule engine in Phase 4",
+      "properties": {
+        "last_validated_at": { "type": ["string", "null"], "format": "date-time" },
+        "risk_score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100, "description": "0=low risk, 100=high rejection risk" },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "block": { "type": "string" },
+              "field": { "type": "string" },
+              "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+              "message": { "type": "string" },
+              "rule_ref": { "type": ["string", "null"], "description": "Basel Convention article or instruction manual paragraph" }
+            }
+          }
+        }
+      }
+    },
+
+    "meta": {
+      "type": "object",
+      "description": "Export and version metadata",
+      "properties": {
+        "schema_version": { "type": "string", "default": "1.0.0" },
+        "exported_at": { "type": "string", "format": "date-time" },
+        "tool": { "type": "string", "default": "DexMetal Basel Form Assistant" },
+        "disclaimer": {
+          "type": "string",
+          "default": "This file was generated by DexMetal Basel Form Assistant. It assists with form preparation but does not guarantee compliance. Users are responsible for verifying accuracy with their competent authority."
+        }
+      }
+    }
+  }
+}
