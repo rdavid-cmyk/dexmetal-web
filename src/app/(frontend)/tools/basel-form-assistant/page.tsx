@@ -105,6 +105,62 @@ const TRANSPORT_MODES = [{ value: 'road', label: 'Road' }, { value: 'rail', labe
 const DISPOSAL_CODES = [{ value: 'D1', label: 'D1 - Controlled landfill' }, { value: 'D2', label: 'D2 - Deep injection' }, { value: 'D3', label: 'D3 - Deep well injection' }, { value: 'D4', label: 'D4 - Surface impoundment' }, { value: 'D5', label: 'D5 - Specially engineered landfill' }, { value: 'D6', label: 'D6 - Release into water bodies' }, { value: 'D7', label: 'D7 - Release into sea/oceans' }, { value: 'D8', label: 'D8 - Biological treatment' }, { value: 'D9', label: 'D9 - Physico-chemical treatment' }, { value: 'D10', label: 'D10 - Incineration' }, { value: 'D11', label: 'D11 - Incineration at sea' }, { value: 'D12', label: 'D12 - Permanent storage' }, { value: 'D13', label: 'D13 - Blending/recipe' }, { value: 'D14', label: 'D14 - Repackaging' }, { value: 'D15', label: 'D15 - Storage pending D1-D14' }]
 const RECOVERY_CODES = [{ value: 'R1', label: 'R1 - Use as fuel' }, { value: 'R2', label: 'R2 - Solvent reclamation' }, { value: 'R3', label: 'R3 - Recycling/reclamation of organics' }, { value: 'R4', label: 'R4 - Recycling/reclamation of metals' }, { value: 'R5', label: 'R5 - Recycling/reclamation of inorganics' }, { value: 'R6', label: 'R6 - Regeneration of acids/bases' }, { value: 'R7', label: 'R7 - Recovery of components' }, { value: 'R8', label: 'R8 - Recovery of catalysts' }, { value: 'R9', label: 'R9 - Re-refining used oil' }, { value: 'R10', label: 'R10 - Land treatment' }, { value: 'R11', label: 'R11 - Uses of waste' }, { value: 'R12', label: 'R12 - Waste exchange' }, { value: 'R13', label: 'R13 - Accumulation of R1-R12' }]
 
+const BASEL_COUNTRIES = [
+  { code: 'TT', name: 'Trinidad and Tobago' },
+  { code: 'US', name: 'United States of America' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'FR', name: 'France' },
+  { code: 'NL', name: 'Netherlands' },
+  { code: 'BE', name: 'Belgium' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'NZ', name: 'New Zealand' },
+  { code: 'JP', name: 'Japan' },
+  { code: 'CN', name: 'China' },
+  { code: 'IN', name: 'India' },
+  { code: 'BR', name: 'Brazil' },
+  { code: 'ZA', name: 'South Africa' },
+  { code: 'NG', name: 'Nigeria' },
+  { code: 'GH', name: 'Ghana' },
+  { code: 'SG', name: 'Singapore' },
+  { code: 'MY', name: 'Malaysia' },
+  { code: 'MX', name: 'Mexico' },
+  { code: 'AR', name: 'Argentina' },
+  { code: 'CL', name: 'Chile' },
+  { code: 'KE', name: 'Kenya' },
+  { code: 'EG', name: 'Egypt' },
+  { code: 'PK', name: 'Pakistan' },
+  { code: 'BD', name: 'Bangladesh' },
+  { code: 'PH', name: 'Philippines' },
+  { code: 'ID', name: 'Indonesia' },
+  { code: 'TH', name: 'Thailand' },
+  { code: 'VN', name: 'Vietnam' },
+  { code: 'KR', name: 'South Korea' },
+  { code: 'TR', name: 'Turkey' },
+  { code: 'PL', name: 'Poland' },
+  { code: 'CZ', name: 'Czech Republic' },
+  { code: 'HU', name: 'Hungary' },
+  { code: 'RO', name: 'Romania' },
+  { code: 'PT', name: 'Portugal' },
+  { code: 'ES', name: 'Spain' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'SE', name: 'Sweden' },
+  { code: 'NO', name: 'Norway' },
+  { code: 'DK', name: 'Denmark' },
+  { code: 'FI', name: 'Finland' },
+  { code: 'AT', name: 'Austria' },
+  { code: 'CH', name: 'Switzerland' },
+  { code: 'IE', name: 'Ireland' },
+  { code: 'GR', name: 'Greece' },
+  { code: 'IL', name: 'Israel' },
+  { code: 'AE', name: 'United Arab Emirates' },
+  { code: 'SA', name: 'Saudi Arabia' },
+]
+
+const CA_API_KEY = 'bca_df927e76febd60b7f97be6e73a3aed205d1b6a0592a97f10'
+
+
 interface FormData {
   [key: string]: string | string[] | boolean | number | null
 }
@@ -184,6 +240,18 @@ function getFormNumber(val: string | string[] | boolean | number | null | undefi
   return 0
 }
 
+async function fetchCAData(countryCode: string) {
+  try {
+    const res = await fetch(`https://api.dexmetal.com/api/v1/ca/${countryCode}`, {
+      headers: { 'X-API-Key': CA_API_KEY }
+    })
+    if (!res.ok) throw new Error('CA not found')
+    return await res.json()
+  } catch {
+    return null
+  }
+}
+
 export default function BaselFormAssistantPage() {
   const [activeTab, setActiveTab] = useState<'reference' | 'fill' | 'submission'>('reference')
   const [selectedDoc, setSelectedDoc] = useState<'notification' | 'movement'>('notification')
@@ -196,7 +264,16 @@ export default function BaselFormAssistantPage() {
   const [movementStep, setMovementStep] = useState(0)
   const [syncMessage, setSyncMessage] = useState<string | null>(null)
   const [cloudSaveMessage, setCloudSaveMessage] = useState<string | null>(null)
-  const movementFileInputRef = useRef<HTMLInputElement>(null)
+    const movementFileInputRef = useRef<HTMLInputElement>(null)
+
+  const [caDataExport, setCaDataExport] = useState<{name?: string; department?: string; email?: string; phone?: string; address?: string} | null>(null)
+  const [caDataImport, setCaDataImport] = useState<{name?: string; department?: string; email?: string; phone?: string; address?: string} | null>(null)
+  const [caDataTransit, setCaDataTransit] = useState<Record<string, {name?: string; department?: string; email?: string; phone?: string; address?: string}>>({})
+  const [caLoadingExport, setCaLoadingExport] = useState(false)
+  const [caLoadingImport, setCaLoadingImport] = useState(false)
+  const [caLoadingTransit, setCaLoadingTransit] = useState<Record<string, boolean>>({})
+  const [caErrorExport, setCaErrorExport] = useState<string | null>(null)
+  const [caErrorImport, setCaErrorImport] = useState<string | null>(null)
 
   interface DocState {
     file: File | null
@@ -1121,8 +1198,142 @@ const handleGeneratePDF = async () => {
               <p className="text-sm mt-1">Leave blank. The CA will complete this after receives your notification.</p>
             </div>
           )}
-          {!isEuRoute && currentStep === 15 && (
-            <p style={{ color: '#666660' }}>This section hidden — toggle EU route above to show.</p>
+          {currentStep === 15 && isEuRoute && (
+            <div className="space-y-4">
+              <p style={{ color: '#666660' }}>EU route - showing Block 16 instead. Toggle off to edit Block 15.</p>
+            </div>
+          )}
+          {currentStep === 15 && !isEuRoute && (
+            <div className="space-y-6">
+              <div>
+                <label className="block font-display text-sm font-bold mb-2" style={{ color: '#1a1a1a' }}>Export Country (State of Export)</label>
+                <select 
+                  value={getFormString(formData.block15_export_code)} 
+                  onChange={async (e) => {
+                    const code = e.target.value
+                    handleInputChange('block15_export', BASEL_COUNTRIES.find(c => c.code === code)?.name || '')
+                    handleInputChange('block15_export_code', code)
+                    setCaDataExport(null)
+                    setCaErrorExport(null)
+                    if (code) {
+                      setCaLoadingExport(true)
+                      const data = await fetchCAData(code)
+                      if (data) {
+                        setCaDataExport(data)
+                      } else {
+                        setCaErrorExport('CA data not available for this country — verify manually')
+                      }
+                      setCaLoadingExport(false)
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded border"
+                  style={{ borderColor: '#e5e5e0' }}
+                >
+                  <option value="">Select export country...</option>
+                  {BASEL_COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.name}</option>
+                  ))}
+                </select>
+                {caLoadingExport && <p className="text-sm mt-2" style={{ color: '#666660' }}>Loading CA data...</p>}
+                {caErrorExport && <p className="text-sm mt-2" style={{ color: '#FF5C00' }}>{caErrorExport}</p>}
+                {caDataExport && !caLoadingExport && (
+                  <div className="mt-3 p-4 rounded-lg" style={{ backgroundColor: '#1a1a18', border: '1px solid #1D9E75' }}>
+                    <p className="font-display font-bold text-sm mb-2" style={{ color: '#1D9E75' }}>Competent Authority (Export)</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataExport.name || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataExport.department || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataExport.email || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataExport.phone || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataExport.address || 'N/A'}</p>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block font-display text-sm font-bold mb-2" style={{ color: '#1a1a1a' }}>Import Country (State of Import)</label>
+                <select 
+                  value={getFormString(formData.block15_import_code)} 
+                  onChange={async (e) => {
+                    const code = e.target.value
+                    handleInputChange('block15_import', BASEL_COUNTRIES.find(c => c.code === code)?.name || '')
+                    handleInputChange('block15_import_code', code)
+                    setCaDataImport(null)
+                    setCaErrorImport(null)
+                    if (code) {
+                      setCaLoadingImport(true)
+                      const data = await fetchCAData(code)
+                      if (data) {
+                        setCaDataImport(data)
+                      } else {
+                        setCaErrorImport('CA data not available for this country — verify manually')
+                      }
+                      setCaLoadingImport(false)
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded border"
+                  style={{ borderColor: '#e5e5e0' }}
+                >
+                  <option value="">Select import country...</option>
+                  {BASEL_COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.name}</option>
+                  ))}
+                </select>
+                {caLoadingImport && <p className="text-sm mt-2" style={{ color: '#666660' }}>Loading CA data...</p>}
+                {caErrorImport && <p className="text-sm mt-2" style={{ color: '#FF5C00' }}>{caErrorImport}</p>}
+                {caDataImport && !caLoadingImport && (
+                  <div className="mt-3 p-4 rounded-lg" style={{ backgroundColor: '#1a1a18', border: '1px solid #1D9E75' }}>
+                    <p className="font-display font-bold text-sm mb-2" style={{ color: '#1D9E75' }}>Competent Authority (Import)</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataImport.name || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataImport.department || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataImport.email || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataImport.phone || 'N/A'}</p>
+                    <p className="text-sm" style={{ color: '#d0d0cc' }}>{caDataImport.address || 'N/A'}</p>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block font-display text-sm font-bold mb-2" style={{ color: '#1a1a1a' }}>Transit Countries (comma-separated ISO codes)</label>
+                <input 
+                  type="text" 
+                  value={getFormString(formData.block15_transit)} 
+                  onChange={async (e) => {
+                    const value = e.target.value
+                    handleInputChange('block15_transit', value)
+                    const codes = value.split(',').map((s: string) => s.trim().toUpperCase()).filter(Boolean)
+                    const newTransitCA: Record<string, any> = {}
+                    const codesToFetch: string[] = []
+                    for (const code of codes) {
+                      if (!caDataTransit[code]) {
+                        codesToFetch.push(code)
+                      }
+                    }
+                    for (const code of codesToFetch) {
+                      setCaLoadingTransit(prev => ({ ...prev, [code]: true }))
+                      const data = await fetchCAData(code)
+                      setCaDataTransit(prev => ({ ...prev, [code]: data }))
+                      setCaLoadingTransit(prev => ({ ...prev, [code]: false }))
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded border"
+                  style={{ borderColor: '#e5e5e0' }}
+                  placeholder="e.g., JM, CU, AN"
+                />
+                {Object.keys(caDataTransit).length > 0 && (
+                  <div className="mt-3 space-y-3">
+                    {Object.entries(caDataTransit).map(([code, data]) => (
+                      <div key={code} className="p-4 rounded-lg" style={{ backgroundColor: '#1a1a18', border: '1px solid #1D9E75' }}>
+                        <p className="font-display font-bold text-sm mb-2" style={{ color: '#1D9E75' }}>Competent Authority (Transit — {code})</p>
+                        <p className="text-sm" style={{ color: '#d0d0cc' }}>{data?.name || 'N/A'}</p>
+                        <p className="text-sm" style={{ color: '#d0d0cc' }}>{data?.department || 'N/A'}</p>
+                        <p className="text-sm" style={{ color: '#d0d0cc' }}>{data?.email || 'N/A'}</p>
+                        <p className="text-sm" style={{ color: '#d0d0cc' }}>{data?.phone || 'N/A'}</p>
+                        <p className="text-sm" style={{ color: '#d0d0cc' }}>{data?.address || 'N/A'}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
         </div>
         <div className="flex justify-between">
