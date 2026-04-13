@@ -1,196 +1,713 @@
 {
   "version": "COP8",
   "generated_at": "2026-04-12T00:00:00Z",
+  "_coord_note": "x/y are pdftotext top-left coords. generate-notification.ts converts: y_draw = 842 - y - 10. Blocks 1-20 on PDF page 2 (pages[1]), block 21 on page 3 (pages[2]).",
   "blocks": {
     "block_1": {
-      "label": "Exporter – Notifier",
+      "label": "Exporter - Notifier",
       "fields": {
-        "registration_no": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "address": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "contact_person": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "tel": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "fax": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "email": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "registration_no": {
+          "x": 160,
+          "y": 65.9,
+          "width": 110,
+          "height": 10,
+          "page": 2
+        },
+        "name": {
+          "x": 60,
+          "y": 76.2,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        },
+        "address": {
+          "x": 65,
+          "y": 88.1,
+          "width": 205,
+          "height": 10,
+          "page": 2
+        },
+        "contact_person": {
+          "x": 90,
+          "y": 114.7,
+          "width": 180,
+          "height": 10,
+          "page": 2
+        },
+        "tel": {
+          "x": 48,
+          "y": 128.5,
+          "width": 95,
+          "height": 10,
+          "page": 2
+        },
+        "fax": {
+          "x": 172,
+          "y": 128.5,
+          "width": 100,
+          "height": 10,
+          "page": 2
+        },
+        "email": {
+          "x": 60,
+          "y": 142.4,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_2": {
-      "label": "Importer – Consignee",
+      "label": "Importer - Consignee",
       "fields": {
-        "registration_no": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "address": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "contact_person": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "tel": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "fax": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "email": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "registration_no": {
+          "x": 172,
+          "y": 154.7,
+          "width": 110,
+          "height": 10,
+          "page": 2
+        },
+        "name": {
+          "x": 60,
+          "y": 165.0,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        },
+        "address": {
+          "x": 65,
+          "y": 175.8,
+          "width": 205,
+          "height": 10,
+          "page": 2
+        },
+        "contact_person": {
+          "x": 90,
+          "y": 197.0,
+          "width": 180,
+          "height": 10,
+          "page": 2
+        },
+        "tel": {
+          "x": 48,
+          "y": 207.3,
+          "width": 95,
+          "height": 10,
+          "page": 2
+        },
+        "fax": {
+          "x": 168,
+          "y": 207.3,
+          "width": 100,
+          "height": 10,
+          "page": 2
+        },
+        "email": {
+          "x": 60,
+          "y": 218.1,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_3": {
       "label": "Notification No + Type + Operation + Pre-consent",
       "fields": {
-        "notification_no": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "shipment_type": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "operation_category": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "pre_consented_facility": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "notification_no": {
+          "x": 368,
+          "y": 65.9,
+          "width": 155,
+          "height": 10,
+          "page": 2
+        },
+        "shipment_type": {
+          "x": 375,
+          "y": 88.0,
+          "width": 145,
+          "height": 10,
+          "page": 2
+        },
+        "operation_category": {
+          "x": 380,
+          "y": 101.4,
+          "width": 140,
+          "height": 10,
+          "page": 2
+        },
+        "pre_consented_facility": {
+          "x": 465,
+          "y": 116.2,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_4": {
       "label": "Total intended number of shipments",
       "fields": {
-        "total_shipments": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "total_shipments": {
+          "x": 440,
+          "y": 128.5,
+          "width": 80,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_5": {
       "label": "Total intended quantity",
       "fields": {
-        "quantity_tonnes": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "quantity_cubic_metres": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "unit_note": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "quantity_tonnes": {
+          "x": 348,
+          "y": 154.7,
+          "width": 120,
+          "height": 10,
+          "page": 2
+        },
+        "quantity_cubic_metres": {
+          "x": 315,
+          "y": 165.0,
+          "width": 120,
+          "height": 10,
+          "page": 2
+        },
+        "unit_note": {
+          "x": 440,
+          "y": 165.0,
+          "width": 80,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_6": {
       "label": "Intended period of time for shipment(s)",
       "fields": {
-        "first_departure": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "last_departure": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "first_departure": {
+          "x": 355,
+          "y": 186.2,
+          "width": 70,
+          "height": 10,
+          "page": 2
+        },
+        "last_departure": {
+          "x": 490,
+          "y": 186.2,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_7": {
       "label": "Packaging type(s) + special handling requirements",
       "fields": {
-        "packaging_types": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "packaging_other_specify": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "special_handling_required": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "special_handling_detail": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "packaging_types": {
+          "x": 390,
+          "y": 197.0,
+          "width": 140,
+          "height": 10,
+          "page": 2
+        },
+        "packaging_other_specify": {
+          "x": 450,
+          "y": 197.0,
+          "width": 220,
+          "height": 10,
+          "page": 2
+        },
+        "special_handling_required": {
+          "x": 543,
+          "y": 207.3,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        },
+        "special_handling_detail": {
+          "x": 305,
+          "y": 261.0,
+          "width": 220,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_8": {
       "label": "Intended carrier(s)",
       "fields": {
-        "carriers": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "carriers": {
+          "x": 165,
+          "y": 239.9,
+          "width": 105,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_9": {
-      "label": "Waste generator(s) – producer(s)",
+      "label": "Waste generator(s) - producer(s)",
       "fields": {
-        "same_as_block_1": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "generators": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "same_as_block_1": {
+          "x": 260,
+          "y": 308.0,
+          "width": 30,
+          "height": 10,
+          "page": 2
+        },
+        "generators": {
+          "x": 245,
+          "y": 325.5,
+          "width": 65,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_10": {
       "label": "Disposal or recovery facility",
       "fields": {
-        "facility_type": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "registration_no": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "address": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "contact_person": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "tel": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "fax": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "email": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "actual_site_if_different": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "facility_type": {
+          "x": 137,
+          "y": 415.0,
+          "width": 108,
+          "height": 10,
+          "page": 2
+        },
+        "registration_no": {
+          "x": 90,
+          "y": 419.9,
+          "width": 180,
+          "height": 10,
+          "page": 2
+        },
+        "name": {
+          "x": 60,
+          "y": 430.2,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        },
+        "address": {
+          "x": 65,
+          "y": 440.6,
+          "width": 205,
+          "height": 10,
+          "page": 2
+        },
+        "contact_person": {
+          "x": 90,
+          "y": 461.3,
+          "width": 180,
+          "height": 10,
+          "page": 2
+        },
+        "tel": {
+          "x": 48,
+          "y": 471.6,
+          "width": 106,
+          "height": 10,
+          "page": 2
+        },
+        "fax": {
+          "x": 182,
+          "y": 471.6,
+          "width": 106,
+          "height": 10,
+          "page": 2
+        },
+        "email": {
+          "x": 60,
+          "y": 481.9,
+          "width": 210,
+          "height": 10,
+          "page": 2
+        },
+        "actual_site_if_different": {
+          "x": 140,
+          "y": 492.2,
+          "width": 130,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_11": {
       "label": "Disposal/recovery operation(s)",
       "fields": {
-        "operation_code": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "technology_employed": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "reason_for_export": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "operation_code": {
+          "x": 372,
+          "y": 228.9,
+          "width": 150,
+          "height": 10,
+          "page": 2
+        },
+        "technology_employed": {
+          "x": 390,
+          "y": 239.9,
+          "width": 135,
+          "height": 10,
+          "page": 2
+        },
+        "reason_for_export": {
+          "x": 384,
+          "y": 293.5,
+          "width": 140,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_12": {
       "label": "Designation and composition of the waste",
       "fields": {
-        "common_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "major_constituents": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "hazardous_constituents": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "chemical_analysis_attached": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "common_name": {
+          "x": 305,
+          "y": 304.3,
+          "width": 250,
+          "height": 10,
+          "page": 2
+        },
+        "major_constituents": {
+          "x": 305,
+          "y": 315.2,
+          "width": 250,
+          "height": 10,
+          "page": 2
+        },
+        "hazardous_constituents": {
+          "x": 305,
+          "y": 325.5,
+          "width": 250,
+          "height": 10,
+          "page": 2
+        },
+        "chemical_analysis_attached": {
+          "x": 305,
+          "y": 340.0,
+          "width": 100,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_13": {
       "label": "Physical characteristics",
       "fields": {
-        "physical_characteristics": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "physical_characteristics_other": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "physical_characteristics": {
+          "x": 415,
+          "y": 346.6,
+          "width": 110,
+          "height": 10,
+          "page": 2
+        },
+        "physical_characteristics_other": {
+          "x": 305,
+          "y": 357.0,
+          "width": 250,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_14": {
-      "label": "Waste identification codes (i–xii)",
+      "label": "Waste identification codes (i-xii)",
       "fields": {
-        "i_basel_annex": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "ii_oecd_code": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "iii_ec_list": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "iv_national_export": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "v_national_import": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "vi_other": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "vii_y_code": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "viii_h_codes": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "ix_un_class": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "x_un_number": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "xi_un_shipping_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "xii_customs_code_hs": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "i_basel_annex": {
+          "x": 432,
+          "y": 378.1,
+          "width": 112,
+          "height": 10,
+          "page": 2
+        },
+        "ii_oecd_code": {
+          "x": 420,
+          "y": 388.4,
+          "width": 124,
+          "height": 10,
+          "page": 2
+        },
+        "iii_ec_list": {
+          "x": 372,
+          "y": 398.7,
+          "width": 172,
+          "height": 10,
+          "page": 2
+        },
+        "iv_national_export": {
+          "x": 428,
+          "y": 409.6,
+          "width": 116,
+          "height": 10,
+          "page": 2
+        },
+        "v_national_import": {
+          "x": 426,
+          "y": 419.9,
+          "width": 118,
+          "height": 10,
+          "page": 2
+        },
+        "vi_other": {
+          "x": 366,
+          "y": 430.2,
+          "width": 178,
+          "height": 10,
+          "page": 2
+        },
+        "vii_y_code": {
+          "x": 345,
+          "y": 440.6,
+          "width": 199,
+          "height": 10,
+          "page": 2
+        },
+        "viii_h_codes": {
+          "x": 358,
+          "y": 450.9,
+          "width": 186,
+          "height": 10,
+          "page": 2
+        },
+        "ix_un_class": {
+          "x": 358,
+          "y": 461.3,
+          "width": 186,
+          "height": 10,
+          "page": 2
+        },
+        "x_un_number": {
+          "x": 356,
+          "y": 471.6,
+          "width": 188,
+          "height": 10,
+          "page": 2
+        },
+        "xi_un_shipping_name": {
+          "x": 380,
+          "y": 481.9,
+          "width": 164,
+          "height": 10,
+          "page": 2
+        },
+        "xii_customs_code_hs": {
+          "x": 392,
+          "y": 492.2,
+          "width": 152,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_15": {
-      "label": "Countries/states concerned – (a) country, (b) CA code, (c) border crossing/port",
+      "label": "Countries/states concerned",
       "fields": {
-        "export_state": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "transit_states": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "import_state": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "export_state": {
+          "x": 50,
+          "y": 524.7,
+          "width": 180,
+          "height": 10,
+          "page": 2
+        },
+        "transit_states": {
+          "x": 247,
+          "y": 524.7,
+          "width": 200,
+          "height": 10,
+          "page": 2
+        },
+        "import_state": {
+          "x": 462,
+          "y": 524.7,
+          "width": 90,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_16": {
       "label": "EU customs offices",
       "fields": {
-        "entry": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "exit": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "export": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "entry": {
+          "x": 55,
+          "y": 568.1,
+          "width": 145,
+          "height": 10,
+          "page": 2
+        },
+        "exit": {
+          "x": 230,
+          "y": 568.1,
+          "width": 150,
+          "height": 10,
+          "page": 2
+        },
+        "export": {
+          "x": 418,
+          "y": 568.1,
+          "width": 125,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_17": {
-      "label": "Exporter/generator declaration – signatures",
+      "label": "Exporter/generator declaration - signatures",
       "fields": {
-        "exporter_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "exporter_date": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "exporter_signature_status": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "generator_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "generator_date": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "generator_signature_status": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "exporter_name": {
+          "x": 127,
+          "y": 611.1,
+          "width": 120,
+          "height": 10,
+          "page": 2
+        },
+        "exporter_date": {
+          "x": 277,
+          "y": 611.1,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        },
+        "exporter_signature_status": {
+          "x": 384,
+          "y": 611.1,
+          "width": 100,
+          "height": 10,
+          "page": 2
+        },
+        "generator_name": {
+          "x": 140,
+          "y": 621.6,
+          "width": 107,
+          "height": 10,
+          "page": 2
+        },
+        "generator_date": {
+          "x": 277,
+          "y": 621.6,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        },
+        "generator_signature_status": {
+          "x": 384,
+          "y": 621.6,
+          "width": 100,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_18": {
       "label": "Number of annexes attached",
       "fields": {
-        "total_annexes": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "annex_descriptions": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "total_annexes": {
+          "x": 495,
+          "y": 621.6,
+          "width": 65,
+          "height": 10,
+          "page": 2
+        },
+        "annex_descriptions": {
+          "x": 495,
+          "y": 632.5,
+          "width": 65,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_19": {
-      "label": "COMPETENT AUTHORITY ONLY – Acknowledgement of notification receipt",
+      "label": "COMPETENT AUTHORITY ONLY - Acknowledgement",
       "fields": {
-        "country": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "notification_received_on": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "acknowledgement_sent_on": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "ca_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "country": {
+          "x": 65,
+          "y": 664.0,
+          "width": 225,
+          "height": 10,
+          "page": 2
+        },
+        "notification_received_on": {
+          "x": 118,
+          "y": 674.3,
+          "width": 172,
+          "height": 10,
+          "page": 2
+        },
+        "acknowledgement_sent_on": {
+          "x": 128,
+          "y": 686.4,
+          "width": 162,
+          "height": 10,
+          "page": 2
+        },
+        "ca_name": {
+          "x": 135,
+          "y": 698.6,
+          "width": 155,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_20": {
-      "label": "COMPETENT AUTHORITY ONLY – Written consent to movement",
+      "label": "COMPETENT AUTHORITY ONLY - Written consent",
       "fields": {
-        "country": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "consent_given_on": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "consent_valid_from": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "consent_valid_until": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "specific_conditions": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 },
-        "ca_name": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "country": {
+          "x": 418,
+          "y": 653.7,
+          "width": 125,
+          "height": 10,
+          "page": 2
+        },
+        "consent_given_on": {
+          "x": 366,
+          "y": 664.0,
+          "width": 90,
+          "height": 10,
+          "page": 2
+        },
+        "consent_valid_from": {
+          "x": 370,
+          "y": 674.3,
+          "width": 80,
+          "height": 10,
+          "page": 2
+        },
+        "consent_valid_until": {
+          "x": 482,
+          "y": 674.3,
+          "width": 60,
+          "height": 10,
+          "page": 2
+        },
+        "specific_conditions": {
+          "x": 370,
+          "y": 686.4,
+          "width": 160,
+          "height": 10,
+          "page": 2
+        },
+        "ca_name": {
+          "x": 405,
+          "y": 698.6,
+          "width": 120,
+          "height": 10,
+          "page": 2
+        }
       }
     },
     "block_21": {
-      "label": "COMPETENT AUTHORITY ONLY – Specific conditions or reasons for objecting",
+      "label": "COMPETENT AUTHORITY ONLY - Specific conditions or reasons for objecting",
       "fields": {
-        "conditions_or_reasons": { "x": 0, "y": 0, "width": 0, "height": 0, "page": 1 }
+        "conditions_or_reasons": {
+          "x": 30,
+          "y": 50.0,
+          "width": 520,
+          "height": 10,
+          "page": 3
+        }
       }
     }
   }
