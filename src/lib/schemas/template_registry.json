@@ -122,7 +122,7 @@
           "page": 2
         },
         "shipment_type": {
-          "x": 393,
+          "x": 408,
           "y": 88.0,
           "width": 145,
           "height": 10,
@@ -251,13 +251,13 @@
       "fields": {
         "same_as_block_1": {
           "x": 260,
-          "y": 324.0,
+          "y": 315.2,
           "width": 30,
           "height": 10,
           "page": 2
         },
         "generators": {
-          "x": 245,
+          "x": 60,
           "y": 325.5,
           "width": 65,
           "height": 10,
@@ -269,7 +269,7 @@
       "label": "Disposal or recovery facility",
       "fields": {
         "facility_type": {
-          "x": 390,
+          "x": 155,
           "y": 408.0,
           "width": 108,
           "height": 10,
@@ -352,7 +352,7 @@
         },
         "reason_for_export": {
           "x": 384,
-          "y": 313.0,
+          "y": 270.0,
           "width": 140,
           "height": 10,
           "page": 2
@@ -385,7 +385,7 @@
         },
         "chemical_analysis_attached": {
           "x": 435,
-          "y": 330.0,
+          "y": 337.0,
           "width": 100,
           "height": 10,
           "page": 2
