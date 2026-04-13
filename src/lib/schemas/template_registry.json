@@ -135,12 +135,21 @@
           "height": 10,
           "page": 2
         },
-        "pre_consented_facility": {
+        "pre_consented_facility_yes": {
+          "x": 468,
+          "y": 116.2,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
+        },
+        "pre_consented_facility_no": {
           "x": 510,
           "y": 116.2,
-          "width": 60,
+          "width": 10,
           "height": 10,
-          "page": 2
+          "page": 2,
+          "type": "checkbox"
         }
       }
     },
@@ -249,32 +258,34 @@
     "block_9": {
       "label": "Waste generator(s) - producer(s)",
       "fields": {
-        "same_as_block_1": {
-          "x": 195,
-          "y": 315.2,
-          "width": 30,
-          "height": 10,
-          "page": 2
-        },
         "generators": {
           "x": 60,
           "y": 325.5,
           "width": 65,
           "height": 10,
           "page": 2
+        },
+        "same_as_block_1_yes": {
+          "x": 195,
+          "y": 315.2,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
+        },
+        "same_as_block_1_no": {
+          "x": 220,
+          "y": 315.2,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
         }
       }
     },
     "block_10": {
       "label": "Disposal or recovery facility",
       "fields": {
-        "facility_type": {
-          "x": 300,
-          "y": 408.0,
-          "width": 108,
-          "height": 10,
-          "page": 2
-        },
         "registration_no": {
           "x": 90,
           "y": 419.9,
@@ -330,6 +341,22 @@
           "width": 130,
           "height": 10,
           "page": 2
+        },
+        "facility_type_disposal": {
+          "x": 140,
+          "y": 408.0,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
+        },
+        "facility_type_recovery": {
+          "x": 300,
+          "y": 408.0,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
         }
       }
     },
@@ -383,12 +410,21 @@
           "height": 10,
           "page": 2
         },
-        "chemical_analysis_attached": {
+        "chemical_analysis_attached_yes": {
           "x": 490,
-          "y": 336.0,
-          "width": 100,
+          "y": 337.0,
+          "width": 10,
           "height": 10,
-          "page": 2
+          "page": 2,
+          "type": "checkbox"
+        },
+        "chemical_analysis_attached_no": {
+          "x": 515,
+          "y": 337.0,
+          "width": 10,
+          "height": 10,
+          "page": 2,
+          "type": "checkbox"
         }
       }
     },
