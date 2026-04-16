@@ -122,6 +122,8 @@ export const REDIRECTS: Redirect[] = [
   { from: '/reimport-guarantees/', to: '/knowledge-hub/supporting-docs/reimport-guarantees', permanent: true },
 
   // Tools
+  { from: '/tools/basel-form-assistant', to: '/tools/basel-navigator', permanent: true },
+
   { from: '/checklist/', to: '/tools/checklist', permanent: true },
   { from: '/quick-code-lookup/', to: '/tools/quick-code-lookup', permanent: true },
   { from: '/notification-quick-view/', to: '/tools/notification-quick-view', permanent: true },

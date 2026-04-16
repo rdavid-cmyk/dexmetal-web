@@ -40,6 +40,24 @@ export default async function ToolsPage() {
           </p>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <Link
+            href="/tools/basel-navigator"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              Basel Navigator
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Generate Basel Convention notification and movement documents.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+        </div>
+
         {tools.length === 0 ? (
           <p className="font-body text-center py-20" style={{ color: '#a0a09a' }}>
             Tools coming soon.

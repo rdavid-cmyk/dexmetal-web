@@ -34,9 +34,16 @@ const CIRCULAR_STAGES = [
 
 const FREE_TOOLS = [
   {
+    title: 'Basel Navigator',
+    href: '/tools/basel-desk',
+    accent: '#1D9E75',
+    description:
+      'Generate Basel Convention notification and movement documents.',
+  },
+  {
     title: 'Basel Checklist',
     href: '/checklist',
-    accent: '#1D9E75',
+    accent: '#FF5C00',
     description:
       'A practical export-prep checklist for e-waste shipments, notification forms, and movement document readiness.',
   },
