@@ -5,8 +5,24 @@ Last updated: 2026-04-15 (Session 17 — Tool renamed to "Basel Navigator")
 ---
 
 ## Status
+## RESUME HERE — NEXT SESSION
+1. Block 10/12 PDF coordinate swap
+2. Notification → Movement Document data sync test
+3. Blocks 19-21 nav bug
+4. Tooltips + Copilot links across all blocks
+5. Basel Navigator page background fix (white → #1C1B18)
+6. Remove .env.local from git history
+
+
+### ✅ RESOLVED — Tool renamed: Basel Form Assistant → Basel Navigator (slug, display name, file names)
+RESOLVED — Tools nav item added to DexMetalHeader.tsx
+RESOLVED — Old placeholder tool cards removed from /tools page (DB records deleted)
 
 ### ✅ RESOLVED — Tool renamed to "Basel Navigator" + URL slug updated
+**Repo: 
+**What was changed:** Tool UI + slug renamed from Basel Form Assistant to Basel Navigator, all file references updated, FREE_TOOLS href fixed, DexMetalHeader.tsx tools link added, old placeholder tool cards deleted from DB.
+**Files changed:** page.tsx, basel-navigator/page.tsx, DexMetalHeader.tsx, knowledge_hub_pages (7 deleted)
+**Status:** ✅ Deployed + committed
 **Repo: `rdavid-cmyk/dexmetal-web`**
 
 Renamed both UI label and URL slug from "Basel Form Assistant" to "Basel Navigator".
