@@ -1,27 +1,27 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-15 (Session 17 — Tool renamed to "Basel Desk")
+Last updated: 2026-04-15 (Session 17 — Tool renamed to "Basel Navigator")
 
 ---
 
 ## Status
 
-### ✅ RESOLVED — Tool renamed to "Basel Desk" + URL slug updated
+### ✅ RESOLVED — Tool renamed to "Basel Navigator" + URL slug updated
 **Repo: `rdavid-cmyk/dexmetal-web`**
 
-Renamed both UI label and URL slug from "Basel Form Assistant" to "Basel Desk".
+Renamed both UI label and URL slug from "Basel Form Assistant" to "Basel Navigator".
 
 **What was changed:**
 
 | File | Change |
 |------|-------|
-| `src/app/(frontend)/tools/basel-desk/page.tsx` | Page title: "Basel Desk", description updated |
-| `src/app/(frontend)/page.tsx` | Added "Basel Desk" card to FREE_TOOLS array, first position |
-| `src/app/(frontend)/tools/page.tsx` | Added Basel Desk link card at top of tools grid |
-| `src/lib/redirects.ts` | Added 308 redirect: `/tools/basel-form-assistant` → `/tools/basel-desk` |
+| `src/app/(frontend)/tools/basel-navigator/page.tsx` | Page title: "Basel Navigator", description updated |
+| `src/app/(frontend)/page.tsx` | Added "Basel Navigator" card to FREE_TOOLS array, first position |
+| `src/app/(frontend)/tools/page.tsx` | Added Basel Navigator link card at top of tools grid |
+| `src/lib/redirects.ts` | Added 308 redirect: `/tools/basel-form-assistant` → `/tools/basel-navigator` |
 
 **Verification:**
-- `/tools/basel-desk` loads ✅
+- `/tools/basel-navigator` loads ✅
 - `/tools/basel-form-assistant` → 308 redirect ✅
 - Build + PM2 restart successful ✅
 
@@ -1577,7 +1577,7 @@ drawText overlay is the only approach. Do not revisit this decision.
 
 MOVEMENT DOCUMENT FORM — 2026-04-15
 ════════════════════════════════════
-Implemented 19-block Movement Document smart form in Basel Desk.
+Implemented 19-block Movement Document smart form in Basel Navigator.
 
 CHANGES MADE:
 - Added MOVEMENT_BLOCKS constant (19 blocks, vCOP8 titles)
