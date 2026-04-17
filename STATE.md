@@ -12,7 +12,7 @@ nASSESSMENT: Block 10 and Block 12 render correctly - coordinates correct, field
 3. Blocks 19-21 nav bug
 4. Tooltips + Copilot links across all blocks
 ✅ RESOLVED — Basel Navigator page background fix (#f5f5f0 → #1C1B18)
-6. Remove .env.local from git history
+✅ RESOLVED — .env.local already untracked (in .gitignore)
 
 
 ### ✅ RESOLVED — Tool renamed: Basel Form Assistant → Basel Navigator (slug, display name, file names)
