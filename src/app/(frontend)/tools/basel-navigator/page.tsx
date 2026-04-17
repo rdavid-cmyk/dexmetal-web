@@ -837,7 +837,7 @@ const handleGeneratePDF = async () => {
     const currentBlock = blocks[currentStep]
 
     return (
-      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-5xl mx-auto">
           <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>
           <p className="text-lg mb-6" style={{ color: '#666660' }}>Complete the vCOP8 Notification Document fields below.</p>
@@ -1210,7 +1210,7 @@ const handleGeneratePDF = async () => {
     const isSynced = currentBlock?.isSynced
 
     return (
-      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-5xl mx-auto">
           <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Movement Document</h1>
           <p className="text-lg mb-6" style={{ color: '#666660' }}>Complete the vCOP8 Movement Document fields below.</p>
@@ -1407,7 +1407,7 @@ const handleGeneratePDF = async () => {
 
   if (activeTab === 'reference') {
     return (
-      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-4xl mx-auto">
           <h1 className="font-display text-4xl font-bold mb-4" style={{ color: '#1a1a1a' }}>Basel Navigator</h1>
           <p className="text-lg mb-8" style={{ color: '#666660' }}>Quick reference guide to the vCOP8 Notification and Movement documents.</p>
@@ -1464,7 +1464,7 @@ const handleGeneratePDF = async () => {
     }
 
     return (
-      <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+      <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-5xl mx-auto">
           <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Submission Package</h1>
           <p className="text-lg mb-6" style={{ color: '#666660' }}>Track and upload all 28 required supporting documents for your Basel notification.</p>
@@ -1499,7 +1499,7 @@ const handleGeneratePDF = async () => {
                       {doc.blocks.length > 0 && (
                         <div className="flex gap-1 mt-1">
                           {doc.blocks.map(b => (
-                            <span key={b} className="px-2 py-0.5 rounded text-xs" style={{ backgroundColor: '#f5f5f0', color: '#666660' }}>Block {b}</span>
+                            <span key={b} className="px-2 py-0.5 rounded text-xs" style={{ backgroundColor: '#1C1B18', color: '#666660' }}>Block {b}</span>
                           ))}
                         </div>
                       )}
@@ -1539,7 +1539,7 @@ const handleGeneratePDF = async () => {
   }
 
   return (
-    <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
+    <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
       <div className="max-w-5xl mx-auto">
         <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>
         <p className="text-lg mb-6" style={{ color: '#666660' }}>Complete the vCOP8 Notification Document fields below.</p>
