@@ -571,6 +571,15 @@ export default function BaselFormAssistantPage() {
       syncedData['mv_block14_export'] = (nf['block15_export'] as string) || ''
       syncedData['mv_block14_import'] = (nf['block15_import'] as string) || ''
       syncedData['mv_block14_transit'] = (nf['block15_transit'] as string) || ''
+      syncedData['mv_block5_date'] = (nf['block6_start'] as string) || ''
+      syncedData['mv_block6_packaging'] = (nf['block7_packaging'] as string[]) || null
+      syncedData['mv_block6_packages'] = Number(nf['block7_packages']) || 1
+      syncedData['mv_block6_special'] = (nf['block7_special_handling'] as string) || ''
+      syncedData['mv_block7_name'] = (nf['block8_carrier_name'] as string) || ''
+      syncedData['mv_block7_address'] = (nf['block8_carrier_address'] as string) || ''
+      syncedData['mv_block7_phone'] = (nf['block8_carrier_phone'] as string) || ''
+      syncedData['mv_block7_transport'] = ((nf['block8_transport'] as string[])?.[0] || '') || ''
+      syncedData['mv_block16_info'] = (nf['block7_special_handling'] as string) || ''
       
       setMovementFormData((prev) => ({ ...prev, ...syncedData }))
       setSyncMessage('Synced from Notification — review fields before submitting')
@@ -631,7 +640,7 @@ const handleGeneratePDF = async () => {
         movement: null,
         supporting_documents: null,
         validation: null,
-        meta: { schema_version: '1.0.0', exported_at: new Date().toISOString(), tool: 'DexMetal Basel Form Assistant' }
+        meta: { schema_version: '1.0.0', exported_at: new Date().toISOString(), tool: 'DexMetal Basel Navigator' }
       }
 
       const response = await fetch('/api/generate-pdf', {
@@ -709,7 +718,7 @@ const handleGeneratePDF = async () => {
         },
         supporting_documents: null,
         validation: null,
-        meta: { schema_version: '1.0.0', exported_at: new Date().toISOString(), tool: 'DexMetal Basel Form Assistant' }
+        meta: { schema_version: '1.0.0', exported_at: new Date().toISOString(), tool: 'DexMetal Basel Navigator' }
       }
 
       const response = await fetch('/api/generate-pdf', {
@@ -1400,7 +1409,7 @@ const handleGeneratePDF = async () => {
     return (
       <div className="min-h-screen font-body" style={{ backgroundColor: '#f5f5f0', padding: '32px 24px' }}>
         <div className="max-w-4xl mx-auto">
-          <h1 className="font-display text-4xl font-bold mb-4" style={{ color: '#1a1a1a' }}>Basel Form Assistant</h1>
+          <h1 className="font-display text-4xl font-bold mb-4" style={{ color: '#1a1a1a' }}>Basel Navigator</h1>
           <p className="text-lg mb-8" style={{ color: '#666660' }}>Quick reference guide to the vCOP8 Notification and Movement documents.</p>
           {DISCLAIMER_BANNER}
           <div className="flex gap-4 mb-8 border-b" style={{ borderColor: '#e5e5e0' }}>

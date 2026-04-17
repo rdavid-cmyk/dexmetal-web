@@ -35,7 +35,7 @@ const CIRCULAR_STAGES = [
 const FREE_TOOLS = [
   {
     title: 'Basel Navigator',
-    href: '/tools/basel-desk',
+    href: '/tools/basel-navigator',
     accent: '#1D9E75',
     description:
       'Generate Basel Convention notification and movement documents.',

@@ -8,7 +8,7 @@ Last updated: 2026-04-15 (Session 17 — Tool renamed to "Basel Navigator")
 ## RESUME HERE — NEXT SESSION
 1. Block 10/12 PDF coordinate swap
 nASSESSMENT: Block 10 and Block 12 render correctly - coordinates correct, field key mismatch was user error in test
-2. Notification → Movement Document data sync test
+2. Notification → Movement Document data sync - EXTENDED (blocks 5, 6, 7, 16)
 3. Blocks 19-21 nav bug
 4. Tooltips + Copilot links across all blocks
 5. Basel Navigator page background fix (white → #1C1B18)
