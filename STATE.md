@@ -1,7 +1,18 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-17 (Session 18 — SSH MCP + Hetzner context configured)
+Last updated: 2026-04-17 (Session 18b — Claude Project + API key rotation)
 
+
+
+---
+
+## Session 18b — 2026-04-17 — Claude Project created + API key rotated
+### COMPLETED
+- Created claude.ai Project: DexMetal Operations (ID: 019d9c13-b296-75f7-8ef3-723e36df3f73)
+- Instructions loaded: stack, SSH, deploy, DB, design tokens, active projects, MCP rules
+- New Anthropic API key created: DexMetal Production (sk-ant-api03-7cv...0QAA)
+- ANTHROPIC_API_KEY updated in /var/www/dexmetal-web/.env.local
+- Bitwarden ANTHROPIC_API_KEY item updated and synced
 
 ---
 
