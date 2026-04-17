@@ -1,5 +1,5 @@
 # STATUS.md — DexMetal Web Project Status
-Last updated: 2026-04-17
+Last updated: 2026-04-17 (session 2)
 
 ## PAGES
 | Page | Status | Notes |
@@ -85,3 +85,26 @@ Last updated: 2026-04-17
 3. Fix blog hero images
 4. Build /contact from real WordPress content
 
+## SESSION UPDATE 2026-04-17 (session 2)
+### COMPLETED THIS SESSION
+- PIC overview page title/meta updated for "pic meaning in shipping" keyword — live on main
+  - Title: "PIC Meaning in Shipping & Hazardous Waste" (| DexMetal suffix removed — Next.js appends it)
+  - Meta description: Prior Informed Consent / Basel mechanism / what exporters must do
+- Batch API infrastructure added to main
+  - @anthropic-ai/sdk ^0.90.0 installed
+  - scripts/batch-content-gen.ts — reads all knowledge_hub_pages, submits one Anthropic batch request per page (claude-opus-4-7, 500-word Basel expert summary), saves batch_id to scripts/batch-state.json
+  - scripts/batch-results.ts — polls batch until complete, streams results, logs summary
+  - npm scripts: pnpm batch:content / pnpm batch:results
+- Hetzner MCP reconnected at https://mcp.dexmetal.com/sse (CA API tools only)
+
+### KNOWN ISSUES
+- ANTHROPIC_API_KEY not yet confirmed in .env.local on server — required before running pnpm batch:content
+- /contact needs real WordPress content
+- /tools needs real content
+- DNS not moved yet
+
+### NEXT ACTIONS (in order)
+1. Confirm ANTHROPIC_API_KEY is set in .env.local on server, then run: pnpm batch:content
+2. Monitor PIC page CTR in Google Search Console in 1–2 weeks (keyword: "pic meaning in shipping")
+3. Fix blog hero images
+4. Build /contact from real WordPress content
