@@ -16,6 +16,8 @@
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation eslint . --fix",
     "migrate:wp": "dotenv -e .env -- tsx scripts/migrate-wp-content.ts",
     "remap:slugs": "dotenv -e .env -- tsx scripts/remap-slugs.ts",
+    "batch:content": "dotenv -e .env.local -- tsx scripts/batch-content-gen.ts",
+    "batch:results": "dotenv -e .env.local -- tsx scripts/batch-results.ts",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
@@ -24,6 +26,7 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
     "@payloadcms/admin-bar": "3.81.0",
     "@payloadcms/db-postgres": "3.81.0",
     "@payloadcms/live-preview-react": "3.81.0",
