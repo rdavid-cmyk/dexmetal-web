@@ -249,21 +249,7 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  at_a_glance?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  at_a_glance?: string | null;
   toc_enabled?: boolean | null;
   difficulty?: ('beginner' | 'intermediate' | 'advanced') | null;
   read_time?: number | null;
@@ -861,6 +847,10 @@ export interface KnowledgeHubPage {
   } | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
+  /**
+   * Paste valid JSON-LD structured data here. Rendered in <head> as application/ld+json.
+   */
+  jsonLd?: string | null;
   wpPostId?: number | null;
   wpUrl?: string | null;
   redirectFrom?: string | null;
@@ -1553,6 +1543,7 @@ export interface KnowledgeHubPagesSelect<T extends boolean = true> {
   content?: T;
   metaTitle?: T;
   metaDescription?: T;
+  jsonLd?: T;
   wpPostId?: T;
   wpUrl?: T;
   redirectFrom?: T;

@@ -206,6 +206,12 @@ export default async function KnowledgeHubSlugPage({ params }: Args) {
           </nav>
         )}
       </div>
+            {page.jsonLd && page.jsonLd.trim() && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: page.jsonLd }}
+              />
+            )}
     </article>
   )
 }
