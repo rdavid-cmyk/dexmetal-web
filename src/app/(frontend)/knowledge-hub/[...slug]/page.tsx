@@ -20,6 +20,13 @@ const SECTION_TITLES: Record<string, string> = {
   'reference':        'Additional Reference',
 }
 
+const SECTION_META: Record<string, { title: string; description: string }> = {
+  'pic': {
+    title: 'PIC Meaning in Shipping & Hazardous Waste | DexMetal',
+    description: 'PIC stands for Prior Informed Consent — the Basel Convention mechanism requiring government approval before any cross-border hazardous waste shipment. What it means and what exporters must do.',
+  },
+}
+
 function extractBlockNumber(title: string | null | undefined): number {
   if (!title) return Infinity
   const m = title.match(/\bBlock\s+(\d+)/i)
@@ -221,7 +228,10 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const decodedSlug = decodeURIComponent(slug.join('/'))
 
   if (SECTION_TITLES[decodedSlug]) {
-    return { title: SECTION_TITLES[decodedSlug] }
+    const meta = SECTION_META[decodedSlug]
+    return meta
+      ? { title: meta.title, description: meta.description }
+      : { title: SECTION_TITLES[decodedSlug] }
   }
 
   const page = await queryPageBySlug({ slug: decodedSlug })

@@ -1,5 +1,5 @@
 # STATUS.md — DexMetal Web Project Status
-Last updated: 2026-04-05
+Last updated: 2026-04-17
 
 ## PAGES
 | Page | Status | Notes |
@@ -64,4 +64,24 @@ Last updated: 2026-04-05
 3. Build /tools from real content
 4. Richard approves all pages
 5. DNS move
+
+## SESSION UPDATE 2026-04-17
+### COMPLETED THIS SESSION
+- Fixed PIC section overview page SEO metadata
+- Added SECTION_META map in [...slug]/page.tsx to hold per-section title/description overrides
+- PIC page title: "PIC Meaning in Shipping & Hazardous Waste | DexMetal"
+- PIC meta description: "PIC stands for Prior Informed Consent — the Basel Convention mechanism requiring government approval before any cross-border hazardous waste shipment. What it means and what exporters must do."
+- generateMetadata updated to prefer SECTION_META over bare SECTION_TITLES for section pages
+
+### KNOWN ISSUES
+- SSH not available in this environment — server rebuild/restart must be done manually or via deploy pipeline
+- /contact needs real WordPress content
+- /tools needs real content
+- DNS not moved yet
+
+### NEXT SESSION (in order)
+1. Deploy to server: cd /var/www/dexmetal-web && git pull && npm run build && pm2 restart dexmetal-web
+2. Verify live: curl -s https://dexmetal.com/knowledge-hub/pic | grep -o '<title>[^<]*</title>'
+3. Fix blog hero images
+4. Build /contact from real WordPress content
 
