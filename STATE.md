@@ -1,6 +1,24 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-15 (Session 17 — Tool renamed to "Basel Navigator")
+Last updated: 2026-04-17 (Session 18 — SSH MCP + Hetzner context configured)
+
+
+---
+
+## Session 18 — 2026-04-17 — SSH MCP + Hetzner Default Context
+### ✅ COMPLETED
+
+**What was done:**
+- Created  on Mac — global Claude Code context with Hetzner server details (primary server, SSH key, app root, DB, deploy command)
+- Registered  SSH MCP server in Claude Code user config via  (npx, stdio transport)
+  - Host: 204.168.231.188 | User: root | Key: ~/.ssh/id_orca
+- Claude Code can now execute commands directly on this server without manual SSH prefixes
+
+**Resume next session:**
+- Continue Block 10/12 PDF coordinate swap investigation
+- Notification → Movement Document data sync (blocks 5, 6, 7, 16)
+- Blocks 19-21 nav bug
+- Tooltips + Copilot links across all blocks
 
 ---
 
