@@ -1607,3 +1607,5 @@ CHANGES MADE:
   - Block 17: new receipt confirmation fields
 - Fill tab renderer now routes to correct function based on selectedDoc
 
+
+BLOCKED - ANTHROPIC_API_KEY rejected as invalid (101 pages ready, needs valid key)
