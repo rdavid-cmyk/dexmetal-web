@@ -27,6 +27,19 @@ const SECTION_META: Record<string, { title: string; description: string }> = {
   },
 }
 
+// Leaf-page SEO overrides — keyed by full slug as stored in DB.
+// Takes priority over DB metaTitle/metaDescription for zero-click / high-impression pages.
+const PAGE_META: Record<string, { title: string; description: string }> = {
+  'e-waste-materials-reference': {
+    title: 'E-Waste Materials Reference Guide | Basel Convention',
+    description: 'Complete reference for e-waste materials under the Basel Convention — classifications, codes, and handling requirements for recyclers and exporters.',
+  },
+  '2025-basel-e-waste-changes': {
+    title: '2025 Basel E-Waste Changes Explained',
+    description: 'The 2025 Basel Convention amendments extended PIC controls to all e-waste. What changed, which codes are affected, and what exporters must do now.',
+  },
+}
+
 function extractBlockNumber(title: string | null | undefined): number {
   if (!title) return Infinity
   const m = title.match(/\bBlock\s+(\d+)/i)
@@ -232,6 +245,11 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
     return meta
       ? { title: meta.title, description: meta.description }
       : { title: SECTION_TITLES[decodedSlug] }
+  }
+
+  const pageMeta = PAGE_META[decodedSlug]
+  if (pageMeta) {
+    return { title: pageMeta.title, description: pageMeta.description }
   }
 
   const page = await queryPageBySlug({ slug: decodedSlug })

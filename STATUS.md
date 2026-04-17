@@ -1,5 +1,5 @@
 # STATUS.md — DexMetal Web Project Status
-Last updated: 2026-04-17 (session 2)
+Last updated: 2026-04-17 (session 3)
 
 ## PAGES
 | Page | Status | Notes |
@@ -108,3 +108,19 @@ Last updated: 2026-04-17 (session 2)
 2. Monitor PIC page CTR in Google Search Console in 1–2 weeks (keyword: "pic meaning in shipping")
 3. Fix blog hero images
 4. Build /contact from real WordPress content
+
+## SESSION UPDATE 2026-04-17 (session 3)
+### COMPLETED THIS SESSION
+- SEO meta fixed for high-impression zero-click Knowledge Hub pages
+  - Added PAGE_META map in [...slug]/page.tsx for leaf-page overrides (checked before DB metaTitle)
+  - e-waste-materials-reference: "E-Waste Materials Reference Guide | Basel Convention"
+  - 2025-basel-e-waste-changes: "2025 Basel E-Waste Changes Explained" (| DexMetal stripped — template adds it)
+- About page meta updated
+  - title: { absolute: "About DexMetal | Basel Convention Compliance Experts" } (absolute bypasses layout template)
+  - description: updated to 20+ years Caribbean hazardous waste experience copy
+- No additional zero-click pages flagged in STATUS.md
+
+### NEXT ACTIONS (in order)
+1. Deploy: cd /var/www/dexmetal-web && git pull && npm run build && pm2 restart dexmetal-web
+2. Confirm ANTHROPIC_API_KEY in .env.local, then run: pnpm batch:content
+3. Monitor GSC CTR for pic, e-waste-materials-reference, 2025-basel-e-waste-changes, about in 1–2 weeks
