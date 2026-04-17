@@ -1,5 +1,5 @@
 # STATUS.md — DexMetal Web Project Status
-Last updated: 2026-04-17 (session 3)
+Last updated: 2026-04-17 (session 4)
 
 ## PAGES
 | Page | Status | Notes |
@@ -124,3 +124,14 @@ Last updated: 2026-04-17 (session 3)
 1. Deploy: cd /var/www/dexmetal-web && git pull && npm run build && pm2 restart dexmetal-web
 2. Confirm ANTHROPIC_API_KEY in .env.local, then run: pnpm batch:content
 3. Monitor GSC CTR for pic, e-waste-materials-reference, 2025-basel-e-waste-changes, about in 1–2 weeks
+
+## SESSION UPDATE 2026-04-17 (session 4)
+### COMPLETED THIS SESSION
+- All meta fixes live on main (PIC, e-waste-materials-reference, 2025-basel-e-waste-changes, about)
+- Batch running: msgbatch_01LFof32ewK6cYHjDQPCaay5 — 101 pages queued
+- tsconfig.json updated: scripts/ excluded from Next.js TypeScript compilation (build was failing)
+
+### NEXT ACTIONS (in order)
+1. Run pnpm batch:results in ~24hrs (batch ID: msgbatch_01LFof32ewK6cYHjDQPCaay5)
+2. CA API 181-country expansion
+3. Monitor GSC CTR for updated pages in 1–2 weeks
