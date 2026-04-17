@@ -22,7 +22,7 @@ const SECTION_TITLES: Record<string, string> = {
 
 const SECTION_META: Record<string, { title: string; description: string }> = {
   'pic': {
-    title: 'PIC Meaning in Shipping & Hazardous Waste | DexMetal',
+    title: 'PIC Meaning in Shipping & Hazardous Waste',
     description: 'PIC stands for Prior Informed Consent — the Basel Convention mechanism requiring government approval before any cross-border hazardous waste shipment. What it means and what exporters must do.',
   },
 }
