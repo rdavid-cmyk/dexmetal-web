@@ -71,6 +71,21 @@ export default async function ToolsPage() {
               Open tool →
             </span>
           </Link>
+          <Link
+            href="/tools/pic-status-checker"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              PIC Status Checker
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Determine whether your shipment requires Prior Informed Consent — and what type of consent applies. Includes 2025 Y49 amendment.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
         </div>
 
         {tools.length === 0 ? (

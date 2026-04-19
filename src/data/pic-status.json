@@ -1,0 +1,29 @@
+{
+  "picProcedureSteps": [
+    {
+      "step": 1,
+      "title": "File notification with your national Competent Authority",
+      "detail": "Prepare and submit the Basel notification document to your country's CA — include waste type, quantities, proposed route, receiving facility permit, and financial guarantee details."
+    },
+    {
+      "step": 2,
+      "title": "CA transmits notification to destination (and transit) CAs",
+      "detail": "Your national CA forwards the complete notification package to the importing country CA and any transit country CAs within the required timeframe."
+    },
+    {
+      "step": 3,
+      "title": "Destination CA acknowledges receipt",
+      "detail": "The importing country CA issues a formal acknowledgement of receipt. This starts the consent clock under Article 6(2). Keep a copy — it is part of your compliance record."
+    },
+    {
+      "step": 4,
+      "title": "Written consent (or tacit approval) received",
+      "detail": "For explicit PIC: the destination CA issues written consent specifying conditions. For OECD tacit consent (C(2001)107): 30 days' silence after acknowledgement = deemed approval."
+    },
+    {
+      "step": 5,
+      "title": "Documentation complete — shipment may proceed",
+      "detail": "Retain all consent letters with your movement documents. Shipment must begin within the validity period specified in the consent. Movement documents must accompany the waste at all times."
+    }
+  ]
+}

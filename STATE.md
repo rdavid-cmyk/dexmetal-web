@@ -1644,3 +1644,10 @@ URL: /tools/shipment-eligibility-checker
 Email gate: localStorage + console.log (Brevo pending)
 Rules: Ban Amendment, OECD C(2001)107, Plastic Waste 2021, ULAB, same-country, non-party
 Open: Brevo integration, CA data gaps, US bilateral context
+
+PIC STATUS CHECKER — 2026-04-18
+URL: /tools/pic-status-checker
+Statuses: NOT_APPLICABLE, HIGH_RISK, NOT_ELIGIBLE, TACIT_CONSENT, PIC_REQUIRED
+2025 Y49 amendment callout prominent on page
+Email gate: localStorage + console.log (Brevo pending)
+Open: Brevo integration, CA data gaps
