@@ -5,13 +5,17 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    const parties = (countriesData.parties as any[]).map(c => ({
+    const allCountries = countriesData.parties || []
+    const nonParties = countriesData.nonParties || []
+    
+    const parties = allCountries.map((c: any) => ({
       code: c.code,
       name: c.name,
-      region: c.region
-    })).sort((a, b) => a.name.localeCompare(b.name))
-
-    const nonParties = (countriesData.nonParties as any[]).map(c => ({
+      region: c.region,
+      isParty: true
+    })).sort((a: any, b: any) => a.name.localeCompare(b.name))
+    
+    const npList = nonParties.map((c: any) => ({
       code: c.code,
       name: c.name,
       reason: c.reason,
@@ -20,9 +24,8 @@ export async function GET() {
 
     return NextResponse.json({
       parties,
-      nonParties,
-      totalParties: parties.length,
-      totalNonParties: nonParties.length,
+      nonParties: npList,
+      totalItems: parties.length + npList.length,
       lastUpdated: new Date().toISOString()
     })
   } catch (error: any) {
