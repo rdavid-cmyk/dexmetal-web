@@ -1667,3 +1667,15 @@ Traffic light: GREEN (>15%) / YELLOW (<15%) / RED (negative)
 Email gate: full cost table with Basel compliance cost ($800-$2500 midpoint)
 Cross-links to classification, PIC, Basel Navigator
 Open: Brevo integration, live LME price feed
+
+E-WASTE EXPORT ROUTE RISK MAPPER — 2026-04-19
+URL: /tools/ewaste-route-mapper
+4-step wizard: waste category → origin → destination → purpose
+assessRoute() logic: Ban Amendment, PIC, OECD tacit consent, complexity scoring
+Grouped country dropdowns by region (Caribbean, LatAm, West Africa, SE Asia)
+3-column indicator grid: Basel Ban / PIC Required / Complexity
+Transit warnings by route corridor
+Email gate: numbered compliance steps + CA contact lookup
+Cross-links to Classification, Eligibility, PIC, Basel Navigator
+Open: Brevo integration
+Tools index: 6 tools live on /tools page

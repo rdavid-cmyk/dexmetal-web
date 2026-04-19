@@ -1,0 +1,91 @@
+{
+  "originRegions": {
+    "Caribbean": ["Trinidad and Tobago", "Jamaica", "Barbados", "Guyana", "Haiti", "Dominican Republic"],
+    "Latin America": ["Colombia", "Brazil", "Mexico", "Peru", "Argentina", "Chile"],
+    "North America": ["Canada"],
+    "West Africa": ["Nigeria", "Ghana", "Senegal", "Côte d'Ivoire"],
+    "Southeast Asia": ["Philippines", "Indonesia", "Malaysia", "Vietnam", "Thailand"]
+  },
+  "destinationRegions": {
+    "Western Europe": ["Belgium", "Germany", "Netherlands", "France"],
+    "East Asia": ["Japan", "South Korea", "China"],
+    "South Asia": ["India"],
+    "Southeast Asia": ["Malaysia"],
+    "West Africa": ["Ghana", "Nigeria"]
+  },
+  "annexVII": ["BE","DE","NL","FR","JP","KR","CA","AU","AT","CH","GB","SE","NO","DK","FI","IT","ES","PT","PL","CZ","HU","IE","GR","SK","SI","LV","LT","EE","BG","HR","RO","MT","CY","LU","LI","IL","MX","CL","CO","CR","NZ","TR","IS"],
+  "originCodes": {
+    "Trinidad and Tobago": "TT", "Jamaica": "JM", "Barbados": "BB", "Guyana": "GY",
+    "Haiti": "HT", "Dominican Republic": "DO", "Colombia": "CO", "Brazil": "BR",
+    "Mexico": "MX", "Peru": "PE", "Argentina": "AR", "Chile": "CL", "Canada": "CA",
+    "Nigeria": "NG", "Ghana": "GH", "Senegal": "SN", "Côte d'Ivoire": "CI",
+    "Philippines": "PH", "Indonesia": "ID", "Malaysia": "MY", "Vietnam": "VN", "Thailand": "TH"
+  },
+  "destCodes": {
+    "Belgium": "BE", "Germany": "DE", "Netherlands": "NL", "France": "FR",
+    "Japan": "JP", "South Korea": "KR", "China": "CN",
+    "India": "IN", "Malaysia": "MY", "Ghana": "GH", "Nigeria": "NG"
+  },
+  "nonParties": ["HT"],
+  "wasteCategories": [
+    { "value": "ULAB", "label": "ULAB / Lead-Acid Batteries", "hazardous": true, "code": "Y31" },
+    { "value": "MixedEWaste", "label": "Mixed E-Waste", "hazardous": true, "code": "A1181" },
+    { "value": "CRTs", "label": "CRT Monitors / TVs", "hazardous": true, "code": "A1181" },
+    { "value": "CircuitBoards", "label": "Circuit Boards / PCBs", "hazardous": true, "code": "A1181" },
+    { "value": "WholeUnits", "label": "Whole Units for Refurbishment", "hazardous": false, "code": "B1110" }
+  ],
+  "purposes": [
+    { "value": "recycling", "label": "Recycling / Recovery" },
+    { "value": "refurbishment", "label": "Repair / Refurbishment" },
+    { "value": "disposal", "label": "Disposal" }
+  ],
+  "knownCAContacts": {
+    "BE": { "name": "FPS Health, Food Chain Safety and Environment", "email": "env.transports@health.fgov.be" },
+    "DE": { "name": "Federal Environment Agency (UBA)", "email": "grenzueberschreitende-abfallverbringung@uba.de" },
+    "JP": { "name": "Ministry of the Environment — Waste and Recycling Dept.", "email": null },
+    "KR": { "name": "Ministry of Environment — Basel Secretariat", "email": null },
+    "IN": { "name": "Ministry of Environment, Forest and Climate Change (MoEFCC)", "email": "secy-moef@nic.in" },
+    "NG": { "name": "Federal Ministry of Environment — Hazardous Substances Dept.", "email": null },
+    "GH": { "name": "Environmental Protection Agency Ghana", "email": "info@epa.gov.gh" }
+  },
+  "complianceSteps": {
+    "banned": [
+      "Shipment is PROHIBITED under Basel Ban Amendment — do not proceed",
+      "Confirm classification: is the waste truly hazardous? If B1110 applies (tested-working), ban may not apply",
+      "Explore alternative destination countries in Annex VII (OECD/EU)",
+      "Consult a Basel compliance specialist before any further action"
+    ],
+    "high": [
+      "Obtain waste characterization and hazardous constituent analysis",
+      "Apply to your national Competent Authority for notification approval",
+      "Submit formal PIC request to destination CA and await written consent",
+      "Arrange transit country consents if routing through non-Basel-party states",
+      "Prepare financial guarantee / environmental insurance",
+      "Complete Basel notification document with all supporting documentation",
+      "Ensure carrier is licensed for transboundary hazardous waste movement",
+      "Retain all consent letters — movement documents must accompany waste"
+    ],
+    "medium": [
+      "Confirm waste classification — verify Basel code and hazard status",
+      "Notify your national Competent Authority of intended transboundary movement",
+      "Obtain Prior Informed Consent from destination CA (written)",
+      "Prepare Basel notification document and movement documents",
+      "Ensure financial guarantee is in place before shipment",
+      "Carrier must hold appropriate transboundary waste transport authorization"
+    ],
+    "low": [
+      "Confirm waste code and hazard status for customs documentation",
+      "Notify your national CA per OECD Decision C(2001)107 if required",
+      "Allow 30-day tacit consent period for OECD-to-OECD shipments",
+      "Maintain movement documents with waste throughout journey",
+      "Ensure receiving facility holds appropriate recovery/reuse authorization"
+    ]
+  },
+  "transitWarnings": {
+    "Caribbean-to-Europe": "Caribbean routes to Europe typically transit through US ports. The US is not a Basel party — US port transit does not constitute Basel export to the US, but carrier must ensure no deconsolidation or storage in US territory.",
+    "Caribbean-to-Asia": "Caribbean to Asia routes commonly transit through Panama Canal. Panama is a Basel party. If waste is offloaded or stored in transit, PIC from Panama CA is required.",
+    "WestAfrica-to-Europe": "Direct West Africa to Western Europe routes available via major shipping lines. Transit through North African ports (Morocco, Egypt) may require additional CAs if cargo is transshipped.",
+    "Asia-to-Europe": "Asia to Europe commonly transits Suez Canal / Egyptian ports. If waste is offloaded in Egypt, Egyptian CA consent is required.",
+    "default": "Verify your shipping route with your freight forwarder. If cargo is offloaded or stored in any transit country, Prior Informed Consent from that country's CA is required under Article 6."
+  }
+}
