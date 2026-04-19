@@ -1659,3 +1659,11 @@ Codes: A1181, A1170, Y31, B1110, B1120, B3011, A3210, REQUIRES_TESTING
 Email gate: misclassifications + docs checklist + rationale
 Cross-links to eligibility checker and PIC checker
 Open: Brevo integration
+
+ULAB EXPORT CALCULATOR — 2026-04-18
+URL: /tools/ulab-export-calculator
+Live calculation: qty + condition + origin + dest + LME price
+Traffic light: GREEN (>15%) / YELLOW (<15%) / RED (negative)
+Email gate: full cost table with Basel compliance cost ($800-$2500 midpoint)
+Cross-links to classification, PIC, Basel Navigator
+Open: Brevo integration, live LME price feed

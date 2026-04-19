@@ -1,0 +1,91 @@
+{
+  "recoveryFactors": {
+    "Whole Uncracked": 0.60,
+    "Cracked/Drained": 0.55,
+    "Mixed": 0.57
+  },
+  "smelterRecoveryRate": 0.85,
+  "defaultLmePrice": 1950,
+  "baselComplianceCostLow": 800,
+  "baselComplianceCostHigh": 2500,
+  "originRegions": {
+    "TT": "Caribbean",
+    "JM": "Caribbean",
+    "BB": "Caribbean",
+    "GY": "Caribbean",
+    "CO": "LatinAmerica",
+    "BR": "LatinAmerica",
+    "MX": "LatinAmerica",
+    "NG": "Africa",
+    "GH": "Africa",
+    "ZA": "Africa",
+    "IN": "Asia",
+    "PH": "Asia",
+    "OTHER": "Other"
+  },
+  "logisticsRates": {
+    "Caribbean": {
+      "USA": 180,
+      "Germany": 320,
+      "South Korea": 410,
+      "India": 410,
+      "China": 410,
+      "Other": 250
+    },
+    "LatinAmerica": {
+      "USA": 200,
+      "Germany": 300,
+      "South Korea": 380,
+      "India": 380,
+      "China": 380,
+      "Other": 250
+    },
+    "Africa": {
+      "USA": 350,
+      "Germany": 220,
+      "South Korea": 280,
+      "India": 240,
+      "China": 260,
+      "Other": 250
+    },
+    "Asia": {
+      "USA": 300,
+      "Germany": 280,
+      "South Korea": 180,
+      "India": 180,
+      "China": 180,
+      "Other": 200
+    },
+    "Other": {
+      "USA": 250,
+      "Germany": 250,
+      "South Korea": 250,
+      "India": 250,
+      "China": 250,
+      "Other": 250
+    }
+  },
+  "originCountries": [
+    { "code": "TT", "name": "Trinidad and Tobago" },
+    { "code": "JM", "name": "Jamaica" },
+    { "code": "BB", "name": "Barbados" },
+    { "code": "GY", "name": "Guyana" },
+    { "code": "CO", "name": "Colombia" },
+    { "code": "BR", "name": "Brazil" },
+    { "code": "MX", "name": "Mexico" },
+    { "code": "NG", "name": "Nigeria" },
+    { "code": "GH", "name": "Ghana" },
+    { "code": "ZA", "name": "South Africa" },
+    { "code": "IN", "name": "India" },
+    { "code": "PH", "name": "Philippines" },
+    { "code": "OTHER", "name": "Other" }
+  ],
+  "destinationCountries": [
+    "USA",
+    "Germany",
+    "South Korea",
+    "India",
+    "China",
+    "Other"
+  ]
+}
