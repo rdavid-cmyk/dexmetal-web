@@ -1638,3 +1638,9 @@ CHANGES MADE:
 
 
 BLOCKED - ANTHROPIC_API_KEY rejected as invalid (101 pages ready, needs valid key)
+
+SHIPMENT ELIGIBILITY CHECKER — 2026-04-18
+URL: /tools/shipment-eligibility-checker
+Email gate: localStorage + console.log (Brevo pending)
+Rules: Ban Amendment, OECD C(2001)107, Plastic Waste 2021, ULAB, same-country, non-party
+Open: Brevo integration, CA data gaps, US bilateral context
