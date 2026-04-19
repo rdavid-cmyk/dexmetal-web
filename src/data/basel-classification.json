@@ -1,15 +1,15 @@
 {
   "codeDescriptions": {
     "A1181": {
-      "fullName": "Hazardous e-waste — Annex VIII (A1181)",
+      "fullName": "Hazardous e-waste \u2014 Annex VIII (A1181)",
       "annexType": "Annex VIII",
       "hazardClass": "HAZARDOUS",
       "is2025Amendment": true,
       "amendmentNote": "A1181 replaced A1180 effective 1 January 2025. Covers all wastes having as constituents or contaminants lead, copper compounds, cadmium, antimony, beryllium, arsenic, or selenium. Any legacy references to A1180 in existing permits or contracts must be updated to A1181.",
       "misclassifications": [
-        "Classifying tested-working assemblies as A1181 when B1110 may apply — document functional testing rigorously",
-        "Using legacy code A1180 after January 2025 — all permits and movement documents must now reference A1181",
-        "Treating mixed shipments containing even one hazardous unit as B1110 — the entire consignment defaults to A1181"
+        "Classifying tested-working assemblies as A1181 when B1110 may apply \u2014 document functional testing rigorously",
+        "Using legacy code A1180 after January 2025 \u2014 all permits and movement documents must now reference A1181",
+        "Treating mixed shipments containing even one hazardous unit as B1110 \u2014 the entire consignment defaults to A1181"
       ],
       "documents": [
         "Basel notification document (A1181 code cited)",
@@ -22,14 +22,14 @@
       ]
     },
     "A1170": {
-      "fullName": "Waste lithium batteries — Annex VIII (A1170)",
+      "fullName": "Waste lithium batteries \u2014 Annex VIII (A1170)",
       "annexType": "Annex VIII",
       "hazardClass": "HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Classifying damaged or swollen lithium batteries as non-hazardous — A1170 applies to all non-functional lithium batteries",
-        "Confusing with B1120 (functional battery packs for reuse) — B1120 requires documented evidence of functionality",
+        "Classifying damaged or swollen lithium batteries as non-hazardous \u2014 A1170 applies to all non-functional lithium batteries",
+        "Confusing with B1120 (functional battery packs for reuse) \u2014 B1120 requires documented evidence of functionality",
         "Failing to apply UN3480/UN3481 transport rules in parallel with Basel notification"
       ],
       "documents": [
@@ -37,21 +37,21 @@
         "UN3480 or UN3481 dangerous goods declaration",
         "Waste characterization report (electrolyte composition)",
         "PIC consent from destination CA",
-        "Carrier authorization — must be licensed for Class 9 DG",
+        "Carrier authorization \u2014 must be licensed for Class 9 DG",
         "Financial guarantee / insurance",
         "Recovery facility permit (R4/R5 operation)"
       ]
     },
     "Y31": {
-      "fullName": "Lead-acid batteries — Annex II (Y31)",
+      "fullName": "Lead-acid batteries \u2014 Annex II (Y31)",
       "annexType": "Annex II",
       "hazardClass": "ANNEX_II",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Treating drained ULAB as non-hazardous — residual lead paste and sulfuric acid mean Y31/Annex II always applies",
-        "Confusing Y31 (spent batteries) with Y32 (lead-acid battery scrap) — both require PIC; Y32 applies to scrap/plate material",
-        "Attempting to claim B1120 for damaged ULAB — functional testing documentation is mandatory for B1120"
+        "Treating drained ULAB as non-hazardous \u2014 residual lead paste and sulfuric acid mean Y31/Annex II always applies",
+        "Confusing Y31 (spent batteries) with Y32 (lead-acid battery scrap) \u2014 both require PIC; Y32 applies to scrap/plate material",
+        "Attempting to claim B1120 for damaged ULAB \u2014 functional testing documentation is mandatory for B1120"
       ],
       "documents": [
         "Basel notification document (Y31 code cited)",
@@ -60,18 +60,18 @@
         "Waste characterization report (lead content, acid residue)",
         "Carrier authorization (licensed for corrosive/hazardous cargo)",
         "Financial guarantee / insurance certificate",
-        "Recovery facility permit (R4 — metal recovery)"
+        "Recovery facility permit (R4 \u2014 metal recovery)"
       ]
     },
     "Y32": {
-      "fullName": "Lead-acid battery scrap — Annex II (Y32)",
+      "fullName": "Lead-acid battery scrap \u2014 Annex II (Y32)",
       "annexType": "Annex II",
       "hazardClass": "ANNEX_II",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
         "Mixing Y31 and Y32 codes without distinguishing whole batteries from scrap plate/paste",
-        "Treating scrap lead plates as non-hazardous metal scrap — Basel Annex II applies"
+        "Treating scrap lead plates as non-hazardous metal scrap \u2014 Basel Annex II applies"
       ],
       "documents": [
         "Basel notification document (Y32 code cited)",
@@ -83,15 +83,15 @@
       ]
     },
     "B1110": {
-      "fullName": "Electrical/electronic assemblies — Annex IX (B1110)",
+      "fullName": "Electrical/electronic assemblies \u2014 Annex IX (B1110)",
       "annexType": "Annex IX",
       "hazardClass": "NON_HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Claiming B1110 for mixed lots containing untested or damaged units — every unit must be tested and documented as functional",
-        "Using B1110 for CRT-containing equipment — CRTs containing lead glass are excluded from B1110 and classified as A1181",
-        "Applying B1110 to refurbished equipment without documented repair records — refurbishment must be completed before export"
+        "Claiming B1110 for mixed lots containing untested or damaged units \u2014 every unit must be tested and documented as functional",
+        "Using B1110 for CRT-containing equipment \u2014 CRTs containing lead glass are excluded from B1110 and classified as A1181",
+        "Applying B1110 to refurbished equipment without documented repair records \u2014 refurbishment must be completed before export"
       ],
       "documents": [
         "Bill of lading with B1110 classification",
@@ -103,15 +103,15 @@
       ]
     },
     "B1120": {
-      "fullName": "Spent battery packs — Annex IX (B1120)",
+      "fullName": "Spent battery packs \u2014 Annex IX (B1120)",
       "annexType": "Annex IX",
       "hazardClass": "NON_HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Applying B1120 to ULAB without documented functional testing — regulators default to Y31/Annex II for all ULAB",
-        "Confusing B1120 with B1110 — B1120 is for battery packs specifically, not general electronic assemblies",
-        "Failing to verify destination country acceptance of B1120 classification — some jurisdictions require Y31 regardless"
+        "Applying B1120 to ULAB without documented functional testing \u2014 regulators default to Y31/Annex II for all ULAB",
+        "Confusing B1120 with B1110 \u2014 B1120 is for battery packs specifically, not general electronic assemblies",
+        "Failing to verify destination country acceptance of B1120 classification \u2014 some jurisdictions require Y31 regardless"
       ],
       "documents": [
         "Commercial invoice and packing list",
@@ -121,14 +121,14 @@
       ]
     },
     "B3011": {
-      "fullName": "Clean plastic waste — Annex IX (B3011)",
+      "fullName": "Clean plastic waste \u2014 Annex IX (B3011)",
       "annexType": "Annex IX",
       "hazardClass": "NON_HAZARDOUS",
       "is2025Amendment": true,
       "amendmentNote": "B3011 was added to Annex IX under the 2021 Basel Plastic Waste Amendments. It applies only to plastic waste that is almost free from contamination and consists of a single resin or polymer type. Exports to non-OECD countries still require Prior Informed Consent under the Plastic Waste Amendments.",
       "misclassifications": [
-        "Applying B3011 to mixed plastic from e-waste — flame-retardant or brominated plastics are excluded from B3011",
-        "Assuming B3011 means no notification required — non-OECD exports still need PIC under 2021 Amendments",
+        "Applying B3011 to mixed plastic from e-waste \u2014 flame-retardant or brominated plastics are excluded from B3011",
+        "Assuming B3011 means no notification required \u2014 non-OECD exports still need PIC under 2021 Amendments",
         "Failing to test for PFAS, PBB, or PBDE contamination before claiming B3011"
       ],
       "documents": [
@@ -140,14 +140,14 @@
       ]
     },
     "A3210": {
-      "fullName": "Plastic waste with POPs/PFAS — Annex VIII (A3210)",
+      "fullName": "Plastic waste with POPs/PFAS \u2014 Annex VIII (A3210)",
       "annexType": "Annex VIII",
       "hazardClass": "HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Assuming all e-waste plastic is B3011 — e-waste plastic commonly contains brominated flame retardants (PBBs, PBDEs) that trigger A3210",
-        "Exporting without testing — PFAS and brominated compound testing is mandatory before classifying e-waste-derived plastic"
+        "Assuming all e-waste plastic is B3011 \u2014 e-waste plastic commonly contains brominated flame retardants (PBBs, PBDEs) that trigger A3210",
+        "Exporting without testing \u2014 PFAS and brominated compound testing is mandatory before classifying e-waste-derived plastic"
       ],
       "documents": [
         "Basel notification document (A3210 code cited)",
@@ -165,8 +165,8 @@
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Guessing the classification without laboratory analysis — incorrect classification is a Basel violation",
-        "Defaulting to non-hazardous without testing — always apply the precautionary principle and test"
+        "Guessing the classification without laboratory analysis \u2014 incorrect classification is a Basel violation",
+        "Defaulting to non-hazardous without testing \u2014 always apply the precautionary principle and test"
       ],
       "documents": [
         "Laboratory waste characterization report",
@@ -174,6 +174,1502 @@
         "Classification opinion from a licensed waste consultant",
         "Hold shipment until classification is confirmed"
       ]
+    },
+    "Y1": {
+      "fullName": "Clinical waste \u2014 Y1",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Clinical waste from medical care",
+      "requiresPIC": true
+    },
+    "Y2": {
+      "fullName": "Waste of medical origin \u2014 Y2",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste from medical research",
+      "requiresPIC": true
+    },
+    "Y3": {
+      "fullName": "Pharmaceutical waste \u2014 Y3",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Pharmaceuticals and drugs",
+      "requiresPIC": true
+    },
+    "Y4": {
+      "fullName": "Waste from copper production \u2014 Y4",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Sludges from copper production",
+      "requiresPIC": true
+    },
+    "Y5": {
+      "fullName": "Organic solvents \u2014 Y5",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Organic solvents",
+      "requiresPIC": true
+    },
+    "Y6": {
+      "fullName": "Inorganic cyanides \u2014 Y6",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Inorganic cyanide wastes",
+      "requiresPIC": true
+    },
+    "Y7": {
+      "fullName": "Acid alkalis \u2014 Y7",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Acidic or alkaline solutions",
+      "requiresPIC": true
+    },
+    "Y8": {
+      "fullName": "Waste cont. copper compounds \u2014 Y8",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste containing copper compounds",
+      "requiresPIC": true
+    },
+    "Y9": {
+      "fullName": "Phenyl derivatives \u2014 Y9",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Phenyl derivatives",
+      "requiresPIC": true
+    },
+    "Y10": {
+      "fullName": "Phenols \u2014 Y10",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Phenolic wastes",
+      "requiresPIC": true
+    },
+    "Y11": {
+      "fullName": "Methanol \u2014 Y11",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Methanol",
+      "requiresPIC": true
+    },
+    "Y12": {
+      "fullName": "Explosive wastes \u2014 Y12",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Explosive wastes",
+      "requiresPIC": true
+    },
+    "Y13": {
+      "fullName": "Non-halogenated solvents \u2014 Y13",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Non-halogenated organic solvents",
+      "requiresPIC": true
+    },
+    "Y14": {
+      "fullName": "Halogenated solvents \u2014 Y14",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Halogenated organic solvents",
+      "requiresPIC": true
+    },
+    "Y15": {
+      "fullName": "Organic solvents with PCBs \u2014 Y15",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Organics cont. PCBs",
+      "requiresPIC": true
+    },
+    "Y16": {
+      "fullName": "Waste cont. PCB/PCT \u2014 Y16",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste containing PCB/PCT",
+      "requiresPIC": true
+    },
+    "Y17": {
+      "fullName": "Tributyl tin compounds \u2014 Y17",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Tributyl tin compounds",
+      "requiresPIC": true
+    },
+    "Y18": {
+      "fullName": "Phenolic compounds \u2014 Y18",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Phenolic compounds (except Y10)",
+      "requiresPIC": true
+    },
+    "Y19": {
+      "fullName": "Methyl ketone peroxides \u2014 Y19",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Methyl ketone peroxides",
+      "requiresPIC": true
+    },
+    "Y20": {
+      "fullName": "Waste cont. hexavalent chromium \u2014 Y20",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Hexavalent chromium compounds",
+      "requiresPIC": true
+    },
+    "Y21": {
+      "fullName": "Waste cont. trivalent chromium \u2014 Y21",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Trivalent chromium compounds",
+      "requiresPIC": true
+    },
+    "Y22": {
+      "fullName": "Waste cont. cadmium \u2014 Y22",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cadmium compounds",
+      "requiresPIC": true
+    },
+    "Y23": {
+      "fullName": "Waste cont. mercury \u2014 Y23",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Mercury compounds",
+      "requiresPIC": true
+    },
+    "Y24": {
+      "fullName": "Waste cont. tellurium \u2014 Y24",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Tellurium compounds",
+      "requiresPIC": true
+    },
+    "Y25": {
+      "fullName": "Waste cont. thallium \u2014 Y25",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Thallium compounds",
+      "requiresPIC": true
+    },
+    "Y26": {
+      "fullName": "Waste cont. lead compounds \u2014 Y26",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Lead compounds",
+      "requiresPIC": true
+    },
+    "Y27": {
+      "fullName": "Waste cont. inorganic fluorine \u2014 Y27",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Inorganic fluorine compounds",
+      "requiresPIC": true
+    },
+    "Y28": {
+      "fullName": "Waste cont. asbestos \u2014 Y28",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Asbestos waste",
+      "requiresPIC": true
+    },
+    "Y29": {
+      "fullName": "Organic cont. phosphorus \u2014 Y29",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Organic phosphorus compounds",
+      "requiresPIC": true
+    },
+    "Y30": {
+      "fullName": "Non-cyanide waste cont. metals \u2014 Y30",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Non-cyanide metal compounds",
+      "requiresPIC": true
+    },
+    "Y33": {
+      "fullName": "Wastes containing mercury \u2014 Y33",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Wastes containing mercury",
+      "requiresPIC": true
+    },
+    "Y34": {
+      "fullName": "Waste cont. fluorine \u2014 Y34",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste cont. inorganic fluorine",
+      "requiresPIC": true
+    },
+    "Y35": {
+      "fullName": "Waste cont. beryllium \u2014 Y35",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Beryllium compounds",
+      "requiresPIC": true
+    },
+    "Y36": {
+      "fullName": "Waste cont. vanadium \u2014 Y36",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Vanadium compounds",
+      "requiresPIC": true
+    },
+    "Y37": {
+      "fullName": "Waste cont. tungsten \u2014 Y37",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Tungsten compounds",
+      "requiresPIC": true
+    },
+    "Y38": {
+      "fullName": "Waste cont. cobalt \u2014 Y38",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cobalt compounds",
+      "requiresPIC": true
+    },
+    "Y39": {
+      "fullName": "Waste cont. nickel \u2014 Y39",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Nickel compounds",
+      "requiresPIC": true
+    },
+    "Y40": {
+      "fullName": "Waste cont. copper \u2014 Y40",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Copper compounds",
+      "requiresPIC": true
+    },
+    "Y41": {
+      "fullName": "Waste cont. zinc \u2014 Y41",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Zinc compounds",
+      "requiresPIC": true
+    },
+    "Y42": {
+      "fullName": "Waste cont. arsenic \u2014 Y42",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Arsenic compounds",
+      "requiresPIC": true
+    },
+    "Y43": {
+      "fullName": "Waste cont. selenium \u2014 Y43",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Selenium compounds",
+      "requiresPIC": true
+    },
+    "Y44": {
+      "fullName": "Waste cont. bromine \u2014 Y44",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Bromine compounds",
+      "requiresPIC": true
+    },
+    "Y45": {
+      "fullName": "Waste cont. halogens \u2014 Y45",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Halogen compounds (other)",
+      "requiresPIC": true
+    },
+    "Y46": {
+      "fullName": "Waste from petroleum refining \u2014 Y46",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Petroleum refining waste",
+      "requiresPIC": true
+    },
+    "Y47": {
+      "fullName": "Waste from wood preservation \u2014 Y47",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Wood preservation waste",
+      "requiresPIC": true
+    },
+    "Y48": {
+      "fullName": "Hazardous waste (generic) \u2014 Y48",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Generic hazardous waste",
+      "requiresPIC": true
+    },
+    "Y49": {
+      "fullName": "Non-hazardous e-waste \u2014 Y49",
+      "annexType": "Annex I",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": true,
+      "amendmentNote": "Y49 added - non-hazardous e-waste now requires PIC (2025 COP15)",
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Non-hazardous e-waste (COP15 2025 amendment)",
+      "requiresPIC": true
+    },
+    "A1010": {
+      "fullName": "Metals wastes \u2014 A1010",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Metal wastes (As, Sb, Te, Hg, Tl, Pb)",
+      "requiresPIC": true
+    },
+    "A1020": {
+      "fullName": "Waste cont. metals/nitrates \u2014 A1020",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Nitrates, metals",
+      "requiresPIC": true
+    },
+    "A1030": {
+      "fullName": "Cyanide wastes \u2014 A1030",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cyanides",
+      "requiresPIC": true
+    },
+    "A1040": {
+      "fullName": "Waste cont. copper derivatives \u2014 A1040",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Copper compounds",
+      "requiresPIC": true
+    },
+    "A1050": {
+      "fullName": "Spent plating baths \u2014 A1050",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent plating bath solutions",
+      "requiresPIC": true
+    },
+    "A1060": {
+      "fullName": "Waste cyanide plating \u2014 A1060",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cyanide waste from plating",
+      "requiresPIC": true
+    },
+    "A1070": {
+      "fullName": "Waste cont. hexavalent chromium \u2014 A1070",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Hexavalent chromium waste",
+      "requiresPIC": true
+    },
+    "A1080": {
+      "fullName": "Waste cont. trivalent chromium \u2014 A1080",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Trivalent chromium waste",
+      "requiresPIC": true
+    },
+    "A1090": {
+      "fullName": "Spent asbestos wastes \u2014 A1090",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent asbestos",
+      "requiresPIC": true
+    },
+    "A1100": {
+      "fullName": "Spent electrolyte solution \u2014 A1100",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent electrolytic solutions",
+      "requiresPIC": true
+    },
+    "A1110": {
+      "fullName": "Spent etchants/converters \u2014 A1110",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent etchants/converters",
+      "requiresPIC": true
+    },
+    "A1120": {
+      "fullName": "Waste photographic solutions \u2014 A1120",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste photographic solutions",
+      "requiresPIC": true
+    },
+    "A1130": {
+      "fullName": "Spent corrosive fixers \u2014 A1130",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent corrosive fixers",
+      "requiresPIC": true
+    },
+    "A1140": {
+      "fullName": "Copper electrolyte \u2014 A1140",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Copper electrolyte (Cu)",
+      "requiresPIC": true
+    },
+    "A1150": {
+      "fullName": "Waste catalysts \u2014 A1150",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste catalysts",
+      "requiresPIC": true
+    },
+    "A1160": {
+      "fullName": "Waste batteries \u2014 A1160",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent batteries (all types)",
+      "requiresPIC": true
+    },
+    "A1180": {
+      "fullName": "Waste cont. metal carbonyls \u2014 A1180",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": true,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Metal carbonyls (replaced by A1181)",
+      "requiresPIC": true
+    },
+    "A1190": {
+      "fullName": "Waste cont. lead \u2014 A1190",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Lead-contaminated waste",
+      "requiresPIC": true
+    },
+    "A2010": {
+      "fullName": "Laboratory waste \u2014 A2010",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Laboratory chemicals",
+      "requiresPIC": true
+    },
+    "A2020": {
+      "fullName": "Waste cont. chlorofluorocarbons \u2014 A2020",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste CFC/contaminants",
+      "requiresPIC": true
+    },
+    "A2030": {
+      "fullName": "Halogenated solvents \u2014 A2030",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Halogenated solvents",
+      "requiresPIC": true
+    },
+    "A2040": {
+      "fullName": "Acid solutions with metals \u2014 A2040",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Acid solutions/metals",
+      "requiresPIC": true
+    },
+    "A2050": {
+      "fullName": "Alkaline solutions \u2014 A2050",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Alkaline solutions",
+      "requiresPIC": true
+    },
+    "A3010": {
+      "fullName": "Petroleum waste \u2014 A3010",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Petroleum wastes",
+      "requiresPIC": true
+    },
+    "A3020": {
+      "fullName": "Waste mineral oils \u2014 A3020",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste mineral oils",
+      "requiresPIC": true
+    },
+    "A3030": {
+      "fullName": "Waste fuels \u2014 A3030",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste fuels",
+      "requiresPIC": true
+    },
+    "A3040": {
+      "fullName": "Waste cont. PCBs/PCTs \u2014 A3040",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "PCBs/PCTs waste",
+      "requiresPIC": true
+    },
+    "A3050": {
+      "fullName": "Petroleum refining residues \u2014 A3050",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Petroleum refining sludges",
+      "requiresPIC": true
+    },
+    "A3060": {
+      "fullName": "Rubber waste \u2014 A3060",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste rubber",
+      "requiresPIC": true
+    },
+    "A3070": {
+      "fullName": "Waste leather \u2014 A3070",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste leather (chromium)",
+      "requiresPIC": true
+    },
+    "A3120": {
+      "fullName": "Fluff \u2014 A3120",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Fluff (paper, plastics, rubber)",
+      "requiresPIC": true
+    },
+    "A3130": {
+      "fullName": "Organic sludges \u2014 A3130",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Organic sludges",
+      "requiresPIC": true
+    },
+    "A3140": {
+      "fullName": "Inorganic sludges \u2014 A3140",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Inorganic sludges",
+      "requiresPIC": true
+    },
+    "A3150": {
+      "fullName": "Waste cont. cyanides \u2014 A3150",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cyanide-containing waste",
+      "requiresPIC": true
+    },
+    "A3160": {
+      "fullName": "Waste cont. peroxides \u2014 A3160",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Organic peroxides",
+      "requiresPIC": true
+    },
+    "A3170": {
+      "fullName": "Epoxy waste \u2014 A3170",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Epoxy compounds",
+      "requiresPIC": true
+    },
+    "A3180": {
+      "fullName": "Contaminated soil \u2014 A3180",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Contaminated soil",
+      "requiresPIC": true
+    },
+    "A3190": {
+      "fullName": "Asphalt waste \u2014 A3190",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Asphalt waste",
+      "requiresPIC": true
+    },
+    "A4010": {
+      "fullName": "Clinical waste \u2014 A4010",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Clinical waste",
+      "requiresPIC": true
+    },
+    "A4020": {
+      "fullName": "Clinical collection vessels \u2014 A4020",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Clinical collection vessels",
+      "requiresPIC": true
+    },
+    "A4030": {
+      "fullName": "Culture media \u2014 A4030",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Culture media",
+      "requiresPIC": true
+    },
+    "A4040": {
+      "fullName": "Pharmaceutical waste \u2014 A4040",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Pharmaceutical wastes",
+      "requiresPIC": true
+    },
+    "A4050": {
+      "fullName": "Preservation chemicals \u2014 A4050",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Preservation chemicals",
+      "requiresPIC": true
+    },
+    "A4060": {
+      "fullName": "Explosives \u2014 A4060",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Explosive wastes",
+      "requiresPIC": true
+    },
+    "A4070": {
+      "fullName": "Ink waste \u2014 A4070",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Ink waste",
+      "requiresPIC": true
+    },
+    "A4080": {
+      "fullName": "Gas containers \u2014 A4080",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Pressurized gas containers",
+      "requiresPIC": true
+    },
+    "A4090": {
+      "fullName": "Acidic/alkaline waste \u2014 A4090",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Acidic or alkaline waste",
+      "requiresPIC": true
+    },
+    "A4100": {
+      "fullName": "Industry sludges \u2014 A4100",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Industrial sludges",
+      "requiresPIC": true
+    },
+    "A4110": {
+      "fullName": "Waste cont. sulfides \u2014 A4110",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Sulfide-bearing waste",
+      "requiresPIC": true
+    },
+    "A4120": {
+      "fullName": "Coolant waste \u2014 A4120",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Coolant waste",
+      "requiresPIC": true
+    },
+    "A4130": {
+      "fullName": "Chemical waste \u2014 A4130",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Waste chemicals",
+      "requiresPIC": true
+    },
+    "A4140": {
+      "fullName": "Discarded products \u2014 A4140",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Discarded chemical products",
+      "requiresPIC": true
+    },
+    "A4150": {
+      "fullName": "Chemical industry byproducts \u2014 A4150",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Chemical byproducts",
+      "requiresPIC": true
+    },
+    "B1010": {
+      "fullName": "Metal scrap (Fe/Al) \u2014 B1010",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Iron or aluminum scrap",
+      "requiresPIC": false
+    },
+    "B1020": {
+      "fullName": "Pure metal scrap \u2014 B1020",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Pure non-ferrous scrap",
+      "requiresPIC": false
+    },
+    "B1030": {
+      "fullName": "Refractory metal scrap \u2014 B1030",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Refractory metals",
+      "requiresPIC": false
+    },
+    "B1031": {
+      "fullName": "Precious metal scrap \u2014 B1031",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Precious metals",
+      "requiresPIC": false
+    },
+    "B1040": {
+      "fullName": "Metal-containing wastes \u2014 B1040",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Metal-containing scrap",
+      "requiresPIC": false
+    },
+    "B1050": {
+      "fullName": "Mixed non-ferrous scrap \u2014 B1050",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Mixed non-ferrous metals",
+      "requiresPIC": false
+    },
+    "B1060": {
+      "fullName": "Spent catalysts \u2014 B1060",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Spent catalysts (non-hazardous)",
+      "requiresPIC": false
+    },
+    "B1070": {
+      "fullName": "Metallic dust \u2014 B1070",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Metallic dust",
+      "requiresPIC": false
+    },
+    "B1080": {
+      "fullName": "Zinc ash \u2014 B1080",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Zinc ash/residues",
+      "requiresPIC": false
+    },
+    "B1090": {
+      "fullName": "Tank cleaning waste \u2014 B1090",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Tank cleaning residues",
+      "requiresPIC": false
+    },
+    "B1100": {
+      "fullName": "Slag from metal production \u2014 B1100",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Metal production slag",
+      "requiresPIC": false
+    },
+    "B2010": {
+      "fullName": "Glass waste \u2014 B2010",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Glass waste (non-hazardous)",
+      "requiresPIC": false
+    },
+    "B2020": {
+      "fullName": "Ceramic waste \u2014 B2020",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Ceramic waste",
+      "requiresPIC": false
+    },
+    "B2030": {
+      "fullName": "Cement \u2014 B2030",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Cement/lime waste",
+      "requiresPIC": false
+    },
+    "B2040": {
+      "fullName": "Slag from steel \u2014 B2040",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Steel slag",
+      "requiresPIC": false
+    },
+    "B2050": {
+      "fullName": "Coal fly ash \u2014 B2050",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Coal fly ash",
+      "requiresPIC": false
+    },
+    "B2060": {
+      "fullName": "Furnace refractory \u2014 B2060",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Furnace refractory",
+      "requiresPIC": false
+    },
+    "B2070": {
+      "fullName": "Concrete waste \u2014 B2070",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Concrete waste",
+      "requiresPIC": false
+    },
+    "B2080": {
+      "fullName": "Drywall \u2014 B2080",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Drywall/gypsum",
+      "requiresPIC": false
+    },
+    "B2090": {
+      "fullName": "Coke \u2014 B2090",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Coke/petroleum coke",
+      "requiresPIC": false
+    },
+    "B2100": {
+      "fullName": "Aluminium ash \u2014 B2100",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Aluminium ash",
+      "requiresPIC": false
+    },
+    "B2110": {
+      "fullName": "Bentonite waste \u2014 B2110",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Bentonite waste",
+      "requiresPIC": false
+    },
+    "B2120": {
+      "fullName": "Acid-neutralized waste \u2014 B2120",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Acid-neutralized waste",
+      "requiresPIC": false
+    },
+    "B2130": {
+      "fullName": "Construction debris \u2014 B2130",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Construction debris",
+      "requiresPIC": false
+    },
+    "B3010": {
+      "fullName": "Paper/cardboard \u2014 B3010",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Paper/cardboard waste",
+      "requiresPIC": false
+    },
+    "B3020": {
+      "fullName": "Post-consumer plastics \u2014 B3020",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Post-consumer plastics",
+      "requiresPIC": false
+    },
+    "B3030": {
+      "fullName": "Textile waste \u2014 B3030",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Textile waste",
+      "requiresPIC": false
+    },
+    "B3035": {
+      "fullName": "Leather waste \u2014 B3035",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Leather waste",
+      "requiresPIC": false
+    },
+    "B3040": {
+      "fullName": "Rubber waste \u2014 B3040",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Rubber waste",
+      "requiresPIC": false
+    },
+    "B3050": {
+      "fullName": "Wood waste \u2014 B3050",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Wood waste",
+      "requiresPIC": false
+    },
+    "B3060": {
+      "fullName": "Food waste \u2014 B3060",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Food industry waste",
+      "requiresPIC": false
+    },
+    "B3065": {
+      "fullName": "Organic solvents (non-haz) \u2014 B3065",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Non-hazardous solvents",
+      "requiresPIC": false
+    },
+    "B3140": {
+      "fullName": "Cathode ray tubes \u2014 B3140",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "CRTs (lead glass)",
+      "requiresPIC": false
+    },
+    "B4010": {
+      "fullName": "Household waste \u2014 B4010",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Household waste",
+      "requiresPIC": false
+    },
+    "B4020": {
+      "fullName": "Mixed packaging \u2014 B4020",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Mixed packaging",
+      "requiresPIC": false
+    },
+    "B4030": {
+      "fullName": "Discarded vehicles \u2014 B4030",
+      "annexType": "Annex IX",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [],
+      "documents": [],
+      "notes": "Discarded vehicles",
+      "requiresPIC": false
     }
   }
 }
