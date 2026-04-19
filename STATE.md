@@ -1651,3 +1651,11 @@ Statuses: NOT_APPLICABLE, HIGH_RISK, NOT_ELIGIBLE, TACIT_CONSENT, PIC_REQUIRED
 2025 Y49 amendment callout prominent on page
 Email gate: localStorage + console.log (Brevo pending)
 Open: Brevo integration, CA data gaps
+
+BASEL CLASSIFICATION QUICKSCAN — 2026-04-18
+URL: /tools/basel-classification-quickscan
+3-question wizard: type + condition + use
+Codes: A1181, A1170, Y31, B1110, B1120, B3011, A3210, REQUIRES_TESTING
+Email gate: misclassifications + docs checklist + rationale
+Cross-links to eligibility checker and PIC checker
+Open: Brevo integration

@@ -1,0 +1,179 @@
+{
+  "codeDescriptions": {
+    "A1181": {
+      "fullName": "Hazardous e-waste — Annex VIII (A1181)",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": true,
+      "amendmentNote": "A1181 replaced A1180 effective 1 January 2025. Covers all wastes having as constituents or contaminants lead, copper compounds, cadmium, antimony, beryllium, arsenic, or selenium. Any legacy references to A1180 in existing permits or contracts must be updated to A1181.",
+      "misclassifications": [
+        "Classifying tested-working assemblies as A1181 when B1110 may apply — document functional testing rigorously",
+        "Using legacy code A1180 after January 2025 — all permits and movement documents must now reference A1181",
+        "Treating mixed shipments containing even one hazardous unit as B1110 — the entire consignment defaults to A1181"
+      ],
+      "documents": [
+        "Basel notification document (A1181 code cited)",
+        "Waste characterization / hazardous constituent analysis",
+        "PIC consent from destination Competent Authority",
+        "Carrier authorization for hazardous waste",
+        "Financial guarantee / insurance certificate",
+        "Recovery or disposal facility permit (Annex IV operation)",
+        "Movement document (accompanies waste at all times)"
+      ]
+    },
+    "A1170": {
+      "fullName": "Waste lithium batteries — Annex VIII (A1170)",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Classifying damaged or swollen lithium batteries as non-hazardous — A1170 applies to all non-functional lithium batteries",
+        "Confusing with B1120 (functional battery packs for reuse) — B1120 requires documented evidence of functionality",
+        "Failing to apply UN3480/UN3481 transport rules in parallel with Basel notification"
+      ],
+      "documents": [
+        "Basel notification document (A1170 code cited)",
+        "UN3480 or UN3481 dangerous goods declaration",
+        "Waste characterization report (electrolyte composition)",
+        "PIC consent from destination CA",
+        "Carrier authorization — must be licensed for Class 9 DG",
+        "Financial guarantee / insurance",
+        "Recovery facility permit (R4/R5 operation)"
+      ]
+    },
+    "Y31": {
+      "fullName": "Lead-acid batteries — Annex II (Y31)",
+      "annexType": "Annex II",
+      "hazardClass": "ANNEX_II",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Treating drained ULAB as non-hazardous — residual lead paste and sulfuric acid mean Y31/Annex II always applies",
+        "Confusing Y31 (spent batteries) with Y32 (lead-acid battery scrap) — both require PIC; Y32 applies to scrap/plate material",
+        "Attempting to claim B1120 for damaged ULAB — functional testing documentation is mandatory for B1120"
+      ],
+      "documents": [
+        "Basel notification document (Y31 code cited)",
+        "PIC consent from destination Competent Authority",
+        "UN3077 / UN3090 transport declaration",
+        "Waste characterization report (lead content, acid residue)",
+        "Carrier authorization (licensed for corrosive/hazardous cargo)",
+        "Financial guarantee / insurance certificate",
+        "Recovery facility permit (R4 — metal recovery)"
+      ]
+    },
+    "Y32": {
+      "fullName": "Lead-acid battery scrap — Annex II (Y32)",
+      "annexType": "Annex II",
+      "hazardClass": "ANNEX_II",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Mixing Y31 and Y32 codes without distinguishing whole batteries from scrap plate/paste",
+        "Treating scrap lead plates as non-hazardous metal scrap — Basel Annex II applies"
+      ],
+      "documents": [
+        "Basel notification document (Y32 code cited)",
+        "PIC consent from destination CA",
+        "Waste characterization report",
+        "Carrier authorization",
+        "Financial guarantee",
+        "Smelter or recovery facility permit"
+      ]
+    },
+    "B1110": {
+      "fullName": "Electrical/electronic assemblies — Annex IX (B1110)",
+      "annexType": "Annex IX",
+      "hazardClass": "NON_HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Claiming B1110 for mixed lots containing untested or damaged units — every unit must be tested and documented as functional",
+        "Using B1110 for CRT-containing equipment — CRTs containing lead glass are excluded from B1110 and classified as A1181",
+        "Applying B1110 to refurbished equipment without documented repair records — refurbishment must be completed before export"
+      ],
+      "documents": [
+        "Bill of lading with B1110 classification",
+        "Functionality test records for each unit (or representative sample per lot)",
+        "Commercial invoice with unit description and tested status",
+        "Packing list",
+        "If PIC is required: consent from destination CA",
+        "Importer authorization / resale documentation"
+      ]
+    },
+    "B1120": {
+      "fullName": "Spent battery packs — Annex IX (B1120)",
+      "annexType": "Annex IX",
+      "hazardClass": "NON_HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Applying B1120 to ULAB without documented functional testing — regulators default to Y31/Annex II for all ULAB",
+        "Confusing B1120 with B1110 — B1120 is for battery packs specifically, not general electronic assemblies",
+        "Failing to verify destination country acceptance of B1120 classification — some jurisdictions require Y31 regardless"
+      ],
+      "documents": [
+        "Commercial invoice and packing list",
+        "Functional test certification",
+        "Bill of lading",
+        "Destination CA notification (recommended even if not strictly required)"
+      ]
+    },
+    "B3011": {
+      "fullName": "Clean plastic waste — Annex IX (B3011)",
+      "annexType": "Annex IX",
+      "hazardClass": "NON_HAZARDOUS",
+      "is2025Amendment": true,
+      "amendmentNote": "B3011 was added to Annex IX under the 2021 Basel Plastic Waste Amendments. It applies only to plastic waste that is almost free from contamination and consists of a single resin or polymer type. Exports to non-OECD countries still require Prior Informed Consent under the Plastic Waste Amendments.",
+      "misclassifications": [
+        "Applying B3011 to mixed plastic from e-waste — flame-retardant or brominated plastics are excluded from B3011",
+        "Assuming B3011 means no notification required — non-OECD exports still need PIC under 2021 Amendments",
+        "Failing to test for PFAS, PBB, or PBDE contamination before claiming B3011"
+      ],
+      "documents": [
+        "Basel notification document (if PIC required)",
+        "Material composition analysis (single polymer confirmation)",
+        "Contamination test results (PFAS, brominated compounds)",
+        "Commercial invoice and packing list",
+        "Recovery facility permit at destination"
+      ]
+    },
+    "A3210": {
+      "fullName": "Plastic waste with POPs/PFAS — Annex VIII (A3210)",
+      "annexType": "Annex VIII",
+      "hazardClass": "HAZARDOUS",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Assuming all e-waste plastic is B3011 — e-waste plastic commonly contains brominated flame retardants (PBBs, PBDEs) that trigger A3210",
+        "Exporting without testing — PFAS and brominated compound testing is mandatory before classifying e-waste-derived plastic"
+      ],
+      "documents": [
+        "Basel notification document (A3210 code cited)",
+        "PIC from destination CA",
+        "Full chemical analysis (brominated compounds, PFAS, heavy metals)",
+        "Carrier hazardous waste authorization",
+        "Financial guarantee",
+        "Disposal/recovery facility permit"
+      ]
+    },
+    "REQUIRES_TESTING": {
+      "fullName": "Classification requires laboratory testing",
+      "annexType": "Unknown",
+      "hazardClass": "REQUIRES_TESTING",
+      "is2025Amendment": false,
+      "amendmentNote": null,
+      "misclassifications": [
+        "Guessing the classification without laboratory analysis — incorrect classification is a Basel violation",
+        "Defaulting to non-hazardous without testing — always apply the precautionary principle and test"
+      ],
+      "documents": [
+        "Laboratory waste characterization report",
+        "Constituent analysis (heavy metals, halogens, POPs)",
+        "Classification opinion from a licensed waste consultant",
+        "Hold shipment until classification is confirmed"
+      ]
+    }
+  }
+}
