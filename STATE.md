@@ -1679,3 +1679,19 @@ Email gate: numbered compliance steps + CA contact lookup
 Cross-links to Classification, Eligibility, PIC, Basel Navigator
 Open: Brevo integration
 Tools index: 6 tools live on /tools page
+
+---
+
+## Session 19 — 2026-04-19 — E-Waste Material Recovery Estimator deployed
+### COMPLETED
+- Tool #7 E-Waste Material Recovery Estimator live at /tools/ewaste-material-recovery
+- 7 tools now on Tools index
+- Waste streams: 5 (ULAB, Mixed E-Waste, CRTs, PCBs, Whole Units for Refurbishment)
+- Materials: 16 total across all streams
+- Uses /api/countries endpoint for destination (no hardcoded lists)
+- Email gate unlocks full material breakdown
+- Ko-fi and PayPal support bar present
+- Disclaimer present
+
+---
+
