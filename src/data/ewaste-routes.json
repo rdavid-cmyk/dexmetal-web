@@ -1,56 +1,405 @@
 {
   "originRegions": {
-    "Caribbean": ["Trinidad and Tobago", "Jamaica", "Barbados", "Guyana", "Haiti", "Dominican Republic"],
-    "Latin America": ["Colombia", "Brazil", "Mexico", "Peru", "Argentina", "Chile"],
-    "North America": ["Canada"],
-    "West Africa": ["Nigeria", "Ghana", "Senegal", "Côte d'Ivoire"],
-    "Southeast Asia": ["Philippines", "Indonesia", "Malaysia", "Vietnam", "Thailand"]
+    "Caribbean": [
+      "Trinidad and Tobago",
+      "Jamaica",
+      "Barbados",
+      "Guyana",
+      "Haiti",
+      "Dominican Republic",
+      "Cuba"
+    ],
+    "Latin America": [
+      "Colombia",
+      "Brazil",
+      "Mexico",
+      "Peru",
+      "Argentina",
+      "Chile",
+      "Venezuela",
+      "Ecuador",
+      "Guatemala",
+      "Costa Rica",
+      "Panama"
+    ],
+    "North America": [
+      "Canada"
+    ],
+    "West Africa": [
+      "Nigeria",
+      "Ghana",
+      "Senegal",
+      "C\u00f4te d'Ivoire",
+      "Sierra Leone",
+      "Liberia"
+    ],
+    "Southeast Asia": [
+      "Philippines",
+      "Indonesia",
+      "Malaysia",
+      "Vietnam",
+      "Thailand",
+      "Singapore"
+    ],
+    "Central Africa": [
+      "Cameroon",
+      "Gabon",
+      "Republic of the Congo"
+    ],
+    "Southern Africa": [
+      "South Africa",
+      "Zimbabwe",
+      "Zambia",
+      "Malawi",
+      "Mozambique"
+    ],
+    "South Asia": [
+      "India",
+      "Sri Lanka",
+      "Bangladesh",
+      "Pakistan",
+      "Nepal",
+      "Bhutan"
+    ],
+    "East Asia": [
+      "China",
+      "Japan",
+      "South Korea",
+      "Hong Kong",
+      "Taiwan",
+      "Mongolia"
+    ],
+    "Western Europe": [
+      "Belgium",
+      "Germany",
+      "Netherlands",
+      "France",
+      "United Kingdom",
+      "Ireland",
+      "Austria",
+      "Switzerland",
+      "Liechtenstein",
+      "Luxembourg"
+    ],
+    "Southern Europe": [
+      "Italy",
+      "Spain",
+      "Portugal",
+      "Greece",
+      "Malta",
+      "Cyprus"
+    ],
+    "Northern Europe": [
+      "Sweden",
+      "Norway",
+      "Denmark",
+      "Finland",
+      "Iceland",
+      "Estonia",
+      "Latvia",
+      "Lithuania"
+    ],
+    "Central Europe": [
+      "Poland",
+      "Czech Republic",
+      "Slovakia",
+      "Hungary",
+      "Slovenia",
+      "Croatia",
+      "Romania",
+      "Bulgaria"
+    ],
+    "Oceania": [
+      "Australia",
+      "New Zealand",
+      "Fiji",
+      "Papua New Guinea",
+      "Samoa",
+      "Tonga",
+      "Vanuatu"
+    ],
+    "Middle East": [
+      "Turkey",
+      "Israel",
+      "Jordan",
+      "Lebanon",
+      "Syria",
+      "Saudi Arabia",
+      "United Arab Emirates",
+      "Qatar",
+      "Kuwait",
+      "Bahrain",
+      "Oman"
+    ],
+    "North Africa": [
+      "Egypt",
+      "Morocco",
+      "Tunisia",
+      "Algeria",
+      "Libya"
+    ]
   },
   "destinationRegions": {
-    "Western Europe": ["Belgium", "Germany", "Netherlands", "France"],
-    "East Asia": ["Japan", "South Korea", "China"],
-    "South Asia": ["India"],
-    "Southeast Asia": ["Malaysia"],
-    "West Africa": ["Ghana", "Nigeria"]
+    "Western Europe": [
+      "Belgium",
+      "Germany",
+      "Netherlands",
+      "France"
+    ],
+    "East Asia": [
+      "Japan",
+      "South Korea",
+      "China"
+    ],
+    "South Asia": [
+      "India"
+    ],
+    "Southeast Asia": [
+      "Malaysia"
+    ],
+    "West Africa": [
+      "Ghana",
+      "Nigeria"
+    ],
+    "Caribbean": [],
+    "Latin America": [],
+    "North America": [],
+    "Central Africa": [],
+    "Southern Africa": [],
+    "Southern Europe": [],
+    "Northern Europe": [],
+    "Central Europe": [],
+    "Oceania": [],
+    "Middle East": [],
+    "North Africa": []
   },
-  "annexVII": ["BE","DE","NL","FR","JP","KR","CA","AU","AT","CH","GB","SE","NO","DK","FI","IT","ES","PT","PL","CZ","HU","IE","GR","SK","SI","LV","LT","EE","BG","HR","RO","MT","CY","LU","LI","IL","MX","CL","CO","CR","NZ","TR","IS"],
+  "annexVII": [
+    "TT",
+    "JM",
+    "BB",
+    "GY",
+    "HT",
+    "DO",
+    "CU",
+    "CO",
+    "BR",
+    "MX",
+    "PE",
+    "AR",
+    "CL",
+    "VE",
+    "EC",
+    "GT",
+    "CR",
+    "PA",
+    "CA",
+    "NG",
+    "GH",
+    "SN",
+    "CI",
+    "SL",
+    "LR",
+    "CM",
+    "GA",
+    "CG",
+    "ZA",
+    "ZW",
+    "ZM",
+    "MW",
+    "MZ",
+    "PH",
+    "ID",
+    "MY",
+    "VN",
+    "TH",
+    "SG",
+    "IN",
+    "LK",
+    "BD",
+    "PK",
+    "NP",
+    "BT",
+    "CN",
+    "JP",
+    "KR",
+    "HK",
+    "TW",
+    "MN",
+    "BE",
+    "DE",
+    "NL",
+    "FR",
+    "GB",
+    "IE",
+    "AT",
+    "CH",
+    "LI",
+    "LU",
+    "IT",
+    "ES",
+    "PT",
+    "GR",
+    "MT",
+    "CY",
+    "SE",
+    "NO",
+    "DK",
+    "FI",
+    "IS",
+    "EE",
+    "LV",
+    "LT",
+    "PL",
+    "CZ",
+    "SK",
+    "HU",
+    "SI",
+    "HR",
+    "RO",
+    "BG",
+    "AU",
+    "NZ",
+    "FJ",
+    "PG",
+    "WS",
+    "TO",
+    "VU",
+    "TR",
+    "IL",
+    "JO",
+    "LB",
+    "SY",
+    "SA",
+    "AE",
+    "QA",
+    "KW",
+    "BH",
+    "OM",
+    "EG",
+    "MA",
+    "TN",
+    "DZ",
+    "LY"
+  ],
   "originCodes": {
-    "Trinidad and Tobago": "TT", "Jamaica": "JM", "Barbados": "BB", "Guyana": "GY",
-    "Haiti": "HT", "Dominican Republic": "DO", "Colombia": "CO", "Brazil": "BR",
-    "Mexico": "MX", "Peru": "PE", "Argentina": "AR", "Chile": "CL", "Canada": "CA",
-    "Nigeria": "NG", "Ghana": "GH", "Senegal": "SN", "Côte d'Ivoire": "CI",
-    "Philippines": "PH", "Indonesia": "ID", "Malaysia": "MY", "Vietnam": "VN", "Thailand": "TH"
+    "Trinidad and Tobago": "TT",
+    "Jamaica": "JM",
+    "Barbados": "BB",
+    "Guyana": "GY",
+    "Haiti": "HT",
+    "Dominican Republic": "DO",
+    "Colombia": "CO",
+    "Brazil": "BR",
+    "Mexico": "MX",
+    "Peru": "PE",
+    "Argentina": "AR",
+    "Chile": "CL",
+    "Canada": "CA",
+    "Nigeria": "NG",
+    "Ghana": "GH",
+    "Senegal": "SN",
+    "C\u00f4te d'Ivoire": "CI",
+    "Philippines": "PH",
+    "Indonesia": "ID",
+    "Malaysia": "MY",
+    "Vietnam": "VN",
+    "Thailand": "TH"
   },
   "destCodes": {
-    "Belgium": "BE", "Germany": "DE", "Netherlands": "NL", "France": "FR",
-    "Japan": "JP", "South Korea": "KR", "China": "CN",
-    "India": "IN", "Malaysia": "MY", "Ghana": "GH", "Nigeria": "NG"
+    "Belgium": "BE",
+    "Germany": "DE",
+    "Netherlands": "NL",
+    "France": "FR",
+    "Japan": "JP",
+    "South Korea": "KR",
+    "China": "CN",
+    "India": "IN",
+    "Malaysia": "MY",
+    "Ghana": "GH",
+    "Nigeria": "NG"
   },
-  "nonParties": ["HT"],
+  "nonParties": [
+    "HT"
+  ],
   "wasteCategories": [
-    { "value": "ULAB", "label": "ULAB / Lead-Acid Batteries", "hazardous": true, "code": "Y31" },
-    { "value": "MixedEWaste", "label": "Mixed E-Waste", "hazardous": true, "code": "A1181" },
-    { "value": "CRTs", "label": "CRT Monitors / TVs", "hazardous": true, "code": "A1181" },
-    { "value": "CircuitBoards", "label": "Circuit Boards / PCBs", "hazardous": true, "code": "A1181" },
-    { "value": "WholeUnits", "label": "Whole Units for Refurbishment", "hazardous": false, "code": "B1110" }
+    {
+      "value": "ULAB",
+      "label": "ULAB / Lead-Acid Batteries",
+      "hazardous": true,
+      "code": "Y31"
+    },
+    {
+      "value": "MixedEWaste",
+      "label": "Mixed E-Waste",
+      "hazardous": true,
+      "code": "A1181"
+    },
+    {
+      "value": "CRTs",
+      "label": "CRT Monitors / TVs",
+      "hazardous": true,
+      "code": "A1181"
+    },
+    {
+      "value": "CircuitBoards",
+      "label": "Circuit Boards / PCBs",
+      "hazardous": true,
+      "code": "A1181"
+    },
+    {
+      "value": "WholeUnits",
+      "label": "Whole Units for Refurbishment",
+      "hazardous": false,
+      "code": "B1110"
+    }
   ],
   "purposes": [
-    { "value": "recycling", "label": "Recycling / Recovery" },
-    { "value": "refurbishment", "label": "Repair / Refurbishment" },
-    { "value": "disposal", "label": "Disposal" }
+    {
+      "value": "recycling",
+      "label": "Recycling / Recovery"
+    },
+    {
+      "value": "refurbishment",
+      "label": "Repair / Refurbishment"
+    },
+    {
+      "value": "disposal",
+      "label": "Disposal"
+    }
   ],
   "knownCAContacts": {
-    "BE": { "name": "FPS Health, Food Chain Safety and Environment", "email": "env.transports@health.fgov.be" },
-    "DE": { "name": "Federal Environment Agency (UBA)", "email": "grenzueberschreitende-abfallverbringung@uba.de" },
-    "JP": { "name": "Ministry of the Environment — Waste and Recycling Dept.", "email": null },
-    "KR": { "name": "Ministry of Environment — Basel Secretariat", "email": null },
-    "IN": { "name": "Ministry of Environment, Forest and Climate Change (MoEFCC)", "email": "secy-moef@nic.in" },
-    "NG": { "name": "Federal Ministry of Environment — Hazardous Substances Dept.", "email": null },
-    "GH": { "name": "Environmental Protection Agency Ghana", "email": "info@epa.gov.gh" }
+    "BE": {
+      "name": "FPS Health, Food Chain Safety and Environment",
+      "email": "env.transports@health.fgov.be"
+    },
+    "DE": {
+      "name": "Federal Environment Agency (UBA)",
+      "email": "grenzueberschreitende-abfallverbringung@uba.de"
+    },
+    "JP": {
+      "name": "Ministry of the Environment \u2014 Waste and Recycling Dept.",
+      "email": null
+    },
+    "KR": {
+      "name": "Ministry of Environment \u2014 Basel Secretariat",
+      "email": null
+    },
+    "IN": {
+      "name": "Ministry of Environment, Forest and Climate Change (MoEFCC)",
+      "email": "secy-moef@nic.in"
+    },
+    "NG": {
+      "name": "Federal Ministry of Environment \u2014 Hazardous Substances Dept.",
+      "email": null
+    },
+    "GH": {
+      "name": "Environmental Protection Agency Ghana",
+      "email": "info@epa.gov.gh"
+    }
   },
   "complianceSteps": {
     "banned": [
-      "Shipment is PROHIBITED under Basel Ban Amendment — do not proceed",
+      "Shipment is PROHIBITED under Basel Ban Amendment \u2014 do not proceed",
       "Confirm classification: is the waste truly hazardous? If B1110 applies (tested-working), ban may not apply",
       "Explore alternative destination countries in Annex VII (OECD/EU)",
       "Consult a Basel compliance specialist before any further action"
@@ -63,10 +412,10 @@
       "Prepare financial guarantee / environmental insurance",
       "Complete Basel notification document with all supporting documentation",
       "Ensure carrier is licensed for transboundary hazardous waste movement",
-      "Retain all consent letters — movement documents must accompany waste"
+      "Retain all consent letters \u2014 movement documents must accompany waste"
     ],
     "medium": [
-      "Confirm waste classification — verify Basel code and hazard status",
+      "Confirm waste classification \u2014 verify Basel code and hazard status",
       "Notify your national Competent Authority of intended transboundary movement",
       "Obtain Prior Informed Consent from destination CA (written)",
       "Prepare Basel notification document and movement documents",
@@ -82,7 +431,7 @@
     ]
   },
   "transitWarnings": {
-    "Caribbean-to-Europe": "Caribbean routes to Europe typically transit through US ports. The US is not a Basel party — US port transit does not constitute Basel export to the US, but carrier must ensure no deconsolidation or storage in US territory.",
+    "Caribbean-to-Europe": "Caribbean routes to Europe typically transit through US ports. The US is not a Basel party \u2014 US port transit does not constitute Basel export to the US, but carrier must ensure no deconsolidation or storage in US territory.",
     "Caribbean-to-Asia": "Caribbean to Asia routes commonly transit through Panama Canal. Panama is a Basel party. If waste is offloaded or stored in transit, PIC from Panama CA is required.",
     "WestAfrica-to-Europe": "Direct West Africa to Western Europe routes available via major shipping lines. Transit through North African ports (Morocco, Egypt) may require additional CAs if cargo is transshipped.",
     "Asia-to-Europe": "Asia to Europe commonly transits Suez Canal / Egyptian ports. If waste is offloaded in Egypt, Egyptian CA consent is required.",
