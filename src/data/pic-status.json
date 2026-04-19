@@ -3,7 +3,7 @@
     {
       "step": 1,
       "title": "File notification with your national Competent Authority",
-      "detail": "Prepare and submit the Basel notification document to your country's CA — include waste type, quantities, proposed route, receiving facility permit, and financial guarantee details."
+      "detail": "Prepare and submit the Basel notification document to your country's CA \u2014 include waste type, quantities, proposed route, receiving facility permit, and financial guarantee details."
     },
     {
       "step": 2,
@@ -13,7 +13,7 @@
     {
       "step": 3,
       "title": "Destination CA acknowledges receipt",
-      "detail": "The importing country CA issues a formal acknowledgement of receipt. This starts the consent clock under Article 6(2). Keep a copy — it is part of your compliance record."
+      "detail": "The importing country CA issues a formal acknowledgement of receipt. This starts the consent clock under Article 6(2). Keep a copy \u2014 it is part of your compliance record."
     },
     {
       "step": 4,
@@ -22,8 +22,1420 @@
     },
     {
       "step": 5,
-      "title": "Documentation complete — shipment may proceed",
+      "title": "Documentation complete \u2014 shipment may proceed",
       "detail": "Retain all consent letters with your movement documents. Shipment must begin within the validity period specified in the consent. Movement documents must accompany the waste at all times."
     }
-  ]
+  ],
+  "countryRequirements": {
+    "DE": {
+      "country_name": "Germany",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "BE": {
+      "country_name": "Belgium",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "NL": {
+      "country_name": "Netherlands",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "FR": {
+      "country_name": "France",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "GB": {
+      "country_name": "United Kingdom",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "IT": {
+      "country_name": "Italy",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CA": {
+      "country_name": "Canada",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "JP": {
+      "country_name": "Japan",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "KR": {
+      "country_name": "South Korea",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CN": {
+      "country_name": "China",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "IN": {
+      "country_name": "India",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "MY": {
+      "country_name": "Malaysia",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "TH": {
+      "country_name": "Thailand",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "SG": {
+      "country_name": "Singapore",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "ID": {
+      "country_name": "Indonesia",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "PH": {
+      "country_name": "Philippines",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "MX": {
+      "country_name": "Mexico",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CL": {
+      "country_name": "Chile",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "TR": {
+      "country_name": "Turkey",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "IL": {
+      "country_name": "Israel",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "ES": {
+      "country_name": "Spain",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "PT": {
+      "country_name": "Portugal",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "AT": {
+      "country_name": "Austria",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CH": {
+      "country_name": "Switzerland",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "SE": {
+      "country_name": "Sweden",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "NO": {
+      "country_name": "Norway",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "DK": {
+      "country_name": "Denmark",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "FI": {
+      "country_name": "Finland",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "IE": {
+      "country_name": "Ireland",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "LU": {
+      "country_name": "Luxembourg",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "PL": {
+      "country_name": "Poland",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "SK": {
+      "country_name": "Slovakia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CZ": {
+      "country_name": "Czech Republic",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "HU": {
+      "country_name": "Hungary",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "SI": {
+      "country_name": "Slovenia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "GR": {
+      "country_name": "Greece",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "MT": {
+      "country_name": "Malta",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CY": {
+      "country_name": "Cyprus",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "EE": {
+      "country_name": "Estonia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "LV": {
+      "country_name": "Latvia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "LT": {
+      "country_name": "Lithuania",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "HR": {
+      "country_name": "Croatia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "RO": {
+      "country_name": "Romania",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "BG": {
+      "country_name": "Bulgaria",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "NZ": {
+      "country_name": "New Zealand",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "AU": {
+      "country_name": "Australia",
+      "consent_type": "tacit",
+      "response_deadline_days": 30,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "US": {
+      "country_name": "United States",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": "Not Basel party - uses bilateral agreements",
+      "y49_pic_required": false,
+      "notes": null
+    },
+    "TT": {
+      "country_name": "Trinidad and Tobago",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "JM": {
+      "country_name": "Jamaica",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "BB": {
+      "country_name": "Barbados",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "GY": {
+      "country_name": "Guyana",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "HT": {
+      "country_name": "Haiti",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "DO": {
+      "country_name": "Dominican Republic",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CU": {
+      "country_name": "Cuba",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CR": {
+      "country_name": "Costa Rica",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "PA": {
+      "country_name": "Panama",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "NG": {
+      "country_name": "Nigeria",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "GH": {
+      "country_name": "Ghana",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "ZA": {
+      "country_name": "South Africa",
+      "consent_type": "explicit",
+      "response_deadline_days": 60,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "EG": {
+      "country_name": "Egypt",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "MA": {
+      "country_name": "Morocco",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "CO": {
+      "country_name": "Colombia",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "BR": {
+      "country_name": "Brazil",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "AR": {
+      "country_name": "Argentina",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "PE": {
+      "country_name": "Peru",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "VN": {
+      "country_name": "Vietnam",
+      "consent_type": "explicit",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": true,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": null
+    },
+    "BS": {
+      "country_name": "Bahamas",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AG": {
+      "country_name": "Antigua and Barbuda",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "DM": {
+      "country_name": "Dominica",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "GD": {
+      "country_name": "Grenada",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "KN": {
+      "country_name": "Saint Kitts and Nevis",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LC": {
+      "country_name": "Saint Lucia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "VC": {
+      "country_name": "Saint Vincent and the Grenadines",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "KE": {
+      "country_name": "Kenya",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "TZ": {
+      "country_name": "Tanzania",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "RW": {
+      "country_name": "Rwanda",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "ET": {
+      "country_name": "Ethiopia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SN": {
+      "country_name": "Senegal",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "CI": {
+      "country_name": "C\u00f4te d'Ivoire",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SL": {
+      "country_name": "Sierra Leone",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LR": {
+      "country_name": "Liberia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "CM": {
+      "country_name": "Cameroon",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "GA": {
+      "country_name": "Gabon",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "CG": {
+      "country_name": "Republic of the Congo",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MZ": {
+      "country_name": "Mozambique",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "ZW": {
+      "country_name": "Zimbabwe",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "ZM": {
+      "country_name": "Zambia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MW": {
+      "country_name": "Malawi",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AO": {
+      "country_name": "Angola",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "BW": {
+      "country_name": "Botswana",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SZ": {
+      "country_name": "Eswatini",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "BD": {
+      "country_name": "Bangladesh",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LK": {
+      "country_name": "Sri Lanka",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "PK": {
+      "country_name": "Pakistan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "NP": {
+      "country_name": "Nepal",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "HK": {
+      "country_name": "Hong Kong",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "TW": {
+      "country_name": "Taiwan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MN": {
+      "country_name": "Mongolia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "KH": {
+      "country_name": "Cambodia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LA": {
+      "country_name": "Laos",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MM": {
+      "country_name": "Myanmar",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "JO": {
+      "country_name": "Jordan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LB": {
+      "country_name": "Lebanon",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SY": {
+      "country_name": "Syria",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SA": {
+      "country_name": "Saudi Arabia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AE": {
+      "country_name": "United Arab Emirates",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "QA": {
+      "country_name": "Qatar",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "KW": {
+      "country_name": "Kuwait",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "BH": {
+      "country_name": "Bahrain",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "OM": {
+      "country_name": "Oman",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "EC": {
+      "country_name": "Ecuador",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "GT": {
+      "country_name": "Guatemala",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "BO": {
+      "country_name": "Bolivia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "PY": {
+      "country_name": "Paraguay",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "UY": {
+      "country_name": "Uruguay",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "VE": {
+      "country_name": "Venezuela",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "HN": {
+      "country_name": "Honduras",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "NI": {
+      "country_name": "Nicaragua",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "SV": {
+      "country_name": "El Salvador",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "TN": {
+      "country_name": "Tunisia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "DZ": {
+      "country_name": "Algeria",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LY": {
+      "country_name": "Libya",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "FJ": {
+      "country_name": "Fiji",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "PG": {
+      "country_name": "Papua New Guinea",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "WS": {
+      "country_name": "Samoa",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "TO": {
+      "country_name": "Tonga",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "VU": {
+      "country_name": "Vanuatu",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "LI": {
+      "country_name": "Liechtenstein",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "RU": {
+      "country_name": "Russia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "UA": {
+      "country_name": "Ukraine",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MD": {
+      "country_name": "Moldova",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "ME": {
+      "country_name": "Montenegro",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "RS": {
+      "country_name": "Serbia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "MK": {
+      "country_name": "North Macedonia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "KZ": {
+      "country_name": "Kazakhstan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "GE": {
+      "country_name": "Georgia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AM": {
+      "country_name": "Armenia",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AZ": {
+      "country_name": "Azerbaijan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "AF": {
+      "country_name": "Afghanistan",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "IR": {
+      "country_name": "Iran",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    },
+    "IQ": {
+      "country_name": "Iraq",
+      "consent_type": "unknown",
+      "response_deadline_days": 90,
+      "competent_authority_required": true,
+      "accepts_electronic_notification": false,
+      "special_conditions": null,
+      "y49_pic_required": true,
+      "notes": "Confirm consent type with destination CA"
+    }
+  }
 }
