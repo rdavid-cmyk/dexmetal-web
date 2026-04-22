@@ -1,10 +1,27 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-22 (Session 19 — EmailGate verified on Basel Navigator)
+Last updated: 2026-04-22 (Session 19b — EmailGate on all 6 tools)
 
 
 
 ---
+
+---
+
+## Session 19b — 2026-04-22 — EmailGate deployed to all 6 remaining tools
+### COMPLETED
+- Added EmailGate to all 6 tool pages (thin server-component wrappers)
+- Tools updated: basel-classification-quickscan, ewaste-material-recovery, ewaste-route-mapper, pic-status-checker, shipment-eligibility-checker, ulab-export-calculator
+- Pattern: import EmailGate + wrap component in <EmailGate toolName="[slug]">
+- One build + pm2 restart
+- Playwright incognito verification — all 6 PASS:
+  - /tools/basel-classification-quickscan — PASS
+  - /tools/ewaste-material-recovery — PASS
+  - /tools/ewaste-route-mapper — PASS
+  - /tools/pic-status-checker — PASS
+  - /tools/shipment-eligibility-checker — PASS
+  - /tools/ulab-export-calculator — PASS
+- All 7 tools (including Basel Navigator) now gated behind EmailGate
 
 ---
 

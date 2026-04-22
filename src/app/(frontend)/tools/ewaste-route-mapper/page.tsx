@@ -1,4 +1,5 @@
 import EWasteRouteMapper from '@/components/tools/EWasteRouteMapper'
+import EmailGate from '@/components/EmailGate'
 
 export const metadata = {
   title: 'E-Waste Export Route Risk Mapper | DexMetal',
@@ -7,5 +8,9 @@ export const metadata = {
 }
 
 export default function EWasteRouteMapperPage() {
-  return <EWasteRouteMapper />
+  return (
+    <EmailGate toolName="ewaste-route-mapper">
+      <EWasteRouteMapper />
+    </EmailGate>
+  )
 }

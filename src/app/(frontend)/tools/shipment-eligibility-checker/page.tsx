@@ -1,4 +1,5 @@
 import ShipmentEligibilityChecker from '@/components/tools/ShipmentEligibilityChecker'
+import EmailGate from '@/components/EmailGate'
 
 export const metadata = {
   title: 'Shipment Eligibility Checker | DexMetal',
@@ -7,5 +8,9 @@ export const metadata = {
 }
 
 export default function ShipmentEligibilityCheckerPage() {
-  return <ShipmentEligibilityChecker />
+  return (
+    <EmailGate toolName="shipment-eligibility-checker">
+      <ShipmentEligibilityChecker />
+    </EmailGate>
+  )
 }

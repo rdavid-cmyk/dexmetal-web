@@ -1,4 +1,5 @@
 import ULABExportCalculator from '@/components/tools/ULABExportCalculator'
+import EmailGate from '@/components/EmailGate'
 
 export const metadata = {
   title: 'ULAB Export Calculator | DexMetal',
@@ -7,5 +8,9 @@ export const metadata = {
 }
 
 export default function ULABExportCalculatorPage() {
-  return <ULABExportCalculator />
+  return (
+    <EmailGate toolName="ulab-export-calculator">
+      <ULABExportCalculator />
+    </EmailGate>
+  )
 }

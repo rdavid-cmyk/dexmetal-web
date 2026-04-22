@@ -1,4 +1,5 @@
 import BaselClassificationQuickscan from '@/components/tools/BaselClassificationQuickscan'
+import EmailGate from '@/components/EmailGate'
 
 export const metadata = {
   title: 'Basel Classification QuickScan | DexMetal',
@@ -7,5 +8,9 @@ export const metadata = {
 }
 
 export default function BaselClassificationQuickscanPage() {
-  return <BaselClassificationQuickscan />
+  return (
+    <EmailGate toolName="basel-classification-quickscan">
+      <BaselClassificationQuickscan />
+    </EmailGate>
+  )
 }

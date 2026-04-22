@@ -1,4 +1,5 @@
 import PICStatusChecker from '@/components/tools/PICStatusChecker'
+import EmailGate from '@/components/EmailGate'
 
 export const metadata = {
   title: 'PIC Status Checker | DexMetal',
@@ -7,5 +8,9 @@ export const metadata = {
 }
 
 export default function PICStatusCheckerPage() {
-  return <PICStatusChecker />
+  return (
+    <EmailGate toolName="pic-status-checker">
+      <PICStatusChecker />
+    </EmailGate>
+  )
 }
