@@ -8,6 +8,17 @@ Last updated: 2026-04-22 (Session 19b — EmailGate on all 6 tools)
 
 ---
 
+## Session 20 — 2026-04-22 — Resend wired to EmailGate
+### COMPLETED
+- Created Resend audience: DexMetal Tool Users (ID: fbdfec0b-9a5f-44e6-8e42-d7fa1ddc9e73)
+- Installed resend npm SDK
+- Added RESEND_API_KEY + RESEND_AUDIENCE_ID to .env.local
+- Updated /api/capture-email/route.ts: addToResend() fires on every email capture
+- CSV logging preserved (addToBrevo still wired too)
+- Test contact test-resend@dexmetal.com confirmed in Resend audience — PASS
+
+---
+
 ## Session 19b — 2026-04-22 — EmailGate deployed to all 6 remaining tools
 ### COMPLETED
 - Added EmailGate to all 6 tool pages (thin server-component wrappers)
