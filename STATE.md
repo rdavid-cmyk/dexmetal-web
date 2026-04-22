@@ -1,10 +1,20 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-17 (Session 18b — Claude Project + API key rotation)
+Last updated: 2026-04-22 (Session 19 — EmailGate verified on Basel Navigator)
 
 
 
 ---
+
+---
+
+## Session 19 — 2026-04-22 — EmailGate verified on Basel Navigator
+### ✅ COMPLETED
+- Verified EmailGate is live and working on /tools/basel-navigator
+- Gate shows blurred content + lock icon + "Unlock Results" button
+- Playwright incognito test: PASS
+- No rebuild needed — code was already correctly implemented
+- Pattern: export default wraps <BaselFormAssistantPageContent /> in <EmailGate toolName="basel-navigator">
 
 ## Session 18b — 2026-04-17 — Claude Project created + API key rotated
 ### COMPLETED
