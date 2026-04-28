@@ -1,0 +1,710 @@
+{
+  "recoveryFactors": {
+    "Whole Uncracked": 0.6,
+    "Cracked/Drained": 0.55,
+    "Mixed": 0.57
+  },
+  "smelterRecoveryRate": 0.85,
+  "defaultLmePrice": 1950,
+  "baselComplianceCostLow": 800,
+  "baselComplianceCostHigh": 2500,
+  "originRegions": {
+    "DZ": "North Africa",
+    "AR": "Latin America",
+    "AU": "Oceania",
+    "AT": "Western Europe",
+    "BH": "Middle East",
+    "BD": "South Asia",
+    "BB": "Caribbean",
+    "BE": "Western Europe",
+    "BT": "South Asia",
+    "BR": "Latin America",
+    "BG": "Central Europe",
+    "CM": "Central Africa",
+    "CA": "North America",
+    "CL": "Latin America",
+    "CN": "East Asia",
+    "CO": "Latin America",
+    "CR": "Latin America",
+    "HR": "Central Europe",
+    "CU": "Caribbean",
+    "CY": "Southern Europe",
+    "CZ": "Central Europe",
+    "CI": "West Africa",
+    "DK": "Northern Europe",
+    "DO": "Caribbean",
+    "EC": "Latin America",
+    "EG": "North Africa",
+    "EE": "Northern Europe",
+    "FJ": "Oceania",
+    "FI": "Northern Europe",
+    "FR": "Western Europe",
+    "GA": "Central Africa",
+    "DE": "Western Europe",
+    "GH": "West Africa",
+    "GR": "Southern Europe",
+    "GT": "Latin America",
+    "GY": "Caribbean",
+    "HT": "Caribbean",
+    "HK": "East Asia",
+    "HU": "Central Europe",
+    "IS": "Northern Europe",
+    "IN": "South Asia",
+    "ID": "Southeast Asia",
+    "IE": "Western Europe",
+    "IL": "Middle East",
+    "IT": "Southern Europe",
+    "JM": "Caribbean",
+    "JP": "East Asia",
+    "JO": "Middle East",
+    "KW": "Middle East",
+    "LV": "Northern Europe",
+    "LB": "Middle East",
+    "LR": "West Africa",
+    "LY": "North Africa",
+    "LI": "Western Europe",
+    "LT": "Northern Europe",
+    "LU": "Western Europe",
+    "MW": "Southern Africa",
+    "MY": "Southeast Asia",
+    "MT": "Southern Europe",
+    "MX": "Latin America",
+    "MN": "East Asia",
+    "MA": "North Africa",
+    "MZ": "Southern Africa",
+    "NP": "South Asia",
+    "NL": "Western Europe",
+    "NZ": "Oceania",
+    "NG": "West Africa",
+    "NO": "Northern Europe",
+    "OM": "Middle East",
+    "PK": "South Asia",
+    "PA": "Latin America",
+    "PG": "Oceania",
+    "PE": "Latin America",
+    "PH": "Southeast Asia",
+    "PL": "Central Europe",
+    "PT": "Southern Europe",
+    "QA": "Middle East",
+    "CG": "Central Africa",
+    "RO": "Central Europe",
+    "WS": "Oceania",
+    "SA": "Middle East",
+    "SN": "West Africa",
+    "SL": "West Africa",
+    "SG": "Southeast Asia",
+    "SK": "Central Europe",
+    "SI": "Central Europe",
+    "ZA": "Southern Africa",
+    "KR": "East Asia",
+    "ES": "Southern Europe",
+    "LK": "South Asia",
+    "SE": "Northern Europe",
+    "CH": "Western Europe",
+    "SY": "Middle East",
+    "TW": "East Asia",
+    "TH": "Southeast Asia",
+    "TO": "Oceania",
+    "TT": "Caribbean",
+    "TN": "North Africa",
+    "TR": "Middle East",
+    "AE": "Middle East",
+    "GB": "Western Europe",
+    "VU": "Oceania",
+    "VE": "Latin America",
+    "VN": "Southeast Asia",
+    "ZM": "Southern Africa",
+    "ZW": "Southern Africa"
+  },
+  "logisticsRates": {
+    "North Africa": {
+      "Other": 250
+    },
+    "Western Europe": {
+      "Other": 250
+    },
+    "West Africa": {
+      "Other": 250
+    },
+    "Central Africa": {
+      "Other": 250
+    },
+    "North America": {
+      "Other": 250
+    },
+    "Southeast Asia": {
+      "Other": 250
+    },
+    "Southern Africa": {
+      "Other": 250
+    },
+    "Caribbean": {
+      "USA": 180,
+      "Germany": 320,
+      "South Korea": 410,
+      "India": 410,
+      "China": 410,
+      "Other": 250
+    },
+    "East Asia": {
+      "Other": 250
+    },
+    "Middle East": {
+      "Other": 250
+    },
+    "South Asia": {
+      "Other": 250
+    },
+    "Central Europe": {
+      "Other": 250
+    },
+    "Northern Europe": {
+      "Other": 250
+    },
+    "Southern Europe": {
+      "Other": 250
+    },
+    "Oceania": {
+      "Other": 250
+    },
+    "Latin America": {
+      "Other": 250
+    }
+  },
+  "originCountries": [
+    {
+      "code": "DZ",
+      "name": "Algeria"
+    },
+    {
+      "code": "AR",
+      "name": "Argentina"
+    },
+    {
+      "code": "AU",
+      "name": "Australia"
+    },
+    {
+      "code": "AT",
+      "name": "Austria"
+    },
+    {
+      "code": "BH",
+      "name": "Bahrain"
+    },
+    {
+      "code": "BD",
+      "name": "Bangladesh"
+    },
+    {
+      "code": "BB",
+      "name": "Barbados"
+    },
+    {
+      "code": "BE",
+      "name": "Belgium"
+    },
+    {
+      "code": "BT",
+      "name": "Bhutan"
+    },
+    {
+      "code": "BR",
+      "name": "Brazil"
+    },
+    {
+      "code": "BG",
+      "name": "Bulgaria"
+    },
+    {
+      "code": "CM",
+      "name": "Cameroon"
+    },
+    {
+      "code": "CA",
+      "name": "Canada"
+    },
+    {
+      "code": "CL",
+      "name": "Chile"
+    },
+    {
+      "code": "CN",
+      "name": "China"
+    },
+    {
+      "code": "CO",
+      "name": "Colombia"
+    },
+    {
+      "code": "CR",
+      "name": "Costa Rica"
+    },
+    {
+      "code": "HR",
+      "name": "Croatia"
+    },
+    {
+      "code": "CU",
+      "name": "Cuba"
+    },
+    {
+      "code": "CY",
+      "name": "Cyprus"
+    },
+    {
+      "code": "CZ",
+      "name": "Czech Republic"
+    },
+    {
+      "code": "CI",
+      "name": "C\u00f4te d'Ivoire"
+    },
+    {
+      "code": "DK",
+      "name": "Denmark"
+    },
+    {
+      "code": "DO",
+      "name": "Dominican Republic"
+    },
+    {
+      "code": "EC",
+      "name": "Ecuador"
+    },
+    {
+      "code": "EG",
+      "name": "Egypt"
+    },
+    {
+      "code": "EE",
+      "name": "Estonia"
+    },
+    {
+      "code": "FJ",
+      "name": "Fiji"
+    },
+    {
+      "code": "FI",
+      "name": "Finland"
+    },
+    {
+      "code": "FR",
+      "name": "France"
+    },
+    {
+      "code": "GA",
+      "name": "Gabon"
+    },
+    {
+      "code": "DE",
+      "name": "Germany"
+    },
+    {
+      "code": "GH",
+      "name": "Ghana"
+    },
+    {
+      "code": "GR",
+      "name": "Greece"
+    },
+    {
+      "code": "GT",
+      "name": "Guatemala"
+    },
+    {
+      "code": "GY",
+      "name": "Guyana"
+    },
+    {
+      "code": "HT",
+      "name": "Haiti"
+    },
+    {
+      "code": "HK",
+      "name": "Hong Kong"
+    },
+    {
+      "code": "HU",
+      "name": "Hungary"
+    },
+    {
+      "code": "IS",
+      "name": "Iceland"
+    },
+    {
+      "code": "IN",
+      "name": "India"
+    },
+    {
+      "code": "ID",
+      "name": "Indonesia"
+    },
+    {
+      "code": "IE",
+      "name": "Ireland"
+    },
+    {
+      "code": "IL",
+      "name": "Israel"
+    },
+    {
+      "code": "IT",
+      "name": "Italy"
+    },
+    {
+      "code": "JM",
+      "name": "Jamaica"
+    },
+    {
+      "code": "JP",
+      "name": "Japan"
+    },
+    {
+      "code": "JO",
+      "name": "Jordan"
+    },
+    {
+      "code": "KW",
+      "name": "Kuwait"
+    },
+    {
+      "code": "LV",
+      "name": "Latvia"
+    },
+    {
+      "code": "LB",
+      "name": "Lebanon"
+    },
+    {
+      "code": "LR",
+      "name": "Liberia"
+    },
+    {
+      "code": "LY",
+      "name": "Libya"
+    },
+    {
+      "code": "LI",
+      "name": "Liechtenstein"
+    },
+    {
+      "code": "LT",
+      "name": "Lithuania"
+    },
+    {
+      "code": "LU",
+      "name": "Luxembourg"
+    },
+    {
+      "code": "MW",
+      "name": "Malawi"
+    },
+    {
+      "code": "MY",
+      "name": "Malaysia"
+    },
+    {
+      "code": "MT",
+      "name": "Malta"
+    },
+    {
+      "code": "MX",
+      "name": "Mexico"
+    },
+    {
+      "code": "MN",
+      "name": "Mongolia"
+    },
+    {
+      "code": "MA",
+      "name": "Morocco"
+    },
+    {
+      "code": "MZ",
+      "name": "Mozambique"
+    },
+    {
+      "code": "NP",
+      "name": "Nepal"
+    },
+    {
+      "code": "NL",
+      "name": "Netherlands"
+    },
+    {
+      "code": "NZ",
+      "name": "New Zealand"
+    },
+    {
+      "code": "NG",
+      "name": "Nigeria"
+    },
+    {
+      "code": "NO",
+      "name": "Norway"
+    },
+    {
+      "code": "OM",
+      "name": "Oman"
+    },
+    {
+      "code": "PK",
+      "name": "Pakistan"
+    },
+    {
+      "code": "PA",
+      "name": "Panama"
+    },
+    {
+      "code": "PG",
+      "name": "Papua New Guinea"
+    },
+    {
+      "code": "PE",
+      "name": "Peru"
+    },
+    {
+      "code": "PH",
+      "name": "Philippines"
+    },
+    {
+      "code": "PL",
+      "name": "Poland"
+    },
+    {
+      "code": "PT",
+      "name": "Portugal"
+    },
+    {
+      "code": "QA",
+      "name": "Qatar"
+    },
+    {
+      "code": "CG",
+      "name": "Republic of the Congo"
+    },
+    {
+      "code": "RO",
+      "name": "Romania"
+    },
+    {
+      "code": "WS",
+      "name": "Samoa"
+    },
+    {
+      "code": "SA",
+      "name": "Saudi Arabia"
+    },
+    {
+      "code": "SN",
+      "name": "Senegal"
+    },
+    {
+      "code": "SL",
+      "name": "Sierra Leone"
+    },
+    {
+      "code": "SG",
+      "name": "Singapore"
+    },
+    {
+      "code": "SK",
+      "name": "Slovakia"
+    },
+    {
+      "code": "SI",
+      "name": "Slovenia"
+    },
+    {
+      "code": "ZA",
+      "name": "South Africa"
+    },
+    {
+      "code": "KR",
+      "name": "South Korea"
+    },
+    {
+      "code": "ES",
+      "name": "Spain"
+    },
+    {
+      "code": "LK",
+      "name": "Sri Lanka"
+    },
+    {
+      "code": "SE",
+      "name": "Sweden"
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland"
+    },
+    {
+      "code": "SY",
+      "name": "Syria"
+    },
+    {
+      "code": "TW",
+      "name": "Taiwan"
+    },
+    {
+      "code": "TH",
+      "name": "Thailand"
+    },
+    {
+      "code": "TO",
+      "name": "Tonga"
+    },
+    {
+      "code": "TT",
+      "name": "Trinidad and Tobago"
+    },
+    {
+      "code": "TN",
+      "name": "Tunisia"
+    },
+    {
+      "code": "TR",
+      "name": "Turkey"
+    },
+    {
+      "code": "AE",
+      "name": "United Arab Emirates"
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom"
+    },
+    {
+      "code": "VU",
+      "name": "Vanuatu"
+    },
+    {
+      "code": "VE",
+      "name": "Venezuela"
+    },
+    {
+      "code": "VN",
+      "name": "Vietnam"
+    },
+    {
+      "code": "ZM",
+      "name": "Zambia"
+    },
+    {
+      "code": "ZW",
+      "name": "Zimbabwe"
+    }
+  ],
+  "destinationCountries": [
+    "USA",
+    "Germany",
+    "Netherlands",
+    "Belgium",
+    "France",
+    "UK",
+    "Japan",
+    "South Korea",
+    "China",
+    "India",
+    "Canada",
+    "Australia",
+    "Brazil",
+    "Mexico",
+    "Nigeria",
+    "Ghana",
+    "South Africa",
+    "Singapore",
+    "Malaysia",
+    "Indonesia",
+    "Thailand",
+    "Vietnam",
+    "Spain",
+    "Italy",
+    "Portugal",
+    "Poland",
+    "Sweden",
+    "Norway",
+    "Switzerland",
+    "Austria",
+    "Denmark",
+    "Finland",
+    "Algeria",
+    "Argentina",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Bhutan",
+    "Bulgaria",
+    "Cameroon",
+    "Chile",
+    "Colombia",
+    "Costa Rica",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "C\u00f4te d'Ivoire",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "Estonia",
+    "Fiji",
+    "Gabon",
+    "Greece",
+    "Guatemala",
+    "Guyana",
+    "Haiti",
+    "Hong Kong",
+    "Hungary",
+    "Iceland",
+    "Ireland",
+    "Israel",
+    "Jamaica",
+    "Jordan",
+    "Kuwait",
+    "Latvia",
+    "Lebanon",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Malawi",
+    "Malta",
+    "Mongolia",
+    "Morocco",
+    "Mozambique",
+    "Nepal",
+    "New Zealand",
+    "Oman",
+    "Pakistan",
+    "Panama",
+    "Papua New Guinea",
+    "Peru",
+    "Philippines",
+    "Qatar",
+    "Republic of the Congo",
+    "Romania",
+    "Samoa",
+    "Saudi Arabia",
+    "Senegal",
+    "Sierra Leone",
+    "Slovakia",
+    "Slovenia",
+    "Sri Lanka",
+    "Syria",
+    "Taiwan",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "United Arab Emirates",
+    "United Kingdom",
+    "Vanuatu",
+    "Venezuela",
+    "Zambia",
+    "Zimbabwe"
+  ]
+}

@@ -20,6 +20,26 @@ const SECTION_TITLES: Record<string, string> = {
   'reference':        'Additional Reference',
 }
 
+const SECTION_META: Record<string, { title: string; description: string }> = {
+  'pic': {
+    title: 'PIC Meaning in Shipping & Hazardous Waste',
+    description: 'PIC stands for Prior Informed Consent — the Basel Convention mechanism requiring government approval before any cross-border hazardous waste shipment. What it means and what exporters must do.',
+  },
+}
+
+// Leaf-page SEO overrides — keyed by full slug as stored in DB.
+// Takes priority over DB metaTitle/metaDescription for zero-click / high-impression pages.
+const PAGE_META: Record<string, { title: string; description: string }> = {
+  'e-waste-materials-reference': {
+    title: 'E-Waste Materials Reference Guide | Basel Convention',
+    description: 'Complete reference for e-waste materials under the Basel Convention — classifications, codes, and handling requirements for recyclers and exporters.',
+  },
+  '2025-basel-e-waste-changes': {
+    title: '2025 Basel E-Waste Changes Explained',
+    description: 'The 2025 Basel Convention amendments extended PIC controls to all e-waste. What changed, which codes are affected, and what exporters must do now.',
+  },
+}
+
 function extractBlockNumber(title: string | null | undefined): number {
   if (!title) return Infinity
   const m = title.match(/\bBlock\s+(\d+)/i)
@@ -206,6 +226,12 @@ export default async function KnowledgeHubSlugPage({ params }: Args) {
           </nav>
         )}
       </div>
+            {page.jsonLd && page.jsonLd.trim() && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: page.jsonLd }}
+              />
+            )}
     </article>
   )
 }
@@ -215,7 +241,15 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const decodedSlug = decodeURIComponent(slug.join('/'))
 
   if (SECTION_TITLES[decodedSlug]) {
-    return { title: SECTION_TITLES[decodedSlug] }
+    const meta = SECTION_META[decodedSlug]
+    return meta
+      ? { title: meta.title, description: meta.description }
+      : { title: SECTION_TITLES[decodedSlug] }
+  }
+
+  const pageMeta = PAGE_META[decodedSlug]
+  if (pageMeta) {
+    return { title: pageMeta.title, description: pageMeta.description }
   }
 
   const page = await queryPageBySlug({ slug: decodedSlug })

@@ -70,6 +70,7 @@ export const KnowledgeHubPages: CollectionConfig = {
       name: 'metaDescription',
       type: 'textarea',
     },
+{      name: 'jsonLd',      type: 'textarea',      label: 'JSON-LD Schema',      admin: {        description: 'Paste valid JSON-LD structured data here. Rendered in <head> as application/ld+json.',        rows: 10,      },    },
     {
       name: 'wpPostId',
       type: 'number',

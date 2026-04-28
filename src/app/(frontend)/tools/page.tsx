@@ -40,6 +40,99 @@ export default async function ToolsPage() {
           </p>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <Link
+            href="/tools/basel-navigator"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              Basel Navigator
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Generate Basel Convention notification and movement documents.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+          <Link
+            href="/tools/shipment-eligibility-checker"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              Shipment Eligibility Checker
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Check if your waste shipment is permitted under the Basel Convention — Ban Amendment, OECD controls, plastic waste rules.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+          <Link
+            href="/tools/pic-status-checker"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              PIC Status Checker
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Determine whether your shipment requires Prior Informed Consent — and what type of consent applies. Includes 2025 Y49 amendment.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+          <Link
+            href="/tools/basel-classification-quickscan"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              Basel Classification QuickScan
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Identify the correct Basel waste code for your e-waste or battery shipment in three questions. Covers 2025 A1181 and Y49 updates.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+          <Link
+            href="/tools/ulab-export-calculator"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#FF5C00' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              ULAB Export Calculator
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Estimate lead recovery value, logistics cost, and net margin for your used lead-acid battery shipment at current LME prices.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#FF5C00' }}>
+              Open tool →
+            </span>
+          </Link>
+          <Link
+            href="/tools/ewaste-route-mapper"
+            className="block p-6 rounded-xl border-l-4 transition-all duration-200 hover:brightness-110"
+            style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}
+          >
+            <h2 className="font-body font-semibold text-white text-base mb-2 leading-snug">
+              E-Waste Export Route Risk Mapper
+            </h2>
+            <p className="font-body text-sm leading-relaxed line-clamp-2" style={{ color: '#a0a09a' }}>
+              Map your e-waste export route and instantly identify Basel notification requirements, ban restrictions, and compliance complexity before you ship.
+            </p>
+            <span className="inline-block mt-3 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+              Open tool →
+            </span>
+          </Link>
+        </div>
+
         {tools.length === 0 ? (
           <p className="font-body text-center py-20" style={{ color: '#a0a09a' }}>
             Tools coming soon.

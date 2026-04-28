@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'About | DexMetal',
+  title: { absolute: 'About DexMetal | Basel Convention Compliance Experts' },
   description:
-    'Practical Basel compliance, circular economy trade intelligence, and risk management guidance built from decades of hands-on experience.',
+    'DexMetal is the only Basel Convention compliance platform built by operators with 20+ years of Caribbean hazardous waste management experience.',
 }
 
 const PILLARS = [

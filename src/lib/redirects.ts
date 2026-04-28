@@ -122,6 +122,8 @@ export const REDIRECTS: Redirect[] = [
   { from: '/reimport-guarantees/', to: '/knowledge-hub/supporting-docs/reimport-guarantees', permanent: true },
 
   // Tools
+  { from: '/tools/basel-form-assistant', to: '/tools/basel-navigator', permanent: true },
+
   { from: '/checklist/', to: '/tools/checklist', permanent: true },
   { from: '/quick-code-lookup/', to: '/tools/quick-code-lookup', permanent: true },
   { from: '/notification-quick-view/', to: '/tools/notification-quick-view', permanent: true },
@@ -146,4 +148,14 @@ export const REDIRECTS: Redirect[] = [
   { from: '/blog/', to: '/blog', permanent: true },
   { from: '/contact/', to: '/contact', permanent: true },
   { from: '/privacy-policy/', to: '/privacy-policy', permanent: true },
+
+
+  // Legacy WP tag/category pages - 410 Gone
+  { from: '/tag/', to: '/', permanent: true },
+  { from: '/tag/things-to-do/', to: '/', permanent: true },
+  { from: '/tag/ohio/', to: '/', permanent: true },
+  { from: '/category/', to: '/', permanent: true },
+  { from: '/category/destinations/', to: '/', permanent: true },
+  { from: '/category/uncategorized/', to: '/', permanent: true },
+  { from: '/author/', to: '/', permanent: true },
 ]
