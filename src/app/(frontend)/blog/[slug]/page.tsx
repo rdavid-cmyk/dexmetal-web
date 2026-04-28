@@ -7,6 +7,7 @@ import { getPayload } from 'payload'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import Link from 'next/link'
+import { BaselNotificationCTA } from '@/components/BaselNotificationCTA'
 
 import type { Post, Media as MediaType, Category } from '@/payload-types'
 
@@ -249,6 +250,11 @@ export default async function BlogSlugPage({ params }: Args) {
               <div className="blog-content">
                 {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
               </div>
+
+              {/* Playbook CTA — Basel notification guide only */}
+              {post.slug === 'how-to-prepare-a-basel-notification-step-by-step-2026-update' && (
+                <BaselNotificationCTA />
+              )}
 
               {/* CTA Block - After Content */}
               {post.cta_label && post.cta_url && (
