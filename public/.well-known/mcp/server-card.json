@@ -1,0 +1,21 @@
+{
+  "name": "DexMetal Basel CA MCP",
+  "description": "Live MCP server providing programmatic access to 182 Basel Convention Competent Authorities. Built for compliance teams, freight forwarders, and AI agents navigating cross-border hazardous waste trade.",
+  "url": "https://mcp.dexmetal.com/sse",
+  "tools": [
+    {
+      "name": "get_competent_authority",
+      "description": "Returns CA name, address, contact, and jurisdiction for any ISO country code"
+    },
+    {
+      "name": "list_competent_authorities",
+      "description": "Returns all 182 Basel Convention Competent Authorities"
+    },
+    {
+      "name": "check_api_health",
+      "description": "Health check for the Basel CA API"
+    }
+  ],
+  "homepage": "https://dexmetal.com",
+  "contact": "info@dexmetal.com"
+}
