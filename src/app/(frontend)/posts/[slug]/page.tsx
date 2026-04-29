@@ -14,6 +14,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import AssetGate from '@/components/AssetGate'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -73,7 +74,13 @@ export default async function Post({ params: paramsPromise }: Args) {
           )}
         </div>
       </div>
-    </article>
+    <AssetGate
+        source="asset01-blog"
+        assetTitle="eWaste Trade Compliance: Operator's Playbook"
+        assetDescription="Free — 45-card practitioner's guide to Basel Convention compliance, eWaste trade, and the circular economy."
+        ctaButtonText="Download Free Playbook"
+      />
+</article>
   )
 }
 

@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import Link from 'next/link'
 
 import { Media } from '@/components/Media'
+import AssetGate from '@/components/AssetGate'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [

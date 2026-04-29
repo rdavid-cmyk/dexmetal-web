@@ -427,7 +427,12 @@ export default function ShipmentEligibilityChecker() {
     await new Promise((r) => setTimeout(r, 600))
     const stored = JSON.parse(localStorage.getItem('dexmetal_leads') || '[]')
     stored.push({ name: gateName, email: gateEmail, waste, origin, dest, ts: new Date().toISOString() })
-    localStorage.setItem('dexmetal_leads', JSON.stringify(stored))
+    fetch('/api/capture-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: gateEmail, name: gateName || undefined, tool: 'shipment-eligibility-checker', timestamp: new Date().toISOString() })
+      }).catch(console.error)
+      localStorage.setItem('dexmetal_leads', JSON.stringify(stored))
     setGateUnlocked(true)
     setShowGate(false)
     setGateSubmitting(false)
@@ -754,6 +759,47 @@ export default function ShipmentEligibilityChecker() {
             )}
           </div>
         )}
+
+            {/* Donation bar */}
+            <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #3a3a38' }}>
+              <p style={{ color: '#a0a09a', fontSize: '13px', marginBottom: '10px' }}>
+                Found this useful? Help keep it free.
+              </p>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <a
+                  href="https://ko-fi.com/dexmetal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: '6px 12px',
+                    backgroundColor: '#1D9E75',
+                    color: '#ffffff',
+                    borderRadius: '4px',
+                    fontSize: '13px',
+                    textDecoration: 'none',
+                    fontFamily: 'DM Sans, sans-serif',
+                  }}
+                >
+                  Support on Ko-fi
+                </a>
+                <a
+                  href="https://www.paypal.biz/dexmetal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: '6px 12px',
+                    backgroundColor: '#0070BA',
+                    color: '#ffffff',
+                    borderRadius: '4px',
+                    fontSize: '13px',
+                    textDecoration: 'none',
+                    fontFamily: 'DM Sans, sans-serif',
+                  }}
+                >
+                  Donate via PayPal
+                </a>
+              </div>
+            </div>
 
         {/* Email gate modal */}
         {showGate && (

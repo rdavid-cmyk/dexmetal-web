@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import EmailGate from '@/components/EmailGate'
 import JSZip from 'jszip'
 
 interface SupportingDoc {
@@ -252,7 +253,7 @@ async function fetchCAData(countryCode: string) {
   }
 }
 
-export default function BaselFormAssistantPage() {
+function BaselFormAssistantPageContent() {
   const [activeTab, setActiveTab] = useState<'reference' | 'fill' | 'submission'>('reference')
   const [selectedDoc, setSelectedDoc] = useState<'notification' | 'movement'>('notification')
   const [currentStep, setCurrentStep] = useState(0)
@@ -1727,5 +1728,13 @@ const handleGeneratePDF = async () => {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function BaselFormAssistantPage() {
+  return (
+    <EmailGate toolName="basel-navigator">
+      <BaselFormAssistantPageContent />
+    </EmailGate>
   )
 }
