@@ -31,13 +31,7 @@ export default function PlaybookPage() {
       <section className="border-b border-[#2f2f2b]">
         <div className="container py-8 md:py-12">
           <div className="aspect-video w-full overflow-hidden rounded-2xl border" style={{ borderColor: '#3a3a38', backgroundColor: '#1C1B18' }}>
-            <iframe
-              src="https://gamma.app/embed/eWaste-Trade-Compliance-Operators-Playbook-7vf94ssfm3gi8um"
-              className="h-full w-full"
-              style={{ minHeight: '500px' }}
-              title="eWaste Trade Compliance Playbook"
-              allowFullScreen
-            />
+            <iframe src='https://gamma.app/embed/7vf94ssfm3gi8um' style={{ width: '100%', height: '700px', border: 'none', borderRadius: '8px' }} allow='fullscreen' title="eWaste Trade Compliance : Operator's Playbook" />
           </div>
         </div>
       </section>
