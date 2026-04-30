@@ -1733,3 +1733,29 @@ Tools index: 6 tools live on /tools page
 
 ---
 
+
+---
+
+## Session 21 — 2026-04-30 — Smithery MCP Listing Activated + Footer Backlink
+### COMPLETED
+- Navigated to smithery.ai/servers/rdavid/basel-ca-mcp/settings
+- Filled in Description: "Basel Convention Competent Authority (CA) lookup API. Query official CA contact details, countries, and compliance data for 38+ countries under the Basel Convention on hazardous waste."
+- Set Homepage: https://dexmetal.com
+- Set GitHub Repository: https://github.com/rdavid-cmyk/basel-ca-mcp
+- Unchecked "Unlisted" — server is now publicly searchable on Smithery
+- Ran "Check again" — verification re-run; Homepage is set ✅ confirmed green
+- TXT record required for domain verification:
+  - Name/host: dexmetal.com
+  - Type: TXT
+  - Value: smithery-verification=7406f0457da0f6c9e71eb90db2f3d2f4b8285ef81389177ba78c84b08d36e785
+  - NOTE: name-services.com unreachable from automation — TXT record NOT yet added to DNS
+- Added Smithery backlink to DexMetalFooter component:
+  - File: /var/www/dexmetal-web/src/components/DexMetalFooter.tsx
+  - Link: <a href="https://smithery.ai/servers/rdavid/basel-ca-mcp">Basel CA MCP on Smithery</a>
+  - Built + pm2 restart — live at https://dexmetal.com ✅ confirmed via Playwright
+- Smithery "Link to Smithery" check still pending (crawler re-crawl needed)
+
+### PENDING
+- Add DNS TXT record manually: smithery-verification=7406f0457da0f6c9e71eb90db2f3d2f4b8285ef81389177ba78c84b08d36e785
+  at dexmetal.com (root @) — go to your DNS registrar panel
+- After TXT is live: return to smithery.ai/servers/rdavid/basel-ca-mcp/settings/verification and click "Check again"

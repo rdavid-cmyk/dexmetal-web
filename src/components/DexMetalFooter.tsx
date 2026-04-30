@@ -14,6 +14,7 @@ export function DexMetalFooter() {
           <Link href="/about" className="text-dex-muted hover:text-dex-primary transition-colors">About</Link>
           <Link href="/contact" className="text-dex-muted hover:text-dex-primary transition-colors">Contact</Link>
           <Link href="/privacy-policy" className="text-dex-muted hover:text-dex-primary transition-colors">Privacy Policy</Link>
+          <a href="https://smithery.ai/servers/rdavid/basel-ca-mcp" target="_blank" rel="noopener" className="text-dex-muted hover:text-dex-primary transition-colors">Basel CA MCP on Smithery</a>
         </nav>
         <p className="text-xs font-body text-dex-muted/40">
           &copy; {new Date().getFullYear()} DexMetal LLC. All rights reserved.
