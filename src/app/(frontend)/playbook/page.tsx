@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function PlaybookPage() {
   return (
-    <article className="bg-dex-bg text-white min-h-screen">
+    <article className="bg-[#0a0a0a] text-white min-h-screen w-full">
       <section className="border-b border-[#2f2f2b]">
         <div className="container py-12 md:py-16">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>

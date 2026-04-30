@@ -1759,3 +1759,9 @@ Tools index: 6 tools live on /tools page
 - Add DNS TXT record manually: smithery-verification=7406f0457da0f6c9e71eb90db2f3d2f4b8285ef81389177ba78c84b08d36e785
   at dexmetal.com (root @) — go to your DNS registrar panel
 - After TXT is live: return to smithery.ai/servers/rdavid/basel-ca-mcp/settings/verification and click "Check again"
+
+## 2026-04-30 — Playbook page dark theme fix
+- Root cause: /app/playbook/page.tsx was outside (frontend) route group, so globals.css (dark theme) never loaded → white background
+- Fix: moved page to /app/(frontend)/playbook/page.tsx — now inherits dark CSS variables and DexMetal header/footer
+- Updated AssetGate.tsx: bg-[#0a0a0a] section, flex-col gap-3 on form fields, #111 modal bg, cancel button added
+- Built + pm2 restart — confirmed dark at https://dexmetal.com/playbook ✅

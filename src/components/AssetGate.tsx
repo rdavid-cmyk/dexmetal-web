@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 interface AssetGateProps {
   assetTitle: string
@@ -34,7 +34,7 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    
+
     if (!email) {
       setError('Email is required')
       return
@@ -50,8 +50,8 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
       const res = await fetch('/api/capture-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email, 
+        body: JSON.stringify({
+          email,
           name: name || undefined,
           tool: source,
           timestamp: new Date().toISOString()
@@ -76,7 +76,7 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
 
   if (success) {
     return (
-      <section className="border-b border-[#2f2f2b] bg-[#1C1B18]">
+      <section className="border-b border-[#2f2f2b] bg-[#0a0a0a]">
         <div className="container py-16 md:py-20">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full" style={{ backgroundColor: '#0d3326' }}>
@@ -86,11 +86,16 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
               Check your inbox!
             </h3>
             <p className="mb-6 text-lg" style={{ color: '#cbc7be' }}>
-              We've sent <strong>{assetTitle}</strong> to <span style={{ color: '#1D9E75' }}>{email}</span>.
+              We&apos;ve sent <strong>{assetTitle}</strong> to <span style={{ color: '#1D9E75' }}>{email}</span>.
             </p>
             <p className="text-sm" style={{ color: '#a09e99' }}>
-              Not received? Check your spam folder or <button 
-                onClick={() => { setSuccess(false); setIsLocked(true); localStorage.removeItem('dexmetal_email_captured') }}
+              Not received? Check your spam folder or{' '}
+              <button
+                onClick={() => {
+                  setSuccess(false)
+                  setIsLocked(true)
+                  localStorage.removeItem('dexmetal_email_captured')
+                }}
                 className="underline hover:text-white"
                 style={{ color: '#FF5C00' }}
               >
@@ -104,7 +109,7 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
   }
 
   return (
-    <section className="border-b border-[#2f2f2b]" style={{ backgroundColor: '#171613' }}>
+    <section className="border-b border-[#2f2f2b] bg-[#0a0a0a]">
       <div className="container py-16 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
@@ -116,10 +121,10 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
           <p className="mb-8 text-lg" style={{ color: '#cbc7be' }}>
             {assetDescription}
           </p>
-          
+
           <button
             onClick={() => setShowGate(true)}
-            className="inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-medium text-white transition-opacity hover:opacity-90"
+            className="inline-flex w-full max-w-xs items-center justify-center rounded-full px-8 py-4 text-base font-medium text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: '#1D9E75' }}
           >
             {ctaButtonText}
@@ -129,7 +134,7 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
 
       {showGate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
-          <div className="w-full max-w-md rounded-2xl border p-8" style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}>
+          <div className="w-full max-w-md rounded-2xl border p-8" style={{ backgroundColor: '#111111', borderColor: '#3a3a38' }}>
             <div className="mb-6 text-center">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full" style={{ backgroundColor: '#0d3326' }}>
                 <span className="text-xl">📧</span>
@@ -143,13 +148,13 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col gap-3">
                 <input
                   type="text"
                   placeholder="Name (optional)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mb-3 w-full rounded-lg border bg-[#1C1B18] px-4 py-3 text-sm text-white outline-none"
+                  className="w-full rounded-lg border bg-[#1C1B18] px-4 py-3 text-sm text-white outline-none focus:border-[#1D9E75]"
                   style={{ borderColor: '#3a3a38' }}
                 />
                 <input
@@ -157,11 +162,11 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-lg border bg-[#1C1B18] px-4 py-3 text-sm text-white outline-none"
+                  className="w-full rounded-lg border bg-[#1C1B18] px-4 py-3 text-sm text-white outline-none focus:border-[#1D9E75]"
                   style={{ borderColor: error ? '#FF5C00' : '#3a3a38' }}
                 />
                 {error && (
-                  <p className="mt-2 text-xs" style={{ color: '#FF5C00' }}>{error}</p>
+                  <p className="text-xs" style={{ color: '#FF5C00' }}>{error}</p>
                 )}
               </div>
 
@@ -169,7 +174,7 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
                 type="submit"
                 disabled={submitting}
                 className="w-full rounded-lg py-3.5 text-base font-semibold text-white transition-colors"
-                style={{ 
+                style={{
                   backgroundColor: submitting ? '#1D9E7580' : '#1D9E75',
                   cursor: submitting ? 'not-allowed' : 'pointer'
                 }}
@@ -178,7 +183,15 @@ export default function AssetGate({ assetTitle, assetDescription, ctaButtonText,
               </button>
             </form>
 
-            <p className="mt-4 text-center text-xs" style={{ color: '#666662' }}>
+            <button
+              onClick={() => setShowGate(false)}
+              className="mt-4 w-full text-center text-xs underline"
+              style={{ color: '#666662' }}
+            >
+              Cancel
+            </button>
+
+            <p className="mt-3 text-center text-xs" style={{ color: '#666662' }}>
               By entering your email, you agree to receive updates from DexMetal.
             </p>
           </div>
