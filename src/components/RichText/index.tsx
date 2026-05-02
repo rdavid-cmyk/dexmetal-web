@@ -52,7 +52,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
             alt={caption}
             className="mx-auto max-w-full rounded-lg border border-[#1D9E75]/30"
           />
-          <figcaption className="mt-2 text-sm text-[#a0a09a]">{caption}</figcaption>
+          <figcaption className="mt-2 text-sm text-[#a0a09a] text-center block w-full">{caption}</figcaption>
         </figure>
       )
     }

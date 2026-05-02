@@ -171,7 +171,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {/* Mobile TOC Drawer Trigger */}
               {headings.length > 0 && (
                 <details className="lg:hidden mb-6">
-                  <summary 
+                  <summary
                     className="cursor-pointer p-4 rounded-lg font-display font-bold text-white"
                     style={{ backgroundColor: '#2c2c2a' }}
                   >
@@ -198,7 +198,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {/* Category Badge & Meta */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 {categoryTitle && (
-                  <span 
+                  <span
                     className="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider"
                     style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}
                   >
@@ -256,7 +256,7 @@ export default async function BlogSlugPage({ params }: Args) {
                 <BaselNotificationCTA />
               )}
 
-              {/* CTA Block - After Content */}
+              {/* CTA Block */}
               {post.cta_label && post.cta_url && (
                 <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
                   <h3 className="font-display font-bold text-white text-xl mb-4">
@@ -289,13 +289,13 @@ export default async function BlogSlugPage({ params }: Args) {
                       </thead>
                       <tbody>
                         {post.risk_table.map((risk: any, index: number) => {
-                          const levelColor = risk.level?.toLowerCase() === 'high' ? '#ef4444' 
-                            : risk.level?.toLowerCase() === 'medium' ? '#f59e0b' 
+                          const levelColor = risk.level?.toLowerCase() === 'high' ? '#ef4444'
+                            : risk.level?.toLowerCase() === 'medium' ? '#f59e0b'
                             : '#22c55e'
                           return (
                             <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#2c2c2a' : '#1a1a18' }}>
                               <td className="p-4 font-body text-sm border" style={{ borderColor: '#3a3a38' }}>
-                                <span 
+                                <span
                                   className="inline-block px-2 py-1 rounded text-xs font-medium uppercase"
                                   style={{ backgroundColor: `${levelColor}20`, color: levelColor }}
                                 >
@@ -340,22 +340,6 @@ export default async function BlogSlugPage({ params }: Args) {
                       </details>
                     ))}
                   </div>
-                </div>
-              )}
-
-              {/* CTA Block - Final */}
-              {post.cta_label && post.cta_url && (
-                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
-                  <h3 className="font-display font-bold text-white text-xl mb-4">
-                    Need Help With Compliance?
-                  </h3>
-                  <Link
-                    href={post.cta_url}
-                    className="inline-block w-full md:w-auto px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
-                    style={{ backgroundColor: '#1C1B18' }}
-                  >
-                    {post.cta_label}
-                  </Link>
                 </div>
               )}
             </div>

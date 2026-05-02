@@ -1777,3 +1777,14 @@ Tools index: 6 tools live on /tools page
 - DB: hero_image_id column confirmed FK to media(id).
 - Build: TypeScript PASS, 159 static pages, /playbook route confirmed present.
 - Deploy: pm2 restart dexmetal-web — HTTP 200 confirmed.
+
+---
+
+## Session 22 — 2026-05-02 — Blog post polish: duplicate CTA, caption fix, DB corrections
+### COMPLETED
+- blog/[slug]/page.tsx: Removed duplicate "Need Help With Compliance?" CTA block. Only "Ready to Get Started?" remains (appears once, after main content body, before risk table).
+- RichText/index.tsx: figcaption className updated to include text-center block w-full. figure already had text-center.
+- DB fix 1: '41 countries' → '182 countries' in the-140000-phone-call content. UPDATE 1 confirmed.
+- DB fix 2: Malformed double-nested link [[dexmetal.com](...)](https://...) → [dexmetal.com](...). UPDATE 1 confirmed.
+- Verified: grep confirmed '182 countries' and 'dexmetal.com' present in post content.
+- Build: TypeScript PASS, 159 pages. HTTP 200.
