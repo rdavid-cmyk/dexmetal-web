@@ -35,9 +35,32 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   return relationTo === 'posts' ? `/posts/${slug}` : `/${slug}`
 }
 
+const VISUAL_RE = /^\[VISUAL:\s*(\/[^\s\]]+)\s*—\s*(.+)\]$/
+
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
+  text: (props) => {
+    const { node } = props
+    const match = (node as any).text?.match(VISUAL_RE)
+    if (match) {
+      const [, path, caption] = match
+      return (
+        <figure className="my-8 text-center">
+          <img
+            src={path}
+            alt={caption}
+            className="mx-auto max-w-full rounded-lg border border-[#1D9E75]/30"
+          />
+          <figcaption className="mt-2 text-sm text-[#a0a09a]">{caption}</figcaption>
+        </figure>
+      )
+    }
+    if (typeof (defaultConverters as any).text === 'function') {
+      return (defaultConverters as any).text(props)
+    }
+    return null
+  },
   table: ({ node, nodesToJSX }) => (
     <div style={{ overflowX: 'auto', width: '100%', marginBottom: '1.5rem' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'auto' }}>

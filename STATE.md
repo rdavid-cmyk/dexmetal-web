@@ -1765,3 +1765,15 @@ Tools index: 6 tools live on /tools page
 - Fix: moved page to /app/(frontend)/playbook/page.tsx — now inherits dark CSS variables and DexMetal header/footer
 - Updated AssetGate.tsx: bg-[#0a0a0a] section, flex-col gap-3 on form fields, #111 modal bg, cancel button added
 - Built + pm2 restart — confirmed dark at https://dexmetal.com/playbook ✅
+
+---
+
+## Session 21 — 2026-05-02 — SVG renderer, Playbook nav, hero image
+### COMPLETED
+- RichText VISUAL pattern renderer: text nodes matching [VISUAL: /path — caption] now render as <figure><img></figure> instead of raw placeholder text. Affects all blog posts with napkin SVGs (napkin-01/02/03 in /public/visuals/).
+- DexMetalHeader: Added "Playbook" nav link (/playbook) after Tools — both desktop and mobile navs.
+- Homepage: Added Playbook CTA section (teal banner, "Get the Free Operator's Playbook →") between Trust Stats and Latest Posts sections.
+- Hero image: hero-140k-call.png (2048×1152, 2.75MB) copied to /public/blog/, inserted into media table as ID 37, post the-140000-phone-call (ID 20) updated: hero_image_id = 37.
+- DB: hero_image_id column confirmed FK to media(id).
+- Build: TypeScript PASS, 159 static pages, /playbook route confirmed present.
+- Deploy: pm2 restart dexmetal-web — HTTP 200 confirmed.

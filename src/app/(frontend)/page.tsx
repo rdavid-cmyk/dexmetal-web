@@ -238,6 +238,36 @@ export default async function HomePage() {
       </section>
 
       <section className="border-b border-[#2f2f2b]">
+        <div className="container py-14 md:py-16">
+          <div
+            className="flex flex-col items-center gap-5 rounded-[2rem] border px-6 py-10 text-center md:flex-row md:justify-between md:px-10 md:text-left"
+            style={{ backgroundColor: '#1a2e27', borderColor: '#1D9E75' }}
+          >
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                Free Resource
+              </p>
+              <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
+                The e-Waste Operator&apos;s Compliance Playbook
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-7" style={{ color: '#a8c4bb' }}>
+                Field-tested guidance covering notification documents, movement docs, waste codes,
+                PIC procedure, and country-by-country requirements — distilled from 20+ years of
+                Basel compliance practice.
+              </p>
+            </div>
+            <Link
+              href="/playbook"
+              className="inline-flex shrink-0 items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#1D9E75' }}
+            >
+              Get the Free Operator&apos;s Playbook →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b]">
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">

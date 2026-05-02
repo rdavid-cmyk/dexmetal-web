@@ -59,8 +59,11 @@ export function DexMetalHeader() {
             </div>
 
             <Link href="/tools" className="text-dex-text/80 transition-colors hover:text-dex-primary">
-          Tools
-        </Link>
+              Tools
+            </Link>
+            <Link href="/playbook" className="text-dex-text/80 transition-colors hover:text-dex-primary">
+              Playbook
+            </Link>
             <Link href="/about" className="text-dex-text/80 transition-colors hover:text-dex-primary">
               About
             </Link>
@@ -94,10 +97,13 @@ export function DexMetalHeader() {
           <Link href="/knowledge-hub" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Knowledge Hub
           </Link>
-          <Link href="/tools" className="text-dex-text/80 transition-colors hover:text-dex-primary">
-          Tools
-        </Link>
-            <Link href="/about" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+          <Link href="/tools" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+            Tools
+          </Link>
+          <Link href="/playbook" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+            Playbook
+          </Link>
+          <Link href="/about" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             About
           </Link>
           <Link href="/contact" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
