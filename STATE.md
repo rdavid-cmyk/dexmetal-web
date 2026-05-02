@@ -1788,3 +1788,15 @@ Tools index: 6 tools live on /tools page
 - DB fix 2: Malformed double-nested link [[dexmetal.com](...)](https://...) → [dexmetal.com](...). UPDATE 1 confirmed.
 - Verified: grep confirmed '182 countries' and 'dexmetal.com' present in post content.
 - Build: TypeScript PASS, 159 pages. HTTP 200.
+
+---
+
+## Session 23 — 2026-05-02 — Content audit and Lexical cleanup
+### COMPLETED
+- Audit across all 10 posts: only the-140000-phone-call had DeX references and VISUAL tags; only introducing-basel-api had '41 countries' (not in scope this session).
+- Task 2: Removed 'DeX handles Basel compliance...' paragraph from the-140000-phone-call (correct string used — prior session had already fixed the double-nested link so Task 2 original string matched 0 actual content; Task 2b correct string UPDATE 1).
+- Task 3: No posts contained 'dexmetal.com/api' — UPDATE 0, clean.
+- Task 4: No posts had double-nested markdown link — UPDATE 0, already clean from Session 22.
+- Task 5 (Lexical error #17): JSON validated via Python — 57 nodes, all valid types (paragraph, heading, horizontalrule, list, listitem). No unknown node types. Empty paragraph node left by DeX removal cleaned up via Python script. Structural issues: none.
+- Task 6: RichText figure className updated to include w-full (my-8 text-center w-full). figcaption already had text-center block w-full from Session 22.
+- Build: TypeScript PASS, 159 pages. HTTP 200.

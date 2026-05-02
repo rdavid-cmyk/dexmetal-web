@@ -46,7 +46,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     if (match) {
       const [, path, caption] = match
       return (
-        <figure className="my-8 text-center">
+        <figure className="my-8 text-center w-full">
           <img
             src={path}
             alt={caption}
