@@ -54,3 +54,15 @@ git push → SSH to 204.168.231.188 → git pull → pm2 restart dexmetal
 - Never assume a file path — verify first
 - Read MIGRATION.md and STATUS.md before every session
 - Update STATUS.md at end of every session
+
+## PAYLOAD CONTENT RULE — NO EXCEPTIONS
+Never write to posts/pages via psql or raw DB.
+Always use Payload local API via Node.js script placed inside
+/var/www/dexmetal-web/scripts/ and run from that directory.
+Direct DB writes corrupt Lexical JSON and break the admin editor.
+
+Run pattern:
+  cd /var/www/dexmetal-web && node_modules/.bin/dotenv -e .env -- node_modules/.bin/tsx scripts/<script>.ts
+
+Note: revalidatePath error in afterChange hook is expected when running outside Next.js context.
+The DB write commits before the hook fires -- data is saved. Ignore that error.

@@ -76,6 +76,19 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     const Tag = isHeader ? 'th' : 'td'
     return <Tag>{nodesToJSX({ nodes: node.children })}</Tag>
   },
+  list: ({ node, nodesToJSX }) => {
+    const Tag = (node as any).tag as 'ol' | 'ul'
+    return (
+      <Tag style={{ paddingLeft: '1.5rem', marginBottom: '1rem' }}>
+        {nodesToJSX({ nodes: node.children })}
+      </Tag>
+    )
+  },
+  listitem: ({ node, nodesToJSX }) => (
+    <li style={{ display: 'list-item', marginBottom: '0.25rem' }}>
+      {nodesToJSX({ nodes: node.children })}
+    </li>
+  ),
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
