@@ -1834,3 +1834,26 @@ Tools index: 6 tools live on /tools page
 **Result: P1 = COMPLETE. No config changes required. Next.js handles all routes exclusively.**
 
 No build or restart needed — nothing changed.
+
+---
+
+## Session 23 — 2026-05-04 — URGENT P1 Re-investigation: /blog WordPress Content Report
+### FINDING: False alarm — server is clean, issue was client-side cache
+
+**Reported:** dexmetal.com/blog serving WordPress "Tyler Moore" legacy content.
+
+**Full diagnostic run:**
+- `curl -I https://dexmetal.com/blog` → HTTP 200, `X-Powered-By: Next.js, Payload`
+- nginx config: single `proxy_pass http://localhost:3000`, no WordPress blocks
+- `find /var/www -name wp-config.php` → nothing found
+- Apache2/MySQL: inactive. PHP: no processes.
+- Docker: not installed
+- Ports 80/443: nginx only. Port 3000: next-server only.
+- Live HTML: `<title>Blog | DexMetal | DexMetal</title>`, zero WordPress fingerprints
+- DNS: dexmetal.com resolves to 204.168.231.188 (correct)
+
+**Root cause:** Client-side browser cache or local DNS cache serving stale WordPress content.
+**Server action required:** None.
+**Client fix:** Hard refresh (Cmd+Shift+R) or open in incognito. Flush DNS if persists.
+
+**P1 status: CONFIRMED COMPLETE. Server has never served WordPress on /blog.**
