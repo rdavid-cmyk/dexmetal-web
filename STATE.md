@@ -1814,3 +1814,23 @@ Tools index: 6 tools live on /tools page
 - Added BLOG_EXCERPTS slug map for 3 posts: the-140000-phone-call, the-20-annex-package, how-to-prepare-a-basel-notification
 - Build: clean (159 static pages) — pm2 restart confirmed online
 - Live verified: all new strings confirmed at dexmetal.com
+
+---
+
+## Session 22 — 2026-05-04 — P1 WordPress/Next.js Routing Verification
+### COMPLETED
+
+**P1 task:** Confirm WordPress is not intercepting /blog or any Next.js routes.
+
+**Findings:**
+- nginx config (`/etc/nginx/sites-enabled/`): single proxy block — all dexmetal.com traffic routes to `localhost:3000` (Next.js). No WordPress location blocks exist.
+- Apache2: inactive (systemctl)
+- MySQL: inactive (systemctl)
+- WordPress processes: none running
+- `curl -I https://dexmetal.com/blog` → HTTP 200, `X-Powered-By: Next.js, Payload`
+- `<title>Blog | DexMetal | DexMetal</title>` confirmed in response body
+- PM2 process `dexmetal-web` (id 12) online, port 3000
+
+**Result: P1 = COMPLETE. No config changes required. Next.js handles all routes exclusively.**
+
+No build or restart needed — nothing changed.
