@@ -1933,3 +1933,17 @@ Also required: context: { disableRevalidate: true } to prevent revalidatePath cr
 ### Scripts added
 - scripts/split-howto-post.ts
 - scripts/normalize-blog-ctas.ts
+
+---
+
+## Session 26 — 2026-05-04 — Fix Duplicate Hero Images
+
+Three posts had hero image repeated as first inline mediaBlock in content body:
+- e-waste-safety-essentials: media ID 27 duplicated at index 0
+- red-tape-revenue-mastering-ewaste-compliance-codes: media ID 22 duplicated at index 0
+- basel-pic-2025-guide: media ID 13 duplicated at index 1
+
+Script: scripts/fix-duplicate-hero-images.ts
+Detection: compares hero_image_id against all mediaBlock fields.media values in content
+Fix: removes matching mediaBlock nodes via Payload local API (normalizeContent + disableRevalidate pattern)
+PM2 restarted. All 3 posts confirmed HTTP 200.
