@@ -1895,3 +1895,41 @@ WHERE p.id = pv.parent_id AND p.content IS NULL;
 - introducing-basel-api: 24,072
 - the-140000-phone-call: 19,678
 - dollar-and-sense: 5,256
+
+---
+
+## Session 25 — 2026-05-04 — Blog Post Normalization (all 9 published posts)
+
+### Audit results
+- how-to-prepare-a-basel-notification (original): 183 blocks, 10 H2s, 2 media — SPLIT
+- red-tape-revenue: 80 blocks, 0 H2s, 5 media — normalized
+- the-20-annex-package: 75 blocks, 6 H2s, 2 media — normalized
+- billion-dollar-ewaste: 61 blocks, 9 H2s, 4 media — normalized
+- e-waste-safety-essentials: 60 blocks, 0 H2s, 6 media — normalized
+- the-140000-phone-call: 58 blocks, 5 H2s, 0 media — normalized
+- basel-pic-2025-guide: 51 blocks, 0 H2s, 4 media — normalized
+- introducing-basel-api: 46 blocks, 10 H2s, 1 media — normalized
+- urban-mine-the-hunt: 39 blocks, 4 H2s, 4 media — normalized
+No IMAGE_DUPLICATE posts found.
+
+### Changes applied
+- Split how-to-prepare (183 blocks) → Part 1 (90 blocks) + Part 2 (95 blocks)
+  - Part 1 slug: how-to-prepare-a-basel-notification-part-1
+  - Part 2 slug: how-to-prepare-a-basel-notification-part-2
+  - Transition banners added at split boundary
+- Mid-post CTA banner (style: success) inserted in all 10 posts
+  - Points to dexmetal.com/playbook
+- End CTA set to /tools for 9 posts; billion-dollar-ewaste kept custom /basel-ca-api
+
+### Critical Payload API discovery (now in CLAUDE.md)
+Payload populate returns mediaBlock.media as objects. Passing back to update() fails validation.
+Fix: normalize media fields to raw integer IDs before update.
+Also required: context: { disableRevalidate: true } to prevent revalidatePath crash outside Next.js.
+
+### Build
+- npm run build: clean | pm2 restart: online
+- All 10 posts verified HTTP 200 (localhost + HTTPS)
+
+### Scripts added
+- scripts/split-howto-post.ts
+- scripts/normalize-blog-ctas.ts

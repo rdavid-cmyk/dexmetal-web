@@ -66,3 +66,19 @@ Run pattern:
 
 Note: revalidatePath error in afterChange hook is expected when running outside Next.js context.
 The DB write commits before the hook fires -- data is saved. Ignore that error.
+
+## Blog Post Template (canonical — locked May 2026)
+Structure: Hero → Intro (2-3 para) → At a Glance → H2 sections (2-4) →
+Mid CTA → FAQ (4-6) → End CTA
+Visuals: 1 hero + 1 inline max. No duplicate images.
+Word count: 1,200–1,800 words. Over 2,000 = split into two posts.
+CTAs: Mid-post → /playbook. End → /tools or consulting.
+Never write post content directly via psql. Always use Payload local API.
+
+### Payload local API pattern for content updates (required)
+All scripts must use:
+1. `context: { disableRevalidate: true }` — prevents Next.js revalidatePath from crashing outside Next.js context
+2. `normalizeContent()` — strips populated media objects back to raw IDs in mediaBlock nodes before update
+   (Payload populate= fetches media as objects; passing them back to update() fails validation)
+3. `overrideAccess: true` — needed for local API scripts
+See: scripts/normalize-blog-ctas.ts and scripts/split-howto-post.ts for canonical patterns.
