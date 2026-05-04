@@ -1857,3 +1857,41 @@ No build or restart needed — nothing changed.
 **Client fix:** Hard refresh (Cmd+Shift+R) or open in incognito. Flush DNS if persists.
 
 **P1 status: CONFIRMED COMPLETE. Server has never served WordPress on /blog.**
+
+---
+
+## Session 24 — 2026-05-04 — FIXED: Blog post body content missing on all posts
+### ROOT CAUSE: content field NULL — version history never promoted to live
+
+**Symptom:** Blog post pages rendered title, meta, FAQ, risk table, CTA — but zero article body.
+
+**Investigation:**
+- `posts.content` was NULL for 8 of 10 posts
+- Only `the-140000-phone-call` and `the-20-annex-package` had live content
+- All 8 empty posts had saved content in `_posts_v` (version history) from 2026-04-05
+- Root cause: Payload versions were saved but never published/promoted — `posts.content` was never written
+
+**Fix:**
+```sql
+UPDATE posts p
+SET content = pv.version_content
+FROM (
+  SELECT DISTINCT ON (parent_id) parent_id, version_content
+  FROM _posts_v
+  ORDER BY parent_id, updated_at DESC
+) pv
+WHERE p.id = pv.parent_id AND p.content IS NULL;
+```
+→ 8 rows updated. PM2 restarted. Verified: "Basel Convention" / "transboundary" terms appear in post body HTML.
+
+**All 10 posts now have content (bytes):**
+- how-to-prepare-a-basel-notification: 74,977
+- red-tape-revenue: 47,334
+- the-20-annex-package: 36,767
+- billion-dollar-ewaste: 31,978
+- e-waste-safety-essentials: 30,196
+- urban-mine-the-hunt: 29,220
+- basel-pic-2025-guide: 25,021
+- introducing-basel-api: 24,072
+- the-140000-phone-call: 19,678
+- dollar-and-sense: 5,256
