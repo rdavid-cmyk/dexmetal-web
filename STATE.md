@@ -1800,3 +1800,17 @@ Tools index: 6 tools live on /tools page
 - Task 5 (Lexical error #17): JSON validated via Python — 57 nodes, all valid types (paragraph, heading, horizontalrule, list, listitem). No unknown node types. Empty paragraph node left by DeX removal cleaned up via Python script. Structural issues: none.
 - Task 6: RichText figure className updated to include w-full (my-8 text-center w-full). figcaption already had text-center block w-full from Session 22.
 - Build: TypeScript PASS, 159 pages. HTTP 200.
+
+---
+
+## Session 21 — 2026-05-03 — P2 Homepage Redesign
+### COMPLETED
+- Updated hero headline: "Basel Compliance for Operators Who Cant Afford to Get It Wrong
+- Updated hero subhead: field-tested systems copy, Caribbean framing
+- Replaced primary CTA: orange → /playbook Get the Free Operator\s Playbook"
+- Replaced secondary CTA: outline → /tools "Explore Free Tools"
+- Collapsed nav from 9+ items to 5: Tools | Knowledge Hub | Blog | API | Get the Free Playbook (orange CTA)
+- Removed from nav: Home, About, Contact, standalone Checklist, standalone Playbook, Services/Resources dropdowns
+- Added BLOG_EXCERPTS slug map for 3 posts: the-140000-phone-call, the-20-annex-package, how-to-prepare-a-basel-notification
+- Build: clean (159 static pages) — pm2 restart confirmed online
+- Live verified: all new strings confirmed at dexmetal.com

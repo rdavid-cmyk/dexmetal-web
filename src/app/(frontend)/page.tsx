@@ -71,6 +71,15 @@ const TRUST_STATS = [
   { value: 'Free', label: 'Core Resources' },
 ] as const
 
+const BLOG_EXCERPTS: Record<string, string> = {
+  'the-140000-phone-call':
+    'A single misdirected Basel shipment cost one operator $140,000 — before legal fees. Here\'s exactly what went wrong and how you prevent it.',
+  'the-20-annex-package':
+    'Most operators know about the Notification Document. Almost none know about the other 19 documents that must accompany it. One missing annex freezes your shipment.',
+  'how-to-prepare-a-basel-notification':
+    'The vCOP8 form has 21 blocks. Each one is a potential rejection point. The step-by-step walkthrough updated for 2025 amendments.',
+}
+
 function getCategoryTitle(category: number | Category | null | undefined) {
   return typeof category === 'object' && category?.title ? category.title : 'Industry Insights'
 }
@@ -118,28 +127,26 @@ export default async function HomePage() {
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
             >
-              Transforming e-Waste Into Opportunity
+              Basel Compliance for Operators Who Can&apos;t Afford to Get It Wrong
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
-              DexMetal turns Basel Convention complexity into practical systems for recyclers,
-              exporters, and circular economy operators. We combine field-tested compliance
-              guidance, verified authority data, and free tools that help good materials move
-              legally across borders.
+              Field-tested systems from 20+ years of real Basel notifications across the Caribbean
+              and beyond. Free tools, verified authority data, and expert support when you need it.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
-                href="/knowledge-hub"
+                href="/playbook"
                 className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#1D9E75' }}
+                style={{ backgroundColor: '#FF5C00' }}
               >
-                Explore the Knowledge Hub
+                Get the Free Operator&apos;s Playbook
               </Link>
               <Link
-                href="/checklist"
+                href="/tools"
                 className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium transition-colors hover:text-white"
                 style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
               >
-                Get the Basel Checklist
+                Explore Free Tools
               </Link>
             </div>
           </div>
@@ -293,6 +300,10 @@ export default async function HomePage() {
                     day: 'numeric',
                   })
                 : null
+              const excerpt =
+                BLOG_EXCERPTS[post.slug] ||
+                post.meta?.description ||
+                'Read the full article for DexMetal guidance and field-tested insight.'
 
               return (
                 <Link
@@ -325,7 +336,7 @@ export default async function HomePage() {
                       </p>
                     )}
                     <p className="mt-4 line-clamp-3 text-sm leading-7" style={{ color: '#c8c4bc' }}>
-                      {post.meta?.description || 'Read the full article for DexMetal guidance and field-tested insight.'}
+                      {excerpt}
                     </p>
                     <span className="mt-5 inline-flex text-sm font-medium" style={{ color: '#FF5C00' }}>
                       Read more →
