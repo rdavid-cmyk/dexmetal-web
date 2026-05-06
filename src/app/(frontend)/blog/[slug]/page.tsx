@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { cache } from 'react'
 import { draftMode } from 'next/headers'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
+import { PayloadRedirects } from '@/components/PayloadRedirects'
 import Link from 'next/link'
 import { BaselNotificationCTA } from '@/components/BaselNotificationCTA'
 
@@ -91,19 +91,47 @@ function getFirstParagraph(content: any): string {
   return firstFew.length > 200 ? firstFew.substring(0, 200) + '...' : firstFew
 }
 
+function filterHeroFromContent(content: any, heroId: string | number | null | undefined): any {
+  if (!content || heroId == null) return content
+
+  function filterNode(node: any): any | null {
+    if (!node) return node
+    if (node.type === 'upload') {
+      const mediaId = typeof node.value === 'object' ? node.value?.id : node.value
+      if (String(mediaId) === String(heroId)) return null
+    }
+    if (node.type === 'block') {
+      const mediaId = typeof node.fields?.media === 'object' ? node.fields.media?.id : node.fields?.media
+      if (node.fields?.blockType === 'mediaBlock' && String(mediaId) === String(heroId)) return null
+    }
+    if (Array.isArray(node.children)) {
+      return { ...node, children: node.children.map(filterNode).filter(Boolean) }
+    }
+    return node
+  }
+
+  return filterNode(content)
+}
+
 export default async function BlogSlugPage({ params }: Args) {
   const { slug } = await params
-  const post = await queryPost({ slug: decodeURIComponent(slug) })
-  if (!post) return notFound()
+  const decodedSlug = decodeURIComponent(slug)
+  const url = '/blog/' + decodedSlug
+  const post = await queryPost({ slug: decodedSlug })
+  if (!post) return <PayloadRedirects url={url} />
 
   const publishedDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : null
   const headings = post.toc_enabled && post.content ? extractHeadingsFromContent(post.content) : []
   const categoryTitle = getCategoryTitle(post.categories?.[0])
+  const heroId = typeof post.heroImage === 'object' ? (post.heroImage as MediaType).id : post.heroImage
+  const filteredContent = filterHeroFromContent(post.content, heroId)
 
   return (
     <>
+      <PayloadRedirects disableNotFound url={url} />
+
       {post.faq && post.faq.length > 0 && (
         <script
           type="application/ld+json"
@@ -244,32 +272,26 @@ export default async function BlogSlugPage({ params }: Args) {
                 </div>
               )}
 
+              {/* At-a-Glance Box */}
+              {post.at_a_glance && (
+                <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
+                  <h3 className="font-display font-bold text-white text-sm mb-3 uppercase tracking-wider">At a Glance</h3>
+                  <p className="font-body text-base leading-relaxed" style={{ color: '#c8c8c2' }}>
+                    {post.at_a_glance}
+                  </p>
+                </div>
+              )}
+
               <hr className="mb-8" style={{ borderColor: '#3a3a38' }} />
 
               {/* Main Content Body */}
               <div className="blog-content">
-                {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
+                {filteredContent && <RichText data={filteredContent as any} enableGutter={false} enableProse={false} />}
               </div>
 
               {/* Playbook CTA — Basel notification guide only */}
               {post.slug === 'how-to-prepare-a-basel-notification-step-by-step-2026-update' && (
                 <BaselNotificationCTA />
-              )}
-
-              {/* CTA Block */}
-              {post.cta_label && post.cta_url && (
-                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
-                  <h3 className="font-display font-bold text-white text-xl mb-4">
-                    Ready to Get Started?
-                  </h3>
-                  <Link
-                    href={post.cta_url}
-                    className="inline-block px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
-                    style={{ backgroundColor: '#1C1B18' }}
-                  >
-                    {post.cta_label}
-                  </Link>
-                </div>
               )}
 
               {/* Risk Table */}
@@ -340,6 +362,22 @@ export default async function BlogSlugPage({ params }: Args) {
                       </details>
                     ))}
                   </div>
+                </div>
+              )}
+
+              {/* CTA Block */}
+              {post.cta_label && post.cta_url && (
+                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
+                  <h3 className="font-display font-bold text-white text-xl mb-4">
+                    Ready to Get Started?
+                  </h3>
+                  <Link
+                    href={post.cta_url}
+                    className="inline-block px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: '#1C1B18' }}
+                  >
+                    {post.cta_label}
+                  </Link>
                 </div>
               )}
             </div>
