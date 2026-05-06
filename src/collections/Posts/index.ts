@@ -272,6 +272,16 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'legacy_post',
+      type: 'checkbox',
+      label: 'Legacy Post (pre-template)',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Skips heading count and inline image rules for posts written before the canonical template.',
+      },
+    },
+    {
       name: 'authors',
       type: 'relationship',
       admin: {
