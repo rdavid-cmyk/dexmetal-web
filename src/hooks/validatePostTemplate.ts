@@ -15,13 +15,14 @@ function isMediaNode(node: any): boolean {
   )
 }
 
-export const validatePostTemplate: CollectionBeforeChangeHook = ({ data }) => {
+export const validatePostTemplate: CollectionBeforeChangeHook = ({ data, originalDoc }) => {
   // Draft saves bypass all rules unconditionally.
   if (data._status !== 'published') return data
 
   const errors: string[] = []
-  const children: any[] = data.content?.root?.children ?? []
-  const isLegacy = data.legacy_post === true
+  // When only some fields are updated, data.legacy_post may be absent — fall back to stored value.
+  const isLegacy = data.legacy_post === true || (originalDoc as any)?.legacy_post === true
+  const children: any[] = (data.content?.root?.children ?? (originalDoc as any)?.content?.root?.children ?? []) as any[]
 
   // RULE 1 — Hero image required (all posts)
   if (!data.heroImage) {
