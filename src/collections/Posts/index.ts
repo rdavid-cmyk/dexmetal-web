@@ -8,6 +8,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { stripHeroDuplicate } from './hooks/stripHeroDuplicate'
 import { validatePostTemplate } from '../../hooks/validatePostTemplate'
 
 import {
@@ -317,7 +318,7 @@ export const Posts: CollectionConfig<'posts'> = {
     slugField(),
   ],
   hooks: {
-    beforeChange: [validatePostTemplate],
+    beforeChange: [stripHeroDuplicate, validatePostTemplate],
     afterChange: [revalidatePost],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
