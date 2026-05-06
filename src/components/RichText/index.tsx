@@ -92,14 +92,19 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
-      <MediaBlock
-        className="col-start-1 col-span-3"
-        imgClassName="m-0"
-        {...node.fields}
-        captionClassName="mx-auto max-w-[48rem]"
-        enableGutter={false}
-        disableInnerContainer={true}
-      />
+      <div
+        className="my-6 rounded-lg overflow-hidden"
+        style={{ background: '#2c2c2a' }}
+      >
+        <MediaBlock
+          className="w-full"
+          imgClassName="m-0 block w-full h-auto"
+          {...node.fields}
+          captionClassName="mx-auto max-w-[48rem] px-4 pb-4"
+          enableGutter={false}
+          disableInnerContainer={true}
+        />
+      </div>
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
