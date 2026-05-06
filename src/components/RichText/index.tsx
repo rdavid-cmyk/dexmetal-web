@@ -99,6 +99,8 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         <MediaBlock
           className="w-full"
           imgClassName="m-0 block w-full h-auto"
+          pictureClassName="block w-full"
+          size="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
           {...node.fields}
           captionClassName="mx-auto max-w-[48rem] px-4 pb-4"
           enableGutter={false}
