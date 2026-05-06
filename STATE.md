@@ -1,8 +1,17 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-06 (Session 21 — Blog template: images, AEO fields, hero dedup)
+Last updated: 2026-05-06 (Session 22 — RichText mediaBlock dark sections fix)
 
 
+
+---
+
+## Session 22 — 2026-05-06 — Blog content image dark sections fixed
+### COMPLETED
+- Root cause: `<picture>` is inline-displayed; during load, blur placeholder SVG fills the img area but transparent picture element lets `#1C1B18` page bg bleed through → full-viewport dark section
+- Fix: wrapped `mediaBlock` converter in `RichText/index.tsx` with `div.my-6.rounded-lg.overflow-hidden` + `background: #2c2c2a`; img changed to `block w-full h-auto`
+- Infographic images fully visible at correct proportions; no layout regression
+- Build clean (161/161), PM2 online
 
 ---
 
