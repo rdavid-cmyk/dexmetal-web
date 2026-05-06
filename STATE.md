@@ -1,10 +1,18 @@
 # DexMetalOS — System State
 
-Last updated: 2026-04-22 (Session 19b — EmailGate on all 6 tools)
+Last updated: 2026-05-06 (Session 21 — Blog template: images, AEO fields, hero dedup)
 
 
 
 ---
+
+## Session 21 — 2026-05-06 — Blog template: 3 issues resolved
+### COMPLETED
+- FIX 1: next.config.ts — expanded `qualities: [100]` to `[25, 50, 75, 90, 100]` — fixes broken images sitewide (Next.js rejects quality values not in the allowed list)
+- FIX 2: blog/[slug]/page.tsx — all 5 AEO fields confirmed in query (at_a_glance, difficulty, read_time, faq, cta_label/cta_url); added missing At-a-Glance box render (teal left border, below Series Info Box); moved FAQ section before CTA block (was after it)
+- FIX 3: blog/[slug]/page.tsx — added `filterHeroFromContent()` to strip upload/mediaBlock nodes matching heroImage.id before passing to RichText; prevents hero duplicate in body
+- BlogContentEnhancer + inline CSS (server-side work) preserved during deploy merge
+- Build clean (161/161 pages), PM2 online
 
 ---
 
