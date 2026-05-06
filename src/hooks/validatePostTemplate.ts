@@ -34,15 +34,15 @@ export const validatePostTemplate: CollectionBeforeChangeHook = ({ data, origina
     (n) => n.type === 'heading' && n.tag === 'h2',
   )
 
-  // RULE 2 — No inline media before first H2 (all posts)
-  if (firstH2Index > 0) {
-    const hasMediaBeforeH2 = children.slice(0, firstH2Index).some(isMediaNode)
-    if (hasMediaBeforeH2) {
-      errors.push('Inline media must appear after the first H2, not before it.')
-    }
-  }
-
   if (!isLegacy) {
+    // RULE 2 — No inline media before first H2 (new posts only)
+    if (firstH2Index > 0) {
+      const hasMediaBeforeH2 = children.slice(0, firstH2Index).some(isMediaNode)
+      if (hasMediaBeforeH2) {
+        errors.push('Inline media must appear after the first H2, not before it.')
+      }
+    }
+
     // RULE 3 — H3 count must not exceed H2 count (new posts only)
     const h2Count = children.filter((n) => n.type === 'heading' && n.tag === 'h2').length
     const h3Count = children.filter((n) => n.type === 'heading' && n.tag === 'h3').length
@@ -62,17 +62,17 @@ export const validatePostTemplate: CollectionBeforeChangeHook = ({ data, origina
         `Maximum 1 inline image allowed (hero image is separate). Found ${inlineImageCount}.`,
       )
     }
-  }
 
-  // RULE 6 — Word count 1,200–2,000 (all posts)
-  const allText = extractText(data.content?.root ?? {})
-  const wordCount = allText.trim().split(/\s+/).filter(Boolean).length
-  if (wordCount < 1200) {
-    errors.push(`Post is too short (${wordCount} words). Minimum is 1,200 words.`)
-  } else if (wordCount > 2000) {
-    errors.push(
-      `Post is too long (${wordCount} words). Posts over 2,000 words must be split into two posts.`,
-    )
+    // RULE 6 — Word count 1,200–2,000 (new posts only)
+    const allText = extractText(data.content?.root ?? {})
+    const wordCount = allText.trim().split(/\s+/).filter(Boolean).length
+    if (wordCount < 1200) {
+      errors.push(`Post is too short (${wordCount} words). Minimum is 1,200 words.`)
+    } else if (wordCount > 2000) {
+      errors.push(
+        `Post is too long (${wordCount} words). Posts over 2,000 words must be split into two posts.`,
+      )
+    }
   }
 
   // RULE 7 — FAQ required, minimum 4 questions (all posts)
