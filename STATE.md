@@ -1,6 +1,18 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-07 (Session 24 — Basel MCP fully operational)
+Last updated: 2026-05-07 (Session 25 — LME metals price ticker live)
+
+---
+
+## Session 25 — 2026-05-07 — LME metals price ticker on homepage
+### COMPLETED
+- New API route: /api/metal-prices — live COMEX copper price from stooq.com (no API key required), indicative lead/aluminum fallback with graceful degradation
+- Root cause debugged: Yahoo Finance returns 429 Too Many Requests from server IP; switched to stooq.com CSV feed which has no rate limits
+- Root cause #2 debugged: Next.js patched fetch drops set-cookie headers from cached responses; fixed with cache: 'no-store' on all external fetches + export const dynamic = 'force-dynamic'
+- New LMETicker client component: dark strip (#0f0e0c) above hero, inline LEAD / COPPER / ALUMINUM with USD/t prices, ▲▼ change arrows, 'ind' badge for indicative data, auto-refreshes every 15 min
+- Wire: LMETicker placed at top of homepage article above hero section
+- Live result: Copper ,503/t live with - change; Lead ,948/t indicative; Aluminum ,395/t indicative
+- Build clean, PM2 online, pushed to GitHub main (feb3209)
 
 ---
 
