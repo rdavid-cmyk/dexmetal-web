@@ -2,6 +2,18 @@
 
 Last updated: 2026-05-06 (Session 22 — RichText mediaBlock dark sections fix)
 
+---
+
+## Session 23 — 2026-05-07 — /developers hub and /waste-classifier live
+### COMPLETED
+- /developers hub page live with 4 cards: Basel CA API, Waste Code Classifier, Basel CA MCP, API Docs
+- /developers/waste-classifier live with live demo (textarea → classify → results card with Y/A/B/H codes, UN numbers, PIC badge, confidence)
+- /api/classify-demo proxy route live (server-side key, forwards to api.dexmetal.com/api/v1/classify)
+- Build clean, PM2 online
+- Verified: all 4 grep checks pass on live URLs
+
+
+
 
 
 ---
