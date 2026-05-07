@@ -1,6 +1,6 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-06 (Session 22 — RichText mediaBlock dark sections fix)
+Last updated: 2026-05-07 (Session 24 — Basel MCP fully operational)
 
 ---
 
@@ -1976,3 +1976,17 @@ Script: scripts/fix-duplicate-hero-images.ts
 Detection: compares hero_image_id against all mediaBlock fields.media values in content
 Fix: removes matching mediaBlock nodes via Payload local API (normalizeContent + disableRevalidate pattern)
 PM2 restarted. All 3 posts confirmed HTTP 200.
+
+---
+
+## Session 24 — 2026-05-07 — Basel MCP server fully operational
+### COMPLETED
+- Diagnosed: api_auth.pb.js queried non-existent api_keys collection → all keys 401
+- Fixed: auth hook now queries users.api_key (removed active=true filter)
+- Fixed: register.pb.js uses record.setPassword() + $app.save() for PB v0.24
+- Pushed to rdavid-cmyk/basel-ca-api → Railway auto-deployed
+- Verified: api.dexmetal.com/api/v1/ca returns 182 records with mcp-internal key
+- Created /var/www/basel-mcp/.env (BASEL_API_KEY + BASEL_API_URL)
+- Ran npm install in /var/www/basel-mcp (was missing @modelcontextprotocol/sdk)
+- PM2 basel-mcp: online, port 3001, SSE transport active
+- Internal key email: mcp-internal@dexmetal.com
