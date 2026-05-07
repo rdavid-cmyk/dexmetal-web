@@ -281,6 +281,10 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
+  /**
+   * Skips heading count and inline image rules for posts written before the canonical template.
+   */
+  legacy_post?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
@@ -1380,6 +1384,7 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
+  legacy_post?: T;
   authors?: T;
   populatedAuthors?:
     | T

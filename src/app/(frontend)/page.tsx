@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { Media } from '@/components/Media'
 import AssetGate from '@/components/AssetGate'
+import { LMETicker } from '@/components/LMETicker'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [
@@ -113,6 +114,8 @@ export default async function HomePage() {
 
   return (
     <article className="bg-dex-bg text-white">
+      <LMETicker />
+
       <section className="relative overflow-hidden border-b border-[#2f2f2b]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
         <div className="container relative py-20 md:py-28">

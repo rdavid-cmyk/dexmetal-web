@@ -8,7 +8,6 @@ import { Media } from '@/components/Media'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import Link from 'next/link'
 import { BaselNotificationCTA } from '@/components/BaselNotificationCTA'
-import { BlogContentEnhancer } from '@/components/BlogContentEnhancer'
 
 import type { Post, Media as MediaType, Category } from '@/payload-types'
 
@@ -92,28 +91,6 @@ function getFirstParagraph(content: any): string {
   return firstFew.length > 200 ? firstFew.substring(0, 200) + '...' : firstFew
 }
 
-function filterHeroFromContent(content: any, heroId: string | number | null | undefined): any {
-  if (!content || heroId == null) return content
-
-  function filterNode(node: any): any | null {
-    if (!node) return node
-    if (node.type === 'upload') {
-      const mediaId = typeof node.value === 'object' ? node.value?.id : node.value
-      if (String(mediaId) === String(heroId)) return null
-    }
-    if (node.type === 'block') {
-      const mediaId = typeof node.fields?.media === 'object' ? node.fields.media?.id : node.fields?.media
-      if (node.fields?.blockType === 'mediaBlock' && String(mediaId) === String(heroId)) return null
-    }
-    if (Array.isArray(node.children)) {
-      return { ...node, children: node.children.map(filterNode).filter(Boolean) }
-    }
-    return node
-  }
-
-  return filterNode(content)
-}
-
 export default async function BlogSlugPage({ params }: Args) {
   const { slug } = await params
   const decodedSlug = decodeURIComponent(slug)
@@ -126,8 +103,6 @@ export default async function BlogSlugPage({ params }: Args) {
     : null
   const headings = post.toc_enabled && post.content ? extractHeadingsFromContent(post.content) : []
   const categoryTitle = getCategoryTitle(post.categories?.[0])
-  const heroId = typeof post.heroImage === 'object' ? (post.heroImage as MediaType).id : post.heroImage
-  const filteredContent = filterHeroFromContent(post.content, heroId)
 
   return (
     <>
@@ -152,39 +127,6 @@ export default async function BlogSlugPage({ params }: Args) {
           }}
         />
       )}
-
-      <style>{`
-        .blog-content .payload-richtext p {
-          font-size: 1.125rem;
-          line-height: 1.8;
-          font-family: 'DM Sans', sans-serif;
-          color: #c8c8c2;
-          margin-bottom: 1rem;
-        }
-        .blog-content .payload-richtext h2 {
-          font-family: 'Play', sans-serif;
-          font-weight: 700;
-          color: #ffffff;
-          margin-top: 2.5rem;
-          margin-bottom: 1rem;
-        }
-        .blog-content .payload-richtext h3 {
-          font-family: 'Play', sans-serif;
-          font-weight: 700;
-          color: #ffffff;
-          margin-top: 2.5rem;
-          margin-bottom: 0.75rem;
-        }
-        .blog-content .payload-richtext figcaption {
-          text-align: center;
-          display: block;
-          width: 100%;
-        }
-        .blog-content .payload-richtext img {
-          max-width: 100%;
-          height: auto;
-        }
-      `}</style>
 
       <div className="min-h-screen" style={{ backgroundColor: '#1C1B18' }}>
         {/* Hero Section */}
@@ -233,7 +175,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {/* Mobile TOC Drawer Trigger */}
               {headings.length > 0 && (
                 <details className="lg:hidden mb-6">
-                  <summary
+                  <summary 
                     className="cursor-pointer p-4 rounded-lg font-display font-bold text-white"
                     style={{ backgroundColor: '#2c2c2a' }}
                   >
@@ -260,7 +202,7 @@ export default async function BlogSlugPage({ params }: Args) {
               {/* Category Badge & Meta */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 {categoryTitle && (
-                  <span
+                  <span 
                     className="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider"
                     style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}
                   >
@@ -306,27 +248,32 @@ export default async function BlogSlugPage({ params }: Args) {
                 </div>
               )}
 
-              {/* At-a-Glance Box */}
-              {post.at_a_glance && (
-                <div className="mb-8 p-6 rounded-lg border-l-4" style={{ backgroundColor: '#2c2c2a', borderLeftColor: '#1D9E75' }}>
-                  <h3 className="font-display font-bold text-white text-sm mb-3 uppercase tracking-wider">At a Glance</h3>
-                  <p className="font-body text-base leading-relaxed" style={{ color: '#c8c8c2' }}>
-                    {post.at_a_glance}
-                  </p>
-                </div>
-              )}
-
               <hr className="mb-8" style={{ borderColor: '#3a3a38' }} />
 
               {/* Main Content Body */}
               <div className="blog-content">
-                {filteredContent && <RichText data={filteredContent as any} enableGutter={false} enableProse={false} />}
-                <BlogContentEnhancer />
+                {post.content && <RichText data={post.content as any} enableGutter={false} enableProse={false} />}
               </div>
 
               {/* Playbook CTA — Basel notification guide only */}
               {post.slug === 'how-to-prepare-a-basel-notification-step-by-step-2026-update' && (
                 <BaselNotificationCTA />
+              )}
+
+              {/* CTA Block - After Content */}
+              {post.cta_label && post.cta_url && (
+                <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
+                  <h3 className="font-display font-bold text-white text-xl mb-4">
+                    Ready to Get Started?
+                  </h3>
+                  <Link
+                    href={post.cta_url}
+                    className="inline-block px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: '#1C1B18' }}
+                  >
+                    {post.cta_label}
+                  </Link>
+                </div>
               )}
 
               {/* Risk Table */}
@@ -346,13 +293,13 @@ export default async function BlogSlugPage({ params }: Args) {
                       </thead>
                       <tbody>
                         {post.risk_table.map((risk: any, index: number) => {
-                          const levelColor = risk.level?.toLowerCase() === 'high' ? '#ef4444'
-                            : risk.level?.toLowerCase() === 'medium' ? '#f59e0b'
+                          const levelColor = risk.level?.toLowerCase() === 'high' ? '#ef4444' 
+                            : risk.level?.toLowerCase() === 'medium' ? '#f59e0b' 
                             : '#22c55e'
                           return (
                             <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#2c2c2a' : '#1a1a18' }}>
                               <td className="p-4 font-body text-sm border" style={{ borderColor: '#3a3a38' }}>
-                                <span
+                                <span 
                                   className="inline-block px-2 py-1 rounded text-xs font-medium uppercase"
                                   style={{ backgroundColor: `${levelColor}20`, color: levelColor }}
                                 >
@@ -400,15 +347,15 @@ export default async function BlogSlugPage({ params }: Args) {
                 </div>
               )}
 
-              {/* CTA Block */}
+              {/* CTA Block - Final */}
               {post.cta_label && post.cta_url && (
                 <div className="mt-12 p-8 rounded-lg text-center" style={{ backgroundColor: '#1D9E75' }}>
                   <h3 className="font-display font-bold text-white text-xl mb-4">
-                    Ready to Get Started?
+                    Need Help With Compliance?
                   </h3>
                   <Link
                     href={post.cta_url}
-                    className="inline-block px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
+                    className="inline-block w-full md:w-auto px-8 py-4 rounded-lg font-display font-bold text-white text-lg transition-all duration-200 hover:brightness-110"
                     style={{ backgroundColor: '#1C1B18' }}
                   >
                     {post.cta_label}
