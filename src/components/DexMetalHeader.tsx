@@ -1,8 +1,5 @@
 import Link from 'next/link'
 
-const menuClassName =
-  'rounded-2xl border px-3 py-3 shadow-2xl shadow-black/20'
-
 export function DexMetalHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-dex-border bg-dex-bg/90 backdrop-blur">
@@ -22,8 +19,11 @@ export function DexMetalHeader() {
             <Link href="/blog" className="text-dex-text/80 transition-colors hover:text-dex-primary">
               Blog
             </Link>
-            <Link href="/basel-ca-api" className="text-dex-text/80 transition-colors hover:text-dex-primary">
-              API
+            <Link href="/developers" className="text-dex-text/80 transition-colors hover:text-dex-primary">
+              Developers
+            </Link>
+            <Link href="/resources" className="text-dex-text/80 transition-colors hover:text-dex-primary">
+              Resources
             </Link>
           </nav>
 
@@ -32,7 +32,7 @@ export function DexMetalHeader() {
             className="hidden rounded-full px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 md:inline-flex"
             style={{ backgroundColor: '#FF5C00' }}
           >
-            Get the Free Playbook
+            Get Started Free →
           </Link>
         </div>
 
@@ -46,15 +46,18 @@ export function DexMetalHeader() {
           <Link href="/blog" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Blog
           </Link>
-          <Link href="/basel-ca-api" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
-            API
+          <Link href="/developers" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+            Developers
+          </Link>
+          <Link href="/resources" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+            Resources
           </Link>
           <Link
             href="/playbook"
             className="rounded-full px-3 py-2 text-xs font-medium text-white"
             style={{ backgroundColor: '#FF5C00' }}
           >
-            Get the Free Playbook
+            Get Started Free →
           </Link>
         </nav>
       </div>
