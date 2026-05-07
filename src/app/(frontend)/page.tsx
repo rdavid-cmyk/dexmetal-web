@@ -94,23 +94,46 @@ function getPreviewImage(post: {
   return null
 }
 
+function formatNewsDate(dateStr: string | null | undefined) {
+  if (!dateStr) return null
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
-    depth: 2,
-    limit: 3,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    select: {
-      title: true,
-      slug: true,
-      heroImage: true,
-      categories: true,
-      meta: true,
-      publishedAt: true,
-    },
-  })
+
+  const [postsResult, newsResult] = await Promise.all([
+    payload.find({
+      collection: 'posts',
+      depth: 2,
+      limit: 3,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      select: {
+        title: true,
+        slug: true,
+        heroImage: true,
+        categories: true,
+        meta: true,
+        publishedAt: true,
+      },
+    }),
+    payload.find({
+      collection: 'news-articles',
+      where: { relevance_score: { greater_than_equal: 70 } },
+      sort: '-published_at',
+      limit: 3,
+      overrideAccess: false,
+    }),
+  ])
+
+  const posts = postsResult
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const newsArticles = newsResult.docs as any[]
 
   return (
     <article className="bg-dex-bg text-white">
@@ -227,6 +250,55 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {newsArticles.length > 0 && (
+        <section className="border-b border-[#2f2f2b] bg-[#171613]">
+          <div className="container py-16 md:py-20">
+            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-3xl">
+                <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                  Basel Industry Intelligence
+                </p>
+                <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
+                  What operators are reading today
+                </h2>
+              </div>
+              <Link href="/news" className="text-sm font-medium" style={{ color: '#1D9E75' }}>
+                View all intelligence →
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {newsArticles.map((article) => (
+                <a
+                  key={article.id}
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl border p-5 transition-transform hover:-translate-y-0.5"
+                  style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+                >
+                  <p className="mb-1 text-xs font-medium" style={{ color: '#FF5C00' }}>
+                    {article.source}
+                  </p>
+                  <h3 className="font-display text-lg font-bold leading-snug text-white line-clamp-3">
+                    {article.title}
+                  </h3>
+                  {article.published_at && (
+                    <p className="mt-2 text-xs" style={{ color: '#8f8d86' }}>
+                      {formatNewsDate(article.published_at)}
+                    </p>
+                  )}
+                </a>
+              ))}
+            </div>
+            <div className="mt-6 text-right">
+              <Link href="/news" className="text-sm font-medium" style={{ color: '#1D9E75' }}>
+                Full Basel intelligence feed →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="border-b border-[#2f2f2b] bg-[#171613]">
         <div className="container py-12">

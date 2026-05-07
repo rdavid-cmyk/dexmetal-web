@@ -75,6 +75,7 @@ export interface Config {
     'knowledge-hub-pages': KnowledgeHubPage;
     tools: Tool;
     'blog-posts': BlogPost;
+    'news-articles': NewsArticle;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +101,7 @@ export interface Config {
     'knowledge-hub-pages': KnowledgeHubPagesSelect<false> | KnowledgeHubPagesSelect<true>;
     tools: ToolsSelect<false> | ToolsSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    'news-articles': NewsArticlesSelect<false> | NewsArticlesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -928,6 +930,28 @@ export interface BlogPost {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-articles".
+ */
+export interface NewsArticle {
+  id: number;
+  title: string;
+  url: string;
+  source?: string | null;
+  summary?: string | null;
+  relevance_score?: number | null;
+  published_at?: string | null;
+  tags?:
+    | {
+        tag?: ('basel' | 'ewaste' | 'hazardous-waste' | 'compliance' | 'trade' | 'recycling' | 'regulation') | null;
+        id?: string | null;
+      }[]
+    | null;
+  fetched_at?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1147,6 +1171,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-posts';
         value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'news-articles';
+        value: number | NewsArticle;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1589,6 +1617,27 @@ export interface BlogPostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-articles_select".
+ */
+export interface NewsArticlesSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  source?: T;
+  summary?: T;
+  relevance_score?: T;
+  published_at?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  fetched_at?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

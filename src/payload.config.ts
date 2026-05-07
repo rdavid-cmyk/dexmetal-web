@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { KnowledgeHubPages } from './collections/KnowledgeHubPages'
 import { Media } from './collections/Media'
+import { NewsArticles } from './collections/NewsArticles'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
@@ -65,7 +66,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, KnowledgeHubPages, Tools, BlogPosts],
+  collections: [Pages, Posts, Media, Categories, Users, KnowledgeHubPages, Tools, BlogPosts, NewsArticles],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
