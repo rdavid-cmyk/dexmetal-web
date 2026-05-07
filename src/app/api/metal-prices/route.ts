@@ -6,8 +6,8 @@ interface StooqRow {
   open: number | null
 }
 
-// stooq CSV: Symbol,Date,Time,Open,High,Low,Close,Volume
-// COMEX HG.F (copper) is in US cents/pound; PB.F (lead) in USD/tonne
+// stooq CSV format (with &h header row): Symbol,Date,Time,Open,High,Low,Close,Volume
+// cols:                                                     0     1    2   3     4    5   6      7
 async function fetchStooq(symbol: string): Promise<StooqRow> {
   try {
     const res = await fetch(
@@ -28,13 +28,16 @@ async function fetchStooq(symbol: string): Promise<StooqRow> {
   }
 }
 
-// COMEX HG.F price is in US cents/pound
+// COMEX HG.F (copper) is quoted in US cents per pound
 const CENTS_LB_TO_USD_TONNE = 2204.62 / 100
 
+// COMEX PB.F (lead) and ALI.F (aluminum) are quoted in USD per metric ton — no conversion needed
+
 export async function GET() {
-  const [cuRow, pbRow] = await Promise.all([
-    fetchStooq('hg.f'), // COMEX copper futures — cents/lb
-    fetchStooq('pb.f'), // COMEX lead futures — USD/tonne
+  const [cuRow, pbRow, aliRow] = await Promise.all([
+    fetchStooq('hg.f'),  // COMEX copper futures — cents/lb → convert to USD/t
+    fetchStooq('pb.f'),  // COMEX lead futures — USD/t
+    fetchStooq('ali.f'), // CME aluminum futures — USD/t
   ])
 
   const copper = cuRow.close ? Math.round(cuRow.close * CENTS_LB_TO_USD_TONNE) : 9510
@@ -43,12 +46,15 @@ export async function GET() {
       ? Math.round((cuRow.close - cuRow.open) * CENTS_LB_TO_USD_TONNE)
       : null
 
-  // PB.F from stooq is in USD/tonne (LME-linked)
   const lead = pbRow.close ? Math.round(pbRow.close) : 1948
   const leadChange =
     pbRow.close && pbRow.open ? Math.round(pbRow.close - pbRow.open) : null
 
-  const aluminum = 2395 // LME indicative — no reliably free AL futures feed
+  const aluminum = aliRow.close ? Math.round(aliRow.close) : 2395
+  const aluminumChange =
+    aliRow.close && aliRow.open ? Math.round(aliRow.close - aliRow.open) : null
+
+  const anyLive = cuRow.close !== null || pbRow.close !== null || aliRow.close !== null
 
   return Response.json({
     metals: [
@@ -72,12 +78,12 @@ export async function GET() {
         symbol: 'ALUMINUM',
         label: 'Aluminum',
         price: aluminum,
-        change: null,
+        change: aluminumChange,
         unit: 'USD/t',
-        live: false,
+        live: aliRow.close !== null,
       },
     ],
     updated: new Date().toISOString(),
-    delayed: !cuRow.close && !pbRow.close,
+    delayed: !anyLive,
   })
 }

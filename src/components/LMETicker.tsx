@@ -20,12 +20,52 @@ interface MetalPriceData {
 function PriceArrow({ change }: { change: number | null }) {
   if (change === null || change === 0) return null
   return change > 0 ? (
-    <span style={{ color: '#1D9E75' }} aria-label="up">
-      ▲
-    </span>
+    <span style={{ color: '#1D9E75' }} aria-label="up">▲</span>
   ) : (
-    <span style={{ color: '#FF5C00' }} aria-label="down">
-      ▼
+    <span style={{ color: '#FF5C00' }} aria-label="down">▼</span>
+  )
+}
+
+function TickerItem({ metal, separator }: { metal: MetalEntry; separator?: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-2 px-4">
+      {separator && (
+        <span style={{ color: '#2a2a28', userSelect: 'none' }} aria-hidden>◆</span>
+      )}
+      <span
+        className="text-xs font-semibold uppercase tracking-[0.14em]"
+        style={{ color: '#8f8d86' }}
+      >
+        {metal.label}
+      </span>
+      <span className="text-sm font-bold text-white tabular-nums">
+        ${metal.price.toLocaleString()}
+      </span>
+      <span className="text-[11px]" style={{ color: '#5a5955' }}>/t</span>
+      <PriceArrow change={metal.change} />
+      {!metal.live && (
+        <span
+          className="rounded px-1 py-px text-[9px] font-semibold uppercase tracking-wide"
+          style={{ backgroundColor: '#1e1e1c', color: '#6b6966' }}
+        >
+          ind
+        </span>
+      )}
+    </span>
+  )
+}
+
+function TickerLabel({ updatedTime, delayed }: { updatedTime: string; delayed: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-2 px-6">
+      <span style={{ color: '#2a2a28', userSelect: 'none' }} aria-hidden>◆</span>
+      <span
+        className="text-[11px] uppercase tracking-[0.12em]"
+        style={{ color: '#3a3836' }}
+      >
+        LME Spot · {updatedTime}
+        {delayed && <span style={{ color: '#FF5C00' }}> · Indicative</span>}
+      </span>
     </span>
   )
 }
@@ -53,12 +93,10 @@ export function LMETicker() {
 
   if (loading) {
     return (
-      <div className="border-b border-[#2f2f2b] px-4 py-2.5" style={{ backgroundColor: '#0f0e0c' }}>
-        <div className="container">
-          <span className="text-xs uppercase tracking-[0.18em]" style={{ color: '#5a5955' }}>
-            Loading metal prices…
-          </span>
-        </div>
+      <div className="border-b border-[#2f2f2b] px-4 py-2" style={{ backgroundColor: '#0f0e0c' }}>
+        <span className="text-xs uppercase tracking-[0.18em]" style={{ color: '#3a3836' }}>
+          Loading metal prices…
+        </span>
       </div>
     )
   }
@@ -71,63 +109,45 @@ export function LMETicker() {
     timeZoneName: 'short',
   })
 
+  // One full content block: metals + timestamp label
+  function ContentBlock({ ariaHidden }: { ariaHidden?: boolean }) {
+    return (
+      <span className="inline-flex items-center" aria-hidden={ariaHidden}>
+        {data!.metals.map((metal, i) => (
+          <TickerItem key={metal.symbol} metal={metal} separator={i > 0} />
+        ))}
+        <TickerLabel updatedTime={updatedTime} delayed={data!.delayed} />
+      </span>
+    )
+  }
+
   return (
     <div
-      className="border-b border-[#2f2f2b]"
+      className="border-b border-[#2f2f2b] overflow-hidden"
       style={{ backgroundColor: '#0f0e0c' }}
       aria-label="LME spot metal prices"
     >
-      <div className="container">
-        <div className="flex flex-col gap-2 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-x-1 gap-y-2 sm:gap-x-2">
-            {data.metals.map((metal, i) => (
-              <div key={metal.symbol} className="flex items-center gap-1.5 sm:gap-2">
-                {i > 0 && (
-                  <span
-                    className="hidden h-3 w-px sm:block"
-                    style={{ backgroundColor: '#3a3a38' }}
-                    aria-hidden
-                  />
-                )}
-                <span
-                  className="text-xs font-semibold uppercase tracking-[0.14em]"
-                  style={{ color: '#8f8d86' }}
-                >
-                  {metal.label}
-                </span>
-                <span className="text-sm font-bold text-white tabular-nums">
-                  ${metal.price.toLocaleString()}
-                </span>
-                <span className="text-[11px]" style={{ color: '#5a5955' }}>
-                  /t
-                </span>
-                <PriceArrow change={metal.change} />
-                {!metal.live && (
-                  <span
-                    className="rounded px-1 py-px text-[9px] font-semibold uppercase tracking-wide"
-                    style={{ backgroundColor: '#1e1e1c', color: '#6b6966' }}
-                  >
-                    ind
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* keyframes injected once; pause-on-hover via group */}
+      <style>{`
+        @keyframes lme-ticker {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .lme-ticker-track {
+          animation: lme-ticker 40s linear infinite;
+          will-change: transform;
+        }
+        .lme-ticker-wrap:hover .lme-ticker-track {
+          animation-play-state: paused;
+        }
+      `}</style>
 
-          <div
-            className="flex shrink-0 items-center gap-1.5 text-[11px]"
-            style={{ color: '#4a4947' }}
-          >
-            <span className="uppercase tracking-[0.12em]">LME Spot</span>
-            <span aria-hidden>·</span>
-            <span>Updated {updatedTime}</span>
-            {data.delayed && (
-              <>
-                <span aria-hidden>·</span>
-                <span style={{ color: '#FF5C00' }}>Indicative</span>
-              </>
-            )}
-          </div>
+      <div className="lme-ticker-wrap py-2 cursor-default select-none">
+        {/* whitespace: nowrap keeps all items on one line */}
+        <div className="lme-ticker-track inline-flex whitespace-nowrap">
+          <ContentBlock />
+          {/* duplicate creates the seamless loop — hidden from a11y */}
+          <ContentBlock ariaHidden />
         </div>
       </div>
     </div>
