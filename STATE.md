@@ -1,5 +1,25 @@
 # DexMetalOS — System State
 
+Last updated: 2026-05-07 (Session 27 — Basel intelligence news page + ingestion API)
+
+---
+
+## Session 27 — 2026-05-07 — Basel & Hazardous Waste Trade Intelligence
+### COMPLETED
+- NewsArticles Payload CMS collection: fields title, url (unique), source, summary, relevance_score (0-100), published_at, tags (enum array), fetched_at
+- Registered in payload.config.ts; payload-types.ts regenerated
+- news_articles + news_articles_tags PostgreSQL tables created manually (migration flow interactive — tables created via direct SQL)
+- /api/news-ingest POST route: X-Ingest-Key auth, upserts by URL, returns { ingested, skipped }
+- /news page: "Basel & Hazardous Waste Trade Intelligence" — dark card grid, relevance score badge, tag pills with color coding, pagination (20/page), empty state
+- Homepage news teaser: 3 most recent articles (score >= 70) in bg-[#171613] section below Free Tools grid, conditional render (hidden until first articles ingested)
+- DexMetalHeader.tsx: "Industry Intel" nav link added (desktop + mobile) pointing to /news
+- ~/caribbean-waste-intel/collect_articles.py: Basel-focused Google News RSS feeds, Ollama scoring prompt for Basel operators, push_to_dexmetal() function, requirements.txt
+- Build clean (Next.js 16.2.1 Turbopack), PM2 online, pushed to GitHub main (46a6fb2)
+### PENDING MANUAL STEP
+- Add NEWS_INGEST_KEY=dxm_news_2026_secure to /var/www/dexmetal-web/.env.local then: pm2 restart dexmetal-web --update-env
+- After adding key, run: cd ~/caribbean-waste-intel && pip3 install -r requirements.txt && python3 collect_articles.py
+- Verify articles appear at https://dexmetal.com/news
+
 Last updated: 2026-05-07 (Session 26 — LME ticker scrolling + lead/aluminum feeds)
 
 ---
