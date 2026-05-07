@@ -1,6 +1,15 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-07 (Session 25 — LME metals price ticker live)
+Last updated: 2026-05-07 (Session 26 — LME ticker scrolling + lead/aluminum feeds)
+
+---
+
+## Session 26 — 2026-05-07 — LME ticker scrolling animation + live feeds
+### COMPLETED
+- LMETicker.tsx: replaced static layout with CSS marquee animation — 40s cycle, continuous left scroll, pause-on-hover, seamless via duplicate content block in DOM (a11y: duplicate is aria-hidden)
+- route.ts: added ali.f (CME aluminum futures, USD/t) to stooq fetch alongside existing hg.f (copper) and pb.f (lead); all three use same CSV parser with graceful ind fallback when stooq returns N/D (after hours)
+- Verified live in browser: ticker scrolling above hero showing LEAD/COPPER/ALUMINUM with IND badges for after-hours metals, COPPER live at 13503 USD/t with change arrow
+- Build clean, PM2 online, pushed to GitHub main (4f65985)
 
 ---
 
