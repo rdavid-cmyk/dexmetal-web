@@ -147,7 +147,7 @@ export default async function HomePage() {
               className="mb-5 text-sm font-medium uppercase tracking-[0.22em]"
               style={{ color: '#1D9E75' }}
             >
-              AI-Powered Basel Compliance — Built for Operators, by Operators
+              Navigating Circularity, Basel Convention, and Global eWaste Trade
             </p>
             <h1
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
