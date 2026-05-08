@@ -59,7 +59,7 @@ export default async function NewsPage({
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
     collection: 'news-articles',
-    where: { relevance_score: { greater_than_equal: 70 } },
+    where: { relevance_score: { greater_than_equal: 45 } },
     sort: '-published_at',
     limit,
     page: currentPage,
