@@ -147,7 +147,7 @@ export default async function HomePage() {
               className="mb-5 text-sm font-medium uppercase tracking-[0.22em]"
               style={{ color: '#1D9E75' }}
             >
-              Navigating Circularity, Compliance, and Global Trade
+              AI-Powered Basel Compliance — Built for Operators, by Operators
             </p>
             <h1
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
@@ -156,8 +156,8 @@ export default async function HomePage() {
               Basel Compliance for Operators Who Can&apos;t Afford to Get It Wrong
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
-              Field-tested systems from 20+ years of real Basel notifications across the Caribbean
-              and beyond. Free tools, verified authority data, and expert support when you need it.
+              Simplified. Tools, data, and intelligence from 20+ years of real Basel notifications
+              across the Caribbean and beyond. 182 countries. Free to use. Expert support available.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
