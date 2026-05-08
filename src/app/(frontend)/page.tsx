@@ -153,7 +153,7 @@ export default async function HomePage() {
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
             >
-              Basel Compliance for Operators Who Can&apos;t Afford to Get It Wrong
+              AI-Powered Basel Compliance — Built for Operators, by Operators
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
               Simplified. Tools, data, and intelligence from 20+ years of real Basel notifications
