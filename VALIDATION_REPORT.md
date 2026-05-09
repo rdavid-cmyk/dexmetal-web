@@ -1,222 +1,159 @@
-# DexMetal Validation Report — 2026-05-09
+# VALIDATION REPORT — 2026-05-09
 
-**Tested against:** https://dexmetal.com  
-**Playwright:** 1.58.2 | Chromium | Headful via Xvfb  
-**Test email:** dexmettal@gmail.com  
+## RUN SUMMARY
+- Timestamp: 2026-05-09T14:30:00Z
+- Spec: dexmetal-validation.spec.ts
+- Result: FAILED (7 passed, 6 failed, 13 total)
 
----
+## EXISTING SPEC RESULTS
 
-## EXECUTIVE SUMMARY
+Running 13 tests using 1 worker
 
-| Test | Result |
-|------|--------|
-| TEST 1 — Tools index | PASS |
-| TEST 2 — ShipmentEligibilityChecker | PARTIAL FAIL |
-| TEST 3 — BaselClassificationQuickscan | PARTIAL FAIL |
-| TEST 4 — BaselNavigator | PARTIAL FAIL |
-| TEST 5 — EWasteMaterialRecovery | PARTIAL FAIL |
-| TEST 5 — EWasteRouteMapper | PARTIAL FAIL |
-| TEST 5 — ULABExportCalculator | PASS |
-| TEST 5 — PICStatusChecker | PARTIAL FAIL |
-| TEST 6 — Basel Copilot | PARTIAL FAIL |
-| TEST 7 — Resend API | FAIL |
-| TEST 8 — Mobile viewport | PASS |
-| TEST 9 — Footer links | FAIL |
+TEST 1:
+  PASS | "Not sure where to start?" section visible
+  PASS | 3 entry point cards present (found 10 tool links)
 
-**Critical root cause: Shepherd tour auto-launches on page load on 5+ tools, blocking all button interactions via SVG overlay. This is the #1 conversion killer.**
+TEST 2 — ShipmentEligibilityChecker:
+  FAIL | Load Example — fields populate | locator.click timeout 30s — <div> intercepts pointer events
+  FAIL | Take a tour — Shepherd tour launches | Target page closed
 
----
+TEST 3 — BaselClassificationQuickscan:
+  FAIL | Load Example — fields populate | locator.click timeout 30s — header intercepts
+  FAIL | Submit — result appears | Target page closed
 
-## DETAILED RESULTS
+TEST 4 — BaselNavigator:
+  PASS | Email gate — not shown (pre-unlocked)
+  PASS | Gate unlocked — navigator content visible
+  FAIL | Load Sample | Timeout 8000ms — button text "Load Sample" NOT FOUND
+  FAIL | Navigate 21 blocks | Failed at all 20 blocks (no Next button found)
+  FAIL | Take a tour — button visible | Tour button not found
+  FAIL | Submission Package / PDF | locator.click timeout 30s — header intercepts
 
-### TEST 1 — Tools index (/tools)
-| Step | Result | Notes |
-|------|--------|-------|
-| "Not sure where to start?" section visible | PASS | |
-| 3 entry point cards present | PASS | Found 10 tool links |
+TEST 5 — EWasteMaterialRecovery:
+  FAIL | Load Example | locator.click timeout 30s — header intercepts
+  FAIL | Submit | Target page closed
+  PASS | Email gate — not shown
 
----
+TEST 5 — EWasteRouteMapper:
+  FAIL | Load Example | locator.click timeout 30s — header intercepts
+  FAIL | Submit | Target page closed
+  PASS | Email gate — not shown
 
-### TEST 2 — ShipmentEligibilityChecker (/tools/shipment-eligibility-checker)
+TEST 5 — ULABExportCalculator:
+  FAIL | Load Example | Timeout 10s — button not found
+  FAIL | Submit | Timeout 5s — button not found
+  PASS | Email gate — not shown
+  PASS | Gate unlocked — content visible
+  PASS | CTA visible
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | FAIL | Shepherd tour SVG overlay auto-launches on page load, intercepts all pointer events. Button found but unreachable. |
-| Take a tour — Shepherd tour launches | FAIL | Tour already active on load; button behind the overlay |
-| Hover PIC — tooltip appears | NOT REACHED | Test timed out |
-| Submit form — result appears | NOT REACHED | Test timed out |
-| Email gate — entered and submitted | NOT REACHED | Test timed out |
-| Gate unlocked — result visible | NOT REACHED | Test timed out |
-| Consulting CTA appears | NOT REACHED | Test timed out |
+TEST 5 — PICStatusChecker:
+  FAIL | Load Example | locator.click timeout 30s — <div> intercepts
+  FAIL | Submit | Target page closed
+  PASS | Email gate — not shown
 
-Root cause: shepherd-modal-overlay-container shepherd-modal-is-visible SVG is active immediately on page load. No click reaches the page until tour is dismissed. The tour auto-launch is the issue.
+TEST 6 — Basel Copilot:
+  PASS | Copilot widget — found via text filter and clicked
+  FAIL | Message sent — response appears | No response element found within 10s
 
----
+TEST 7 — Resend API:
+  PASS | Resend check — deferred to shell
 
-### TEST 3 — BaselClassificationQuickscan (/tools/basel-classification-quickscan)
+TEST 8 — Mobile Tools index:
+  PASS | Viewport 375px — page loads at correct width
+  PASS | "Not sure where to start?" section visible
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | FAIL | Same Shepherd overlay issue as TEST 2 |
-| Submit — result appears | FAIL | No data in fields, submit fails |
-| Email gate — entered and submitted | PASS | Gate not shown post-submit (correct) |
-| Gate unlocked — content visible | PASS | Page content visible |
-| CTA appears | PASS | Consulting CTA text found |
+TEST 8 — Mobile SEC:
+  PASS | Mobile — Load Example button tappable (height >= 30px)
+  PASS | Mobile — page not broken (content present)
 
----
+TEST 9 — Footer links:
+  FAIL | Ko-fi link | ko-fi.com/dexmetal not found in page
+  FAIL | PayPal link | paypal link not found in page
 
-### TEST 4 — BaselNavigator (/tools/basel-navigator)
-
-| Step | Result | Notes |
-|------|--------|-------|
-| Email gate — entered and submitted | PASS | Gate not blocking (email input not found = pre-unlocked or different UI pattern) |
-| Gate unlocked — navigator content visible | PASS | Content visible |
-| Load Sample — green confirmation message | FAIL | "Load Sample" button not found within 8s timeout |
-| Load Sample — Block 1 fields populated | FAIL | Cascades from above |
-| Navigate 21 blocks | FAIL | Blocks 1-20 failed; Next button not found |
-| Take a tour — tour launches | FAIL | Tour button not found on BaselNavigator page |
-| Submission Package tab | FAIL | Tab not found within timeout |
-| PDF download | FAIL | Cascades from tab failure |
-
-Root causes: (1) Load Sample button selector or visibility issue. (2) Take a tour button absent or uses a different label. (3) Submission Package tab not accessible.
+6 failed, 7 passed (3.9m)
 
 ---
 
-### TEST 5 — EWasteMaterialRecovery (/tools/ewaste-material-recovery)
+## CHECK A — Shepherd auto-launch (7 tools, load + 3s wait)
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | FAIL | Shepherd overlay blocks click |
-| Submit — result appears | FAIL | No form data |
-| Email gate — entered and submitted | PASS | Not shown |
-| Gate unlocked — content visible | PASS | |
-| CTA visible | PASS | |
+| Tool | Shepherd DOM nodes | Visible on load |
+|------|-------------------|-----------------|
+| shipment-eligibility-checker | 0 | PASS |
+| pic-status-checker | 0 | PASS |
+| basel-classification-quickscan | 0 | PASS |
+| ulab-export-calculator | 0 | PASS |
+| ewaste-export-route-risk-mapper | 0 | PASS |
+| ewaste-material-recovery-estimator | 0 | PASS |
+| basel-navigator | 0 | PASS |
 
----
-
-### TEST 5 — EWasteRouteMapper (/tools/ewaste-route-mapper)
-
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | FAIL | Shepherd overlay blocks click |
-| Submit — result appears | FAIL | No form data |
-| Email gate — entered and submitted | PASS | Not shown |
-| Gate unlocked — content visible | PASS | |
-| CTA visible | PASS | |
+Result: ALL 7 tools PASS. No Shepherd tour auto-launches detected.
 
 ---
 
-### TEST 5 — ULABExportCalculator (/tools/ulab-export-calculator)
+## CHECK B — Basel Navigator Load Sample button
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | PASS | |
-| Submit — result appears | PASS | |
-| Email gate — entered and submitted | PASS | Not shown (gate not blocking) |
-| Gate unlocked — content visible | PASS | |
-| CTA visible | PASS | |
+- Load Sample button: NOT FOUND
+- Searched all button text for /load sample|load example/i — no match
+- Existing spec TEST 4 also failed: timeout 8s waiting for button
 
-Only tool with a complete PASS. No Shepherd tour overlay issue.
+Result: FAIL — "Load Sample" button is not present on the Basel Navigator tool.
 
 ---
 
-### TEST 5 — PICStatusChecker (/tools/pic-status-checker)
+## CHECK C — Ko-fi + PayPal links on /tools pages
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Load Example — fields populate | FAIL | Shepherd overlay blocks click |
-| Submit — result appears | FAIL | Submit button is disabled (no form data loaded) |
-| Email gate — entered and submitted | PASS | Not shown |
-| Gate unlocked — content visible | FAIL | Page context closed (timeout cascade) |
-| CTA visible | FAIL | Page closed |
+| Tool | ko-fi.com/dexmetal | PayPal + dexmetal |
+|------|-------------------|------------------|
+| shipment-eligibility-checker | PRESENT | PRESENT |
+| pic-status-checker | MISSING | MISSING |
+| basel-classification-quickscan | MISSING | MISSING |
+| ulab-export-calculator | PRESENT | PRESENT |
+| ewaste-export-route-risk-mapper | MISSING | MISSING |
+| ewaste-material-recovery-estimator | MISSING | MISSING |
+| basel-navigator | MISSING | MISSING |
 
----
-
-### TEST 6 — Basel Copilot
-
-| Step | Result | Notes |
-|------|--------|-------|
-| Copilot widget — click | PASS | Widget found via text filter button, clicked |
-| Message sent — response within 10s | FAIL | No response element found; class selectors message/response/assistant do not match actual DOM |
-
-Root cause: Response container uses different CSS classes. Widget opens successfully.
+Result: 5/7 tools MISSING Ko-fi. 5/7 tools MISSING PayPal.
+Only 2 tools (shipment-eligibility-checker, ulab-export-calculator) have both links.
 
 ---
 
-### TEST 7 — Resend API verification
+## CHECK D — Copilot CSS selector (homepage)
 
-| Step | Result | Notes |
-|------|--------|-------|
-| Resend audience API live | PASS | 6 contacts in audience fbdfec0b-9a5f-44e6-8e42-d7fa1ddc9e73 |
-| dexmettal@gmail.com in audience | FAIL | Not found — email gate never completed due to Shepherd blocking |
-| Tool tags assigned | FAIL | Contact not added |
+Selectors tested on https://dexmetal.com after 5s load:
+  #basel-copilot: 0 matches
+  .copilot-widget: 0 matches
+  [data-testid="copilot"]: 0 matches
+  iframe[title*="copilot" i]: 0 matches
+  text "Basel Copilot" / "Ask Basel": 1 match
 
-Last 5 contacts: rdavid@gvoltt.com (Apr 29), richard@test.com (Apr 29), test@dexmetal.com (Apr 29), test@test.com (Apr 29), test-resend@dexmetal.com (Apr 22)
-
----
-
-### TEST 8 — Mobile viewport (375px)
-
-| Step | Result | Notes |
-|------|--------|-------|
-| Tools index — viewport 375px loads | PASS | Body width correct |
-| Tools index — "Not sure where to start?" visible | PASS | |
-| ShipmentEligibilityChecker — Load Example button tappable | PASS | Button height >= 30px |
-| ShipmentEligibilityChecker — page not broken | PASS | Content present |
+Result: Matching selector = text "Basel Copilot" / "Ask Basel"
+Widget has no semantic CSS class or data-testid attribute.
 
 ---
 
-### TEST 9 — Ko-fi and PayPal footer links
+## FAILURES REQUIRING ACTION
 
-| Step | Result | Notes |
-|------|--------|-------|
-| ko-fi.com/dexmetal in footer | FAIL | Not found on /tools page (searched full page source) |
-| paypal link in footer | FAIL | Not found on /tools page (searched full page source) |
+1. CRITICAL: Pointer event interception — Multiple tools fail with <div> intercepts
+   pointer events. Sticky header (z-30) overlays Load Example and Submission Package
+   buttons, blocking Playwright clicks. Fix: add z-index to interactive elements above
+   header, or use force:true in tests.
 
-Note: Links may not be implemented yet in Next.js app, or only exist on WordPress homepage.
+2. CRITICAL: Shepherd tour auto-launch — SPEC TEST 2 failed because Shepherd tour
+   blocks Load Example button on page load. Check A confirmed no visible tour at 3s —
+   but tour may be triggered at ~5-8s. Fix: disable Shepherd auto-trigger, make
+   user-initiated only.
 
----
+3. Basel Navigator "Load Sample" missing — CHECK B and SPEC TEST 4 both confirm
+   button not found. Different label may be used or button is gated.
 
-## CRITICAL FINDINGS — RANKED BY IMPACT
+4. Ko-fi/PayPal missing on 5 of 7 tools — Only shipment-eligibility-checker and
+   ulab-export-calculator have both links. 5 tools have neither.
 
-### #1 CRITICAL — Shepherd tour auto-launches and blocks all tool interactions
-- Affected tools: ShipmentEligibilityChecker, BaselClassificationQuickscan, EWasteMaterialRecovery, EWasteRouteMapper, PICStatusChecker (5 of 7 tools)
-- What happens: shepherd-modal-overlay-container shepherd-modal-is-visible SVG renders over the entire page immediately on first load. No clicks reach buttons or form elements.
-- Impact: Real visitors cannot interact with 5 of 7 tools. Load Example is unreachable. Email gate never triggers. High bounce risk.
-- Expected behavior: Tour should not block page interactions, or should only show when user clicks Take a tour.
+5. Copilot widget has no semantic CSS class or data-testid — Found only by text
+   content. Spec TEST 6 works via text filter fallback but is fragile.
 
-### #2 HIGH — BaselNavigator: Load Sample / blocks navigation / tour not working
-- Load Sample button unreachable or mislabeled
-- 21-block navigation untestable (blocked by Load Sample issue)
-- Take a tour button not found (present on other tools but absent here)
-- Submission Package tab not accessible
+6. Basel Copilot response timeout — Widget found and clicked but no response within
+   10s. Copilot may be slow or non-responsive to "What is a Basel notification?".
 
-### #3 HIGH — Footer revenue links missing from /tools pages
-- No ko-fi.com/dexmetal link found
-- No paypal link found
-- Revenue capture links absent from tool experience
-
-### #4 MEDIUM — Copilot response detection fails
-- Widget opens correctly
-- Response CSS classes do not match expected selectors
-- Functional state unknown — needs manual verification
-
-### #5 LOW — Resend not capturing test contact
-- Cascades from #1 (email gate never reached)
-- Resend API itself is live and functional (6 existing contacts confirmed)
-
----
-
-## WHAT IS WORKING
-
-- Tools index page (/tools) — layout, section heading, tool links
-- ULABExportCalculator — complete flow (Load Example, Submit, Gate, CTA)
-- Email gate infrastructure — present on all tools
-- Mobile layout — not broken at 375px, buttons tappable
-- Copilot widget — opens when clicked
-- Resend API — live, audience exists, API responds correctly
-- CTA sections — visible after gate on most tools
-
----
-
-Report generated: 2026-05-09 | Spec: /var/www/dexmetal-web/tests/e2e/dexmetal-validation.spec.ts
+7. ULABExportCalculator buttons not found — Load Example and Submit timed out (10s,
+   5s). Tool may use different button labels or form is gated.
