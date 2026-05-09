@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react'
 
 export interface TourStep {
   text: string
@@ -43,7 +43,6 @@ const SHEPHERD_CSS = `
 `
 
 export default function ShepherdTour({ steps, tourKey }: ShepherdTourProps) {
-  const [seen, setSeen] = useState(true)
   const tourRef = useRef<{ complete: () => void } | null>(null)
 
   const startTour = useCallback(async () => {
@@ -92,31 +91,15 @@ export default function ShepherdTour({ steps, tourKey }: ShepherdTourProps) {
       })
     })
 
-    const markSeen = () => {
-      localStorage.setItem(`tourSeen_${tourKey}`, '1')
-      setSeen(true)
-    }
-    tour.on('complete', markSeen)
-    tour.on('cancel', markSeen)
+    tour.on('complete', () => localStorage.setItem(`tourSeen_${tourKey}`, '1'))
+    tour.on('cancel', () => localStorage.setItem(`tourSeen_${tourKey}`, '1'))
 
     tour.start()
   }, [steps, tourKey])
 
-  useEffect(() => {
-    const hasSeen = localStorage.getItem(`tourSeen_${tourKey}`)
-    if (!hasSeen) {
-      setSeen(false)
-      const timer = setTimeout(() => { startTour() }, 500)
-      return () => clearTimeout(timer)
-    } else {
-      setSeen(true)
-    }
-  }, [tourKey, startTour])
-
   return (
     <button
       onClick={startTour}
-      title={seen ? 'Replay guided tour' : undefined}
       style={{
         display: 'inline-flex',
         alignItems: 'center',

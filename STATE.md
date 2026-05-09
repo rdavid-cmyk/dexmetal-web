@@ -1,6 +1,6 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-09 (Session 31 — Full E2E Validation Run)
+Last updated: 2026-05-09 (Session 32 — Shepherd Tour auto-launch removed)
 
 ---
 
@@ -118,6 +118,28 @@ Last updated: 2026-05-07 (Session 26 — LME ticker scrolling + lead/aluminum fe
 
 ---
 
+
+## Session 32 — 2026-05-09 — Shepherd Tour auto-launch removed
+
+### COMPLETED
+- FIX: ShepherdTour.tsx — removed useEffect that auto-launched tour on first visit
+  - Root cause: useEffect checked localStorage for "tourSeen_{key}"; if absent, launched tour
+    after 500ms timeout, covering entire page with shepherd-modal-overlay-container SVG
+  - Impact: 5 of 7 tools (SEC, BCQ, EMR, ERM, PIC) were completely non-interactive on first visit
+  - Fix: removed useEffect + useState(seen) entirely; component now renders only a button
+  - startTour() is now only callable via button click — no auto-launch, no localStorage read
+  - localStorage.setItem on complete/cancel preserved (marks tour as seen for future reference)
+- Verification: Confirmed shepherd-modal-is-visible = false on all 5 previously-affected tools
+- Build clean, PM2 online
+
+### REMAINING (separate issues, not in scope of this fix)
+- Test validation spec has wrong order: tries Load Example before EmailGate unlock
+  (EmailGate blocks all interaction until email captured — test needs to unlock gate first)
+- BaselNavigator: Load Sample / 21-block nav / Submission Package still unverified
+- Ko-fi / PayPal footer links still missing from /tools pages
+
+
+---
 
 ## Session 31 — 2026-05-09 — Full E2E Validation Run
 
