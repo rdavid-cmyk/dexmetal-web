@@ -1,8 +1,25 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-07 (Session 27 — Basel intelligence news page + ingestion API)
+Last updated: 2026-05-09 (Session 28 — Phase 2 visitor onboarding: Load Example buttons + Start Here)
 
 ---
+
+## Session 28 — 2026-05-09 — Phase 2 Visitor Onboarding
+### COMPLETED
+- Load Example buttons added to all 5 interactive tools: pre-fills ULAB · Trinidad → Germany example
+  - BaselClassificationQuickscan.tsx
+  - EWasteMaterialRecovery.tsx
+  - EWasteRouteMapper.tsx (wizard-style: pre-fills all 4 fields + auto-calculates result)
+  - PICStatusChecker.tsx (pre-fills + auto-runs check)
+  - ShipmentEligibilityChecker.tsx (pre-fills + auto-runs check)
+- "Not sure where to start?" section added to tools/page.tsx above card grid
+  - 3 entry-point cards: shipment-eligibility-checker, basel-classification-quickscan, basel-navigator
+  - Followed by "All tools" label above the main grid
+- Consulting CTA (Task 1 from prior session) was already live — confirmed present
+- Build clean (Next.js 16.2.1 Turbopack), PM2 online, pushed to GitHub main (c33a6e8)
+### PENDING
+- None from this session
+
 
 ## Session 27 — 2026-05-07 — Basel & Hazardous Waste Trade Intelligence
 ### COMPLETED
