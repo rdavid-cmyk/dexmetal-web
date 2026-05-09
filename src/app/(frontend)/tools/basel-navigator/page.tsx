@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import EmailGate from '@/components/EmailGate'
 import JSZip from 'jszip'
+import ShepherdTour, { TourStep } from '@/components/tools/ShepherdTour'
 
 interface SupportingDoc {
   id: number
@@ -837,10 +838,20 @@ const handleGeneratePDF = async () => {
   const renderNotificationForm = () => {
     const currentBlock = blocks[currentStep]
 
+    const NAVIGATOR_TOUR_STEPS: TourStep[] = [
+      { text: 'This tool generates Basel notification form data — the official documentation required for transboundary waste movement under the Basel Convention.' },
+      { text: 'Start with Block 1 — Competent Authorities. These are the national bodies responsible for Basel oversight in the exporting and importing countries.', attachTo: { element: '#tour-nav-form', on: 'top' } },
+      { text: 'Click Load Sample to see a fully completed notification with all 20 blocks pre-filled — great for understanding the format.', attachTo: { element: '#tour-load-sample', on: 'bottom' } },
+      { text: 'When all blocks are complete, click Generate PDF to export your official Basel notification document.', attachTo: { element: '#tour-generate-pdf', on: 'top' } },
+    ]
+
     return (
       <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-5xl mx-auto">
-          <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>
+          <div className="flex items-center justify-between mb-2">
+            <h1 className="font-display text-4xl font-bold" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>
+            <ShepherdTour steps={NAVIGATOR_TOUR_STEPS} tourKey="basel-navigator" />
+          </div>
           <p className="text-lg mb-6" style={{ color: '#666660' }}>Complete the vCOP8 Notification Document fields below.</p>
           {DISCLAIMER_BANNER}
           <div className="flex gap-2 mb-6">
@@ -853,7 +864,7 @@ const handleGeneratePDF = async () => {
             <button onClick={() => setActiveTab('submission')} className="px-4 py-2 font-display font-bold" style={{ color: '#999990' }}>Submission Package</button>
           </div>
           <div className="mb-4 flex gap-2 flex-wrap">
-            <button onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
+            <button id="tour-load-sample" onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
             <button onClick={handleSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
             <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save to Cloud</button>
             <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
@@ -865,7 +876,7 @@ const handleGeneratePDF = async () => {
               <p style={{ color: '#1D9E75', fontSize: '14px' }}>{cloudSaveMessage}</p>
             </div>
           )}
-          <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#e8f4f0', border: '1px solid #1D9E75' }}>
+          <div id="tour-nav-form" className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#e8f4f0', border: '1px solid #1D9E75' }}>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={isEuRoute} onChange={(e) => setIsEuRoute(e.target.checked)} className="w-4 h-4" style={{ accentColor: '#1D9E75' }} />
               <span className="font-display font-bold" style={{ color: '#1D9E75' }}>This is an EU route (shows Block 16)</span>
@@ -1197,7 +1208,7 @@ const handleGeneratePDF = async () => {
           </div>
           <div className="flex justify-between">
             <button onClick={handlePrev} disabled={currentStep === 0} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>← Previous Block</button>
-            <button onClick={handleGeneratePDF} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
+            <button id="tour-generate-pdf" onClick={handleGeneratePDF} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
             <button onClick={handleNext} disabled={currentStep === totalSteps - 1} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Next Block →</button>
           </div>
         </div>

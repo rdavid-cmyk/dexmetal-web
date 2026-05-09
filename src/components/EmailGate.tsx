@@ -60,7 +60,7 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    
+
     if (!email) {
       setError('Email is required')
       return
@@ -76,8 +76,8 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
       const res = await fetch('/api/capture-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email, 
+        body: JSON.stringify({
+          email,
           name: name || undefined,
           tool: toolName,
           timestamp: new Date().toISOString()
@@ -87,6 +87,12 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
       if (res.ok) {
         localStorage.setItem('dexmetal_email_captured', 'true')
         localStorage.setItem('dexmetal_email', email)
+        const tagName = 'tool_' + toolName.replace(/-/g, '_')
+        fetch('/api/resend-tag', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, tag: tagName }),
+        }).catch(console.error)
         setIsLocked(false)
         setShowGate(false)
         setEmail('')
@@ -110,17 +116,17 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
   return (
     <>
       <div style={{ position: 'relative' }}>
-        <div style={{ 
-          filter: 'blur(12px)', 
+        <div style={{
+          filter: 'blur(12px)',
           pointerEvents: 'none',
           userSelect: 'none',
           opacity: 0.5,
         }}>
           {children}
         </div>
-        
+
         <div style={{
-          position: 'absolute',
+          position: 'fixed',
           inset: 0,
           display: 'flex',
           alignItems: 'center',
@@ -130,10 +136,10 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
           padding: '32px',
         }}>
           <div style={{ textAlign: 'center', maxWidth: '360px' }}>
-            <div style={{ 
-              width: '56px', 
-              height: '56px', 
-              borderRadius: '50%', 
+            <div style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: '50%',
               backgroundColor: '#1D9E75',
               display: 'flex',
               alignItems: 'center',
@@ -143,24 +149,24 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
             }}>
               🔒
             </div>
-            <h3 style={{ 
-              color: '#ffffff', 
-              fontSize: '18px', 
-              fontWeight: 700, 
+            <h3 style={{
+              color: '#ffffff',
+              fontSize: '18px',
+              fontWeight: 700,
               marginBottom: '8px',
               fontFamily: 'DM Sans, sans-serif',
             }}>
               Enter your email to view results
             </h3>
-            <p style={{ 
-              color: '#a0a09a', 
-              fontSize: '14px', 
+            <p style={{
+              color: '#a0a09a',
+              fontSize: '14px',
               marginBottom: '20px',
               lineHeight: 1.5,
             }}>
               Get your {toolDisplayName} results instantly.
             </p>
-            
+
             {fallbackCTA && (
               <div style={{ marginBottom: '16px' }}>
                 <p style={{ color: '#e0e0da', fontSize: '13px', fontWeight: 600, marginBottom: '4px' }}>
@@ -171,7 +177,7 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
                 </p>
               </div>
             )}
-            
+
             <button
               onClick={() => setShowGate(true)}
               style={{
@@ -204,7 +210,7 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
           justifyContent: 'center',
           padding: '24px',
         }}>
-          <div 
+          <div
             ref={modalRef}
             style={{
               backgroundColor: '#2c2c2a',
@@ -216,10 +222,10 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
             }}
           >
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <div style={{ 
-                width: '48px', 
-                height: '48px', 
-                borderRadius: '50%', 
+              <div style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
                 backgroundColor: '#0d3326',
                 display: 'flex',
                 alignItems: 'center',
@@ -229,18 +235,18 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
               }}>
                 📧
               </div>
-              <h3 style={{ 
-                color: '#ffffff', 
-                fontSize: '20px', 
-                fontWeight: 700, 
+              <h3 style={{
+                color: '#ffffff',
+                fontSize: '20px',
+                fontWeight: 700,
                 marginBottom: '8px',
                 fontFamily: 'DM Sans, sans-serif',
               }}>
                 One quick step
               </h3>
-              <p style={{ 
-                color: '#a0a09a', 
-                fontSize: '14px', 
+              <p style={{
+                color: '#a0a09a',
+                fontSize: '14px',
                 lineHeight: 1.5,
               }}>
                 Enter your email to unlock your {toolDisplayName} results. We will also send you a copy for your records.
@@ -314,9 +320,9 @@ export default function EmailGate({ toolName, children, fallbackCTA }: EmailGate
               </button>
             </form>
 
-            <p style={{ 
-              color: '#666662', 
-              fontSize: '11px', 
+            <p style={{
+              color: '#666662',
+              fontSize: '11px',
               textAlign: 'center',
               marginTop: '16px',
               lineHeight: 1.5,

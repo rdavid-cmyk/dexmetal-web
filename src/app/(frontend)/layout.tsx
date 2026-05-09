@@ -12,6 +12,7 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
+import { BaselCopilot } from '@/components/BaselCopilot'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const play = Play({
@@ -52,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main className="flex-1">{children}</main>
           <DexMetalFooter />
         </Providers>
+        <BaselCopilot />
       </body>
     </html>
   )

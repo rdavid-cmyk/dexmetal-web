@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import eligibilityData from '@/data/shipment-eligibility.json'
 import Link from 'next/link'
+import ShepherdTour, { TourStep } from './ShepherdTour'
+import TooltipTerm from '@/components/ui/TooltipTerm'
 
 const CA_API_KEY = 'bca_df927e76febd60b7f97be6e73a3aed205d1b6a0592a97f10'
 
@@ -377,6 +379,14 @@ function SearchDropdown({ value, onChange, options, placeholder, id }: SearchDro
   )
 }
 
+const SHIPMENT_TOUR_STEPS: TourStep[] = [
+  { text: 'Select your waste type — ULAB, E-waste, Plastic Waste, and more. Each category triggers different Basel rules.', attachTo: { element: '#tour-waste-select', on: 'bottom' } },
+  { text: 'Choose the origin country where the shipment will depart from.', attachTo: { element: '#origin-dropdown', on: 'bottom' } },
+  { text: 'Choose the destination country that will receive the shipment.', attachTo: { element: '#dest-dropdown', on: 'bottom' } },
+  { text: 'Click Check Eligibility to get an instant Basel compliance ruling — including Ban Amendment and PIC requirements.', attachTo: { element: '#tour-check-btn', on: 'top' } },
+  { text: 'Or click Load Example to pre-fill a ULAB · Trinidad → Germany shipment and see a completed result right away.', attachTo: { element: '#tour-load-example', on: 'bottom' } },
+]
+
 export default function ShipmentEligibilityChecker() {
   const [waste, setWaste] = useState('')
   const [origin, setOrigin] = useState('')
@@ -433,6 +443,11 @@ export default function ShipmentEligibilityChecker() {
         body: JSON.stringify({ email: gateEmail, name: gateName || undefined, tool: 'shipment-eligibility-checker', timestamp: new Date().toISOString() })
       }).catch(console.error)
       localStorage.setItem('dexmetal_leads', JSON.stringify(stored))
+    fetch('/api/resend-tag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: gateEmail, tag: 'tool_shipment_eligibility' }),
+    }).catch(console.error)
     setGateUnlocked(true)
     setShowGate(false)
     setGateSubmitting(false)
@@ -457,10 +472,13 @@ export default function ShipmentEligibilityChecker() {
 
         {/* Header */}
         <div style={{ marginBottom: '40px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1D9E75', backgroundColor: '#0d3326', padding: '3px 10px', borderRadius: '20px' }}>
-              Free Tool
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1D9E75', backgroundColor: '#0d3326', padding: '3px 10px', borderRadius: '20px' }}>
+                Free Tool
+              </span>
+            </div>
+            <ShepherdTour steps={SHIPMENT_TOUR_STEPS} tourKey="shipment-eligibility" />
           </div>
           <h1 className="font-display font-bold" style={{ fontSize: '2.2rem', color: '#ffffff', marginBottom: '12px', lineHeight: 1.2 }}>
             Shipment Eligibility Checker
@@ -477,6 +495,7 @@ export default function ShipmentEligibilityChecker() {
             {/* Load Example */}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button
+                id="tour-load-example"
                 onClick={handleLoadExample}
                 style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
               >
@@ -490,6 +509,7 @@ export default function ShipmentEligibilityChecker() {
                 Waste Category
               </label>
               <select
+                id="tour-waste-select"
                 value={waste}
                 onChange={(e) => setWaste(e.target.value)}
                 style={{
@@ -547,6 +567,7 @@ export default function ShipmentEligibilityChecker() {
             </div>
 
             <button
+              id="tour-check-btn"
               onClick={handleCheck}
               disabled={!canCheck}
               style={{
@@ -633,7 +654,7 @@ export default function ShipmentEligibilityChecker() {
                     Full compliance report available
                   </p>
                   <p style={{ color: '#a0a09a', fontSize: '12px' }}>
-                    Competent Authority contacts · Required documents · PIC checklist
+                    <TooltipTerm term="Competent Authority" /> contacts · Required documents · <TooltipTerm term="PIC">PIC</TooltipTerm> checklist
                   </p>
                 </div>
                 <button
@@ -663,7 +684,7 @@ export default function ShipmentEligibilityChecker() {
                 {/* Competent Authority */}
                 <div style={{ backgroundColor: '#2c2c2a', borderRadius: '12px', padding: '24px 28px', border: '1px solid #3a3a38' }}>
                   <h3 className="font-display" style={{ color: '#ffffff', fontSize: '15px', fontWeight: 700, marginBottom: '16px' }}>
-                    Destination Competent Authority
+                    Destination <TooltipTerm term="Competent Authority">Competent Authority</TooltipTerm>
                   </h3>
                   {caLoading ? (
                     <p style={{ color: '#a0a09a', fontSize: '13px' }}>Loading CA data...</p>
@@ -697,7 +718,7 @@ export default function ShipmentEligibilityChecker() {
                 {/* PIC requirement */}
                 <div style={{ backgroundColor: '#2c2c2a', borderRadius: '12px', padding: '24px 28px', border: '1px solid #3a3a38' }}>
                   <h3 className="font-display" style={{ color: '#ffffff', fontSize: '15px', fontWeight: 700, marginBottom: '12px' }}>
-                    Prior Informed Consent (PIC)
+                    Prior Informed Consent (<TooltipTerm term="PIC">PIC</TooltipTerm>)
                   </h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{
@@ -714,8 +735,8 @@ export default function ShipmentEligibilityChecker() {
                     </span>
                     <p style={{ color: '#a0a09a', fontSize: '13px' }}>
                       {result.pic
-                        ? 'You must obtain written consent from the destination Competent Authority before shipment.'
-                        : 'PIC is not required for this route, but notification may still apply.'}
+                        ? <>You must obtain written consent from the destination <TooltipTerm term="Competent Authority">Competent Authority</TooltipTerm> before shipment.</>
+                        : <><TooltipTerm term="PIC">PIC</TooltipTerm> is not required for this route, but notification may still apply.</>}
                     </p>
                   </div>
                 </div>
@@ -857,7 +878,7 @@ export default function ShipmentEligibilityChecker() {
                 Get the Full Report
               </h2>
               <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.6, marginBottom: '24px' }}>
-                Enter your email to unlock the Competent Authority contacts, required documents checklist, and PIC guidance for this route. Free — no spam.
+                Enter your email to unlock the <TooltipTerm term="Competent Authority">Competent Authority</TooltipTerm> contacts, required documents checklist, and <TooltipTerm term="PIC">PIC</TooltipTerm> guidance for this route. Free — no spam.
               </p>
               <form onSubmit={handleGateSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <input

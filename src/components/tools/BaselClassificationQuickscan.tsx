@@ -3,6 +3,8 @@
 import { useState, useRef } from 'react'
 import classificationData from '@/data/basel-classification.json'
 import Link from 'next/link'
+import ShepherdTour, { TourStep } from './ShepherdTour'
+import TooltipTerm from '@/components/ui/TooltipTerm'
 
 type HazardClass = 'HAZARDOUS' | 'NON_HAZARDOUS' | 'ANNEX_II' | 'REQUIRES_TESTING'
 type PICRequired = 'YES' | 'NO' | 'CONDITIONAL'
@@ -246,6 +248,13 @@ const PIC_CONFIG: Record<PICRequired, { label: string; color: string }> = {
   CONDITIONAL: { label: 'PIC: CONDITIONAL', color: '#f5c518' },
 }
 
+const CLASSIFICATION_TOUR_STEPS: TourStep[] = [
+  { text: 'Answer three quick questions to get your Basel waste code. Start by selecting what you are shipping.', attachTo: { element: '#tour-classification-questions', on: 'top' } },
+  { text: 'Select the physical state or condition of the material — Functional, Damaged, Mixed, or Scrap.', attachTo: { element: '#tour-classification-questions', on: 'top' } },
+  { text: 'Choose the intended use at destination. The tool calculates your Basel classification and PIC requirements automatically.', attachTo: { element: '#tour-classification-questions', on: 'top' } },
+  { text: 'Load Example pre-fills a ULAB Trinidad → Germany recycling scenario so you can see a sample classification instantly.', attachTo: { element: '#tour-load-example', on: 'bottom' } },
+]
+
 export default function BaselClassificationQuickscan() {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -291,6 +300,11 @@ export default function BaselClassificationQuickscan() {
         body: JSON.stringify({ email: gateEmail, name: gateName || undefined, tool: 'basel-classification-quickscan', timestamp: new Date().toISOString() })
       }).catch(console.error)
       localStorage.setItem('dexmetal_leads', JSON.stringify(stored))
+    fetch('/api/resend-tag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: gateEmail, tag: 'tool_classification_quickscan' }),
+    }).catch(console.error)
     setGateUnlocked(true)
     setShowGate(false)
     setGateSubmitting(false)
@@ -305,10 +319,13 @@ export default function BaselClassificationQuickscan() {
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1D9E75', backgroundColor: '#0d3326', padding: '3px 10px', borderRadius: '20px' }}>
-              Free Tool
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1D9E75', backgroundColor: '#0d3326', padding: '3px 10px', borderRadius: '20px' }}>
+                Free Tool
+              </span>
+            </div>
+            <ShepherdTour steps={CLASSIFICATION_TOUR_STEPS} tourKey="classification-quickscan" />
           </div>
           <h1 className="font-display font-bold" style={{ fontSize: '2.2rem', color: '#ffffff', marginBottom: '12px', lineHeight: 1.2 }}>
             Basel Classification QuickScan
@@ -317,7 +334,7 @@ export default function BaselClassificationQuickscan() {
             Answer three questions to identify the correct Basel waste code for your e-waste or battery shipment.
           </p>
           <div style={{ marginTop: '12px' }}>
-            <button onClick={() => { setAnswers({ type: 'ULAB', condition: 'Scrap', use: 'Recycling' }); setStep(3); setGateUnlocked(false); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button id="tour-load-example" onClick={() => { setAnswers({ type: 'ULAB', condition: 'Scrap', use: 'Recycling' }); setStep(3); setGateUnlocked(false); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
               Load example: ULAB T&T → Germany (recycling) →
             </button>
           </div>
@@ -330,14 +347,14 @@ export default function BaselClassificationQuickscan() {
           </p>
           <p style={{ color: '#c8c8c2', fontSize: '13px', lineHeight: 1.6 }}>
             <strong style={{ color: '#ffffff' }}>Annex VIII entry A1180 has been replaced by A1181</strong>, covering all hazardous e-waste.{' '}
-            <strong style={{ color: '#ffffff' }}>New Annex II entry Y49</strong> now subjects non-hazardous e-waste to PIC for the first time.
+            <strong style={{ color: '#ffffff' }}>New <TooltipTerm term="Annex II">Annex II</TooltipTerm> entry Y49</strong> now subjects non-hazardous e-waste to <TooltipTerm term="PIC">PIC</TooltipTerm> for the first time.
             Update all legacy A1180 references in permits and movement documents immediately.
           </p>
         </div>
 
         {/* Wizard */}
         {!result && (
-          <div style={{ backgroundColor: '#2c2c2a', borderRadius: '12px', padding: '28px', border: '1px solid #3a3a38' }}>
+          <div id="tour-classification-questions" style={{ backgroundColor: '#2c2c2a', borderRadius: '12px', padding: '28px', border: '1px solid #3a3a38' }}>
             {/* Progress */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px' }}>
               {QUESTIONS.map((q, i) => (
@@ -577,7 +594,7 @@ export default function BaselClassificationQuickscan() {
                 style={{ display: 'block', padding: '16px 18px', backgroundColor: '#2c2c2a', borderRadius: '10px', borderLeft: '3px solid #1D9E75', textDecoration: 'none', transition: 'filter 0.15s' }}
               >
                 <p style={{ color: '#ffffff', fontSize: '13px', fontWeight: 600, marginBottom: '4px' }}>
-                  Check PIC Requirements
+                  Check <TooltipTerm term="PIC">PIC</TooltipTerm> Requirements
                 </p>
                 <p style={{ color: '#a0a09a', fontSize: '12px', marginBottom: '8px' }}>
                   What type of consent is needed for this route?

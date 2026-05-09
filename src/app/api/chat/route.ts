@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 interface FAQ {
   question: string;
@@ -9,8 +10,8 @@ interface FAQ {
 }
 
 function loadFAQs(): FAQ[] {
-  const filePath = path.join(process.cwd(), 'data', 'dexmetal_faqs.json');
-  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const filePath = path.join(process.cwd(), "data", "dexmetal_faqs.json");
+  const fileContents = fs.readFileSync(filePath, "utf8");
   return JSON.parse(fileContents);
 }
 
@@ -26,24 +27,25 @@ function searchFAQs(faqs: FAQ[], message: string): FAQ | null {
 
 async function getGroqResponse(message: string): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY;
-  
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
+
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
+      model: "llama-3.3-70b-versatile",
       messages: [
         {
-          role: 'system',
-          content: 'You are Basel Copilot, an expert assistant for DexMetal — a Basel Convention compliance platform. Answer questions about hazardous waste transboundary movement, competent authority requirements, notification procedures, and Basel Convention compliance. Be concise and precise. If you don\'t know, say so.'
+          role: "system",
+          content:
+            "You are Basel Copilot, an expert assistant for DexMetal — a Basel Convention compliance platform. Answer questions about hazardous waste transboundary movement, competent authority requirements, notification procedures, and Basel Convention compliance. Be concise and precise. If you do not know, say so.",
         },
         {
-          role: 'user',
-          content: message
-        }
+          role: "user",
+          content: message,
+        },
       ],
       max_tokens: 500,
     }),
@@ -55,37 +57,33 @@ async function getGroqResponse(message: string): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+    if (!checkRateLimit(ip)) {
+      return Response.json(
+        { error: "Too many requests. Please wait a minute." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { message } = body;
 
     if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
     const faqs = loadFAQs();
     const matchedFAQ = searchFAQs(faqs, message);
 
     if (matchedFAQ) {
-      return NextResponse.json({
-        answer: matchedFAQ.answer,
-        source: 'faq'
-      });
+      return NextResponse.json({ answer: matchedFAQ.answer, source: "faq" });
     }
 
     const groqAnswer = await getGroqResponse(message);
 
-    return NextResponse.json({
-      answer: groqAnswer,
-      source: 'groq'
-    });
+    return NextResponse.json({ answer: groqAnswer, source: "groq" });
   } catch (error) {
-    console.error('Error in chat API:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    console.error("Error in chat API:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -353,6 +353,15 @@ export default function ULABExportCalculator() {
                 <strong style={{ color: '#e0e0da' }}>Disclaimer:</strong> This calculator provides estimates only. LME prices fluctuate daily. Actual recovery rates vary by smelter contract. Always verify current pricing before making shipment decisions. This is not financial advice.
               </p>
             </div>
+
+            {/* Consulting CTA */}
+            <div style={{ backgroundColor: '#1a1208', borderRadius: '12px', padding: '20px 24px', border: '1px solid #FF5C00', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div>
+                <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Need expert review of these results?</p>
+                <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.5 }}>This shipment may require Basel notification — book a done-for-you assessment.</p>
+              </div>
+              <Link href="/contact" style={{ padding: '10px 20px', backgroundColor: '#FF5C00', color: '#ffffff', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Book an assessment →</Link>
+            </div>
           </div>
         )}
 

@@ -1,6 +1,34 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-09 (Session 28 — Phase 2 visitor onboarding: Load Example buttons + Start Here)
+Last updated: 2026-05-09 (Session 29 — Phase 3 visitor onboarding: guided tours + tooltips + Resend tagging)
+
+---
+
+## Session 29 — 2026-05-09 — Phase 3 Visitor Onboarding
+### COMPLETED
+- Task 1: shepherd.js@^15.2.2 installed in package.json
+- Task 2: Guided tours for 3 Start Here tools
+  - ShepherdTour.tsx at src/components/tools/ShepherdTour.tsx
+    - Props: steps[], tourKey; localStorage flag tourSeen_KEY
+    - Auto-launches first visit; Take a tour button on return visits
+    - Custom dark theme #1C1B18 / #1D9E75, no external CSS dependency
+  - ShipmentEligibilityChecker: 5-step tour (IDs: tour-waste-select, origin-dropdown, dest-dropdown, tour-check-btn, tour-load-example)
+  - BaselClassificationQuickscan: 4-step tour (IDs: tour-classification-questions, tour-load-example)
+  - BaselNavigator: 4-step tour (IDs: tour-nav-form, tour-load-sample, tour-generate-pdf)
+- Task 3: Basel terminology tooltips
+  - TooltipTerm.tsx at src/components/ui/TooltipTerm.tsx
+    - Dotted underline on hover; pure CSS/React; no library
+    - Terms: PIC, Y31, Annex II, ULAB, Competent Authority
+  - ShipmentEligibilityChecker: PIC x3 + Competent Authority x3 in result section + email gate
+  - BaselClassificationQuickscan: Annex II + PIC in 2025 callout and cross-tool card
+- Task 4: Resend contact tagging after email gate unlock
+  - /api/resend-tag created (audience: fbdfec0b-9a5f-44e6-8e42-d7fa1ddc9e73)
+  - ShipmentEligibilityChecker tag: tool_shipment_eligibility
+  - BaselClassificationQuickscan tag: tool_classification_quickscan
+  - EmailGate.tsx (BaselNavigator) tag: tool_basel_navigator
+- Build clean (Next.js 16.2.1 Turbopack), PM2 online
+### PENDING
+- None from this session
 
 ---
 
