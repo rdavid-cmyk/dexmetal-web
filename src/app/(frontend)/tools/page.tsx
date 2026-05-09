@@ -40,6 +40,53 @@ export default async function ToolsPage() {
           </p>
         </div>
 
+        {/* Start Here */}
+        <div className="mb-12">
+          <p className="font-body font-semibold uppercase mb-5" style={{ fontSize: '11px', color: '#1D9E75', letterSpacing: '0.1em' }}>
+            Not sure where to start?
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <Link
+              href="/tools/shipment-eligibility-checker"
+              className="block p-5 rounded-xl border transition-all duration-200 hover:brightness-110"
+              style={{ backgroundColor: '#111310', borderColor: '#1D9E75' }}
+            >
+              <p className="font-body font-semibold text-white text-sm mb-1 leading-snug">
+                I need to check if my shipment is legal
+              </p>
+              <span className="inline-block mt-2 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+                Shipment Eligibility Checker →
+              </span>
+            </Link>
+            <Link
+              href="/tools/basel-classification-quickscan"
+              className="block p-5 rounded-xl border transition-all duration-200 hover:brightness-110"
+              style={{ backgroundColor: '#111310', borderColor: '#1D9E75' }}
+            >
+              <p className="font-body font-semibold text-white text-sm mb-1 leading-snug">
+                I need to classify my waste
+              </p>
+              <span className="inline-block mt-2 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+                Basel Classification QuickScan →
+              </span>
+            </Link>
+            <Link
+              href="/tools/basel-navigator"
+              className="block p-5 rounded-xl border transition-all duration-200 hover:brightness-110"
+              style={{ backgroundColor: '#111310', borderColor: '#1D9E75' }}
+            >
+              <p className="font-body font-semibold text-white text-sm mb-1 leading-snug">
+                I need to complete a Basel notification
+              </p>
+              <span className="inline-block mt-2 text-xs font-body font-medium uppercase tracking-wide" style={{ color: '#1D9E75' }}>
+                Basel Navigator →
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        <p className="font-body font-semibold uppercase mb-5" style={{ fontSize: '11px', color: '#a0a09a', letterSpacing: '0.08em' }}>All tools</p>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <Link
             href="/tools/basel-navigator"

@@ -242,6 +242,13 @@ export default function EWasteRouteMapper() {
     setGateSubmitting(false)
   }
 
+  function handleLoadExample() {
+    const r = assessRoute('ULAB', 'Trinidad and Tobago', 'Germany', 'recycling')
+    setWaste('ULAB'); setOrigin('Trinidad and Tobago'); setDest('Germany'); setPurpose('recycling')
+    setStep(3); setResult(r); setGateUnlocked(false)
+    setTimeout(() => { document.getElementById('route-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 200)
+  }
+
   function getOptions(stepId: string): { value: string; label: string; group?: string }[] {
     if (stepId === 'waste') return routeData.wasteCategories.map((w) => ({ value: w.value, label: w.label }))
     if (stepId === 'origin') {
@@ -289,6 +296,16 @@ export default function EWasteRouteMapper() {
           <p className="font-body" style={{ color: '#a0a09a', fontSize: '15px', lineHeight: 1.6, maxWidth: '560px' }}>
             Map your e-waste export route and instantly identify Basel notification requirements, ban restrictions, and compliance complexity before you ship.
           </p>
+        </div>
+
+        {/* Load Example */}
+        <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            onClick={handleLoadExample}
+            style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Load example: ULAB export · Trinidad → Germany
+          </button>
         </div>
 
         {/* Wizard */}
@@ -573,6 +590,15 @@ export default function EWasteRouteMapper() {
                       <span style={{ color: card.color, fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Open →</span>
                     </Link>
                   ))}
+                </div>
+
+                {/* Consulting CTA */}
+                <div style={{ backgroundColor: '#1a1208', borderRadius: '12px', padding: '20px 24px', border: '1px solid #FF5C00', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  <div>
+                    <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Need expert review of these results?</p>
+                    <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.5 }}>This shipment may require Basel notification — book a done-for-you assessment.</p>
+                  </div>
+                  <Link href="/contact" style={{ padding: '10px 20px', backgroundColor: '#FF5C00', color: '#ffffff', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Book an assessment →</Link>
                 </div>
               </div>
             )}

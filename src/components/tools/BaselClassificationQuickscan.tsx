@@ -316,6 +316,11 @@ export default function BaselClassificationQuickscan() {
           <p className="font-body" style={{ color: '#a0a09a', fontSize: '15px', lineHeight: 1.6, maxWidth: '560px' }}>
             Answer three questions to identify the correct Basel waste code for your e-waste or battery shipment.
           </p>
+          <div style={{ marginTop: '12px' }}>
+            <button onClick={() => { setAnswers({ type: 'ULAB', condition: 'Scrap', use: 'Recycling' }); setStep(3); setGateUnlocked(false); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+              Load example: ULAB T&T → Germany (recycling) →
+            </button>
+          </div>
         </div>
 
         {/* 2025 Amendment callout */}
@@ -581,6 +586,15 @@ export default function BaselClassificationQuickscan() {
                   Open tool →
                 </span>
               </Link>
+            </div>
+
+            {/* Consulting CTA */}
+            <div style={{ backgroundColor: '#1a1208', borderRadius: '12px', padding: '20px 24px', border: '1px solid #FF5C00', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div>
+                <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Need expert review of these results?</p>
+                <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.5 }}>This shipment may require Basel notification — book a done-for-you assessment.</p>
+              </div>
+              <Link href="/contact" style={{ padding: '10px 20px', backgroundColor: '#FF5C00', color: '#ffffff', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Book an assessment →</Link>
             </div>
 
             {/* Donation bar */}

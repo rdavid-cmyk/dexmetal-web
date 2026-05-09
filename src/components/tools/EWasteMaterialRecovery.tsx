@@ -207,6 +207,11 @@ export default function EWasteMaterialRecovery() {
           </p>
         </div>
 
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+          <button onClick={() => { setStream('mixed_ewaste'); setQuantity('10'); setCondition('Average'); setDest('DE'); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            Load example: 10t mixed e-waste → Germany →
+          </button>
+        </div>
         <div style={{ backgroundColor: '#2c2c2a', borderRadius: '12px', padding: '28px', marginBottom: '24px', border: '1px solid #3a3a38' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
@@ -407,6 +412,15 @@ export default function EWasteMaterialRecovery() {
               <p style={{ color: '#a0a09a', fontSize: '12px', lineHeight: 1.6 }}>
                 <strong style={{ color: '#e0e0da' }}>Disclaimer:</strong> Material recovery rates and values are estimates only. Verify current LME prices before making commercial decisions. This is not financial advice.
               </p>
+            </div>
+
+            {/* Consulting CTA */}
+            <div style={{ backgroundColor: '#1a1208', borderRadius: '12px', padding: '20px 24px', border: '1px solid #FF5C00', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div>
+                <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Need expert review of these results?</p>
+                <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.5 }}>This shipment may require Basel notification — book a done-for-you assessment.</p>
+              </div>
+              <Link href="/contact" style={{ padding: '10px 20px', backgroundColor: '#FF5C00', color: '#ffffff', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Book an assessment →</Link>
             </div>
           </div>
         )}
