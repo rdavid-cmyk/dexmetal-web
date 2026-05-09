@@ -1,6 +1,6 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-09 (Session 30 — BaselNavigator: Load Sample fix + button renames)
+Last updated: 2026-05-09 (Session 31 — Full E2E Validation Run)
 
 ---
 
@@ -114,6 +114,49 @@ Last updated: 2026-05-07 (Session 26 — LME ticker scrolling + lead/aluminum fe
 
 
 
+
+
+---
+
+
+## Session 31 — 2026-05-09 — Full E2E Validation Run
+
+### COMPLETED
+- Ran full Playwright E2E validation of https://dexmetal.com (13 tests, 36 steps)
+- Spec: /var/www/dexmetal-web/tests/e2e/dexmetal-validation.spec.ts
+- Full report: /var/www/dexmetal-web/VALIDATION_REPORT.md
+
+### VALIDATION SUMMARY
+
+| Test | Result |
+|------|--------|
+| TEST 1 — Tools index | PASS |
+| TEST 2 — ShipmentEligibilityChecker | PARTIAL FAIL |
+| TEST 3 — BaselClassificationQuickscan | PARTIAL FAIL |
+| TEST 4 — BaselNavigator | PARTIAL FAIL |
+| TEST 5 — EWasteMaterialRecovery | PARTIAL FAIL |
+| TEST 5 — EWasteRouteMapper | PARTIAL FAIL |
+| TEST 5 — ULABExportCalculator | PASS (only tool with full pass) |
+| TEST 5 — PICStatusChecker | PARTIAL FAIL |
+| TEST 6 — Basel Copilot | PARTIAL FAIL |
+| TEST 7 — Resend API | FAIL |
+| TEST 8 — Mobile viewport | PASS |
+| TEST 9 — Footer links | FAIL |
+
+### CRITICAL FINDINGS (do not start new features until #1 is fixed)
+
+1. CRITICAL: Shepherd tour auto-launches on page load on 5/7 tools
+   (SEC, BaselClassificationQuickscan, EWasteMaterialRecovery, EWasteRouteMapper, PICStatusChecker)
+   shepherd-modal-overlay-container SVG blocks ALL pointer events on first visit
+   Real users cannot click Load Example or any form control until they dismiss tour
+   
+2. HIGH: BaselNavigator — Load Sample button unreachable; 21-block nav broken; Take a tour button absent; Submission Package tab inaccessible
+
+3. HIGH: Ko-fi and PayPal revenue links missing from /tools pages
+
+4. MEDIUM: Copilot widget opens but response CSS classes do not match selectors — manual check needed
+
+5. LOW: Resend contact capture broken (cascades from #1 — email gate never reached)
 
 
 ---
