@@ -1,8 +1,22 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-09 (Session 29 — Phase 3 visitor onboarding: guided tours + tooltips + Resend tagging)
+Last updated: 2026-05-09 (Session 30 — BaselNavigator: Load Sample fix + button renames)
 
 ---
+
+## Session 30 — 2026-05-09 — BaselNavigator Bug Fixes
+### COMPLETED
+- FIX 1: Load Sample button — was silently setting state with no feedback and no tab switch
+  - Root cause: setFormData(SAMPLE_DATA) worked but user saw no change (no tab navigation, no confirmation)
+  - Fix: spread SAMPLE_DATA to force React re-render, add setActiveTab('fill'), setSelectedDoc('notification'),
+    show 4s green confirmation message via cloudSaveMessage
+- FIX 2: Button label renames (3 buttons, both notification + movement toolbars)
+  - "Download JSON" -> "Save to File"
+  - "Load JSON" -> "Load from File"
+  - "Save to Cloud" -> "Save Online"
+- Build clean (Next.js 16.2.1 Turbopack), PM2 online
+### PENDING
+- None from this session
 
 ## Session 29 — 2026-05-09 — Phase 3 Visitor Onboarding
 ### COMPLETED

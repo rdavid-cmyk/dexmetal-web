@@ -830,9 +830,13 @@ const handleGeneratePDF = async () => {
   }
 
   const handleLoadSampleData = () => {
-    setFormData(SAMPLE_DATA)
+    setFormData({ ...SAMPLE_DATA })
     setIsEuRoute(false)
     setCurrentStep(0)
+    setActiveTab('fill')
+    setSelectedDoc('notification')
+    setCloudSaveMessage('Sample data loaded — 18 blocks pre-filled. Use Next to review each block.')
+    setTimeout(() => setCloudSaveMessage(null), 4000)
   }
 
   const renderNotificationForm = () => {
@@ -866,9 +870,9 @@ const handleGeneratePDF = async () => {
           <div className="mb-4 flex gap-2 flex-wrap">
             <button id="tour-load-sample" onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
             <button onClick={handleSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
-            <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save to Cloud</button>
-            <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
-            <button onClick={handleLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load JSON</button>
+            <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save Online</button>
+            <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save to File</button>
+            <button onClick={handleLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load from File</button>
             <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept=".json" style={{ display: 'none' }} />
           </div>
           {cloudSaveMessage && (
@@ -1231,8 +1235,8 @@ const handleGeneratePDF = async () => {
           <div className="mb-4 flex gap-2 flex-wrap">
             <button onClick={handleSyncFromNotification} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#FF5C00', color: '#ffffff' }}>Sync from Notification</button>
             <button onClick={handleMovementSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
-            <button onClick={handleMovementDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
-            <button onClick={handleMovementLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load JSON</button>
+            <button onClick={handleMovementDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save to File</button>
+            <button onClick={handleMovementLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load from File</button>
             <input type="file" ref={movementFileInputRef} onChange={handleMovementFileSelect} accept=".json" style={{ display: 'none' }} />
           </div>
 
@@ -1568,9 +1572,9 @@ const handleGeneratePDF = async () => {
         <div className="mb-4 flex gap-2">
           <button onClick={handleLoadSampleData} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load Sample</button>
           <button onClick={handleSaveProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save Progress</button>
-          <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save to Cloud</button>
-          <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Download JSON</button>
-          <button onClick={handleLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load JSON</button>
+          <button onClick={handleSaveToCloud} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Save Online</button>
+          <button onClick={handleDownloadProgress} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Save to File</button>
+          <button onClick={handleLoadProgressClick} className="px-4 py-2 rounded font-display text-sm" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Load from File</button>
           <input type="file" ref={fileInputRef} onChange={handleFileSelect} accept=".json" style={{ display: 'none' }} />
         </div>
         <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#e8f4f0', border: '1px solid #1D9E75' }}>
