@@ -100,7 +100,11 @@
   --destructive-foreground: oklch(57.7% 0.245 27.325deg);
   --border: #3a3a38;
   --input: #3a3a38;
-  --ring: #1D9E75;
+}
+
+input, textarea, select {
+  color: #1c1b18;
+  background-color: #ffffff;
   --chart-1: #1D9E75;
   --chart-2: #FF5C00;
   --chart-3: oklch(39.8% 0.07 227.392deg);
