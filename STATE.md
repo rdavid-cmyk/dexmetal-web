@@ -2155,3 +2155,12 @@ PM2 restarted. All 3 posts confirmed HTTP 200.
 - Ran npm install in /var/www/basel-mcp (was missing @modelcontextprotocol/sdk)
 - PM2 basel-mcp: online, port 3001, SSE transport active
 - Internal key email: mcp-internal@dexmetal.com
+
+## Session 32 — 2026-05-09
+- Ko-fi + PayPal added to 5 missing tools (SSR layer)
+- Basel Navigator: API fetch guard prevents formData overwrite (99965ab)  
+- Basel Navigator: invisible input text fixed via globals.css (16f226a)
+- Load Sample confirmed working end-to-end
+- Playwright spec updated for Fill Form tab sequence (f81ce7d)
+- All Shepherd auto-launch checks: PASS (7 tools)
+Current session: 32
