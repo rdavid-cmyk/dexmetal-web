@@ -842,6 +842,7 @@ const handleGeneratePDF = async () => {
     setSelectedDoc('notification')
     setCloudSaveMessage('Sample data loaded — 18 blocks pre-filled. Use Next to review each block.')
     setTimeout(() => setCloudSaveMessage(null), 4000)
+    alert('Sample loaded. block1_name = ' + SAMPLE_DATA.block1_name + ' | current formData.block1_name = ' + formData.block1_name)
   }
 
   const renderNotificationForm = () => {
