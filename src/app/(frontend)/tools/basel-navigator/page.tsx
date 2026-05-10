@@ -308,7 +308,9 @@ function BaselFormAssistantPageContent() {
         .then(res => res.json())
         .then(data => {
           if (data.id) {
-            setFormData(data.notification_data || {})
+          if (data.notification_data && Object.keys(data.notification_data).length > 0) {
+            setFormData(data.notification_data)
+          }
             setMovementFormData(data.movement_data || {})
             setIsEuRoute(data.is_eu_route || false)
             localStorage.setItem('dexmetal_project_id', data.id)
@@ -507,6 +509,9 @@ function BaselFormAssistantPageContent() {
         })
         const data = await res.json()
         if (data.id) {
+          if (data.notification_data && Object.keys(data.notification_data).length > 0) {
+            setFormData(data.notification_data)
+          }
           localStorage.setItem('dexmetal_project_id', data.id)
           setCloudSaveMessage(`Saved: https://dexmetal.com/tools/basel-form-assistant?project=${data.id}`)
         } else {
