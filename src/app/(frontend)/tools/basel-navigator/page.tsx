@@ -903,7 +903,6 @@ const handleGeneratePDF = async () => {
 
             {currentStep === 0 && (
               <div className="space-y-4">
-                <div style={{color:"lime", fontSize:"12px", marginBottom:"4px"}}>DEBUG: {formData.block1_name || 'EMPTY'}</div>
                 <div><label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Name</label><input type="text" value={getFormString(formData.block1_name)} onChange={(e) => handleInputChange('block1_name', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
                 <div><label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Address</label><textarea value={getFormString(formData.block1_address)} onChange={(e) => handleInputChange('block1_address', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} rows={3} /></div>
                 <div><label className="block font-display text-sm font-bold mb-1" style={{ color: '#1a1a1a' }}>Country</label><input type="text" value={getFormString(formData.block1_country)} onChange={(e) => handleInputChange('block1_country', e.target.value)} className="w-full px-3 py-2 rounded border" style={{ borderColor: '#e5e5e0' }} /></div>
