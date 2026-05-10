@@ -9,10 +9,14 @@ interface FAQ {
   source_slug?: string;
 }
 
+let cachedFAQs: FAQ[] | null = null;
+
 function loadFAQs(): FAQ[] {
+  if (cachedFAQs) return cachedFAQs;
   const filePath = path.join(process.cwd(), "data", "dexmetal_faqs.json");
   const fileContents = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(fileContents);
+  cachedFAQs = JSON.parse(fileContents);
+  return cachedFAQs!;
 }
 
 function searchFAQs(faqs: FAQ[], message: string): FAQ | null {
@@ -28,28 +32,37 @@ function searchFAQs(faqs: FAQ[], message: string): FAQ | null {
 async function getGroqResponse(message: string): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY;
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are Basel Copilot, an expert assistant for DexMetal — a Basel Convention compliance platform. Answer questions about hazardous waste transboundary movement, competent authority requirements, notification procedures, and Basel Convention compliance. Be concise and precise. If you do not know, say so.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
-      ],
-      max_tokens: 500,
-    }),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15_000);
+
+  let response: Response;
+  try {
+    response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are Basel Copilot, an expert assistant for DexMetal — a Basel Convention compliance platform. Answer questions about hazardous waste transboundary movement, competent authority requirements, notification procedures, and Basel Convention compliance. Be concise and precise. If you do not know, say so.",
+          },
+          {
+            role: "user",
+            content: message,
+          },
+        ],
+        max_tokens: 500,
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timer);
+  }
 
   const data = await response.json();
   return data.choices[0].message.content;
