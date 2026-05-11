@@ -185,10 +185,10 @@ async function checkDom() {
   let browser;
   let chromium;
   try {
-    try {
-      ({ chromium } = await import(`${APP_ROOT}/node_modules/playwright/index.js`));
-    } catch {
-      ({ chromium } = await import(`${APP_ROOT}/node_modules/@playwright/test/index.js`));
+    const mod = await import('playwright');
+    chromium = mod.chromium || mod.default?.chromium;
+    if (!chromium) {
+      throw new Error('Playwright chromium export unavailable');
     }
     browser = await chromium.launch({
       headless: true,
