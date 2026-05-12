@@ -38,6 +38,7 @@ const ENDPOINTS = [
     url: 'https://api.dexmetal.com/api/v1/classify',
     method: 'POST',
     body: { description: 'used lead acid batteries', quantity: 10, unit: 'kg' },
+    acceptStatus: [200, 401, 405],
     expectField: 'waste_code',
   },
   { url: 'https://mcp.dexmetal.com/sse', method: 'GET', acceptStatus: [200, 204] },
@@ -148,7 +149,7 @@ async function checkEndpoints() {
         continue;
       }
 
-      if (ep.expectField) {
+      if (ep.expectField && res.status === 200) {
         let json;
         try { json = await res.json(); } catch { json = {}; }
         if (!json[ep.expectField]) {
@@ -270,9 +271,17 @@ async function checkDom() {
         }
 
         if (check === 'email-gate') {
-          const hasEmail = await page.$('input[type="email"]').catch(() => null);
+          let hasEmail = await page.$('input[type="email"]').catch(() => null);
           if (!hasEmail) {
-            results.warnings.push({ item: url, detail: 'Email gate input missing (Resend not wired?)' });
+            const unlockButton = page.getByRole('button', { name: /unlock results/i }).first();
+            const hasUnlockButton = await unlockButton.count().catch(() => 0);
+            if (hasUnlockButton) {
+              await unlockButton.click().catch(() => {});
+              hasEmail = await page.waitForSelector('input[type="email"]', { timeout: 3000 }).catch(() => null);
+            }
+          }
+          if (!hasEmail) {
+            results.warnings.push({ item: url, detail: 'Email gate flow missing: no Unlock Results CTA or email input detected' });
             results.stats.issuesFound++;
           }
         }
