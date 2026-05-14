@@ -2164,3 +2164,8 @@ PM2 restarted. All 3 posts confirmed HTTP 200.
 - Playwright spec updated for Fill Form tab sequence (f81ce7d)
 - All Shepherd auto-launch checks: PASS (7 tools)
 Current session: 32
+
+## Session 33 — 2026-05-13
+- Playwright ^1.59.1 added as dev dependency for daily scanner (committed)
+- 3 scanner .bak files deleted (daily-scanner.mjs.bak-*)
+- No app changes — package housekeeping only
