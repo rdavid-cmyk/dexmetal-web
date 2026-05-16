@@ -66,6 +66,7 @@ const nextConfig: NextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https:",
               "connect-src 'self' https://api.groq.com https://api.dexmetal.com https://mcp.dexmetal.com",
+              "frame-src 'self' https://gamma.app",
             ].join('; '),
           },
         ],

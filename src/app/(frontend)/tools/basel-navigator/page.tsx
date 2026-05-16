@@ -855,7 +855,7 @@ const handleGeneratePDF = async () => {
     ]
 
     return (
-      <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
+      <div className="min-h-screen font-body relative z-40" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-2">
             <h1 className="font-display text-4xl font-bold" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>

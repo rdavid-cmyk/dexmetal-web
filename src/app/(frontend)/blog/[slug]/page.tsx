@@ -122,7 +122,11 @@ export default async function BlogSlugPage({ params }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   const publishedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    ? (() => {
+        const d = new Date(post.publishedAt)
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear()
+      })()
     : null
   const headings = post.toc_enabled && post.content ? extractHeadingsFromContent(post.content) : []
   const categoryTitle = getCategoryTitle(post.categories?.[0])
