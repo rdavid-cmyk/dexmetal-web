@@ -72,6 +72,50 @@ const TRUST_STATS = [
   { value: 'Free', label: 'Core Resources' },
 ] as const
 
+const HOW_TO_STEPS = [
+  {
+    step: 'Step 1',
+    title: 'Learn',
+    description:
+      'Understand your Basel obligations in plain language. Start with the Knowledge Hub.',
+  },
+  {
+    step: 'Step 2',
+    title: 'Use the Tools',
+    description:
+      'Run your shipment through the Basel Navigator, check competent authorities, download checklists.',
+  },
+  {
+    step: 'Step 3',
+    title: 'Get Started',
+    description:
+      'Get the free operator playbook and support us on Ko-fi.',
+  },
+] as const
+
+const HOW_TO_RESOURCES = [
+  {
+    title: 'Knowledge Hub',
+    href: '/knowledge-hub',
+    external: false,
+  },
+  {
+    title: 'Basel Navigator',
+    href: '/tools/basel-navigator',
+    external: false,
+  },
+  {
+    title: 'Basel Checklist',
+    href: '/checklist',
+    external: false,
+  },
+  {
+    title: 'Support on Ko-fi',
+    href: 'https://ko-fi.com/dexmetal',
+    external: true,
+  },
+] as const
+
 const BLOG_EXCERPTS: Record<string, string> = {
   'the-140000-phone-call':
     'A single misdirected Basel shipment cost one operator $140,000 — before legal fees. Here\'s exactly what went wrong and how you prevent it.',
@@ -452,6 +496,72 @@ export default async function HomePage() {
                 Talk to DexMetal
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-[#2f2f2b]" style={{ backgroundColor: '#1C1B18' }}>
+        <div className="container py-16 md:py-20">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
+              Operator Onboarding
+            </p>
+            <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
+              How to Use DexMetal Resources
+            </h2>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {HOW_TO_STEPS.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-lg border p-6"
+                style={{ backgroundColor: '#23221f', borderColor: '#34332f' }}
+              >
+                <p className="text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                  {item.step}
+                </p>
+                <h3 className="mt-4 font-display text-2xl font-bold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {HOW_TO_RESOURCES.map((resource) => (
+              <Link
+                key={resource.title}
+                href={resource.href}
+                target={resource.external ? '_blank' : undefined}
+                rel={resource.external ? 'noreferrer' : undefined}
+                className="group flex min-h-32 flex-col justify-between rounded-lg border p-5 transition-colors hover:border-[#1D9E75]"
+                style={{ backgroundColor: '#23221f', borderColor: '#34332f' }}
+              >
+                <span className="font-display text-xl font-bold text-white">{resource.title}</span>
+                <span className="mt-6 text-sm font-medium" style={{ color: '#FF5C00' }}>
+                  Open resource →
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/knowledge-hub"
+              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#1D9E75' }}
+            >
+              Explore the Knowledge Hub
+            </Link>
+            <Link
+              href="/checklist"
+              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#1D9E75' }}
+            >
+              Get the Basel Checklist
+            </Link>
           </div>
         </div>
       </section>
