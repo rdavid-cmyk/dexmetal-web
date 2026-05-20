@@ -1,6 +1,17 @@
 # DexMetalOS — System State
 
-Last updated: 2026-05-09 (Session 32 — Shepherd Tour auto-launch removed)
+Last updated: 2026-05-20 (Session 33 — Claude Code compatibility files)
+
+---
+
+## Session 33 — 2026-05-20 — Claude Code compatibility files
+### COMPLETED
+- Added `CLAUDE.md` as an exact mirror of `AGENTS.md` so Claude Code and Codex read the same app-repo instructions.
+- Added `.claude/settings.local.json` with conservative project-level Claude Code permissions.
+- Confirmed `.claude/agents/` and `.claude/skills/` were not created; agent and skill folders remain out of this app repo.
+- Scope honored: only `/var/www/dexmetal-web` touched on Hetzner; `/home/hermesagent/dexmetal-marketing/` left untouched.
+### PENDING
+- None from this session.
 
 ---
 
