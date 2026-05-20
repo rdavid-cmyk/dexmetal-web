@@ -60,7 +60,7 @@ export default async function NewsPage({
   const result = await payload.find({
     collection: 'news-articles',
     where: { relevance_score: { greater_than_equal: 45 } },
-    sort: '-published_at',
+    sort: '-created_at',
     limit,
     page: currentPage,
     overrideAccess: false,

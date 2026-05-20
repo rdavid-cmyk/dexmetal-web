@@ -133,6 +133,9 @@ export const REDIRECTS: Redirect[] = [
   { from: '/basel-form-tool/', to: '/tools/basel-notification-form', permanent: true },
   { from: '/basel-checklist/', to: '/tools/checklist', permanent: true },
 
+  // Safari/start-page fallback for stale compact-address-bar URL
+  { from: '/basel-pic-2025-guide', to: '/', permanent: false },
+
   // Blog posts (top-level WP posts → /blog/*)
   { from: '/the-20-annex-package-nobody-tells-you-about/', to: '/blog/the-20-annex-package-nobody-tells-you-about', permanent: true },
   { from: '/how-to-prepare-a-basel-notification-step-by-step-2026-update/', to: '/blog/how-to-prepare-a-basel-notification-step-by-step-2026-update', permanent: true },

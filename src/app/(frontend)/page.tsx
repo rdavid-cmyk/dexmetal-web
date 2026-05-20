@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Media } from '@/components/Media'
 import AssetGate from '@/components/AssetGate'
 import { LMETicker } from '@/components/LMETicker'
+import BaselIntro from '@/components/BaselIntro'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [
@@ -70,50 +71,6 @@ const TRUST_STATS = [
   { value: '20+', label: 'Years Experience' },
   { value: '67+', label: 'Pages of Guidance' },
   { value: 'Free', label: 'Core Resources' },
-] as const
-
-const HOW_TO_STEPS = [
-  {
-    step: 'Step 1',
-    title: 'Learn',
-    description:
-      'Understand your Basel obligations in plain language. Start with the Knowledge Hub.',
-  },
-  {
-    step: 'Step 2',
-    title: 'Use the Tools',
-    description:
-      'Run your shipment through the Basel Navigator, check competent authorities, download checklists.',
-  },
-  {
-    step: 'Step 3',
-    title: 'Get Started',
-    description:
-      'Get the free operator playbook and support us on Ko-fi.',
-  },
-] as const
-
-const HOW_TO_RESOURCES = [
-  {
-    title: 'Knowledge Hub',
-    href: '/knowledge-hub',
-    external: false,
-  },
-  {
-    title: 'Basel Navigator',
-    href: '/tools/basel-navigator',
-    external: false,
-  },
-  {
-    title: 'Basel Checklist',
-    href: '/checklist',
-    external: false,
-  },
-  {
-    title: 'Support on Ko-fi',
-    href: 'https://ko-fi.com/dexmetal',
-    external: true,
-  },
 ] as const
 
 const BLOG_EXCERPTS: Record<string, string> = {
@@ -197,11 +154,11 @@ export default async function HomePage() {
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
             >
-              AI-Powered Basel Compliance — Built for Operators, by Operators
+              Automated Basel Compliance for Cross-Border e-Waste Trade
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
-              Simplified. Tools, data, and intelligence from 20+ years of real Basel notifications
-              across the Caribbean and beyond. 182 countries. Free to use. Expert support available.
+              Streamline notification forms, PIC approvals, and circular workflows across 182
+              countries. Built by operators, free to start.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -217,6 +174,65 @@ export default async function HomePage() {
                 style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
               >
                 Explore Free Tools
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <BaselIntro />
+
+      <section style={{ background: '#1C1B18' }} className="border-t border-[#2f2f2b]">
+        <div className="container py-16 md:py-20">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]"
+             style={{ color: '#1D9E75' }}>
+            New to DexMetal?
+          </p>
+          <h2 className="font-display text-3xl font-bold text-white mb-10 md:text-4xl">
+            Everything you need to know to get started
+          </h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="rounded-2xl border border-[#2f2f2b] p-7"
+                 style={{ background: '#252420' }}>
+              <div className="mb-4 text-2xl">🌍</div>
+              <h3 className="font-display text-xl font-bold text-white mb-3">
+                What is DexMetal?
+              </h3>
+              <p className="text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                A compliance platform built by Basel operators with 20+ years
+                of real notification experience — giving you the tools, data,
+                and guidance to move hazardous waste legally across borders.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-[#2f2f2b] p-7"
+                 style={{ background: '#252420' }}>
+              <div className="mb-4 text-2xl">🏭</div>
+              <h3 className="font-display text-xl font-bold text-white mb-3">
+                Who is it for?
+              </h3>
+              <p className="text-sm leading-7" style={{ color: '#c8c4bc' }}>
+                Exporters, recyclers, brokers, and compliance teams managing
+                cross-border e-waste and battery shipments under the Basel
+                Convention across 182 countries.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-[#2f2f2b] p-7"
+                 style={{ background: '#252420' }}>
+              <div className="mb-4 text-2xl">🚀</div>
+              <h3 className="font-display text-xl font-bold text-white mb-3">
+                How do I get started?
+              </h3>
+              <p className="text-sm leading-7 mb-5" style={{ color: '#c8c4bc' }}>
+                Follow the operator walkthrough — from first notification
+                document to competent authority approval. Step by step,
+                in plain language.
+              </p>
+              <Link
+                href="/getting-started"
+                className="inline-block text-sm font-bold px-5 py-2.5 rounded-lg text-white"
+                style={{ background: '#1D9E75' }}
+              >
+                View Getting Started Guide →
               </Link>
             </div>
           </div>
@@ -253,47 +269,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-[#2f2f2b]">
-        <div className="container py-16 md:py-20">
-          <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
-                Free Tools
-              </p>
-              <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
-                Start with the resources practitioners actually use
-              </h2>
-            </div>
-            <Link href="/blog" className="text-sm font-medium" style={{ color: '#FF5C00' }}>
-              Read the latest guidance →
-            </Link>
-          </div>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {FREE_TOOLS.map((tool) => (
-              <Link
-                key={tool.title}
-                href={tool.href}
-                className="rounded-3xl border p-6 transition-transform hover:-translate-y-1"
-                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
-              >
-                <div
-                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg font-bold text-white"
-                  style={{ backgroundColor: tool.accent }}
-                >
-                  {tool.title.charAt(0)}
-                </div>
-                <h3 className="mb-3 font-display text-2xl font-bold text-white">{tool.title}</h3>
-                <p className="text-sm leading-7" style={{ color: '#c8c4bc' }}>
-                  {tool.description}
-                </p>
-                <span className="mt-5 inline-flex text-sm font-medium" style={{ color: tool.accent }}>
-                  Open resource →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {newsArticles.length > 0 && (
         <section className="border-b border-[#2f2f2b] bg-[#171613]">
@@ -496,72 +471,6 @@ export default async function HomePage() {
                 Talk to DexMetal
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-[#2f2f2b]" style={{ backgroundColor: '#1C1B18' }}>
-        <div className="container py-16 md:py-20">
-          <div className="mb-10 max-w-3xl">
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#FF5C00' }}>
-              Operator Onboarding
-            </p>
-            <h2 className="font-display text-3xl font-bold text-white md:text-4xl">
-              How to Use DexMetal Resources
-            </h2>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {HOW_TO_STEPS.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border p-6"
-                style={{ backgroundColor: '#23221f', borderColor: '#34332f' }}
-              >
-                <p className="text-xs font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
-                  {item.step}
-                </p>
-                <h3 className="mt-4 font-display text-2xl font-bold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7" style={{ color: '#c8c4bc' }}>
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {HOW_TO_RESOURCES.map((resource) => (
-              <Link
-                key={resource.title}
-                href={resource.href}
-                target={resource.external ? '_blank' : undefined}
-                rel={resource.external ? 'noreferrer' : undefined}
-                className="group flex min-h-32 flex-col justify-between rounded-lg border p-5 transition-colors hover:border-[#1D9E75]"
-                style={{ backgroundColor: '#23221f', borderColor: '#34332f' }}
-              >
-                <span className="font-display text-xl font-bold text-white">{resource.title}</span>
-                <span className="mt-6 text-sm font-medium" style={{ color: '#FF5C00' }}>
-                  Open resource →
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/knowledge-hub"
-              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#1D9E75' }}
-            >
-              Explore the Knowledge Hub
-            </Link>
-            <Link
-              href="/checklist"
-              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#1D9E75' }}
-            >
-              Get the Basel Checklist
-            </Link>
           </div>
         </div>
       </section>
