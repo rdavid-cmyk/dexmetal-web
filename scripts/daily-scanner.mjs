@@ -216,14 +216,14 @@ async function checkDom() {
 
       for (const check of pageConfig.checks) {
         if (check === 'copilot') {
-          const el = await page.$('[data-testid="basel-copilot"]').catch(() => null);
-          const hasCopilot = el || html.toLowerCase().includes('basel copilot');
+          const el = await page.$('.vera-host').catch(() => null);
+          const hasCopilot = el || html.includes('vera-host');
           if (!hasCopilot) {
-            results.warnings.push({ item: url, detail: 'BaselCopilot widget not found in DOM' });
+            results.warnings.push({ item: url, detail: 'VeraCopilot widget not found in DOM' });
             results.stats.issuesFound++;
-            console.log(`  ⚠️  ${url} → BaselCopilot missing`);
+            console.log(`  ⚠️  ${url} → VeraCopilot missing`);
           } else {
-            console.log(`  ✅ ${url} → BaselCopilot present`);
+            console.log(`  ✅ ${url} → VeraCopilot present`);
           }
         }
 
@@ -426,23 +426,23 @@ async function checkDisk() {
   }
 }
 
-// ─── 3 — BaselCopilot presence check ─────────────────────────────────────────
+// ─── 3 — VeraCopilot presence check ─────────────────────────────────────────
 
-async function checkBaselCopilot() {
+async function checkVeraCopilot() {
   const layoutPath = `${APP_ROOT}/src/app/(frontend)/layout.tsx`;
   try {
     const content = readFileSync(layoutPath, 'utf8');
-    const hasImport = content.includes("from '@/components/BaselCopilot'");
-    const hasRender = content.includes('<BaselCopilot');
+    const hasImport = content.includes("from '@/components/VeraCopilot'");
+    const hasRender = content.includes('<VeraCopilot');
     if (!hasImport || !hasRender) {
       results.critical.push({
         item: 'layout.tsx',
-        detail: 'BaselCopilot import or render tag missing — NEEDS APPROVAL to re-add + rebuild',
+        detail: 'VeraCopilot import or render tag missing',
       });
       results.stats.issuesFound++;
-      console.log('\n[3] ⚠️  BaselCopilot missing from layout.tsx — flagged CRITICAL');
+      console.log('\n[3] ⚠️  VeraCopilot missing from layout.tsx — flagged CRITICAL');
     } else {
-      console.log('\n[3] ✅ BaselCopilot present in layout.tsx');
+      console.log('\n[3] ✅ VeraCopilot present in layout.tsx');
     }
   } catch (err) {
     console.log('\n[3] Could not read layout.tsx:', err.message);
@@ -569,8 +569,8 @@ async function checkSecurity() {
     let got429 = false;
     for (let i = 0; i < 25; i++) {
       const { res: chatRes } = await fetchWithTimeout(
-        "https://dexmetal.com/api/chat",
-        { method: "POST", headers: { "Content-Type": "application/json" }, body: testPayload },
+        "http://localhost:3000/api/chat",
+        { method: "POST", headers: { "Content-Type": "application/json", "X-Real-IP": "scanner-smoke-test-ip" }, body: testPayload },
         5000
       );
       if (chatRes.status === 429) { got429 = true; break; }
@@ -602,7 +602,7 @@ async function main() {
   await checkSsl();
   await checkPm2();
   await checkDisk();
-  await checkBaselCopilot();
+  await checkVeraCopilot();
   await checkSecurity();
   await checkDom();
   await sendTelegram();
