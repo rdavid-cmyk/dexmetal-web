@@ -57,7 +57,12 @@ async function getGroqResponse(message: string): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
-    const ip = request.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+    // Prefer X-Real-IP (set by nginx), fall back to X-Forwarded-For, then unknown
+    const ip =
+      request.headers.get("x-real-ip") ??
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+      "unknown";
+
     if (!checkRateLimit(ip)) {
       return Response.json(
         { error: "Too many requests. Please wait a minute." },
