@@ -2187,3 +2187,7 @@ Current session: 32
 - Pilot narrows article width, lightens body text, tightens paragraph spacing, compacts headings/lists/images/quotes, and applies only when `post.slug === 'the-waste-that-cannot-leave'`.
 - Preserved live server's current blog route working-copy SEO/schema changes while preparing the patch.
 - Deployment blocked in this session because `/var/www/dexmetal-web` files are root-owned, root SSH key login is denied, and `rgd` lacks passwordless sudo.
+- Live CMS/database article structure update completed for post ID 24 (`the-waste-that-cannot-leave`): 148 content nodes reduced to 93 by grouping paragraphs, promoting section labels to headings, and converting itemized fragments into lists without changing narrative order.
+- Backups written locally:
+  - `/private/tmp/the-waste-content-before-live-2026-05-23T21-17-38-522Z.json`
+  - `/private/tmp/the-waste-content-after-live-2026-05-23T21-17-38-522Z.json`
