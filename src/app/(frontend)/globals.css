@@ -692,3 +692,92 @@ input, textarea, select {
 .blog-content a { color: #1D9E75; text-decoration: underline; word-break: break-word; }
 .blog-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
 .blog-content strong { color: #ffffff; }
+
+.blog-editorial-pilot {
+  max-width: 690px;
+  margin-inline: auto;
+}
+
+.blog-editorial-pilot h1 {
+  max-width: 690px;
+  font-size: clamp(2rem, 4vw, 2.5rem) !important;
+}
+
+.blog-editorial-pilot hr {
+  margin-bottom: 1.5rem !important;
+}
+
+.blog-content.blog-content-editorial {
+  max-width: 690px;
+  font-size: 17px;
+  line-height: 1.62;
+  font-weight: 400;
+  color: #c6c6bf;
+}
+
+.blog-content.blog-content-editorial .payload-richtext p {
+  margin-bottom: 0.95rem;
+  font-size: 17px;
+  line-height: 1.62;
+  font-weight: 400;
+  color: #c6c6bf;
+}
+
+.blog-content.blog-content-editorial .payload-richtext h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid #343431;
+}
+
+.blog-content.blog-content-editorial .payload-richtext h3 {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  margin-top: 1.45rem;
+  margin-bottom: 0.65rem;
+}
+
+.blog-content.blog-content-editorial .payload-richtext ul,
+.blog-content.blog-content-editorial .payload-richtext ol {
+  margin-bottom: 1rem;
+  padding-left: 1.2rem;
+}
+
+.blog-content.blog-content-editorial .payload-richtext li {
+  margin-bottom: 0.45rem;
+  line-height: 1.58;
+}
+
+.blog-content.blog-content-editorial .payload-richtext blockquote {
+  margin: 1.25rem 0 1.6rem;
+  padding: 0.85rem 1rem;
+  border-left-color: #1D9E75;
+  border-radius: 0 6px 6px 0;
+  background: rgba(29, 158, 117, 0.1);
+}
+
+.blog-content.blog-content-editorial .payload-richtext blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-content.blog-content-editorial .payload-richtext img {
+  width: 100%;
+  max-width: 560px;
+  margin: 1.35rem auto;
+}
+
+@media (max-width: 767px) {
+  .blog-editorial-pilot,
+  .blog-editorial-pilot h1,
+  .blog-content.blog-content-editorial {
+    max-width: 100%;
+  }
+
+  .blog-content.blog-content-editorial,
+  .blog-content.blog-content-editorial .payload-richtext p {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+}

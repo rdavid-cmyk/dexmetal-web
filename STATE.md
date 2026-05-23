@@ -2180,3 +2180,10 @@ Current session: 32
 - Playwright ^1.59.1 added as dev dependency for daily scanner (committed)
 - 3 scanner .bak files deleted (daily-scanner.mjs.bak-*)
 - No app changes — package housekeeping only
+
+## Session 34 — 2026-05-23
+- Added one-post editorial formatting pilot for `/blog/the-waste-that-cannot-leave`.
+- Scope is presentation-only: article text/narrative unchanged.
+- Pilot narrows article width, lightens body text, tightens paragraph spacing, compacts headings/lists/images/quotes, and applies only when `post.slug === 'the-waste-that-cannot-leave'`.
+- Preserved live server's current blog route working-copy SEO/schema changes while preparing the patch.
+- Deployment blocked in this session because `/var/www/dexmetal-web` files are root-owned, root SSH key login is denied, and `rgd` lacks passwordless sudo.
