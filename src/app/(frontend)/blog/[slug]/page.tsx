@@ -193,7 +193,7 @@ export default async function BlogSlugPage({ params }: Args) {
       <div className="min-h-screen" style={{ backgroundColor: '#1C1B18' }}>
         {/* Hero Section */}
         {post.heroImage && typeof post.heroImage === 'object' && (
-          <div className="relative w-full h-[400px] overflow-hidden">
+          <div className="relative w-full h-[500px] overflow-hidden">
             <Media
               resource={post.heroImage as MediaType}
               imgClassName="w-full h-full object-cover"
@@ -206,61 +206,10 @@ export default async function BlogSlugPage({ params }: Args) {
           </div>
         )}
 
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sticky TOC Sidebar - Desktop */}
-            {headings.length > 0 && (
-              <aside className="hidden lg:block w-64 flex-shrink-0">
-                <div className="sticky top-8 p-4 rounded-lg" style={{ backgroundColor: '#2c2c2a' }}>
-                  <h3 className="font-display font-bold text-white text-sm mb-4 uppercase tracking-wider">Contents</h3>
-                  <nav>
-                    <ul className="space-y-2">
-                      {headings.map((heading, index) => (
-                        <li key={index} style={{ marginLeft: `${(heading.level - 2) * 0.75}rem` }}>
-                          <a
-                            href={`#${heading.id}`}
-                            className="font-body text-sm hover:text-white transition-colors block py-1"
-                            style={{ color: '#a0a09a' }}
-                          >
-                            {heading.text}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                </div>
-              </aside>
-            )}
-
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="">
             {/* Main Content */}
-            <div className="flex-1 min-w-0">
-              {/* Mobile TOC Drawer Trigger */}
-              {headings.length > 0 && (
-                <details className="lg:hidden mb-6">
-                  <summary
-                    className="cursor-pointer p-4 rounded-lg font-display font-bold text-white"
-                    style={{ backgroundColor: '#2c2c2a' }}
-                  >
-                    📑 Table of Contents
-                  </summary>
-                  <nav className="mt-2 p-4 rounded-lg" style={{ backgroundColor: '#2c2c2a' }}>
-                    <ul className="space-y-2">
-                      {headings.map((heading, index) => (
-                        <li key={index} style={{ marginLeft: `${(heading.level - 2) * 0.75}rem` }}>
-                          <a
-                            href={`#${heading.id}`}
-                            className="font-body text-sm"
-                            style={{ color: '#a0a09a' }}
-                          >
-                            {heading.text}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                </details>
-              )}
-
+            <div className="w-full">
               {/* Category Badge & Meta */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 {categoryTitle && (
