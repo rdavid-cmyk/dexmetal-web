@@ -2191,3 +2191,9 @@ Current session: 32
 - Backups written locally:
   - `/private/tmp/the-waste-content-before-live-2026-05-23T21-17-38-522Z.json`
   - `/private/tmp/the-waste-content-after-live-2026-05-23T21-17-38-522Z.json`
+- Applied the same editorial-structure formatting process to the two immediately prior posts:
+  - Post 23 `prior-informed-consent-is-not-a-checkbox-on-a-cert`: 141 nodes → 78 nodes; 5 links preserved.
+  - Post 22 `the-certificate-that-doesnt-stop-a-crime`: 142 nodes → 88 nodes; 4 links preserved.
+- Backups written locally:
+  - `/private/tmp/prior-informed-consent-is-not-a-checkbox-on-a-cert-before-2026-05-24T01-50-13-826Z.json`
+  - `/private/tmp/the-certificate-that-doesnt-stop-a-crime-before-2026-05-24T01-50-13-826Z.json`
