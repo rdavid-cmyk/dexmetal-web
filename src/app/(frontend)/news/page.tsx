@@ -55,11 +55,17 @@ export default async function NewsPage({
   const params = await searchParams
   const currentPage = Math.max(1, parseInt(params.page || '1', 10))
   const limit = 20
+  const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
 
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
     collection: 'news-articles',
-    where: { relevance_score: { greater_than_equal: 45 } },
+    where: {
+      and: [
+        { relevance_score: { greater_than_equal: 45 } },
+        { createdAt: { greater_than: ninetyDaysAgo } },
+      ],
+    },
     sort: '-created_at',
     limit,
     page: currentPage,
@@ -100,7 +106,7 @@ export default async function NewsPage({
           <div className="grid gap-5 lg:grid-cols-2">
             {articles.map((article) => {
               const tags = (article.tags || []) as { tag: string }[]
-              const date = formatDate(article.published_at as string | null)
+              const date = formatDate(article.createdAt as string | null)
               return (
                 <div
                   key={article.id}
@@ -125,7 +131,7 @@ export default async function NewsPage({
                         {article.source as string}
                       </span>
                     )}
-                    {date && <span>{date}</span>}
+                    {date && <span>Ingested {date}</span>}
                   </div>
 
                   {article.summary && (

@@ -7,6 +7,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import Link from 'next/link'
+import Script from 'next/script'
 import { BaselNotificationCTA } from '@/components/BaselNotificationCTA'
 import { BlogContentEnhancer } from '@/components/BlogContentEnhancer'
 
@@ -92,6 +93,22 @@ function getFirstParagraph(content: any): string {
   return firstFew.length > 200 ? firstFew.substring(0, 200) + '...' : firstFew
 }
 
+function toAbsoluteDexmetalUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  return `https://dexmetal.com${url.startsWith('/') ? '' : '/'}${url}`
+}
+
+function getPostHeroImageUrl(heroImage: Post['heroImage']): string {
+  if (typeof heroImage === 'object' && heroImage) {
+    return toAbsoluteDexmetalUrl(
+      heroImage.url || heroImage.sizes?.og?.url || heroImage.sizes?.large?.url,
+    ) || 'https://dexmetal.com/og-image.png'
+  }
+
+  return 'https://dexmetal.com/og-image.png'
+}
+
 function filterHeroFromContent(content: any, heroId: string | number | null | undefined): any {
   if (!content || heroId == null) return content
 
@@ -132,10 +149,44 @@ export default async function BlogSlugPage({ params }: Args) {
   const categoryTitle = getCategoryTitle(post.categories?.[0])
   const heroId = typeof post.heroImage === 'object' ? (post.heroImage as MediaType).id : post.heroImage
   const filteredContent = filterHeroFromContent(post.content, heroId)
+  const canonicalUrl = `https://dexmetal.com/blog/${post.slug || decodedSlug}`
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.meta?.description || '',
+    datePublished: post.publishedAt || post.createdAt,
+    dateModified: post.updatedAt || post.publishedAt || post.createdAt,
+    author: {
+      '@type': 'Person',
+      name: 'Richard David',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'DexMetal',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://dexmetal.com/logo.png',
+      },
+    },
+    image: getPostHeroImageUrl(post.heroImage),
+    url: canonicalUrl,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+  }
 
   return (
     <>
       <PayloadRedirects disableNotFound url={url} />
+
+      <Script
+        id={`article-json-ld-${post.slug || decodedSlug}`}
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
 
       {post.faq && post.faq.length > 0 && (
         <script
@@ -160,10 +211,10 @@ export default async function BlogSlugPage({ params }: Args) {
       <style>{`
         .blog-content .payload-richtext p {
           font-size: 1.125rem;
-          line-height: 1.8;
+          line-height: 1.9;
           font-family: 'DM Sans', sans-serif;
           color: #c8c8c2;
-          margin-bottom: 1rem;
+          margin-bottom: 1.75rem;
         }
         .blog-content .payload-richtext h2 {
           font-family: 'Play', sans-serif;

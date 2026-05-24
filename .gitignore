@@ -25,4 +25,8 @@ node_modules/
 
 .env.local
 data/
+# Noise / audit artifacts
 .gstack/
+HETZNER-AUDIT.md
+_ARCHIVE_UNCOMMITTED_*/
+public/previews/

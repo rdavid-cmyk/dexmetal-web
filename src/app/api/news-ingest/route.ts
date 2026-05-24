@@ -55,6 +55,16 @@ export async function POST(req: NextRequest) {
       continue
     }
 
+    // Reject articles older than 90 days
+    if (article.published_at) {
+      const age = Date.now() - new Date(article.published_at).getTime()
+      const ninetyDays = 90 * 24 * 60 * 60 * 1000
+      if (age > ninetyDays) {
+        skipped++
+        continue
+      }
+    }
+
     try {
       const existing = await payload.find({
         collection: 'news-articles',

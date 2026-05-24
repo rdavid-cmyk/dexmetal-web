@@ -44,6 +44,35 @@ function VeraPortrait({ size = 'large' }: { size?: 'large' | 'small' }) {
   )
 }
 
+// Mobile icon — circular, compact, shows Vera face only
+function VeraIcon() {
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        position: 'relative',
+        background: '#151411',
+      }}
+    >
+      <Image
+        unoptimized
+        src="/images/vera-circle.png"
+        alt="Vera"
+        width={200}
+        height={200}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
+    </div>
+  )
+}
+
 export function VeraCopilot() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
@@ -245,28 +274,40 @@ export function VeraCopilot() {
           50% { box-shadow: 0 0 0 12px rgba(29, 158, 117, 0), 0 16px 40px rgba(0,0,0,0.42); }
         }
 
+        /* Desktop: circle icon only, portrait hidden */
+        .vera-mobile-icon { display: block; }
+        .vera-desktop-portrait { display: none; }
+
         @media (max-width: 720px) {
           .vera-host {
-            right: 12px !important;
-            bottom: 12px !important;
-            width: min(92vw, 340px) !important;
+            right: 16px !important;
+            bottom: 16px !important;
+            width: auto !important;
+            gap: 0 !important;
           }
 
-          .vera-welcome {
-            max-width: 210px !important;
+          /* Shrink container to circle on mobile */
+          .vera-figure-wrap {
+            width: 56px !important;
+            height: 56px !important;
+            border-radius: 50% !important;
+            padding: 2px !important;
+          }
+
+          /* Swap portrait for face-centred icon */
+          .vera-desktop-portrait { display: none !important; }
+          .vera-mobile-icon {
+            display: block !important;
+            width: 100%;
+            height: 100%;
           }
 
           .vera-panel {
-            right: 12px !important;
-            left: 12px !important;
-            bottom: 168px !important;
+            right: 8px !important;
+            left: 8px !important;
+            bottom: 80px !important;
             width: auto !important;
-            max-height: calc(100vh - 190px) !important;
-          }
-
-          .vera-figure-wrap {
-            width: 104px !important;
-            height: 132px !important;
+            max-height: calc(100vh - 104px) !important;
           }
         }
       `}</style>
@@ -287,37 +328,7 @@ export function VeraCopilot() {
           pointerEvents: 'none',
         }}
       >
-        {!isOpen && (
-          <button
-            className="vera-welcome"
-            onClick={() => openVera(true)}
-            style={{
-              pointerEvents: 'auto',
-              marginBottom: '18px',
-              maxWidth: '260px',
-              padding: '14px 16px',
-              border: '1px solid rgba(29, 158, 117, 0.32)',
-              borderRadius: '16px 16px 4px 16px',
-              background: 'rgba(28, 27, 24, 0.94)',
-              color: '#fff',
-              boxShadow: '0 12px 32px rgba(0,0,0,0.36)',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontSize: '13px',
-              lineHeight: 1.45,
-              backdropFilter: 'blur(12px)',
-            }}
-            aria-label="Open Vera welcome"
-          >
-            <strong style={{ display: 'block', marginBottom: '4px', color: '#1D9E75', fontSize: '14px' }}>
-              Hi, I&apos;m Vera.
-            </strong>
-            Welcome to DexMetal. Ask me about Basel compliance, waste codes, or notifications.
-            <span style={{ display: 'block', marginTop: '8px', color: '#FF8A3D', fontWeight: 700 }}>
-              Talk to Vera
-            </span>
-          </button>
-        )}
+
 
         <button
           onClick={() => (isOpen ? closeVera() : openVera(true))}
@@ -334,10 +345,10 @@ export function VeraCopilot() {
           <div
             className="vera-figure-wrap"
             style={{
-              width: '132px',
-              height: '168px',
-              borderRadius: '28px',
-              padding: '1px',
+              width: '96px',
+              height: '96px',
+              borderRadius: '50%',
+              padding: '2px',
               background: 'linear-gradient(180deg, rgba(29,158,117,0.72), rgba(255,92,0,0.45))',
               boxShadow: '0 16px 40px rgba(0,0,0,0.42)',
               animation: isSpeaking
@@ -345,7 +356,10 @@ export function VeraCopilot() {
                 : 'vera-breathe 4s ease-in-out infinite',
             }}
           >
-            <VeraPortrait />
+            {/* Desktop: tall portrait */}
+            <span className="vera-desktop-portrait"><VeraPortrait /></span>
+            {/* Mobile: face-centred circle */}
+            <span className="vera-mobile-icon"><VeraIcon /></span>
           </div>
           {isListening && (
             <span
