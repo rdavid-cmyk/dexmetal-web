@@ -2180,3 +2180,36 @@ Current session: 32
 - Playwright ^1.59.1 added as dev dependency for daily scanner (committed)
 - 3 scanner .bak files deleted (daily-scanner.mjs.bak-*)
 - No app changes — package housekeeping only
+
+---
+
+## Session 27 — 2026-05-26 — DexMetal Media Studio MVP
+
+Added private `/tools/media-studio` route for converting DexMetal blog posts into reusable video/social assets.
+
+### Added
+- Blog/text → media plan API: `/api/media-studio/plan`
+- Shared asset grid API: `/api/media-studio/assets`
+- Asset update API: `/api/media-studio/assets/[id]`
+- Protected fal.ai queue API: `/api/media-studio/fal`
+- File-backed local asset store under `data/media-studio/assets.json`
+- Deterministic planner for:
+  - 60-75 second explainer script
+  - 30 second compliance-risk short
+  - LinkedIn founder-note script
+  - thumbnail prompts
+  - fal image/video job suggestions
+  - Remotion reusable overlay brief
+  - HyperFrames high-motion promo brief
+
+### Production config required
+- `MEDIA_STUDIO_TOKEN` must be set before production use
+- `FAL_KEY` or `FAL_API_KEY` must be set before queuing fal.ai jobs
+- `data/` is already ignored so generated local asset grids do not enter commits
+
+### Verification
+- Direct TypeScript check: new Media Studio errors fixed; repo still has pre-existing unrelated type errors for missing `@/data/*.json` imports and `pg` typings
+- ESLint on new files blocked by existing ESLint config runtime error: circular `react` config serialization
+- Local dev server: `http://localhost:3010/tools/media-studio` returned 200
+- Local planner API returned 200 and created script/thumbnail draft assets
+- Local asset grid API returned saved draft assets
