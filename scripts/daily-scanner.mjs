@@ -9,6 +9,7 @@ import tls from 'tls';
 import { execSync, exec } from 'child_process';
 import { readFileSync } from 'fs';
 import { promisify } from 'util';
+import { runSeoChecks } from '/var/www/dexmetal-monitor/seo-checks.mjs';
 
 const execAsync = promisify(exec);
 
@@ -591,6 +592,36 @@ async function checkSecurity() {
   }
 }
 
+
+// ─── 2G — SEO & METADATA CHECKS ──────────────────────────────────────────────
+
+async function checkSeo() {
+  console.log('\n[SEO] Running SEO and metadata checks...');
+  try {
+    const { issues, passes, warnings } = await runSeoChecks();
+    for (const p of passes) {
+      results.healthy.push(p);
+      console.log(p);
+    }
+    for (const w of warnings) {
+      results.warnings.push({ check: 'SEO', detail: w });
+      console.log(w);
+    }
+    for (const i of issues) {
+      results.critical.push({ check: 'SEO', detail: i });
+      console.error(i);
+    }
+    if (issues.length === 0) {
+      console.log(`[SEO] All ${passes.length} checks passed.`);
+    } else {
+      console.error(`[SEO] ${issues.length} FAILURES detected.`);
+    }
+  } catch (e) {
+    results.warnings.push({ check: 'SEO', detail: 'SEO check threw: ' + e.message });
+    console.error('[SEO] Check failed:', e.message);
+  }
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -605,6 +636,7 @@ async function main() {
   await checkVeraCopilot();
   await checkSecurity();
   await checkDom();
+  await checkSeo();
   await sendTelegram();
 
   console.log('\n✅ Scanner complete.');
