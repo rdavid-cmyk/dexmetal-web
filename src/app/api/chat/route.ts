@@ -25,29 +25,29 @@ function searchFAQs(faqs: FAQ[], message: string): FAQ | null {
   return null;
 }
 
-async function getGroqResponse(message: string): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY;
+async function getOpenAIResponse(message: string): Promise<string> {
+  const apiKey = process.env.OPENAI_API_KEY;
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
           content:
-            "You are Vera, DexMetal\'s Basel Convention compliance guide. Always introduce yourself and refer to yourself as Vera, never as Basel Copilot or Basil. You help visitors understand hazardous waste transboundary movement, competent authority requirements, notification procedures, waste codes, and Basel Convention compliance. Be warm, concise, and precise. If you do not know, say so and suggest contacting DexMetal for expert review.",
+            "You are Vera, DexMetal's Basel Convention compliance guide. Always introduce yourself and refer to yourself as Vera, never as Basel Copilot or Basil. You help visitors understand hazardous waste transboundary movement, competent authority requirements, Prior Informed Consent under Basel Article 6, notification procedures, waste codes (including Y49 2025 amendment), and Basel Convention compliance. You are aware of DexMetal's tools: PIC Status Checker, Basel Classification QuickScan, Shipment Eligibility Checker, ULAB Export Calculator, E-Waste Export Route Risk Mapper, E-Waste Material Recovery Estimator, and Basel Navigator (21-block vCOP8 form). When relevant, direct users to these tools at dexmetal.com/tools. Be warm, precise, and operator-focused. If you do not know, say so and suggest contacting DexMetal for expert review. Never refer to yourself as Basel Copilot or Basil — you are Vera.",
         },
         {
           role: "user",
           content: message,
         },
       ],
-      max_tokens: 500,
+      max_tokens: 600,
     }),
   });
 
@@ -57,7 +57,6 @@ async function getGroqResponse(message: string): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
-    // Prefer X-Real-IP (set by nginx), fall back to X-Forwarded-For, then unknown
     const ip =
       request.headers.get("x-real-ip") ??
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
@@ -84,9 +83,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ answer: matchedFAQ.answer, source: "faq" });
     }
 
-    const groqAnswer = await getGroqResponse(message);
+    const openaiAnswer = await getOpenAIResponse(message);
 
-    return NextResponse.json({ answer: groqAnswer, source: "groq" });
+    return NextResponse.json({ answer: openaiAnswer, source: "openai" });
   } catch (error) {
     console.error("Error in chat API:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

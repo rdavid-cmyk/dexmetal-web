@@ -10,7 +10,7 @@ interface Message {
 }
 
 const welcomeMessage =
-  "Hi, I'm Vera. Welcome to DexMetal. I can help you with Basel Convention compliance, waste codes, and transboundary notification questions."
+  "Hey there! I'm Vera, DexMetal's compliance guide. How can I help you today?"
 
 function VeraPortrait({ size = 'large' }: { size?: 'large' | 'small' }) {
   const isLarge = size === 'large'

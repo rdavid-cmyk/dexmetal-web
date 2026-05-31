@@ -429,11 +429,39 @@ export default async function BlogSlugPage({ params }: Args) {
 
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug } = await params
-  const post = await queryPost({ slug: decodeURIComponent(slug) })
+  const decodedSlug = decodeURIComponent(slug)
+  const post = await queryPost({ slug: decodedSlug })
   if (!post) return {}
+
+  const canonicalUrl = `https://dexmetal.com/blog/${post.slug || decodedSlug}`
+  const title = post.meta?.title || post.title
+  const description = post.meta?.description || ''
+  const ogImage = getPostHeroImageUrl(post.heroImage)
+
   return {
-    title: post.meta?.title || post.title,
-    description: post.meta?.description || undefined,
+    metadataBase: new URL('https://dexmetal.com'),
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: 'DexMetal',
+      type: 'article',
+      publishedTime: post.publishedAt || post.createdAt,
+      modifiedTime: post.updatedAt || post.publishedAt || post.createdAt,
+      authors: ['Richard David'],
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: title }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
   }
 }
 

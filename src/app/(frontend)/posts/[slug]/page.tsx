@@ -43,9 +43,16 @@ type Args = {
 }
 
 export default async function Post({ params: paramsPromise }: Args) {
+  const { slug = '' } = await paramsPromise
+  const decodedSlug = decodeURIComponent(slug)
+  // Permanent redirect: /posts/[slug] -> /blog/[slug]
+  const { redirect } = await import('next/navigation')
+  redirect(`/blog/${decodedSlug}`)
+}
+
+async function _Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const url = '/posts/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })

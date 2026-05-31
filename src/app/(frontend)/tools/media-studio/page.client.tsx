@@ -83,6 +83,11 @@ export default function MediaStudioClient() {
     if (token) window.localStorage.setItem('dexmetal-media-studio-token', token)
   }, [token])
 
+  useEffect(() => {
+    if (!token.trim()) return
+    void loadAssets(token)
+  }, [token])
+
   const agentPayload = useMemo(
     () => ({
       endpoint: '/api/media-studio/assets',
@@ -179,6 +184,39 @@ export default function MediaStudioClient() {
       setQueueingId(null)
     }
   }
+
+  async function pollAsset(assetId: string) {
+    try {
+      const response = await fetch('/api/media-studio/fal/poll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+        body: JSON.stringify({ assetId }),
+      })
+      const data = await response.json()
+      return data.falStatus === 'COMPLETED' || data.falStatus === 'FAILED'
+    } catch {
+      return false
+    }
+  }
+
+  useEffect(() => {
+    if (!token.trim()) return
+
+    const pollQueuedAssets = async () => {
+      const queued = assets.filter((asset) => asset.status === 'queued' && asset.requestId)
+      if (queued.length === 0) return
+
+      const results = await Promise.all(queued.map((asset) => pollAsset(asset.id)))
+      if (results.some(Boolean)) await loadAssets(token)
+    }
+
+    void pollQueuedAssets()
+    const interval = setInterval(() => {
+      void pollQueuedAssets()
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [assets, token])
 
   async function copyAgentPayload() {
     await navigator.clipboard.writeText(JSON.stringify(agentPayload, null, 2))
@@ -349,9 +387,18 @@ export default function MediaStudioClient() {
                     </div>
                     {asset.prompt && <p style={{ color: '#d7d4cc', fontSize: '12px', lineHeight: 1.55 }}>{asset.prompt}</p>}
                     {asset.outputUrl && (
-                      <a href={asset.outputUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#1D9E75', fontSize: '12px' }}>
-                        Open output
-                      </a>
+                      <div style={{ display: 'grid', gap: '8px' }}>
+                        {(asset.kind === 'image' || asset.kind === 'thumbnail') && (
+                          <img
+                            src={asset.outputUrl}
+                            alt={asset.title}
+                            style={{ width: '100%', borderRadius: '6px', marginBottom: '8px', display: 'block' }}
+                          />
+                        )}
+                        <a href={asset.outputUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#1D9E75', fontSize: '12px' }}>
+                          Open output ↗
+                        </a>
+                      </div>
                     )}
                     {asset.kind === 'thumbnail' && (
                       <button
