@@ -145,6 +145,8 @@ export const REDIRECTS: Redirect[] = [
   { from: '/urban-mine-the-hunt/', to: '/blog/urban-mine-the-hunt', permanent: true },
   { from: '/red-tape-revenue-mastering-ewaste-compliance-codes/', to: '/blog/red-tape-revenue-mastering-ewaste-compliance-codes', permanent: true },
   { from: '/e-waste-safety-essentials/', to: '/blog/e-waste-safety-essentials', permanent: true },
+  { from: '/blog/how-to-prepare-a-basel-notification-step-by-step-2026-update', to: '/blog/how-to-prepare-a-basel-notification-part-1', permanent: true },
+  { from: '/blog/blog-billion-dollar-ewaste-industry-opportunity', to: '/blog/billion-dollar-ewaste-industry-opportunity', permanent: true },
 
   // Shell / core pages
   { from: '/about/', to: '/about', permanent: true },
