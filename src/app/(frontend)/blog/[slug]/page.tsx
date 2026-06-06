@@ -496,7 +496,7 @@ const queryPost = cache(async ({ slug }: { slug: string }): Promise<Post | null>
     },
   })
   const post = result.docs?.[0]
-  if (post && !post.cta_label) post.cta_label = 'Check Your Compliance Status'
-  if (post && !post.cta_url) post.cta_url = '/checklist'
+  if (post && !post.cta_label) post.cta_label = 'Get Compliance Help →'
+  if (post && !post.cta_url) post.cta_url = '/contact'
   return post
 })

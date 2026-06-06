@@ -31,6 +31,19 @@ export async function POST(req: NextRequest) {
       html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#1C1B18;color:#c8c4bc;padding:32px;border-radius:8px"><div style="border-left:4px solid #1D9E75;padding-left:16px;margin-bottom:24px"><h1 style="color:#ffffff;font-size:20px;margin:0 0 4px">Enquiry received, ${name.split(' ')[0]}.</h1><p style="color:#a0a09a;font-size:13px;margin:0">DexMetal — Basel Convention Compliance</p></div><p style="color:#c8c4bc;font-size:14px;line-height:1.7">Your question has been received. A practitioner-drafted response — grounded in 20+ years of operational Basel compliance experience — will be in your inbox within 24 hours.</p><div style="background:#2c2c2a;border-radius:6px;padding:16px;margin:24px 0"><p style="color:#a0a09a;font-size:11px;text-transform:uppercase;letter-spacing:2px;margin:0 0 10px">Your question</p><p style="color:#ffffff;font-size:13px;line-height:1.7;margin:0;white-space:pre-wrap">${question}</p></div><p style="color:#c8c4bc;font-size:14px;line-height:1.7">While you wait, the <a href="https://dexmetal.com/tools" style="color:#1D9E75">free compliance tools</a> on DexMetal may be useful for your situation.</p><hr style="border:none;border-top:1px solid #3a3a38;margin:24px 0"/><p style="color:#77736b;font-size:12px;margin:0">DexMetal LLC · <a href="https://dexmetal.com" style="color:#77736b">dexmetal.com</a></p></div>`,
     })
 
+
+    // Telegram alert — new lead notification
+    try {
+      const telegramToken = process.env.TELEGRAM_BOT_TOKEN || '8746639445:AAFz99g3z4QDvOPfWKpKZ1xWjQEm-L2Kuqs'
+      const telegramChatId = process.env.HERMES_CHAT_ID || '1894405483'
+      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
+      await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: telegramChatId, text: telegramMsg }),
+      })
+    } catch (_) {}
+
     return NextResponse.json({ success: true })
   } catch (err: any) {
     console.error('Contact form error:', err)

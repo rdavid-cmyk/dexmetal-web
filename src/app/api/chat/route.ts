@@ -1,31 +1,134 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import { checkRateLimit } from "@/lib/rateLimit";
 
-interface FAQ {
-  question: string;
-  answer: string;
-  source_slug?: string;
+interface ToolCTA {
+  toolName: string;
+  toolSlug: string;
+  description: string;
 }
 
-function loadFAQs(): FAQ[] {
-  const filePath = path.join(process.cwd(), "data", "dexmetal_faqs.json");
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(fileContents);
-}
+function detectWorkflowIntent(message: string): ToolCTA | null {
+  const msg = message.toLowerCase();
 
-function searchFAQs(faqs: FAQ[], message: string): FAQ | null {
-  const lowerMessage = message.toLowerCase();
-  for (const faq of faqs) {
-    if (faq.question.toLowerCase().includes(lowerMessage)) {
-      return faq;
-    }
+  if (/classify|what\s+is\s+(\w+\s+)?(y[\s-]?code|waste\s+code|basel\s+code)/.test(msg) || /\by\d{1,3}\b/.test(msg)) {
+    return {
+      toolName: "Basel Classification QuickScan",
+      toolSlug: "basel-classification-quickscan",
+      description: "Identify Y-codes and Basel Annex classifications for your waste stream",
+    };
   }
+
+  if (/eligible|can\s+i\s+ship|can\s+we\s+ship|\bexport\b/.test(msg)) {
+    return {
+      toolName: "Shipment Eligibility Checker",
+      toolSlug: "shipment-eligibility-checker",
+      description: "Check if your shipment qualifies for Basel transboundary movement",
+    };
+  }
+
+  if (/\bpic\b|prior\s+informed|competent\s+authority/.test(msg)) {
+    return {
+      toolName: "PIC Status Checker",
+      toolSlug: "pic-status-checker",
+      description: "Look up competent authority contacts and PIC status by country",
+    };
+  }
+
+  if (/ulab|lead\s+acid|\bbattery\b/.test(msg)) {
+    return {
+      toolName: "ULAB Export Calculator",
+      toolSlug: "ulab-export-calculator",
+      description: "Calculate ULAB export volumes and assess regulatory requirements",
+    };
+  }
+
+  if (/notification|article\s+6|vcop/.test(msg)) {
+    return {
+      toolName: "Basel Navigator",
+      toolSlug: "basel-navigator",
+      description: "Complete your 21-block vCOP8 notification form step by step",
+    };
+  }
+
+  if (/e.?waste|electronic|circuit board|pcb|computer|laptop|phone/.test(msg)) {
+    return {
+      toolName: "E-Waste Export Route Risk Mapper",
+      toolSlug: "ewaste-route-mapper",
+      description: "Map risk and routing requirements for e-waste export trade lanes",
+    };
+  }
+
+  if (/api|developer|integrate|endpoint|rest|json/.test(msg)) {
+    return {
+      toolName: "Basel CA API",
+      toolSlug: "../../developers",
+      description: "Free API — verified CA contacts for 182 countries, instant access",
+    };
+  }
+
   return null;
 }
 
-async function getOpenAIResponse(message: string): Promise<string> {
+const SYSTEM_PROMPT = `You are the DexMetal Agent — a Basel Convention compliance expert with 20+ years of Caribbean hazardous waste management experience. You speak operator-to-operator. Direct, precise, liability-aware. No warmth theatre.
+
+You conduct multi-step compliance workflows. You remember what the user said earlier in this conversation and build on it. You ask one focused question at a time to gather what you need.
+
+WORKFLOW PATTERN — when a user describes a shipment scenario:
+1. Ask for material type if not provided
+2. Ask for export country and destination country if not provided
+3. Run classification (Y-codes, Basel Annex, Amber/Green list)
+4. Check PIC/CA requirements for that trade lane
+5. Identify notification obligations
+6. Generate compliance summary
+7. Recommend the appropriate DexMetal service
+
+DEXMETAL TOOLS (all free, at dexmetal.com/tools):
+- Basel Classification QuickScan — /tools/basel-classification-quickscan
+- Shipment Eligibility Checker — /tools/shipment-eligibility-checker
+- PIC Status Checker — /tools/pic-status-checker
+- ULAB Export Calculator — /tools/ulab-export-calculator
+- E-Waste Export Route Risk Mapper — /tools/ewaste-route-mapper
+- E-Waste Material Recovery Estimator — /tools/ewaste-material-recovery
+- Basel Navigator (21-block vCOP8 form) — /tools/basel-navigator
+
+FREE RESOURCES (at dexmetal.com):
+- Operator's Playbook — /playbook
+- Compliance Checklist — /checklist
+- Regulatory Radar — /regulatory-radar
+- Knowledge Hub — /knowledge-hub
+- Developer API Docs — /developers
+
+BASEL CA API (free, at api.dexmetal.com):
+- Verified Competent Authority contacts for 182 countries
+- Free API key — register at api.dexmetal.com/register (instant, no credit card)
+- Endpoint: GET /api/v1/ca?country={name} with X-API-Key header
+- Also: POST /api/v1/classify for waste code classification
+- Surface this when: user asks about CA contacts, building compliance tools, automating PIC lookups, or integrating Basel data into their systems
+
+DEXMETAL PAID SERVICES:
+- Waste Classification Audit — $350–$500 — /services/waste-classification-audit
+- Shipment Compliance Review — $500 — /services/shipment-compliance-review
+- Full Notification Package — $2,500 — /services/full-notification-package
+- Operator Retainer — $1,200/month — /services/operator-retainer
+- PIC Navigation — /services/pic-navigation
+- Trade Lane Setup — /services/trade-lane-setup
+
+SERVICE UPSELL TRIGGERS:
+- User has ULAB or battery waste → ULAB Export Calculator → Shipment Compliance Review
+- User asks about classification → Basel Classification QuickScan → Waste Classification Audit
+- User asks about eligibility → Shipment Eligibility Checker → Shipment Compliance Review
+- User asks about notifications → Basel Navigator → Full Notification Package
+- User asks about CA contacts → PIC Status Checker or Basel CA API → PIC Navigation
+- User is a developer or building a system → Basel CA API free key → Developer API Docs
+
+Never invent regulatory details. If uncertain, say so and direct to dexmetal.com/contact.
+Never refer to yourself as Vera, Basel Copilot, or Basil. You are the DexMetal Agent.
+Keep responses under 150 words. Be direct. No bullet-point walls.`;
+
+async function getOpenAIResponse(
+  message: string,
+  history: { role: string; content: string }[]
+): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY;
 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -37,21 +140,18 @@ async function getOpenAIResponse(message: string): Promise<string> {
     body: JSON.stringify({
       model: "gpt-4o-mini",
       messages: [
-        {
-          role: "system",
-          content:
-            "You are Vera, DexMetal's Basel Convention compliance guide. Always introduce yourself and refer to yourself as Vera, never as Basel Copilot or Basil. You help visitors understand hazardous waste transboundary movement, competent authority requirements, Prior Informed Consent under Basel Article 6, notification procedures, waste codes (including Y49 2025 amendment), and Basel Convention compliance. You are aware of DexMetal's tools: PIC Status Checker, Basel Classification QuickScan, Shipment Eligibility Checker, ULAB Export Calculator, E-Waste Export Route Risk Mapper, E-Waste Material Recovery Estimator, and Basel Navigator (21-block vCOP8 form). When relevant, direct users to these tools at dexmetal.com/tools. Be warm, precise, and operator-focused. If you do not know, say so and suggest contacting DexMetal for expert review. Never refer to yourself as Basel Copilot or Basil — you are Vera.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
+        { role: "system", content: SYSTEM_PROMPT },
+        ...history,
+        { role: "user", content: message },
       ],
       max_tokens: 600,
     }),
   });
 
   const data = await response.json();
+  if (!data.choices?.[0]?.message?.content) {
+    throw new Error("OpenAI returned no content");
+  }
   return data.choices[0].message.content;
 }
 
@@ -70,22 +170,20 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { message } = body;
+    const { message, history = [] } = body;
 
     if (!message) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    const faqs = loadFAQs();
-    const matchedFAQ = searchFAQs(faqs, message);
+    const cta = detectWorkflowIntent(message);
+    const answer = await getOpenAIResponse(message, history);
 
-    if (matchedFAQ) {
-      return NextResponse.json({ answer: matchedFAQ.answer, source: "faq" });
-    }
-
-    const openaiAnswer = await getOpenAIResponse(message);
-
-    return NextResponse.json({ answer: openaiAnswer, source: "openai" });
+    return NextResponse.json({
+      answer,
+      source: "ai",
+      cta: cta || undefined,
+    });
   } catch (error) {
     console.error("Error in chat API:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

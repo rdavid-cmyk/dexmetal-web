@@ -8,6 +8,7 @@ import { draftMode } from 'next/headers'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 import { KhContentEnhancer } from '@/components/KhContentEnhancer'
+import { KhServiceCta } from '@/components/KhServiceCta'
 import type { KnowledgeHubPage } from '@/payload-types'
 
 const SECTION_TITLES: Record<string, string> = {
@@ -181,6 +182,7 @@ export default async function KnowledgeHubSlugPage({ params }: Args) {
           <RichText data={page.content as any} />
         </div>
         <KhContentEnhancer />
+        <KhServiceCta slug={decodedSlug} />
 
         <div className="mt-16 pt-8 border-t text-sm font-body" style={{ borderColor: '#3a3a38', color: '#a0a09a' }}>
           Section: {page.section} &middot; Type: {page.pageType}

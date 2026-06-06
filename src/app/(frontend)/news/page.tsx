@@ -79,10 +79,10 @@ export default async function NewsPage({
       <section className="border-b border-[#2f2f2b] bg-[#0f0f0d]">
         <div className="container py-14 md:py-20">
           <p className="mb-4 text-sm font-medium uppercase tracking-[0.22em]" style={{ color: '#1D9E75' }}>
-            Daily Intelligence
+            Radar
           </p>
           <h1 className="font-display text-4xl font-bold text-white md:text-5xl">
-            Basel &amp; Hazardous Waste Trade Intelligence
+            Radar
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
             Curated daily from global sources. Scored for Basel compliance operators, freight

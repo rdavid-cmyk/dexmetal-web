@@ -37,32 +37,46 @@ const CIRCULAR_STAGES = [
 
 const FREE_TOOLS = [
   {
-    title: 'Basel Navigator',
-    href: '/tools/basel-navigator',
+    title: 'Shipment Eligibility Check',
+    problem: 'Is my shipment restricted under Basel?',
+    href: '/tools',
     accent: '#1D9E75',
-    description:
-      'Generate Basel Convention notification and movement documents.',
+    emoji: '🔍',
   },
   {
-    title: 'Basel Checklist',
-    href: '/checklist',
+    title: 'Basel Navigator',
+    problem: 'What documents do I need for this export?',
+    href: '/tools/basel-navigator',
+    accent: '#1D9E75',
+    emoji: '🧭',
+  },
+  {
+    title: 'PIC Status Checker',
+    problem: 'Does my destination country require Prior Informed Consent?',
+    href: '/tools',
     accent: '#FF5C00',
-    description:
-      'A practical export-prep checklist for e-waste shipments, notification forms, and movement document readiness.',
+    emoji: '✅',
+  },
+  {
+    title: 'Waste Classification Tool',
+    problem: 'Which Basel Annex does my material fall under?',
+    href: '/tools',
+    accent: '#FF5C00',
+    emoji: '🏷️',
+  },
+  {
+    title: 'ULAB Calculator',
+    problem: 'How do I calculate ULAB batch weights for notification?',
+    href: '/tools',
+    accent: '#1D9E75',
+    emoji: '🔋',
   },
   {
     title: 'Basel CA API',
+    problem: 'Who is the competent authority for my destination country?',
     href: '/basel-ca-api',
     accent: '#FF5C00',
-    description:
-      'Search competent authority contact data for 182 countries and embed verified records into your workflow.',
-  },
-  {
-    title: 'Knowledge Hub',
-    href: '/knowledge-hub',
-    accent: '#1D9E75',
-    description:
-      'Field-tested guidance covering notification documents, movement docs, PIC procedure, and country requirements.',
+    emoji: '🌐',
   },
 ] as const
 
@@ -140,6 +154,7 @@ export default async function HomePage() {
     <article className="bg-dex-bg text-white">
       <LMETicker />
 
+      {/* ── HERO ── */}
       <section className="relative overflow-hidden border-b border-[#2f2f2b]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
         <div className="container relative py-20 md:py-28">
@@ -180,8 +195,57 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── FREE TOOLS SHOWCASE ── */}
+      <section className="border-b border-[#2f2f2b]" style={{ background: '#1C1B18' }}>
+        <div className="container py-14 md:py-16">
+          <div className="mb-3 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
+                Free Compliance Tools
+              </p>
+              <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
+                What problem are you trying to solve?
+              </h2>
+            </div>
+            <Link href="/tools" className="mt-2 text-sm font-medium md:mt-0" style={{ color: '#FF5C00' }}>
+              See all 7 tools →
+            </Link>
+          </div>
+          <p className="mb-8 text-sm leading-6 max-w-2xl" style={{ color: '#8f8d86' }}>
+            Every tool is free. No account required. Built from 20 years of Basel operator experience.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {FREE_TOOLS.map((tool) => (
+              <Link
+                key={tool.href + tool.title}
+                href={tool.href}
+                className="group flex items-start gap-4 rounded-2xl border p-5 transition-all duration-200 hover:border-opacity-60 hover:-translate-y-0.5"
+                style={{ backgroundColor: '#2c2c2a', borderColor: '#3a3a38' }}
+              >
+                <span className="text-2xl shrink-0">{tool.emoji}</span>
+                <div className="min-w-0">
+                  <p className="mb-1 text-xs font-medium italic leading-snug" style={{ color: '#8f8d86' }}>
+                    &ldquo;{tool.problem}&rdquo;
+                  </p>
+                  <h3 className="font-display text-base font-bold text-white leading-snug">
+                    {tool.title}
+                  </h3>
+                  <span
+                    className="mt-2 inline-block text-xs font-medium uppercase tracking-wide transition-opacity group-hover:opacity-80"
+                    style={{ color: tool.accent }}
+                  >
+                    Use free →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <BaselIntro />
 
+      {/* ── NEW TO DEXMETAL ── */}
       <section style={{ background: '#1C1B18' }} className="border-t border-[#2f2f2b]">
         <div className="container py-16 md:py-20">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]"
@@ -239,6 +303,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── CIRCULAR STAGES ── */}
       <section className="border-b border-[#2f2f2b] bg-[#171613]">
         <div className="container py-16 md:py-20">
           <div className="mb-10 max-w-3xl">
@@ -269,7 +334,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-
+      {/* ── NEWS ── */}
       {newsArticles.length > 0 && (
         <section className="border-b border-[#2f2f2b] bg-[#171613]">
           <div className="container py-16 md:py-20">
@@ -319,6 +384,7 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ── TRUST STATS ── */}
       <section className="border-b border-[#2f2f2b] bg-[#171613]">
         <div className="container py-12">
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -338,6 +404,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── PLAYBOOK BANNER ── */}
       <section className="border-b border-[#2f2f2b]">
         <div className="container py-14 md:py-16">
           <div
@@ -368,6 +435,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── BLOG ── */}
       <section className="border-b border-[#2f2f2b]">
         <div className="container py-16 md:py-20">
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -443,6 +511,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── CLOSING QUOTE ── */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,92,0,0.14),_transparent_38%)]" />
         <div className="container relative py-16 md:py-20">

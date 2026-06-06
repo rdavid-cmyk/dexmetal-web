@@ -12,7 +12,7 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
-import { VeraCopilot } from '@/components/VeraCopilot'
+import { DexMetalAgent } from '@/components/DexMetalAgent'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const play = Play({
@@ -38,8 +38,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
+        <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
+        <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+        <link href="/favicon.ico" rel="shortcut icon" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <meta name="msvalidate.01" content="6C94CC49C504B97B9A76D8EA8B7A78BB" />
       </head>
       <body>
         <Providers>
@@ -53,13 +57,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main className="flex-1">{children}</main>
           <DexMetalFooter />
         </Providers>
-        <VeraCopilot />
+        <DexMetalAgent />
       </body>
     </html>
   )
 }
 
 export const metadata: Metadata = {
+  verification: {
+    other: {
+      "msvalidate.01": "6C94CC49C504B97B9A76D8EA8B7A78BB",
+    },
+  },
   metadataBase: new URL(getServerSideURL()),
   title: {
     default: 'DexMetal — Navigating Circularity, Compliance, and Global Trade',

@@ -7,7 +7,7 @@ const DATA_DIR = join(process.cwd(), 'data')
 const CSV_FILE = join(DATA_DIR, 'email-captures.csv')
 
 // TODO: Verify dexmetal.com domain in Resend dashboard, then update FROM_ADDRESS to 'richard@dexmetal.com'
-const FROM_ADDRESS = 'Richard David <onboarding@resend.dev>'
+const FROM_ADDRESS = 'Richard David <richard@dexmetal.com>'
 
 function validateEmail(email: string): boolean {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

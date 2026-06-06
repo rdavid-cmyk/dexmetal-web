@@ -55,6 +55,22 @@ const resources = [
     badge: 'Free API',
     accent: '#FF5C00',
   },
+  {
+    title: 'Regulatory Radar',
+    description:
+      'Track COP decisions, Ban Amendment updates, and Basel listing changes affecting cross-border hazardous waste operations.',
+    href: '/regulatory-radar',
+    badge: 'Free Intelligence',
+    accent: '#1D9E75',
+  },
+  {
+    title: 'Changelog',
+    description:
+      'New tools, platform improvements, and fixes shipped to dexmetal.com — updated with every release.',
+    href: '/changelog',
+    badge: 'Platform Updates',
+    accent: '#1D9E75',
+  },
 ]
 
 export default function ResourcesPage() {

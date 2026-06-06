@@ -2,10 +2,17 @@
 
 import { useState, useRef, useEffect } from 'react'
 
+interface ToolCTA {
+  toolName: string
+  toolSlug: string
+  description: string
+}
+
 interface Message {
   role: 'user' | 'assistant'
   content: string
   source?: 'faq' | 'groq'
+  cta?: ToolCTA
 }
 
 export function BaselCopilot() {
@@ -76,6 +83,7 @@ export function BaselCopilot() {
         role: 'assistant',
         content: botContent,
         source: data.source,
+        cta: data.cta || undefined,
       }])
       speakText(botContent)
     } catch (error) {
@@ -183,7 +191,7 @@ export function BaselCopilot() {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
-        Basel Copilot
+        DexMetal Agent
       </button>
     )
   }
@@ -237,25 +245,20 @@ export function BaselCopilot() {
             gap: '10px',
           }}
         >
-          <div
+          <img
+            src="/images/dexmetal-agent-avatar.png"
+            alt="DexMetal Agent"
             style={{
               width: '32px',
               height: '32px',
-              backgroundColor: '#1D9E75',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              borderRadius: '4px',
               flexShrink: 0,
+              backgroundColor: '#1C1B18',
             }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-          </div>
+          />
           <div style={{ flex: 1 }}>
-            <div style={{ color: '#fff', fontWeight: 600, fontSize: '16px' }}>Basel Copilot</div>
-            <div style={{ color: '#888', fontSize: '12px' }}>Ask about Basel compliance</div>
+            <div style={{ color: '#fff', fontWeight: 600, fontSize: '16px' }}>DexMetal Agent</div>
+            <div style={{ color: '#888', fontSize: '12px' }}>Basel compliance, operator-grade</div>
           </div>
           <button
             onClick={toggleVoice}
@@ -319,6 +322,7 @@ export function BaselCopilot() {
                   color: '#fff',
                   fontSize: '14px',
                   lineHeight: 1.5,
+                  whiteSpace: 'pre-wrap',
                 }}
               >
                 {msg.content}
@@ -327,6 +331,22 @@ export function BaselCopilot() {
                 <span style={{ color: '#1D9E75', fontSize: '11px', marginTop: '4px', fontWeight: 500 }}>
                   From Knowledge Hub
                 </span>
+              )}
+              {msg.cta && (
+                <div style={{
+                  marginTop: '8px',
+                  padding: '12px',
+                  backgroundColor: '#252525',
+                  borderRadius: '8px',
+                  border: '1px solid #333',
+                  maxWidth: '85%',
+                }}>
+                  <div style={{ color: '#1D9E75', fontSize: '12px', fontWeight: 600, marginBottom: '4px' }}>RELEVANT TOOL</div>
+                  <a href={'/tools/' + msg.cta.toolSlug} style={{ color: '#fff', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}>
+                    {msg.cta.toolName} →
+                  </a>
+                  <div style={{ color: '#888', fontSize: '12px', marginTop: '4px' }}>{msg.cta.description}</div>
+                </div>
               )}
             </div>
           ))}

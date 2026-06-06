@@ -16,6 +16,9 @@ export function DexMetalHeader() {
             <Link href="/knowledge-hub" className="text-dex-text/80 transition-colors hover:text-dex-primary">
               Knowledge Hub
             </Link>
+            <Link href="/services" className="text-dex-text/80 transition-colors hover:text-dex-primary">
+              Services
+            </Link>
             <Link href="/blog" className="text-dex-text/80 transition-colors hover:text-dex-primary">
               Blog
             </Link>
@@ -45,6 +48,9 @@ export function DexMetalHeader() {
           </Link>
           <Link href="/knowledge-hub" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Knowledge Hub
+          </Link>
+          <Link href="/services" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
+            Services
           </Link>
           <Link href="/blog" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Blog
