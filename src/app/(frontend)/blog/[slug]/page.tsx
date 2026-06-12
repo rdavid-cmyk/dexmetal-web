@@ -10,6 +10,7 @@ import Link from 'next/link'
 import Script from 'next/script'
 import { BaselNotificationCTA } from '@/components/BaselNotificationCTA'
 import { BlogContentEnhancer } from '@/components/BlogContentEnhancer'
+import { DownloadGateModal } from '@/components/DownloadGateModal'
 
 import type { Post, Media as MediaType, Category } from '@/payload-types'
 
@@ -329,6 +330,9 @@ export default async function BlogSlugPage({ params }: Args) {
               </div>
 
               {/* Playbook CTA — Basel notification guide only */}
+              {post.slug === 'urban-mine-the-hunt' && (
+                <DownloadGateModal />
+              )}
               {post.slug === 'how-to-prepare-a-basel-notification-step-by-step-2026-update' && (
                 <BaselNotificationCTA />
               )}
