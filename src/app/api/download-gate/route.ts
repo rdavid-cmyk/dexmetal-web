@@ -61,7 +61,7 @@ async function appendToSheet(
   row: string[],
 ): Promise<void> {
   const token = await getGoogleAccessToken(serviceEmail, privateKey)
-  const range = 'Sheet1!A:D'
+  const range = 'TEMPLATE LEADS!A:D'
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=RAW`
 
   const res = await fetch(url, {
