@@ -132,6 +132,60 @@ function filterHeroFromContent(content: any, heroId: string | number | null | un
   return filterNode(content)
 }
 
+type TemplateDownload = {
+  label: string
+  url: string
+}
+
+function getTemplateDownloadsForPost(slug: string): TemplateDownload[] {
+  const templateBase = 'https://dexmetal.com/templates'
+
+  const downloadsBySlug: Record<string, TemplateDownload[]> = {
+    'billion-dollar-ewaste-industry-opportunity': [
+      {
+        label: 'Source Chain Verification Checklist',
+        url: `${templateBase}/dexmetal-source-chain-verification-checklist.pdf`,
+      },
+      {
+        label: 'Pre-Booking Compliance Package',
+        url: `${templateBase}/dexmetal-pre-booking-compliance-package.pdf`,
+      },
+    ],
+    'urban-mine-the-hunt': [
+      {
+        label: 'Buyer Specification Confirmation',
+        url: `${templateBase}/dexmetal-buyer-spec-confirmation.pdf`,
+      },
+      {
+        label: 'Generator / Source Confirmation',
+        url: `${templateBase}/dexmetal-generator-source-confirmation.pdf`,
+      },
+    ],
+    'basel-pic-2025-guide': [
+      {
+        label: 'PIC Procedure Checklist',
+        url: `${templateBase}/dexmetal-pic-procedure-checklist.pdf`,
+      },
+      {
+        label: 'Competent Authority Contact Worksheet',
+        url: `${templateBase}/dexmetal-ca-contact-worksheet.pdf`,
+      },
+    ],
+    'introducing-basel-api': [
+      {
+        label: 'CA Verification Checklist',
+        url: `${templateBase}/dexmetal-ca-verification-checklist.pdf`,
+      },
+      {
+        label: 'Route Authority Map',
+        url: `${templateBase}/dexmetal-route-authority-map.pdf`,
+      },
+    ],
+  }
+
+  return downloadsBySlug[slug] || []
+}
+
 export default async function BlogSlugPage({ params }: Args) {
   const { slug } = await params
   const decodedSlug = decodeURIComponent(slug)
@@ -150,6 +204,7 @@ export default async function BlogSlugPage({ params }: Args) {
   const categoryTitle = getCategoryTitle(post.categories?.[0])
   const heroId = typeof post.heroImage === 'object' ? (post.heroImage as MediaType).id : post.heroImage
   const filteredContent = filterHeroFromContent(post.content, heroId)
+  const templateDownloads = getTemplateDownloadsForPost(post.slug || decodedSlug)
   const canonicalUrl = `https://dexmetal.com/blog/${post.slug || decodedSlug}`
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -329,10 +384,16 @@ export default async function BlogSlugPage({ params }: Args) {
                 <BlogContentEnhancer />
               </div>
 
-              {/* Playbook CTA — Basel notification guide only */}
-              {post.slug === 'urban-mine-the-hunt' && (
-                <DownloadGateModal />
+              {templateDownloads.length > 0 && (
+                <DownloadGateModal
+                  buttonLabel="Email me the templates"
+                  title="Companion Templates"
+                  description="Get the two practical PDF templates that go with this article."
+                  source={`${post.title} templates`}
+                  downloadLinks={templateDownloads}
+                />
               )}
+
               {post.slug === 'how-to-prepare-a-basel-notification-step-by-step-2026-update' && (
                 <BaselNotificationCTA />
               )}
