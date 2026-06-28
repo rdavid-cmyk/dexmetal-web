@@ -9,8 +9,8 @@ const PASSWORD = 'E7m^dKq*?!6!YzJ'
 const BASE_URL = 'http://localhost:3000'
 const POST_ID  = 20
 
-const FIND    = 'Containers of electrical and electronic waste — harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled, categorized and  packaged  for —  international shipping.'
-const REPLACE = 'The operation was shipping containers of electrical and electronic waste internationally — material harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled and categorized.'
+const FIND    = 'By 2018, the operation had grown. The operation was shipping containers of electrical and electronic waste internationally — material harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled and categorized.'
+const REPLACE = 'By 2018, the operation had grown. It was shipping containers of electrical and electronic waste internationally — material harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled and categorized.'
 
 // Authenticate
 const loginRes = await fetch(`${BASE_URL}/api/users/login`, {
