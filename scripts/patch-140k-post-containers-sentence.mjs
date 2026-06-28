@@ -1,6 +1,5 @@
 /**
- * Replaces the "Containers of electronics shipping internationally." sentence
- * in post the-140000-phone-call (id=20) with expanded e-waste supply-chain copy.
+ * Replaces the containers sentence in post the-140000-phone-call (id=20).
  *
  * Idempotent: exits cleanly if the target text is no longer present.
  */
@@ -10,8 +9,8 @@ const PASSWORD = 'E7m^dKq*?!6!YzJ'
 const BASE_URL = 'http://localhost:3000'
 const POST_ID  = 20
 
-const FIND    = 'Containers of electronics shipping internationally.'
-const REPLACE = 'Containers of electrical and electronic waste — harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled, categorized and  packaged  for —  international shipping.'
+const FIND    = 'Containers of electrical and electronic waste — harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled, categorized and  packaged  for —  international shipping.'
+const REPLACE = 'The operation was shipping containers of electrical and electronic waste internationally — material harvested and purchased from waste pickers, then sorted, tested, repaired, or dismantled and categorized.'
 
 // Authenticate
 const loginRes = await fetch(`${BASE_URL}/api/users/login`, {
@@ -32,7 +31,7 @@ if (!fetchRes.ok) throw new Error(`Fetch HTTP ${fetchRes.status}`)
 const post = await fetchRes.json()
 if (!post.content?.root?.children) throw new Error('Post has no Lexical content')
 
-// Locate and replace target text — single text-child paragraph only
+// Locate and replace target text
 const children = post.content.root.children
 let matched = 0
 
