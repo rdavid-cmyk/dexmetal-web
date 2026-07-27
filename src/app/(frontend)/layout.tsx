@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'DexMetal — Navigating Circularity, Compliance, and Global Trade',
+    default: 'DexMetal — Basel Compliance for Cross-Border e-Waste Trade',
     template: '%s | DexMetal',
   },
   description:
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'DexMetal',
-    title: 'DexMetal — Navigating Circularity, Compliance, and Global Trade',
+    title: 'DexMetal — Basel Compliance for Cross-Border e-Waste Trade',
     description:
       'Basel Convention compliance tools, knowledge hub, and competent authority lookup for transboundary e-waste and metal shipments.',
   },

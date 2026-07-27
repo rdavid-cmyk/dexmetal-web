@@ -169,7 +169,7 @@ export default async function HomePage() {
               className="max-w-3xl font-display font-bold leading-[1.05] text-white"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
             >
-              Automated Basel Compliance for Cross-Border e-Waste Trade
+              Basel Compliance for Cross-Border e-Waste Trade
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
               Streamline notification forms, PIC approvals, and circular workflows across 182
