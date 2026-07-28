@@ -166,13 +166,13 @@ export default function TemplatesPage() {
         {/* Service upsell */}
         <div style={{ borderTop: '1px solid #2a2a28', paddingTop: '40px' }}>
           <p style={{ color: '#77736b', fontSize: '13px', margin: '0 0 16px' }}>
-            Need a practitioner to build the complete package for your shipment?
+            Want your finished file checked before you submit it?
           </p>
           <Link
-            href="/services/full-notification-package"
+            href="/services/shipment-compliance-review"
             style={{ color: '#FF5C00', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}
           >
-            Full Notification Package — $2,500 →
+            Basel Shipment Triage — $149 →
           </Link>
         </div>
 

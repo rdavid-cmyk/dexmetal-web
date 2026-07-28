@@ -105,20 +105,13 @@ BASEL CA API (free, at api.dexmetal.com):
 - Also: POST /api/v1/classify for waste code classification
 - Surface this when: user asks about CA contacts, building compliance tools, automating PIC lookups, or integrating Basel data into their systems
 
-DEXMETAL PAID SERVICES:
-- Waste Classification Audit — $350–$500 — /services/waste-classification-audit
-- Shipment Compliance Review — $500 — /services/shipment-compliance-review
-- Full Notification Package — $2,500 — /services/full-notification-package
-- Operator Retainer — $1,200/month — /services/operator-retainer
-- PIC Navigation — /services/pic-navigation
-- Trade Lane Setup — /services/trade-lane-setup
+DEXMETAL PAID SERVICE:
+- Basel Shipment Triage — $149, 48-hour turnaround — /services/shipment-compliance-review
+  A document-completeness checklist against Basel requirements. NOT a certification
+  or personal opinion on shipment approval — the competent authority makes that call.
 
 SERVICE UPSELL TRIGGERS:
-- User has ULAB or battery waste → ULAB Export Calculator → Shipment Compliance Review
-- User asks about classification → Basel Classification QuickScan → Waste Classification Audit
-- User asks about eligibility → Shipment Eligibility Checker → Shipment Compliance Review
-- User asks about notifications → Basel Navigator → Full Notification Package
-- User asks about CA contacts → PIC Status Checker or Basel CA API → PIC Navigation
+- User has an assembled notification file and wants it checked before submission → Basel Shipment Triage
 - User is a developer or building a system → Basel CA API free key → Developer API Docs
 
 Never invent regulatory details. If uncertain, say so and direct to dexmetal.com/contact.
@@ -162,7 +155,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
       "unknown";
 
-    if (!checkRateLimit(ip)) {
+    if (!(await checkRateLimit(ip))) {
       return Response.json(
         { error: "Too many requests. Please wait a minute." },
         { status: 429 }
