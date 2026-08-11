@@ -146,7 +146,7 @@ export function practitionerAnswer(summary: BaselCaseSummary, command: string): 
   const q = command.toLowerCase()
 
   if (q.includes('can') && q.includes('move')) {
-    if (summary.moveDecision === 'YES') return 'YES — the stored case status shows authorization and no deterministic pre-flight blocker is present.'
+    if (summary.moveDecision === 'YES') return 'YES — the case record shows consent marked as confirmed and no deterministic pre-flight blocker is present. This reflects the status recorded in this case, not an independent legal determination by DexMetal.'
     if (summary.moveDecision === 'NO') return `NO — ${summary.issues.filter((i) => i.signal === 'blocker').map((i) => i.title).join('; ')}.`
     return 'NOT PROVEN — the case data does not yet contain evidence that all required consent is in.'
   }
