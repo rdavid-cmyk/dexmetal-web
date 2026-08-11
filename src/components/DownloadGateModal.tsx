@@ -5,6 +5,15 @@ import { useState, useRef, useEffect } from 'react'
 interface Props {
   /** Label shown on the trigger button */
   buttonLabel?: string
+  /**
+   * Optional props passed through by blog/[slug]/page.tsx companion-template gate.
+   * Declared here for type compatibility only — the component renders buttonLabel.
+   * (Pre-existing baseline usage; type-only declaration to unblock `next build`.)
+   */
+  title?: string
+  description?: string
+  source?: string
+  downloadLinks?: { label: string; url: string }[]
 }
 
 export function DownloadGateModal({ buttonLabel = 'Download Templates' }: Props) {
