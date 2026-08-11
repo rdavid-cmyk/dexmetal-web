@@ -10,6 +10,9 @@ export function DexMetalHeader() {
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm font-body font-medium md:flex">
+            <Link href="/workspace" className="font-semibold text-dex-primary transition-colors hover:opacity-80">
+              Basel Case
+            </Link>
             <Link href="/tools" className="text-dex-text/80 transition-colors hover:text-dex-primary">
               Tools
             </Link>
@@ -34,15 +37,18 @@ export function DexMetalHeader() {
           </nav>
 
           <Link
-            href="/playbook"
+            href="/workspace"
             className="hidden rounded-full px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 md:inline-flex"
             style={{ backgroundColor: '#FF5C00' }}
           >
-            Get Started Free →
+            Run a Basel Case →
           </Link>
         </div>
 
         <nav className="mt-4 flex flex-wrap gap-3 text-xs font-body font-medium md:hidden">
+          <Link href="/workspace" className="rounded-full border px-3 py-2 font-semibold text-dex-primary" style={{ borderColor: '#1D9E75' }}>
+            Basel Case
+          </Link>
           <Link href="/tools" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Tools
           </Link>
@@ -58,18 +64,15 @@ export function DexMetalHeader() {
           <Link href="/news" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             News
           </Link>
-          <Link href="/developers" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
-            Developers
-          </Link>
           <Link href="/resources" className="rounded-full border px-3 py-2 text-dex-text/80" style={{ borderColor: '#3a3a38' }}>
             Resources
           </Link>
           <Link
-            href="/playbook"
+            href="/workspace"
             className="rounded-full px-3 py-2 text-xs font-medium text-white"
             style={{ backgroundColor: '#FF5C00' }}
           >
-            Get Started Free →
+            Run a Basel Case →
           </Link>
         </nav>
       </div>
