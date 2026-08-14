@@ -118,37 +118,81 @@ Never invent regulatory details. If uncertain, say so and direct to dexmetal.com
 Never refer to yourself as Vera, Basel Copilot, or Basil. You are the DexMetal Agent.
 Keep responses under 150 words. Be direct. No bullet-point walls.`;
 
-async function getOpenAIResponse(
+// Generic error raised when the LLM backend is down (quota, auth, 5xx, etc.)
+// so the POST handler can distinguish it from a true internal error and degrade gracefully.
+class LLMBackendError extends Error {}
+
+// FIX (2026-07-29): switched from OpenAI (gpt-4o-mini, quota exhausted — "OpenAI
+// returned no content" / insufficient_quota) to GLM 5.2 via z.ai's Anthropic-
+// compatible endpoint. This is the exact provider/endpoint/model combination
+// already proven live and working for the Council (see
+// /home/hermesagent/council/council.py ask_glm_member) — not a new, untested
+// integration. Verified directly via curl before this code was written.
+async function getGLMResponse(
   message: string,
   history: { role: string; content: string }[]
 ): Promise<string> {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GLM_API_KEY;
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  if (!apiKey) {
+    console.error("GLM_API_KEY is not set in the environment");
+    throw new LLMBackendError("missing API key");
+  }
+
+  const response = await fetch("https://api.z.ai/api/anthropic/v1/messages", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
+      model: "glm-5.2",
+      max_tokens: 600,
+      system: SYSTEM_PROMPT,
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        ...history,
+        ...history.map((h) => ({ role: h.role, content: h.content })),
         { role: "user", content: message },
       ],
-      max_tokens: 600,
     }),
   });
 
   const data = await response.json();
-  if (!data.choices?.[0]?.message?.content) {
-    throw new Error("OpenAI returned no content");
+
+  // Check response.ok BEFORE assuming data.content exists — a non-2xx error
+  // body has no `content` array and would otherwise fall through to a
+  // misleading "no content" error, swallowing the real upstream error.
+  if (!response.ok) {
+    const errType = data?.error?.type || "unknown";
+    const errMsg = data?.error?.message || `HTTP ${response.status}`;
+    console.error(`GLM API error [${response.status}] type=${errType}: ${errMsg}`);
+    throw new LLMBackendError(`GLM ${errType} (${response.status})`);
   }
-  return data.choices[0].message.content;
+
+  // FIXED 2026-08-14 (Chairman, direct, live incident): this used to grab
+  // content[0].text unconditionally, assuming the first block was always the
+  // answer. GLM's coding-plan "rolling access to latest flagship models"
+  // silently moved the account to glm-5.3, which now returns a "thinking"
+  // block FIRST (no .text field) followed by the real "text" block - so
+  // content[0].text was always undefined the moment the model rolled over,
+  // and every real chat request has been failing with a false "no content"
+  // error since. Find the first block that actually has type "text" instead
+  // of assuming position, so a future model version adding more blocks
+  // before the answer (or reordering them) doesn't silently break this again.
+  const textBlock = Array.isArray(data?.content)
+    ? data.content.find((b: any) => b?.type === "text" && typeof b?.text === "string")
+    : undefined;
+  const text = textBlock?.text;
+  if (!text) {
+    console.error("GLM returned empty content. Raw response:", JSON.stringify(data).slice(0, 500));
+    throw new LLMBackendError("GLM returned no content");
+  }
+
+  return text;
 }
 
 export async function POST(request: NextRequest) {
+  let cta: ToolCTA | null = null;
   try {
     const ip =
       request.headers.get("x-real-ip") ??
@@ -169,8 +213,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    const cta = detectWorkflowIntent(message);
-    const answer = await getOpenAIResponse(message, history);
+    cta = detectWorkflowIntent(message);
+    const answer = await getGLMResponse(message, history);
 
     return NextResponse.json({
       answer,
@@ -179,6 +223,23 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error in chat API:", error);
+
+    // Graceful degradation: when the LLM backend itself is down (quota, auth,
+    // upstream 5xx), don't surface a raw 500 — return a helpful fallback so
+    // the chat UI degrades gracefully and visitors are routed to the tools/
+    // email instead of seeing "Internal server error".
+    if (error instanceof LLMBackendError) {
+      return NextResponse.json(
+        {
+          answer:
+            "Our compliance assistant is temporarily unavailable while we resolve a backend issue. In the meantime, try our free tools at dexmetal.com/tools or email hello@dexmetal.com for direct help.",
+          source: "fallback",
+          cta: cta || undefined,
+        },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
