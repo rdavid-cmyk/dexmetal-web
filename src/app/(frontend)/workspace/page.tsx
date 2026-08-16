@@ -24,6 +24,8 @@ const WORKFLOW = [
   ['8', 'Close-out', 'Reconcile movements, tonnage and certificates'],
 ]
 
+const PROJECT_LOOKUP_TIMEOUT_MS = 5000
+
 export default function BaselWorkspacePage() {
   const [project, setProject] = useState<BaselProject | null>(null)
   const [projectId, setProjectId] = useState('')
@@ -32,23 +34,50 @@ export default function BaselWorkspacePage() {
   const [command, setCommand] = useState(COMMANDS[0])
 
   useEffect(() => {
+    let cancelled = false
+    const controller = new AbortController()
+    const timeout = window.setTimeout(() => {
+      if (!cancelled) {
+        setError('Case could not be loaded')
+        setLoading(false)
+      }
+      controller.abort()
+    }, PROJECT_LOOKUP_TIMEOUT_MS)
+
     const params = new URLSearchParams(window.location.search)
     const id = params.get('project') || localStorage.getItem('dexmetal_project_id') || ''
     setProjectId(id)
 
     if (!id) {
+      window.clearTimeout(timeout)
       setLoading(false)
-      return
+      return () => {
+        cancelled = true
+        controller.abort()
+      }
     }
 
-    fetch(`/api/form-projects?id=${encodeURIComponent(id)}`)
+    fetch(`/api/form-projects?id=${encodeURIComponent(id)}`, { signal: controller.signal })
       .then(async (res) => {
         if (!res.ok) throw new Error('Case could not be loaded')
         return res.json()
       })
-      .then((data) => setProject(data))
-      .catch((err) => setError(err.message || 'Case could not be loaded'))
-      .finally(() => setLoading(false))
+      .then((data) => {
+        if (!cancelled) setProject(data)
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err?.name === 'AbortError' ? 'Case could not be loaded' : err?.message || 'Case could not be loaded')
+      })
+      .finally(() => {
+        window.clearTimeout(timeout)
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(timeout)
+      controller.abort()
+    }
   }, [])
 
   const summary = useMemo(() => (project ? evaluateBaselCase(project) : null), [project])
