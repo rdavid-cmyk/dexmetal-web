@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import EmailGate from '@/components/EmailGate'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import NavigatorInternalGate from '@/components/NavigatorInternalGate'
 import JSZip from 'jszip'
 import ShepherdTour, { TourStep } from '@/components/tools/ShepherdTour'
 
@@ -284,6 +284,64 @@ function BaselFormAssistantPageContent() {
   }
   const [docStates, setDocStates] = useState<Record<number, DocState>>({})
   const submissionFileInputRef = useRef<HTMLInputElement>(null)
+
+  // --- Internal gate state (matches the per-tool gating pattern used by
+  // BaselClassificationQuickscan and the other 5 previously-locked tools).
+  // Free access to the Reference tab, the full 21-block Notification form,
+  // and the full 19-block Movement Document form. Only the final artifacts
+  // are gated: Notification PDF, Movement PDF, Submission Package ZIP.
+  const [gateUnlocked, setGateUnlocked] = useState(false)
+  const [showNotificationPdfGate, setShowNotificationPdfGate] = useState(false)
+  const [showMovementPdfGate, setShowMovementPdfGate] = useState(false)
+  const [showSubmissionGate, setShowSubmissionGate] = useState(false)
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('dexmetal_email_captured')) {
+        setGateUnlocked(true)
+      }
+    } catch {
+      // localStorage unavailable; treat as locked for this session.
+    }
+  }, [])
+
+  // --- Gated wrappers for the final artifacts. When the gate is unlocked
+  // (or localStorage shows a prior unlock on any of the other 6 tools),
+  // call through to the original handler. When locked, open the modal
+  // instead and DO NOT generate the artifact. Same pattern as the other
+  // 6 tools: modal unlocks in place, then re-runs the action via onUnlock.
+  const handleGeneratePDFClick = useCallback(() => {
+    if (gateUnlocked) {
+      handleGeneratePDF()
+    } else {
+      setShowNotificationPdfGate(true)
+    }
+  }, [gateUnlocked])
+
+  const handleMovementPDFClick = useCallback(() => {
+    if (gateUnlocked) {
+      handleGeneratePDF()
+    } else {
+      setShowMovementPdfGate(true)
+    }
+  }, [gateUnlocked])
+
+  const handleDownloadPackageClick = useCallback(() => {
+    if (gateUnlocked) {
+      handleDownloadPackage()
+    } else {
+      setShowSubmissionGate(true)
+    }
+  }, [gateUnlocked])
+
+  const handleGateUnlock = useCallback(() => {
+    setGateUnlocked(true)
+    // Note: do NOT auto-run the just-clicked action. The visitor has just
+    // proven intent by clicking "Generate PDF" / "Download" once. They'll
+    // click again to actually generate. This matches the "Click unlock,
+    // then click the action" UX of the other 6 tools and avoids surprising
+    // side effects (a file download firing without an explicit click).
+  }, [])
 
   const blocks = NOTIFICATION_BLOCKS
   const movementBlocks = MOVEMENT_BLOCKS
@@ -1217,7 +1275,7 @@ const handleGeneratePDF = async () => {
           </div>
           <div className="flex justify-between">
             <button onClick={handlePrev} disabled={currentStep === 0} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>← Previous Block</button>
-            <button id="tour-generate-pdf" onClick={handleGeneratePDF} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
+            <button id="tour-generate-pdf" onClick={handleGeneratePDFClick} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
             <button onClick={handleNext} disabled={currentStep === totalSteps - 1} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Next Block →</button>
           </div>
         </div>
@@ -1552,7 +1610,7 @@ const handleGeneratePDF = async () => {
             })}
           </div>
           <div className="mt-6 flex justify-end">
-            <button onClick={handleDownloadPackage} disabled={!canDownload} className="px-6 py-3 rounded-lg font-display font-bold transition-all disabled:opacity-50" style={{ backgroundColor: canDownload ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Download Submission Package</button>
+            <button onClick={handleDownloadPackageClick} disabled={!canDownload} className="px-6 py-3 rounded-lg font-display font-bold transition-all disabled:opacity-50" style={{ backgroundColor: canDownload ? '#1D9E75' : '#cccccc', color: '#ffffff' }}>Download Submission Package</button>
           </div>
         </div>
       </div>
@@ -1560,6 +1618,7 @@ const handleGeneratePDF = async () => {
   }
 
   return (
+    <>
     <div className="min-h-screen font-body" style={{ backgroundColor: '#1C1B18', padding: '32px 24px' }}>
       <div className="max-w-5xl mx-auto">
         <h1 className="font-display text-4xl font-bold mb-2" style={{ color: '#1a1a1a' }}>Fill Out Your Notification</h1>
@@ -1743,18 +1802,46 @@ const handleGeneratePDF = async () => {
         </div>
         <div className="flex justify-between">
           <button onClick={handlePrev} disabled={currentStep === 0} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>← Previous Block</button>
-          <button onClick={handleGeneratePDF} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
+          <button onClick={handleMovementPDFClick} className="px-6 py-3 rounded-lg font-display font-bold transition-all" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>Generate PDF</button>
           <button onClick={handleNext} disabled={currentStep === totalSteps - 1} className="px-6 py-3 rounded-lg font-display font-bold disabled:opacity-50" style={{ backgroundColor: '#e5e5e0', color: '#1a1a1a' }}>Next Block →</button>
         </div>
       </div>
     </div>
+    {/* Internal gates. Each modal only renders when its own flag is true.
+        The visitor freely uses the Reference tab, full 21-block Notification
+        form, full 19-block Movement form, submission tracking, and Save
+        Progress throughout. Only the final artifacts are gated, same
+        pattern as the other 6 free tools. */}
+    <NavigatorInternalGate
+      showModal={showNotificationPdfGate}
+      setShowModal={setShowNotificationPdfGate}
+      onUnlock={handleGateUnlock}
+      label="Notification PDF Generation"
+      description="Enter your email to generate the final Notification PDF draft. We will also send you a copy of the Basel vCOP8 Notification filled with your data."
+    />
+    <NavigatorInternalGate
+      showModal={showMovementPdfGate}
+      setShowModal={setShowMovementPdfGate}
+      onUnlock={handleGateUnlock}
+      label="Movement PDF Generation"
+      description="Enter your email to generate the final Movement Document PDF draft. We will also send you a copy of the Basel vCOP8 Movement Document filled with your data."
+    />
+    <NavigatorInternalGate
+      showModal={showSubmissionGate}
+      setShowModal={setShowSubmissionGate}
+      onUnlock={handleGateUnlock}
+      label="Submission Package Download"
+      description="Enter your email to download the full submission package as a ZIP. We will also send you a copy of the package for your records."
+    />
+    </>
   )
 }
 
 export default function BaselFormAssistantPage() {
   return (
-    <EmailGate toolName="basel-navigator">
+    <>
       <BaselFormAssistantPageContent />
-    </EmailGate>
+      {/* page-level metadata wrapper slot kept simple — no outer gate. */}
+    </>
   )
 }
