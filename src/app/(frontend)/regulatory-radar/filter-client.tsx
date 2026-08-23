@@ -80,6 +80,10 @@ function renderEventCard(event: RegulatoryEvent) {
   const impactBadge = IMPACT_BADGE[event.impact]
   const typeColor = typeColors[event.type]
   const formattedDate = formatDate(event.date)
+  const externalLinkAttrs = {
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  }
 
   return (
     <div
@@ -110,8 +114,14 @@ function renderEventCard(event: RegulatoryEvent) {
         {formattedDate}
       </div>
 
-      <h3 className="font-display text-xl font-bold text-white leading-snug mb-3">
-        {event.title}
+      <h3 className="font-display text-xl font-bold leading-snug mb-3">
+        <a
+          href={event.sourceUrl}
+          {...externalLinkAttrs}
+          className="text-white underline decoration-transparent underline-offset-4 transition-colors hover:text-[#1D9E75] hover:decoration-[#1D9E75] focus-visible:text-[#1D9E75] focus-visible:decoration-[#1D9E75] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1D9E75]"
+        >
+          {event.title}
+        </a>
       </h3>
 
       <p className="mb-4 text-sm leading-7" style={{ color: '#c8c4bc' }}>
@@ -133,7 +143,15 @@ function renderEventCard(event: RegulatoryEvent) {
       )}
 
       <div className="mb-4 text-xs italic" style={{ color: '#8f8d86' }}>
-        Source: {event.source}
+        Source:{' '}
+        <a
+          href={event.sourceUrl}
+          {...externalLinkAttrs}
+          className="font-medium not-italic text-[#c8c4bc] underline decoration-transparent underline-offset-4 transition-colors hover:text-[#1D9E75] hover:decoration-[#1D9E75] focus-visible:text-[#1D9E75] focus-visible:decoration-[#1D9E75] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9E75]"
+        >
+          {event.source} ↗
+        </a>
+        {event.documentNumber && <span className="not-italic"> · {event.documentNumber}</span>}
       </div>
 
       {event.serviceLink && (
