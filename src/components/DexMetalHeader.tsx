@@ -6,14 +6,14 @@ export function DexMetalHeader() {
       <div className="container py-4">
         <div className="flex items-center justify-between">
           <Link href="/" aria-label="DexMetal home" className="shrink-0">
-            <span className="relative block h-7 w-[7.875rem] overflow-hidden sm:h-8 sm:w-[8.75rem]">
+            <span className="relative block h-7 w-[9.45rem] sm:h-8 sm:w-[10.8rem]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/dexmetal-logo.png"
                 alt="DexMetal"
                 width={2508}
                 height={627}
-                className="absolute left-[-0.65rem] top-1/2 h-auto w-[9.45rem] max-w-none -translate-y-1/2 sm:left-[-0.7rem] sm:w-[10.8rem]"
+                className="absolute left-0 top-1/2 h-auto w-[9.45rem] max-w-none -translate-y-1/2 sm:w-[10.8rem]"
               />
             </span>
           </Link>
