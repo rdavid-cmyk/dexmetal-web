@@ -5,8 +5,15 @@ export function DexMetalHeader() {
     <header className="sticky top-0 z-30 border-b border-dex-border bg-dex-bg/90 backdrop-blur">
       <div className="container py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="font-display text-2xl font-bold text-dex-primary">
-            DexMetal
+          <Link href="/" aria-label="DexMetal home" className="shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/dexmetal-logo.png"
+              alt="DexMetal"
+              width={2508}
+              height={627}
+              className="h-auto w-28 sm:w-32"
+            />
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm font-body font-medium md:flex">
