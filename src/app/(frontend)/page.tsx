@@ -220,7 +220,8 @@ export default async function HomePage() {
               Global compliance intelligence
             </p>
             <h1 className="font-display text-[2.625rem] font-bold leading-[1.04] tracking-[-0.035em] text-white md:text-[3.75rem]">
-              Basel compliance for cross-border e-waste trade
+              Basel compliance for cross-border
+              <span className="block whitespace-nowrap">e-Waste trade</span>
             </h1>
             <p className="mx-auto mt-5 max-w-[800px] text-base leading-7 text-[#c8c4bc] md:text-lg md:leading-8">
               Navigate classification, Prior Informed Consent, competent authorities, and

@@ -19,7 +19,7 @@ test.describe('premium homepage compliance hero', () => {
 
       const mainHeading = hero.getByRole('heading', {
         level: 1,
-        name: 'Basel compliance for cross-border e-waste trade',
+        name: 'Basel compliance for cross-border e-Waste trade',
       })
       await expect(mainHeading).toBeVisible()
       const headingSize = await mainHeading.evaluate((element) =>
