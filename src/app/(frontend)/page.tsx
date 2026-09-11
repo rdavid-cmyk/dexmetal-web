@@ -165,30 +165,46 @@ export default async function HomePage() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle at 18% 18%, rgba(29,158,117,0.18), transparent 32%), radial-gradient(circle at 82% 8%, rgba(194,116,69,0.16), transparent 28%), linear-gradient(180deg, #171812 0%, #11120f 72%, #191713 100%)',
+              'radial-gradient(ellipse at 50% 24%, rgba(255,255,255,0.035), transparent 54%), linear-gradient(180deg, #171812 0%, #10110f 70%, #191713 100%)',
           }}
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 opacity-[0.18]"
+          className="absolute inset-0 opacity-[0.1]"
           style={{
             backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
+              'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
             backgroundSize: '72px 72px',
-            maskImage: 'linear-gradient(to bottom, black, transparent 80%)',
+            maskImage: 'linear-gradient(to bottom, black, transparent 82%)',
           }}
         />
         <svg
           data-route-map
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-8 h-[430px] w-full opacity-50 md:top-0 md:h-[560px]"
+          className="pointer-events-none absolute inset-x-0 top-8 h-[430px] w-full md:top-0 md:h-[560px]"
           viewBox="0 0 1440 560"
           preserveAspectRatio="none"
         >
+          <g
+            data-world-map
+            fill="rgba(154,168,159,0.055)"
+            stroke="rgba(185,196,189,0.11)"
+            strokeLinejoin="round"
+            strokeWidth="1.1"
+          >
+            <path d="M105 205 C145 165 195 145 260 150 L320 178 345 205 315 233 276 235 250 270 210 282 176 250 145 248 118 225 Z" />
+            <path d="M292 300 C325 298 354 318 370 350 L363 390 340 438 318 482 296 446 288 402 272 356 Z" />
+            <path d="M565 178 C600 158 643 158 675 176 L703 194 692 219 657 225 626 211 592 216 568 198 Z" />
+            <path d="M630 236 C670 224 714 233 743 262 L760 306 742 360 705 407 672 392 650 352 624 305 612 266 Z" />
+            <path d="M700 175 C760 146 840 136 920 151 L1005 176 1082 214 1118 246 1074 267 1018 253 965 272 910 303 847 278 798 247 751 238 720 210 Z" />
+            <path d="M1025 348 C1060 332 1105 338 1135 365 L1146 395 1116 426 1068 430 1032 404 1012 374 Z" />
+            <path d="M432 112 C455 92 486 89 505 105 L500 134 474 150 444 140 425 124 Z" />
+            <path d="M1180 280 C1195 270 1210 275 1217 288 L1205 301 1188 299 Z" />
+          </g>
           <path
             d="M-50 370 C 160 190, 300 450, 505 260 S 840 110, 1035 285 S 1260 430, 1490 190"
             fill="none"
-            stroke="rgba(194,116,69,0.4)"
+            stroke="rgba(194,116,69,0.28)"
             strokeDasharray="4 12"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -196,7 +212,7 @@ export default async function HomePage() {
           <path
             d="M70 160 C 280 340, 425 80, 650 225 S 1015 410, 1375 145"
             fill="none"
-            stroke="rgba(29,158,117,0.28)"
+            stroke="rgba(79,145,119,0.2)"
             strokeDasharray="2 16"
             strokeLinecap="round"
             strokeWidth="1.25"
