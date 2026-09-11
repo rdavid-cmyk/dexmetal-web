@@ -45,14 +45,9 @@ export function DexMetalFooter() {
             <Link href="/tools" className="text-dex-muted hover:text-dex-primary transition-colors">
               Tools
             </Link>
-            <a
-              href="https://smithery.ai/servers/rdavid/basel-ca-mcp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-dex-muted hover:text-dex-primary transition-colors"
-            >
-              Basel CA MCP
-            </a>
+            <Link href="/developers" className="text-dex-muted hover:text-dex-primary transition-colors">
+              API + MCP
+            </Link>
           </nav>
         </div>
 
@@ -74,7 +69,7 @@ export function DexMetalFooter() {
                 {link.label}
               </Link>
             ))}
-        </nav>
+          </nav>
         </div>
       </div>
     </footer>
