@@ -180,22 +180,12 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
               padding: '18px 20px 16px',
               borderBottom: '1px solid #2a2a28',
             }}>
-              <span className="relative block h-7 w-[9.45rem] sm:h-8 sm:w-[10.8rem]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/dexmetal-logo.png"
-                  alt="DexMetal"
-                  width={2508}
-                  height={627}
-                  className="absolute left-0 top-1/2 h-auto w-[9.45rem] max-w-none -translate-y-1/2 sm:w-[10.8rem]"
-                />
-              </span>
               <h1 style={{
                 color: '#fff',
                 fontWeight: 700,
                 fontSize: 'clamp(1.75rem, 5vw, 3.25rem)',
                 lineHeight: 1.08,
-                margin: '14px 0 0',
+                margin: 0,
               }}>
                 Tell us about your shipment
               </h1>

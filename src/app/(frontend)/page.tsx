@@ -155,10 +155,19 @@ export default async function HomePage() {
     <article className="bg-dex-bg text-white">
       <LMETicker />
 
-      {/* ── AGENT START ── */}
+      {/* ── HERO + AGENT START ── */}
       <section className="relative overflow-hidden border-b border-[#2f2f2b]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
         <div className="container relative py-10 md:py-14">
+          <div className="mx-auto mb-6 max-w-[760px] text-center md:mb-8">
+            <h2 className="font-display text-2xl font-bold leading-tight text-white md:text-3xl">
+              Basel compliance for cross-border e-waste trade
+            </h2>
+            <p className="mt-3 text-sm leading-6 md:text-base" style={{ color: '#c8c4bc' }}>
+              Navigate classification, Prior Informed Consent, competent authorities, and
+              cross-border shipment requirements with operator-focused guidance.
+            </p>
+          </div>
           <DexMetalAgent embedded />
         </div>
       </section>

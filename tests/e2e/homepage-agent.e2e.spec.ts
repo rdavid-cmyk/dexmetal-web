@@ -14,15 +14,16 @@ test.describe('homepage Agent starting point', () => {
       await page.waitForTimeout(750)
       expect(await page.evaluate(() => window.scrollY)).toBe(0)
 
+      await expect(
+        page.getByRole('heading', { name: 'Basel compliance for cross-border e-waste trade' }),
+      ).toBeVisible()
+
       const agent = page.locator('[data-homepage-agent]')
       await expect(agent).toBeVisible()
       await expect(agent.getByRole('heading', { level: 1 })).toHaveText(
         'Tell us about your shipment',
       )
-      await expect(agent.locator('img[alt="DexMetal"]')).toHaveAttribute(
-        'src',
-        '/images/dexmetal-logo.png',
-      )
+      await expect(agent.locator('img[alt="DexMetal"]')).toHaveCount(0)
 
       const input = agent.getByPlaceholder('Describe your shipment or compliance scenario...')
       await expect(input).toBeVisible()
