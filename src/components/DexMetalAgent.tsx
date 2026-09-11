@@ -45,16 +45,23 @@ function AgentAvatar({ size }: { size: number }) {
   )
 }
 
-export function DexMetalAgent() {
+export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>(
+    embedded ? [{ role: 'assistant', content: welcomeMessage, source: 'faq' }] : [],
+  )
   const [isThinking, setIsThinking] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (embedded) {
+      const messagesContainer = messagesEndRef.current?.parentElement
+      if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
+      return
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isThinking])
+  }, [embedded, messages, isThinking])
 
   const openAgent = () => {
     setIsOpen(true)
@@ -96,65 +103,70 @@ export function DexMetalAgent() {
 
   return (
     <>
-      <style jsx>{`\`
+      <style>{`
         @keyframes agent-pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.85; transform: scale(1.03); }
         }
         @media (max-width: 720px) {
-          .agent-panel {
+          .agent-panel:not(.agent-panel-embedded) {
             right: 8px !important;
             left: 8px !important;
             bottom: 80px !important;
             width: auto !important;
           }
         }
-      \``}</style>
+      `}</style>
 
       {/* Floating button */}
-      <div style={{
-        position: 'fixed',
-        right: '24px',
-        bottom: '24px',
-        zIndex: 9998,
-      }}>
-        <button
-          onClick={() => isOpen ? closeAgent() : openAgent()}
-          style={{
-            border: 'none',
-            background: 'transparent',
-            padding: 0,
-            cursor: 'pointer',
-          }}
-          aria-label={isOpen ? 'Close DexMetal Agent' : 'Open DexMetal Agent'}
-        >
-          <div style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '50%',
-            padding: '2px',
-            background: 'linear-gradient(180deg, rgba(29,158,117,0.72), rgba(255,92,0,0.45))',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.42)',
-            animation: 'agent-pulse 4s ease-in-out infinite',
-          }}>
-            <AgentAvatar size={52} />
-          </div>
-        </button>
-      </div>
+      {!embedded && (
+        <div style={{
+          position: 'fixed',
+          right: '24px',
+          bottom: '24px',
+          zIndex: 9998,
+        }}>
+          <button
+            onClick={() => isOpen ? closeAgent() : openAgent()}
+            style={{
+              border: 'none',
+              background: 'transparent',
+              padding: 0,
+              cursor: 'pointer',
+            }}
+            aria-label={isOpen ? 'Close DexMetal Agent' : 'Open DexMetal Agent'}
+          >
+            <div style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: '50%',
+              padding: '2px',
+              background: 'linear-gradient(180deg, rgba(29,158,117,0.72), rgba(255,92,0,0.45))',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.42)',
+              animation: 'agent-pulse 4s ease-in-out infinite',
+            }}>
+              <AgentAvatar size={52} />
+            </div>
+          </button>
+        </div>
+      )}
 
       {/* Chat panel */}
-      {isOpen && (
+      {(embedded || isOpen) && (
         <div
-          className="agent-panel"
+          className={`agent-panel${embedded ? ' agent-panel-embedded' : ''}`}
+          data-homepage-agent={embedded ? '' : undefined}
           style={{
-            position: 'fixed',
-            bottom: '96px',
-            right: '24px',
-            width: '390px',
-            maxHeight: '560px',
+            position: embedded ? 'relative' : 'fixed',
+            bottom: embedded ? undefined : '96px',
+            right: embedded ? undefined : '24px',
+            width: embedded ? '100%' : '390px',
+            maxWidth: embedded ? '760px' : undefined,
+            maxHeight: embedded ? undefined : '560px',
+            margin: embedded ? '0 auto' : undefined,
             backgroundColor: '#1C1B18',
             border: '1px solid #2a2a28',
-            borderRadius: '16px',
+            borderRadius: embedded ? '24px' : '16px',
             display: 'flex',
             flexDirection: 'column',
             zIndex: 9999,
@@ -163,33 +175,60 @@ export function DexMetalAgent() {
           }}
         >
           {/* Header */}
-          <div style={{
-            padding: '12px 16px',
-            borderBottom: '1px solid #2a2a28',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <AgentAvatar size={36} />
-            <div>
-              <div style={{ color: '#fff', fontWeight: 700, fontSize: '14px' }}>DexMetal Agent</div>
-              <div style={{ color: '#1D9E75', fontSize: '12px' }}>Basel compliance, operator-grade</div>
+          {embedded ? (
+            <div style={{
+              padding: '18px 20px 16px',
+              borderBottom: '1px solid #2a2a28',
+            }}>
+              <span className="relative block h-7 w-[9.45rem] sm:h-8 sm:w-[10.8rem]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/dexmetal-logo.png"
+                  alt="DexMetal"
+                  width={2508}
+                  height={627}
+                  className="absolute left-0 top-1/2 h-auto w-[9.45rem] max-w-none -translate-y-1/2 sm:w-[10.8rem]"
+                />
+              </span>
+              <h1 style={{
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 'clamp(1.75rem, 5vw, 3.25rem)',
+                lineHeight: 1.08,
+                margin: '14px 0 0',
+              }}>
+                Tell us about your shipment
+              </h1>
             </div>
-            <button
-              onClick={closeAgent}
-              style={{
-                marginLeft: 'auto',
-                background: 'none',
-                border: 'none',
-                color: '#888',
-                cursor: 'pointer',
-                fontSize: '18px',
-                lineHeight: '1',
-                padding: '4px',
-              }}
-              aria-label="Close DexMetal Agent"
-            >×</button>
-          </div>
+          ) : (
+            <div style={{
+              padding: '12px 16px',
+              borderBottom: '1px solid #2a2a28',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+            }}>
+              <AgentAvatar size={36} />
+              <div>
+                <div style={{ color: '#fff', fontWeight: 700, fontSize: '14px' }}>DexMetal Agent</div>
+                <div style={{ color: '#1D9E75', fontSize: '12px' }}>Basel compliance, operator-grade</div>
+              </div>
+              <button
+                onClick={closeAgent}
+                style={{
+                  marginLeft: 'auto',
+                  background: 'none',
+                  border: 'none',
+                  color: '#888',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  lineHeight: '1',
+                  padding: '4px',
+                }}
+                aria-label="Close DexMetal Agent"
+              >×</button>
+            </div>
+          )}
 
           {/* Messages */}
           <div style={{

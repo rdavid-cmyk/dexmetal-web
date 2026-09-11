@@ -12,7 +12,7 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
-import { DexMetalAgent } from '@/components/DexMetalAgent'
+import { DexMetalAgentPlacement } from '@/components/DexMetalAgentPlacement'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const play = Play({
@@ -57,7 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main className="flex-1">{children}</main>
           <DexMetalFooter />
         </Providers>
-        <DexMetalAgent />
+        <DexMetalAgentPlacement />
       </body>
     </html>
   )

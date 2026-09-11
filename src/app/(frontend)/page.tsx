@@ -6,6 +6,7 @@ import { Media } from '@/components/Media'
 import AssetGate from '@/components/AssetGate'
 import { LMETicker } from '@/components/LMETicker'
 import BaselIntro from '@/components/BaselIntro'
+import { DexMetalAgent } from '@/components/DexMetalAgent'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [
@@ -154,44 +155,11 @@ export default async function HomePage() {
     <article className="bg-dex-bg text-white">
       <LMETicker />
 
-      {/* ── HERO ── */}
+      {/* ── AGENT START ── */}
       <section className="relative overflow-hidden border-b border-[#2f2f2b]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
-        <div className="container relative py-20 md:py-28">
-          <div className="max-w-4xl">
-            <p
-              className="mb-5 text-sm font-medium uppercase tracking-[0.22em]"
-              style={{ color: '#1D9E75' }}
-            >
-              Navigating Circularity, Basel Convention, and Global eWaste Trade
-            </p>
-            <h1
-              className="max-w-3xl font-display font-bold leading-[1.05] text-white"
-              style={{ fontSize: 'clamp(2.75rem, 7vw, 5.75rem)' }}
-            >
-              Basel Compliance for Cross-Border e-Waste Trade
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8" style={{ color: '#cbc7be' }}>
-              Streamline notification forms, PIC approvals, and circular workflows across 182
-              countries. Built by operators, free to start.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/playbook"
-                className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#FF5C00' }}
-              >
-                Get the Free Operator&apos;s Playbook
-              </Link>
-              <Link
-                href="/tools"
-                className="inline-flex items-center justify-center rounded-full border px-7 py-3 text-sm font-medium transition-colors hover:text-white"
-                style={{ borderColor: '#FF5C00', color: '#FF5C00' }}
-              >
-                Explore Free Tools
-              </Link>
-            </div>
-          </div>
+        <div className="container relative py-10 md:py-14">
+          <DexMetalAgent embedded />
         </div>
       </section>
 
@@ -201,10 +169,10 @@ export default async function HomePage() {
           <div className="mb-3 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
-                Free Compliance Tools
+                Explore DexMetal Tools
               </p>
               <h2 className="font-display text-2xl font-bold text-white md:text-3xl">
-                What problem are you trying to solve?
+                Basel guidance and resources
               </h2>
             </div>
             <Link href="/tools" className="mt-2 text-sm font-medium md:mt-0" style={{ color: '#FF5C00' }}>
@@ -250,10 +218,10 @@ export default async function HomePage() {
         <div className="container py-16 md:py-20">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em]"
              style={{ color: '#1D9E75' }}>
-            New to DexMetal?
+            How DexMetal Works
           </p>
           <h2 className="font-display text-3xl font-bold text-white mb-10 md:text-4xl">
-            Everything you need to know to get started
+            Built for cross-border operators
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-[#2f2f2b] p-7"
@@ -284,7 +252,7 @@ export default async function HomePage() {
                  style={{ background: '#252420' }}>
               <div className="mb-4 text-2xl">🚀</div>
               <h3 className="font-display text-xl font-bold text-white mb-3">
-                How do I get started?
+                Follow the Basel workflow
               </h3>
               <p className="text-sm leading-7 mb-5" style={{ color: '#c8c4bc' }}>
                 Follow the operator walkthrough — from first notification
@@ -296,7 +264,7 @@ export default async function HomePage() {
                 className="inline-block text-sm font-bold px-5 py-2.5 rounded-lg text-white"
                 style={{ background: '#1D9E75' }}
               >
-                View Getting Started Guide →
+                View the workflow guide →
               </Link>
             </div>
           </div>
