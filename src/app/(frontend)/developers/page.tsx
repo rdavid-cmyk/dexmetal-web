@@ -1,28 +1,28 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Developer Tools — DexMetal',
+  title: 'Developer & AI Agent Tools — DexMetal',
   description:
-    'Programmatic access to Basel Convention compliance data. Free API keys for CA lookup, waste code classification, and MCP integration.',
+    'One Basel compliance data layer with REST API access for software systems and read-only MCP access for AI assistants and agents.',
 }
 
 const tools = [
   {
     title: 'Basel CA API',
     description:
-      'Verified competent authority contacts for 182 countries. One API call returns the correct ministry, email, phone, and address for any Basel notification.',
-    endpoint: 'GET /api/v1/ca/{country_code}',
+      'The canonical runtime service for DexMetal competent authority data. Access verified contacts for 182 countries through simple REST calls.',
+    endpoint: 'GET https://api.dexmetal.com/api/v1/ca/{country_code}',
     href: 'https://api.dexmetal.com',
-    linkText: 'View API →',
-    badge: 'Free API',
+    linkText: 'Open Basel API →',
+    badge: 'Free REST API',
     accent: '#FF5C00',
     external: true,
   },
   {
     title: 'Basel Waste Code Classifier',
     description:
-      'Input any waste description in plain language — get Y-codes, A-codes, H-codes, UN numbers, list type, and PIC requirement instantly. Built for brokers preparing Basel notifications.',
-    endpoint: 'POST /api/v1/classify',
+      'Input a waste description in plain language and return Basel classification signals for workflow support. Verify critical classifications with the relevant authority before filing.',
+    endpoint: 'POST https://api.dexmetal.com/api/v1/classify',
     href: '/developers/waste-classifier',
     linkText: 'Live Demo →',
     badge: 'Free API',
@@ -30,12 +30,12 @@ const tools = [
     external: false,
   },
   {
-    title: 'Basel CA MCP',
+    title: 'DexMetal Basel CA MCP',
     description:
-      'Model Context Protocol server for AI assistants. Ask Claude or any MCP-compatible agent for competent authority data directly — no code required.',
-    endpoint: null,
-    href: 'https://smithery.ai/servers/rdavid/basel-ca-mcp',
-    linkText: 'View on Smithery →',
+      'Read-only MCP access for AI assistants and agent workflows. The MCP reads the same 182-country CA data from the Basel CA API — it does not maintain a separate authority database.',
+    endpoint: 'POST https://mcp.dexmetal.com/mcp',
+    href: 'https://mcp.dexmetal.com',
+    linkText: 'Open MCP Server →',
     badge: 'Free MCP',
     accent: '#8B5CF6',
     external: true,
@@ -43,7 +43,7 @@ const tools = [
   {
     title: 'API Documentation',
     description:
-      'Full endpoint reference, authentication guide, code examples in JavaScript, Python, and PHP. Get your free API key in 30 seconds.',
+      'Endpoint reference, authentication guidance, and code examples for the canonical DexMetal Basel CA API.',
     endpoint: null,
     href: 'https://api.dexmetal.com/docs',
     linkText: 'Read Docs →',
@@ -59,10 +59,10 @@ export default function DevelopersPage() {
       <div className="max-w-5xl mx-auto px-4 py-16">
         <div className="mb-12">
           <h1 className="font-display font-bold text-white mb-3" style={{ fontSize: '2.75rem' }}>
-            Developer Tools
+            Developer &amp; AI Agent Tools
           </h1>
-          <p className="font-body text-lg" style={{ color: '#a0a09a' }}>
-            Programmatic access to Basel compliance data. Free API keys, no credit card required.
+          <p className="font-body text-lg max-w-3xl" style={{ color: '#a0a09a' }}>
+            One Basel data layer, two access paths: use REST in software systems or MCP in AI assistants and agent workflows.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export default function DevelopersPage() {
               </p>
               {tool.endpoint && (
                 <code
-                  className="inline-block mt-3 text-xs font-mono px-2 py-1 rounded"
+                  className="inline-block mt-3 max-w-full overflow-x-auto text-xs font-mono px-2 py-1 rounded"
                   style={{ backgroundColor: '#1a1a18', color: tool.accent }}
                 >
                   {tool.endpoint}
@@ -106,9 +106,27 @@ export default function DevelopersPage() {
           ))}
         </div>
 
+        <section
+          className="mt-8 rounded-xl p-6"
+          style={{ backgroundColor: '#1a2e27', border: '1px solid #1D9E75' }}
+          aria-labelledby="integration-model-heading"
+        >
+          <p className="font-body text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#1D9E75' }}>
+            Integration model
+          </p>
+          <h2 id="integration-model-heading" className="font-display font-bold text-white text-xl mb-3">
+            API is the data service. MCP is the AI access adapter.
+          </h2>
+          <p className="font-body text-sm leading-relaxed" style={{ color: '#a8c4bb' }}>
+            <strong className="text-white">api.dexmetal.com</strong> is the canonical runtime source for the 182-country competent authority dataset.
+            <strong className="text-white"> mcp.dexmetal.com/mcp</strong> provides read-only Model Context Protocol access to that same data.
+            Streamable HTTP at <code>/mcp</code> is the primary MCP endpoint; <code>/sse</code> remains available for legacy compatibility.
+          </p>
+        </section>
+
         <div className="mt-16 pt-8 border-t" style={{ borderColor: '#3a3a38' }}>
           <p className="font-body text-sm" style={{ color: '#a0a09a' }}>
-            All APIs are free to use.{' '}
+            REST API access is free.{' '}
             <Link
               href="https://api.dexmetal.com/register"
               target="_blank"
