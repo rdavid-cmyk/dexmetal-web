@@ -1,72 +1,76 @@
-import { NextRequest, NextResponse } from "next/server";
-import { checkRateLimit } from "@/lib/rateLimit";
+import { NextRequest, NextResponse } from 'next/server'
+import { checkRateLimit } from '@/lib/rateLimit'
+import { AGENT_GROUNDING_CONTEXT } from '@/lib/basel'
 
 interface ToolCTA {
-  toolName: string;
-  toolSlug: string;
-  description: string;
+  toolName: string
+  toolSlug: string
+  description: string
 }
 
 function detectWorkflowIntent(message: string): ToolCTA | null {
-  const msg = message.toLowerCase();
+  const msg = message.toLowerCase()
 
-  if (/classify|what\s+is\s+(\w+\s+)?(y[\s-]?code|waste\s+code|basel\s+code)/.test(msg) || /\by\d{1,3}\b/.test(msg)) {
+  if (
+    /classify|what\s+is\s+(\w+\s+)?(y[\s-]?code|waste\s+code|basel\s+code)/.test(msg) ||
+    /\by\d{1,3}\b/.test(msg)
+  ) {
     return {
-      toolName: "Basel Classification QuickScan",
-      toolSlug: "basel-classification-quickscan",
-      description: "Identify Y-codes and Basel Annex classifications for your waste stream",
-    };
+      toolName: 'Basel Classification QuickScan',
+      toolSlug: 'basel-classification-quickscan',
+      description: 'Identify Y-codes and Basel Annex classifications for your waste stream',
+    }
   }
 
   if (/eligible|can\s+i\s+ship|can\s+we\s+ship|\bexport\b/.test(msg)) {
     return {
-      toolName: "Shipment Eligibility Checker",
-      toolSlug: "shipment-eligibility-checker",
-      description: "Check if your shipment qualifies for Basel transboundary movement",
-    };
+      toolName: 'Shipment Eligibility Checker',
+      toolSlug: 'shipment-eligibility-checker',
+      description: 'Check if your shipment qualifies for Basel transboundary movement',
+    }
   }
 
   if (/\bpic\b|prior\s+informed|competent\s+authority/.test(msg)) {
     return {
-      toolName: "PIC Status Checker",
-      toolSlug: "pic-status-checker",
-      description: "Look up competent authority contacts and PIC status by country",
-    };
+      toolName: 'PIC Status Checker',
+      toolSlug: 'pic-status-checker',
+      description: 'Look up competent authority contacts and PIC status by country',
+    }
   }
 
   if (/ulab|lead\s+acid|\bbattery\b/.test(msg)) {
     return {
-      toolName: "ULAB Export Calculator",
-      toolSlug: "ulab-export-calculator",
-      description: "Calculate ULAB export volumes and assess regulatory requirements",
-    };
+      toolName: 'ULAB Export Calculator',
+      toolSlug: 'ulab-export-calculator',
+      description: 'Calculate ULAB export volumes and assess regulatory requirements',
+    }
   }
 
   if (/notification|article\s+6|vcop/.test(msg)) {
     return {
-      toolName: "Basel Navigator",
-      toolSlug: "basel-navigator",
-      description: "Complete your 21-block vCOP8 notification form step by step",
-    };
+      toolName: 'Basel Navigator',
+      toolSlug: 'basel-navigator',
+      description: 'Complete your 21-block vCOP8 notification form step by step',
+    }
   }
 
   if (/e.?waste|electronic|circuit board|pcb|computer|laptop|phone/.test(msg)) {
     return {
-      toolName: "E-Waste Export Route Risk Mapper",
-      toolSlug: "ewaste-route-mapper",
-      description: "Map risk and routing requirements for e-waste export trade lanes",
-    };
+      toolName: 'E-Waste Export Route Risk Mapper',
+      toolSlug: 'ewaste-route-mapper',
+      description: 'Map risk and routing requirements for e-waste export trade lanes',
+    }
   }
 
   if (/api|developer|integrate|endpoint|rest|json/.test(msg)) {
     return {
-      toolName: "Basel CA API",
-      toolSlug: "../../developers",
-      description: "Free API — verified CA contacts for 182 countries, instant access",
-    };
+      toolName: 'Basel CA API',
+      toolSlug: '../../developers',
+      description: 'Free API — verified CA contacts for 182 countries, instant access',
+    }
   }
 
-  return null;
+  return null
 }
 
 const SYSTEM_PROMPT = `You are the DexMetal Agent — a Basel Convention compliance expert with 20+ years of Caribbean hazardous waste management experience. You speak operator-to-operator. Direct, precise, liability-aware. No warmth theatre.
@@ -116,7 +120,9 @@ SERVICE UPSELL TRIGGERS:
 
 Never invent regulatory details. If uncertain, say so and direct to dexmetal.com/contact.
 Never refer to yourself as Vera, Basel Copilot, or Basil. You are the DexMetal Agent.
-Keep responses under 150 words. Be direct. No bullet-point walls.`;
+Keep responses under 150 words. Be direct. No bullet-point walls.
+
+${AGENT_GROUNDING_CONTEXT}`
 
 // Generic error raised when the LLM backend is down (quota, auth, 5xx, etc.)
 // so the POST handler can distinguish it from a true internal error and degrade gracefully.
@@ -130,43 +136,43 @@ class LLMBackendError extends Error {}
 // integration. Verified directly via curl before this code was written.
 async function getGLMResponse(
   message: string,
-  history: { role: string; content: string }[]
+  history: { role: string; content: string }[],
 ): Promise<string> {
-  const apiKey = process.env.GLM_API_KEY;
+  const apiKey = process.env.GLM_API_KEY
 
   if (!apiKey) {
-    console.error("GLM_API_KEY is not set in the environment");
-    throw new LLMBackendError("missing API key");
+    console.error('GLM_API_KEY is not set in the environment')
+    throw new LLMBackendError('missing API key')
   }
 
-  const response = await fetch("https://api.z.ai/api/anthropic/v1/messages", {
-    method: "POST",
+  const response = await fetch('https://api.z.ai/api/anthropic/v1/messages', {
+    method: 'POST',
     headers: {
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-      "Content-Type": "application/json",
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: "glm-5.2",
+      model: 'glm-5.2',
       max_tokens: 600,
       system: SYSTEM_PROMPT,
       messages: [
         ...history.map((h) => ({ role: h.role, content: h.content })),
-        { role: "user", content: message },
+        { role: 'user', content: message },
       ],
     }),
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   // Check response.ok BEFORE assuming data.content exists — a non-2xx error
   // body has no `content` array and would otherwise fall through to a
   // misleading "no content" error, swallowing the real upstream error.
   if (!response.ok) {
-    const errType = data?.error?.type || "unknown";
-    const errMsg = data?.error?.message || `HTTP ${response.status}`;
-    console.error(`GLM API error [${response.status}] type=${errType}: ${errMsg}`);
-    throw new LLMBackendError(`GLM ${errType} (${response.status})`);
+    const errType = data?.error?.type || 'unknown'
+    const errMsg = data?.error?.message || `HTTP ${response.status}`
+    console.error(`GLM API error [${response.status}] type=${errType}: ${errMsg}`)
+    throw new LLMBackendError(`GLM ${errType} (${response.status})`)
   }
 
   // FIXED 2026-08-14 (Chairman, direct, live incident): this used to grab
@@ -180,49 +186,46 @@ async function getGLMResponse(
   // of assuming position, so a future model version adding more blocks
   // before the answer (or reordering them) doesn't silently break this again.
   const textBlock = Array.isArray(data?.content)
-    ? data.content.find((b: any) => b?.type === "text" && typeof b?.text === "string")
-    : undefined;
-  const text = textBlock?.text;
+    ? data.content.find((b: any) => b?.type === 'text' && typeof b?.text === 'string')
+    : undefined
+  const text = textBlock?.text
   if (!text) {
-    console.error("GLM returned empty content. Raw response:", JSON.stringify(data).slice(0, 500));
-    throw new LLMBackendError("GLM returned no content");
+    console.error('GLM returned empty content. Raw response:', JSON.stringify(data).slice(0, 500))
+    throw new LLMBackendError('GLM returned no content')
   }
 
-  return text;
+  return text
 }
 
 export async function POST(request: NextRequest) {
-  let cta: ToolCTA | null = null;
+  let cta: ToolCTA | null = null
   try {
     const ip =
-      request.headers.get("x-real-ip") ??
-      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-      "unknown";
+      request.headers.get('x-real-ip') ??
+      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+      'unknown'
 
     if (!(await checkRateLimit(ip))) {
-      return Response.json(
-        { error: "Too many requests. Please wait a minute." },
-        { status: 429 }
-      );
+      return Response.json({ error: 'Too many requests. Please wait a minute.' }, { status: 429 })
     }
 
-    const body = await request.json();
-    const { message, history = [] } = body;
+    const body = await request.json()
+    const { message, history = [] } = body
 
     if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 })
     }
 
-    cta = detectWorkflowIntent(message);
-    const answer = await getGLMResponse(message, history);
+    cta = detectWorkflowIntent(message)
+    const answer = await getGLMResponse(message, history)
 
     return NextResponse.json({
       answer,
-      source: "ai",
+      source: 'ai',
       cta: cta || undefined,
-    });
+    })
   } catch (error) {
-    console.error("Error in chat API:", error);
+    console.error('Error in chat API:', error)
 
     // Graceful degradation: when the LLM backend itself is down (quota, auth,
     // upstream 5xx), don't surface a raw 500 — return a helpful fallback so
@@ -232,14 +235,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           answer:
-            "Our compliance assistant is temporarily unavailable while we resolve a backend issue. In the meantime, try our free tools at dexmetal.com/tools or email hello@dexmetal.com for direct help.",
-          source: "fallback",
+            'Our compliance assistant is temporarily unavailable while we resolve a backend issue. In the meantime, try our free tools at dexmetal.com/tools or email hello@dexmetal.com for direct help.',
+          source: 'fallback',
           cta: cta || undefined,
         },
-        { status: 503 }
-      );
+        { status: 503 },
+      )
     }
 
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
