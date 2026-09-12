@@ -39,34 +39,34 @@ describe('Basel Decision Engine — Pilot Cases', () => {
   describe('Pilot Case 2: Functional laptop with testing report → Non-waste', () => {
     it('determines functional tested laptop as non-waste per para 33(a)', () => {
       const evidence: WasteStatusEvidence = {
-        intendedUse: 'DIRECT_REUSE',
-        functionalityTestPassed: true,
-        hasTestingDocumentation: true,
-        physicalCondition: 'GOOD',
-        packagingAdequate: true,
-        destinationKnown: true,
-        documentationComplete: true,
-        receiverConfirmedReuse: true,
+        directReuseEvidence: {
+          invoiceOrContractPresent: true,
+          functionalityTestRecordsForEveryItem: true,
+          noCountryConsidersWasteDeclaration: true,
+          individualProtectionDuringTransport: true,
+        },
       }
 
-      const result = determineWasteStatus(evidence)
+      const result = determineWasteStatus(evidence, 'DIRECT_REUSE')
 
       expect(result.status).toBe('NON_WASTE')
-      expect(result.sourceCitation).toContain('para 33')
+      expect(result.sourceCitation).toContain('para')
     })
   })
 
   describe('Pilot Case 3: Damaged phone with cracked screen → Waste, CHARACTERIZATION_REQUIRED', () => {
     it('determines damaged phone as waste requiring characterization', () => {
       const wasteEvidence: WasteStatusEvidence = {
-        intendedUse: 'UNCERTAIN',
-        physicalCondition: 'DAMAGED',
-        packagingAdequate: false,
+        physicalDamageImpairsFunction: true,
+        repairableAtReasonableCost: false,
+        adequatePackagingProtection: false,
       }
 
-      const wasteResult = determineWasteStatus(wasteEvidence)
+      const wasteResult = determineWasteStatus(wasteEvidence, 'UNKNOWN')
       expect(wasteResult.status).toBe('WASTE')
-      expect(wasteResult.reasons.some((r) => r.code === 'PHYSICAL_DAMAGE')).toBe(true)
+      expect(wasteResult.reasons.some((r) => r.code === 'W_PHYSICAL_DAMAGE_NOT_REPAIRABLE')).toBe(
+        true,
+      )
 
       // Now classify the waste
       const hazardEvidence: HazardEvidence = {}
@@ -106,37 +106,33 @@ describe('Basel Decision Engine — Pilot Cases', () => {
   })
 
   describe('Pilot Case 6: Equipment destined for parts cannibalization → Waste', () => {
-    it('determines equipment for cannibalization as waste per para 32(f)', () => {
+    it('determines equipment for cannibalization as waste per para 32(i)', () => {
       const evidence: WasteStatusEvidence = {
-        intendedUse: 'CANNIBALIZATION',
-        physicalCondition: 'DAMAGED',
+        destinedForCannibalization: true,
       }
 
-      const result = determineWasteStatus(evidence)
+      const result = determineWasteStatus(evidence, 'UNKNOWN')
 
       expect(result.status).toBe('WASTE')
-      expect(result.reasons.some((r) => r.code === 'CANNIBALIZATION')).toBe(true)
+      expect(result.reasons.some((r) => r.code === 'W_CANNIBALIZATION')).toBe(true)
     })
   })
 
   describe('Pilot Case 7: Used laptop meeting para 33(a) → Non-waste', () => {
     it('determines used laptop meeting all para 33(a) conditions as non-waste', () => {
       const evidence: WasteStatusEvidence = {
-        intendedUse: 'DIRECT_REUSE',
-        functionalityTestPassed: true,
-        hasTestingDocumentation: true,
-        physicalCondition: 'GOOD',
-        packagingAdequate: true,
-        destinationKnown: true,
-        documentationComplete: true,
-        receiverConfirmedReuse: true,
-        essentialPartsPresent: true,
+        directReuseEvidence: {
+          invoiceOrContractPresent: true,
+          functionalityTestRecordsForEveryItem: true,
+          noCountryConsidersWasteDeclaration: true,
+          individualProtectionDuringTransport: true,
+        },
       }
 
-      const result = determineWasteStatus(evidence)
+      const result = determineWasteStatus(evidence, 'DIRECT_REUSE')
 
       expect(result.status).toBe('NON_WASTE')
-      expect(result.sourceCitation).toContain('para 33(a)')
+      expect(result.sourceCitation).toContain('para')
     })
   })
 
@@ -157,35 +153,33 @@ describe('Basel Decision Engine — Pilot Cases', () => {
   describe('Pilot Case 9: Refurbished phone destined for resale → Non-waste (para 33(b))', () => {
     it('determines refurbished phone meeting para 33(b) as non-waste', () => {
       const evidence: WasteStatusEvidence = {
-        intendedUse: 'REPAIR_REFURBISHMENT',
-        functionalityTestPassed: true,
-        hasTestingDocumentation: true,
-        physicalCondition: 'REFURBISHED',
-        packagingAdequate: true,
-        destinationKnown: true,
-        documentationComplete: true,
-        receiverConfirmedReuse: true,
-        repairFacilityIdentified: true,
+        repairRefurbishmentEvidence: {
+          validContractWithReceivingFacility: true,
+          residualWasteESMProvisions: true,
+          responsibilityAllocation: true,
+          feedbackObligations: true,
+          noCountryConsidersWasteDeclaration: true,
+          individualProtectionDuringTransport: true,
+        },
       }
 
-      const result = determineWasteStatus(evidence)
+      const result = determineWasteStatus(evidence, 'REPAIR_REFURBISHMENT')
 
       expect(result.status).toBe('NON_WASTE')
-      expect(result.sourceCitation).toContain('para 33(b)')
+      expect(result.sourceCitation).toContain('para')
     })
   })
 
   describe('Pilot Case 10: E-waste with uncertain destination → Waste', () => {
     it('determines e-waste with uncertain destination as waste per para 32(a)', () => {
       const evidence: WasteStatusEvidence = {
-        intendedUse: 'UNCERTAIN',
-        destinationKnown: false,
+        fateUncertain: true,
       }
 
-      const result = determineWasteStatus(evidence)
+      const result = determineWasteStatus(evidence, 'UNKNOWN')
 
       expect(result.status).toBe('WASTE')
-      expect(result.reasons.some((r) => r.code === 'FATE_UNCERTAIN')).toBe(true)
+      expect(result.reasons.some((r) => r.code === 'W_DEST_RECYCLING_DISPOSAL')).toBe(true)
     })
   })
 })
