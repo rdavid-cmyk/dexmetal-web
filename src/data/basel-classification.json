@@ -7,9 +7,9 @@
       "is2025Amendment": true,
       "amendmentNote": "A1181 replaced A1180 effective 1 January 2025. Covers all wastes having as constituents or contaminants lead, copper compounds, cadmium, antimony, beryllium, arsenic, or selenium. Any legacy references to A1180 in existing permits or contracts must be updated to A1181.",
       "misclassifications": [
-        "Classifying tested-working assemblies as A1181 when B1110 may apply \u2014 document functional testing rigorously",
+        "Assigning a waste code before establishing waste status \u2014 direct reuse must first satisfy the paragraph 33(a) evidence conditions",
         "Using legacy code A1180 after January 2025 \u2014 all permits and movement documents must now reference A1181",
-        "Treating mixed shipments containing even one hazardous unit as B1110 \u2014 the entire consignment defaults to A1181"
+        "Using deleted B1110 after 1 January 2025 \u2014 current e-waste entries are A1181 and Y49 after waste status is established"
       ],
       "documents": [
         "Basel notification document (A1181 code cited)",
@@ -28,8 +28,8 @@
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Classifying damaged or swollen lithium batteries as non-hazardous \u2014 A1170 applies to all non-functional lithium batteries",
-        "Confusing with B1120 (functional battery packs for reuse) \u2014 B1120 requires documented evidence of functionality",
+        "Assigning A1170 or B1090 from condition alone \u2014 battery composition, sorting/specification and hazardous constituents must support the entry",
+        "Using B1120 as a battery code \u2014 B1120 is spent catalysts, not batteries",
         "Failing to apply UN3480/UN3481 transport rules in parallel with Basel notification"
       ],
       "documents": [
@@ -43,18 +43,18 @@
       ]
     },
     "Y31": {
-      "fullName": "Lead-acid batteries \u2014 Annex II (Y31)",
+      "fullName": "Lead; lead compounds \u2014 Annex I constituent category (Y31)",
       "annexType": "Annex II",
       "hazardClass": "ANNEX_II",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Treating drained ULAB as non-hazardous \u2014 residual lead paste and sulfuric acid mean Y31/Annex II always applies",
-        "Confusing Y31 (spent batteries) with Y32 (lead-acid battery scrap) \u2014 both require PIC; Y32 applies to scrap/plate material",
-        "Attempting to claim B1120 for damaged ULAB \u2014 functional testing documentation is mandatory for B1120"
+        "Using Y31 as the whole-battery waste entry \u2014 Y31 is an Annex I constituent category; waste lead-acid batteries are A1160",
+        "Treating Y31 as a waste-list code \u2014 it identifies lead/lead compounds as an Annex I constituent category",
+        "Using B1120 for batteries \u2014 B1120 is a spent-catalyst entry"
       ],
       "documents": [
-        "Basel notification document (Y31 code cited)",
+        "Do not cite Y31 as the whole-battery waste entry; determine the applicable waste entry such as A1160",
         "PIC consent from destination Competent Authority",
         "UN3077 / UN3090 transport declaration",
         "Waste characterization report (lead content, acid residue)",
@@ -83,18 +83,18 @@
       ]
     },
     "B1110": {
-      "fullName": "Electrical/electronic assemblies \u2014 Annex IX (B1110)",
+      "fullName": "DELETED e-waste entry \u2014 B1110 (deleted 1 January 2025)",
       "annexType": "Annex IX",
       "hazardClass": "NON_HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Claiming B1110 for mixed lots containing untested or damaged units \u2014 every unit must be tested and documented as functional",
-        "Using B1110 for CRT-containing equipment \u2014 CRTs containing lead glass are excluded from B1110 and classified as A1181",
-        "Applying B1110 to refurbished equipment without documented repair records \u2014 refurbishment must be completed before export"
+        "Using B1110 as a current e-waste classification \u2014 B1110 was deleted effective 1 January 2025",
+        "Using deleted B1110 after 1 January 2025 \u2014 determine waste status first, then use current A1181/Y49 logic as applicable",
+        "Treating repair/refurbishment as automatically non-waste \u2014 paragraph 33(b) conditions and national-law checks must be satisfied"
       ],
       "documents": [
-        "Bill of lading with B1110 classification",
+        "Do not use B1110 for current movements; establish waste status and the current applicable entry",
         "Functionality test records for each unit (or representative sample per lot)",
         "Commercial invoice with unit description and tested status",
         "Packing list",
@@ -103,19 +103,19 @@
       ]
     },
     "B1120": {
-      "fullName": "Spent battery packs \u2014 Annex IX (B1120)",
+      "fullName": "Spent catalysts \u2014 Annex IX (B1120)",
       "annexType": "Annex IX",
       "hazardClass": "NON_HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [
-        "Applying B1120 to ULAB without documented functional testing \u2014 regulators default to Y31/Annex II for all ULAB",
-        "Confusing B1120 with B1110 \u2014 B1120 is for battery packs specifically, not general electronic assemblies",
-        "Failing to verify destination country acceptance of B1120 classification \u2014 some jurisdictions require Y31 regardless"
+        "Using B1120 as a ULAB entry \u2014 B1120 is spent catalysts; confirmed waste lead-acid batteries are A1160",
+        "Using B1120 for batteries \u2014 B1120 is the Annex IX entry for certain spent catalysts",
+        "Using B1120 outside its spent-catalyst scope"
       ],
       "documents": [
         "Commercial invoice and packing list",
-        "Functional test certification",
+        "Documentation appropriate to the actual applicable entry and movement",
         "Bill of lading",
         "Destination CA notification (recommended even if not strictly required)"
       ]
@@ -683,10 +683,10 @@
     },
     "Y49": {
       "fullName": "Non-hazardous e-waste \u2014 Y49",
-      "annexType": "Annex I",
-      "hazardClass": "HAZARDOUS",
+      "annexType": "Annex II",
+      "hazardClass": "ANNEX_II",
       "is2025Amendment": true,
-      "amendmentNote": "Y49 added - non-hazardous e-waste now requires PIC (2025 COP15)",
+      "amendmentNote": "Y49 added for non-hazardous e-waste effective 1 January 2025. Y49 movements are controlled; Article 4A does not apply to Annex II wastes.",
       "misclassifications": [],
       "documents": [],
       "notes": "Non-hazardous e-waste (COP15 2025 amendment)",
@@ -858,14 +858,14 @@
       "requiresPIC": true
     },
     "A1160": {
-      "fullName": "Waste batteries \u2014 A1160",
+      "fullName": "Waste lead-acid batteries \u2014 A1160",
       "annexType": "Annex VIII",
       "hazardClass": "HAZARDOUS",
       "is2025Amendment": false,
       "amendmentNote": null,
       "misclassifications": [],
       "documents": [],
-      "notes": "Spent batteries (all types)",
+      "notes": "Waste lead-acid batteries, whole or crushed",
       "requiresPIC": true
     },
     "A1180": {

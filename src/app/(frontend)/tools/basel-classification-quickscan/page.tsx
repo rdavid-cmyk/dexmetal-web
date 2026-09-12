@@ -1,7 +1,7 @@
 export const metadata = {
   title: 'Basel Classification QuickScan | DexMetal',
   description:
-    'Identify the correct Basel waste code for your e-waste or battery shipment in three questions. Covers A1181, Y31, B1110, A1170, B3011, and 2025 amendments.',
+    'Identify the correct Basel waste code for your e-waste or battery shipment in three questions. Uses current 2025 e-waste entries including A1181 and Y49, with waste-status evidence checks before classification.',
 }
 
 

@@ -5,21 +5,7 @@ import classificationData from '@/data/basel-classification.json'
 import Link from 'next/link'
 import ShepherdTour, { TourStep } from './ShepherdTour'
 import TooltipTerm from '@/components/ui/TooltipTerm'
-
-type HazardClass = 'HAZARDOUS' | 'NON_HAZARDOUS' | 'ANNEX_II' | 'REQUIRES_TESTING'
-type PICRequired = 'YES' | 'NO' | 'CONDITIONAL'
-
-interface ClassificationResult {
-  code: string
-  codeName: string
-  hazardClass: HazardClass
-  annexType: string
-  explanation: string
-  picRequired: PICRequired
-  picNote: string
-  is2025Amendment: boolean
-  warning?: string
-}
+import { classifyQuickScan, type QuickScanClassificationResult as ClassificationResult, type QuickScanHazardClass as HazardClass, type QuickScanPICRequired as PICRequired } from '@/lib/basel'
 
 const QUESTIONS = [
   {
@@ -57,230 +43,6 @@ const QUESTIONS = [
   },
 ]
 
-/**
- * Classification logic updated for OEWG-15 Item 1 grounded decision engine.
- * Source: UNEP/CHW.16/INF/10/Rev.1 (Technical Guidelines)
- *
- * 2025 AMENDMENTS (effective 1 January 2025):
- * - B1110 DELETED — do not return as valid e-waste code
- * - A1180 replaced by A1181
- * - Y49 added for non-hazardous e-waste (Annex II, PIC required)
- *
- * CRITICAL CODE CORRECTIONS:
- * - Y31 is an Annex I constituent category, NOT a waste list entry for ULAB
- * - A1160 is the correct code for waste lead-acid batteries (ULAB)
- * - B1120 is spent catalysts, NOT batteries
- * - B1090 is non-hazardous batteries (excluding Pb, Cd, Hg)
- */
-function classify(type: string, condition: string, use: string): ClassificationResult {
-  // ULAB / Lead-Acid — ALWAYS A1160 (hazardous)
-  // CORRECTED: Y31 is Annex I constituent category, not waste list entry
-  // CORRECTED: B1120 is spent catalysts, not batteries
-  if (type === 'ULAB') {
-    return {
-      code: 'A1160',
-      codeName: 'Waste lead-acid batteries — Annex VIII (A1160)',
-      hazardClass: 'HAZARDOUS',
-      annexType: 'Annex VIII',
-      explanation:
-        'Waste lead-acid batteries (ULAB), whole or crushed, are classified A1160 under Annex VIII (hazardous). Full PIC and Basel notification required regardless of condition. Note: Y31 is an Annex I constituent category (lead compounds), not a waste list entry.',
-      picRequired: 'YES',
-      picNote:
-        'PIC required — A1160 is Annex VIII (hazardous). Basel Ban Amendment applies for OECD → non-OECD routes.',
-      is2025Amendment: false,
-      warning:
-        'All ULAB are hazardous waste. Y31 is NOT a Basel list entry for batteries — it is an Annex I constituent category. The correct code is A1160.',
-    }
-  }
-
-  // Lithium Batteries
-  // CORRECTED: B1090 for non-hazardous (not B1120 which is spent catalysts)
-  if (type === 'Lithium') {
-    if (condition === 'Functional' && use === 'Reuse') {
-      return {
-        code: 'B1090',
-        codeName: 'Non-hazardous waste batteries — Annex IX (B1090)',
-        hazardClass: 'NON_HAZARDOUS',
-        annexType: 'Annex IX',
-        explanation:
-          'Functional lithium batteries conforming to specification and not containing lead, cadmium, or mercury may qualify as B1090. Ensure UN38.3 testing compliance for transport and document functionality rigorously.',
-        picRequired: 'CONDITIONAL',
-        picNote:
-          'PIC may not be required for B1090 between OECD countries. UN3480/UN3481 dangerous goods transport rules apply independently.',
-        is2025Amendment: false,
-        warning:
-          'UN3480/UN3481 dangerous goods transport rules apply regardless of Basel classification. Damaged or end-of-life lithium batteries are A1170.',
-      }
-    }
-    return {
-      code: 'A1170',
-      codeName: 'Unsorted/hazardous waste batteries — Annex VIII (A1170)',
-      hazardClass: 'HAZARDOUS',
-      annexType: 'Annex VIII',
-      explanation:
-        'Damaged, non-functional, or end-of-life lithium batteries are classified A1170 — hazardous under Annex VIII. Full PIC and Basel notification required.',
-      picRequired: 'YES',
-      picNote:
-        'PIC required — A1170 is Annex VIII (hazardous). UN3480/UN3481 dangerous goods rules apply in parallel.',
-      is2025Amendment: false,
-    }
-  }
-
-  // Mixed E-Waste
-  // CORRECTED: B1110 DELETED effective 1 January 2025
-  // Non-hazardous e-waste is now Y49 (Annex II, requires PIC)
-  if (type === 'MixedEWaste') {
-    // Even functional used EEE for reuse requires waste characterization evidence
-    // Per para 33(a), all conditions must be met to claim non-waste status
-    if (condition === 'Functional' && use === 'Reuse') {
-      return {
-        code: 'EVIDENCE_REQUIRED',
-        codeName: 'Waste status determination required',
-        hazardClass: 'REQUIRES_TESTING',
-        annexType: 'Pending',
-        explanation:
-          'Per UNEP/CHW.16/INF/10/Rev.1 para 33(a), functional used EEE for direct reuse may be non-waste ONLY if ALL conditions are met: (i) invoice/contract, (ii) functionality test records for EVERY item, (iii) no-country-considers-waste declaration, (iv) individual protection during transport. Without this evidence, treat conservatively as waste.',
-        picRequired: 'CONDITIONAL',
-        picNote:
-          'If classified as waste: A1181 (hazardous, PIC required) or Y49 (non-hazardous, PIC required). B1110 was DELETED effective 1 January 2025.',
-        is2025Amendment: true,
-        warning:
-          'B1110 was DELETED effective 1 January 2025. Non-hazardous e-waste now falls under Y49 (Annex II) and requires PIC. Provide para 33(a) evidence or classify as A1181/Y49.',
-      }
-    }
-    return {
-      code: 'A1181',
-      codeName: 'Hazardous e-waste — Annex VIII (A1181)',
-      hazardClass: 'HAZARDOUS',
-      annexType: 'Annex VIII',
-      explanation:
-        'Mixed, damaged, or scrap e-waste is classified A1181 under Annex VIII (updated from A1180 in 2025). Full Basel notification and PIC required. Per para 51, e-waste should be presumed hazardous unless proven non-hazardous.',
-      picRequired: 'YES',
-      picNote:
-        'PIC required — A1181 is Annex VIII (hazardous). Basel Ban Amendment applies for OECD → non-OECD routes.',
-      is2025Amendment: true,
-    }
-  }
-
-  // CRT — always hazardous per para 51(a)
-  if (type === 'CRT') {
-    return {
-      code: 'A1181',
-      codeName: 'Hazardous e-waste — Annex VIII (A1181)',
-      hazardClass: 'HAZARDOUS',
-      annexType: 'Annex VIII',
-      explanation:
-        'CRT monitors and TVs contain lead glass and are ALWAYS classified as hazardous waste (A1181) per UNEP/CHW.16/INF/10/Rev.1 para 51(a). No condition or intended use changes this classification.',
-      picRequired: 'YES',
-      picNote:
-        'PIC required — CRTs are always A1181 (hazardous). Basel Ban Amendment applies for OECD → non-OECD routes.',
-      is2025Amendment: true,
-      warning:
-        'CRTs are ALWAYS hazardous per para 51(a). Lead glass from CRTs falls under A1181 and A2010. No non-hazardous classification is possible.',
-    }
-  }
-
-  // PCBs / Circuit Boards
-  // CORRECTED: B1110 DELETED effective 1 January 2025
-  if (type === 'PCBs') {
-    // PCBs with lead solder, BFRs are hazardous per para 51(d)
-    if (condition === 'Functional' && (use === 'Reuse' || use === 'Repair')) {
-      return {
-        code: 'EVIDENCE_REQUIRED',
-        codeName: 'Hazard characterization required',
-        hazardClass: 'REQUIRES_TESTING',
-        annexType: 'Pending',
-        explanation:
-          'Per para 51(d), PCBs commonly contain lead solder, brominated flame retardants, and beryllium compounds rendering them hazardous. Functional PCBs for reuse require hazard characterization. If proven non-hazardous and meeting para 33(a) conditions, may qualify as Y49 (not B1110, which was deleted).',
-        picRequired: 'CONDITIONAL',
-        picNote:
-          'B1110 was DELETED effective 1 January 2025. Most PCBs classify as A1181 due to lead/BFR content. Y49 requires proof of non-hazardous status.',
-        is2025Amendment: true,
-        warning:
-          'B1110 was DELETED effective 1 January 2025. PCBs are presumed hazardous (A1181) unless laboratory characterization proves otherwise. Lead solder and BFRs trigger A1181.',
-      }
-    }
-    return {
-      code: 'A1181',
-      codeName: 'Hazardous e-waste — Annex VIII (A1181)',
-      hazardClass: 'HAZARDOUS',
-      annexType: 'Annex VIII',
-      explanation:
-        'Scrap, damaged, or mixed circuit boards are classified A1181 (hazardous) per para 51(d). Lead solder, brominated flame retardants, and beryllium compounds are present in most PCB scrap.',
-      picRequired: 'YES',
-      picNote:
-        'PIC required — A1181 is hazardous. Basel Ban Amendment applies for OECD → non-OECD routes.',
-      is2025Amendment: true,
-    }
-  }
-
-  // Plastic from E-Waste
-  if (type === 'Plastic') {
-    if (condition === 'Functional' && (use === 'Reuse' || use === 'Recycling')) {
-      return {
-        code: 'B3011',
-        codeName: 'Clean plastic waste — Annex IX (B3011)',
-        hazardClass: 'NON_HAZARDOUS',
-        annexType: 'Annex IX',
-        explanation:
-          'Clean, sorted, single-polymer plastic may qualify as B3011 under the 2021 Plastic Waste Amendments. Laboratory testing for PFAS, PBBs, and PBDEs is mandatory before claiming this classification.',
-        picRequired: 'CONDITIONAL',
-        picNote:
-          'PIC required for non-OECD destinations under 2021 Plastic Waste Amendments, even for B3011.',
-        is2025Amendment: true,
-        warning:
-          'Testing required before classification. E-waste plastic commonly contains brominated flame retardants — if detected, classification becomes A3210 (hazardous).',
-      }
-    }
-    if (condition === 'Mixed' || condition === 'Scrap') {
-      return {
-        code: 'A3210',
-        codeName: 'Plastic waste with POPs/PFAS — Annex VIII (A3210)',
-        hazardClass: 'HAZARDOUS',
-        annexType: 'Annex VIII',
-        explanation:
-          'Mixed or contaminated plastic from e-waste is likely to contain brominated flame retardants (PBDEs, PBBs) or PFAS compounds, triggering A3210 (hazardous). Laboratory testing required to confirm.',
-        picRequired: 'YES',
-        picNote: 'PIC required — A3210 is hazardous. Confirm chemical composition before shipment.',
-        is2025Amendment: false,
-        warning:
-          'Laboratory analysis for brominated compounds (PBB, PBDE) and PFAS is mandatory. Do not ship until testing is complete.',
-      }
-    }
-    return {
-      code: 'REQUIRES_TESTING',
-      codeName: 'Classification requires laboratory testing',
-      hazardClass: 'REQUIRES_TESTING',
-      annexType: 'Unknown',
-      explanation:
-        'E-waste plastic cannot be classified without laboratory testing for brominated flame retardants, PFAS, and heavy metals. Do not ship until a waste characterization report is obtained.',
-      picRequired: 'CONDITIONAL',
-      picNote:
-        'PIC requirement cannot be determined until classification is confirmed. Hold shipment pending testing.',
-      is2025Amendment: false,
-      warning:
-        'Shipment must be held until laboratory analysis confirms the presence or absence of hazardous constituents.',
-    }
-  }
-
-  // Other e-waste — CORRECTED: Y10 is NOT an e-waste code
-  // Per 2025 amendments, e-waste is A1181 (hazardous) or Y49 (non-hazardous)
-  return {
-    code: 'CHARACTERIZATION_REQUIRED',
-    codeName: 'Waste characterization required',
-    hazardClass: 'REQUIRES_TESTING',
-    annexType: 'Pending',
-    explanation:
-      'Per UNEP/CHW.16/INF/10/Rev.1 para 51, e-waste should be presumed hazardous (A1181) unless proven non-hazardous (Y49). A waste characterization report is required to determine hazard status. Y10 is NOT an e-waste classification code.',
-    picRequired: 'YES',
-    picNote:
-      'E-waste requires either A1181 (hazardous, Annex VIII) or Y49 (non-hazardous, Annex II). Both require PIC. Obtain waste characterization.',
-    is2025Amendment: true,
-    warning:
-      'Do not use Y10 for e-waste. Per 2025 amendments: hazardous e-waste = A1181; non-hazardous e-waste = Y49. Both require PIC.',
-  }
-}
-
 const HAZARD_CONFIG: Record<
   HazardClass,
   { label: string; bg: string; color: string; border: string }
@@ -304,7 +66,7 @@ const PIC_CONFIG: Record<PICRequired, { label: string; color: string }> = {
 
 const CLASSIFICATION_TOUR_STEPS: TourStep[] = [
   {
-    text: 'Answer three quick questions to get your Basel waste code. Start by selecting what you are shipping.',
+    text: 'Answer three quick questions to get a preliminary Basel decision path. Start by selecting what you are shipping.',
     attachTo: { element: '#tour-classification-questions', on: 'top' },
   },
   {
@@ -312,7 +74,7 @@ const CLASSIFICATION_TOUR_STEPS: TourStep[] = [
     attachTo: { element: '#tour-classification-questions', on: 'top' },
   },
   {
-    text: 'Choose the intended use at destination. The tool calculates your Basel classification and PIC requirements automatically.',
+    text: 'Choose the intended use at destination. The tool returns a preliminary classification path and flags any evidence still required.',
     attachTo: { element: '#tour-classification-questions', on: 'top' },
   },
   {
@@ -338,7 +100,7 @@ export default function BaselClassificationQuickscan() {
     if (step < QUESTIONS.length - 1) {
       setTimeout(() => setStep(step + 1), 180)
     } else {
-      const r = classify(newAnswers.type, newAnswers.condition, newAnswers.use)
+      const r = classifyQuickScan(newAnswers.type, newAnswers.condition, newAnswers.use)
       setResult(r)
       setGateUnlocked(false)
       setTimeout(

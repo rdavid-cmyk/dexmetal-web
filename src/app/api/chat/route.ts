@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { checkRateLimit } from '@/lib/rateLimit'
-import { AGENT_GROUNDING_CONTEXT } from '@/lib/basel'
+import { buildAgentBaselGuard } from '@/lib/basel'
 
 interface ToolCTA {
   toolName: string
@@ -122,7 +122,7 @@ Never invent regulatory details. If uncertain, say so and direct to dexmetal.com
 Never refer to yourself as Vera, Basel Copilot, or Basil. You are the DexMetal Agent.
 Keep responses under 150 words. Be direct. No bullet-point walls.
 
-${AGENT_GROUNDING_CONTEXT}`
+For used EEE/e-waste classification, follow the deterministic Basel guard supplied with each user message. Waste/non-waste status must be decided before any waste code is assigned.`
 
 // Generic error raised when the LLM backend is down (quota, auth, 5xx, etc.)
 // so the POST handler can distinguish it from a true internal error and degrade gracefully.
@@ -139,6 +139,7 @@ async function getGLMResponse(
   history: { role: string; content: string }[],
 ): Promise<string> {
   const apiKey = process.env.GLM_API_KEY
+  const baselGuard = buildAgentBaselGuard(message)
 
   if (!apiKey) {
     console.error('GLM_API_KEY is not set in the environment')
@@ -155,7 +156,7 @@ async function getGLMResponse(
     body: JSON.stringify({
       model: 'glm-5.2',
       max_tokens: 600,
-      system: SYSTEM_PROMPT,
+      system: baselGuard.relevant ? `${SYSTEM_PROMPT}\n\nDETERMINISTIC BASEL GUARD:\n${baselGuard.context}` : SYSTEM_PROMPT,
       messages: [
         ...history.map((h) => ({ role: h.role, content: h.content })),
         { role: 'user', content: message },

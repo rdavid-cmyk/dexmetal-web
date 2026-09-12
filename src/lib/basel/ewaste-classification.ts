@@ -57,7 +57,7 @@ export interface EwasteClassificationResult {
   code: BaselCodeEntry | null
   hazardous: boolean | null
   picRequired: boolean
-  banAmendmentApplies: boolean | null
+  article4AStatus: 'POTENTIAL_SCOPE' | 'OUTSIDE_SCOPE' | null
   hazardIndicators: string[]
   nonHazardEvidence: string[]
   evidenceGaps: string[]
@@ -67,7 +67,8 @@ export interface EwasteClassificationResult {
 }
 
 /**
- * Classify e-waste as hazardous (A1181) or non-hazardous (Y49)
+ * Classify equipment that has already been established as e-waste as A1181 or Y49.
+ * Waste/non-waste status must be decided first with determineWasteStatus/evaluateEwasteCase.
  *
  * Per para 51: "Electrical and electronic waste should be presumed to be
  * hazardous waste unless it can be shown either that it does not exhibit
@@ -83,8 +84,10 @@ export function classifyEwaste(
   const evidenceGaps: string[] = []
   const decisionSteps: string[] = []
 
-  // Step 1: Check for always-hazardous components (para 51)
-  decisionSteps.push('Step 1: Check for always-hazardous components per para 51')
+  // Step 1: Check high-confidence hazardous evidence. Para 50(c) distinguishes
+  // always-hazardous examples (e.g. CRT glass, PCB capacitors) from components
+  // whose hazard status depends on composition.
+  decisionSteps.push('Step 1: Check hazardous-component evidence per paras 50-51')
 
   if (hazardEvidence.crtGlassPresent) {
     hazardIndicators.push('CRT glass present (para 51(a)) — always hazardous')
@@ -201,18 +204,18 @@ export function classifyEwaste(
 }
 
 /**
- * Quick classification for battery waste
- * Based on Basel codes A1160, A1170, B1090
+ * Conservative helper for confirmed battery waste. Waste/non-waste status must
+ * already be established before this function is called.
  */
 export function classifyBatteryWaste(
   batteryType: 'ULAB' | 'LITHIUM' | 'NICKEL_CADMIUM' | 'ALKALINE' | 'MIXED' | 'OTHER',
-  condition: 'FUNCTIONAL' | 'DAMAGED' | 'SCRAP'
+  condition: 'FUNCTIONAL' | 'DAMAGED' | 'SCRAP',
 ): {
   code: string
-  entry: BaselCodeEntry
+  entry: BaselCodeEntry | null
   correctedMisconception?: string
+  evidenceRequired?: string
 } {
-  // ULAB is always A1160 — correct Y31 misconception
   if (batteryType === 'ULAB') {
     return {
       code: 'A1160',
@@ -222,35 +225,17 @@ export function classifyBatteryWaste(
     }
   }
 
-  // Hazardous battery types: Ni-Cd, damaged lithium, mixed
-  if (
-    batteryType === 'NICKEL_CADMIUM' ||
-    batteryType === 'MIXED' ||
-    (batteryType === 'LITHIUM' && condition !== 'FUNCTIONAL')
-  ) {
-    return {
-      code: 'A1170',
-      entry: BATTERY_CODES.A1170,
-    }
+  if (batteryType === 'NICKEL_CADMIUM' || batteryType === 'MIXED') {
+    return { code: 'A1170', entry: BATTERY_CODES.A1170 }
   }
 
-  // Non-hazardous only: functional alkaline, functional lithium
-  if (
-    (batteryType === 'ALKALINE' || batteryType === 'LITHIUM') &&
-    condition === 'FUNCTIONAL'
-  ) {
-    return {
-      code: 'B1090',
-      entry: BATTERY_CODES.B1090,
-      correctedMisconception:
-        'B1120 is spent catalysts, not batteries. Use B1090 for non-hazardous batteries excluding lead, cadmium, or mercury.',
-    }
-  }
-
-  // Default to A1170 for unsorted/unknown
   return {
-    code: 'A1170',
-    entry: BATTERY_CODES.A1170,
+    code: 'CHARACTERIZATION_REQUIRED',
+    entry: null,
+    correctedMisconception:
+      'B1120 is spent catalysts, not batteries. B1090 cannot be inferred from functionality alone.',
+    evidenceRequired:
+      `Confirmed battery waste (${batteryType.toLowerCase()}, ${condition.toLowerCase()}) needs composition, sorting/specification, and hazardous-constituent evidence before assigning A1170 or B1090.`,
   }
 }
 
@@ -296,8 +281,16 @@ function buildResult(
     classification,
     code: code ?? null,
     hazardous: classification === 'A1181' ? true : classification === 'Y49' ? false : null,
-    picRequired: classification !== 'CHARACTERIZATION_REQUIRED', // Both A1181 and Y49 require PIC
-    banAmendmentApplies: classification === 'A1181' ? true : classification === 'Y49' ? false : null,
+    // This classifier is only used after e-waste status is established. Both A1181
+    // and Y49 movements are controlled, so PIC remains required while hazard
+    // characterization is pending.
+    picRequired: true,
+    article4AStatus:
+      classification === 'A1181'
+        ? 'POTENTIAL_SCOPE'
+        : classification === 'Y49'
+          ? 'OUTSIDE_SCOPE'
+          : null,
     hazardIndicators,
     nonHazardEvidence,
     evidenceGaps,

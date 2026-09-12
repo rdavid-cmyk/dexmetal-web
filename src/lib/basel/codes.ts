@@ -17,7 +17,7 @@ export interface BaselCodeEntry {
   description: string
   hazardous: boolean
   picRequired: boolean
-  banAmendmentApplies: boolean
+  article4AStatus: 'POTENTIAL_SCOPE' | 'OUTSIDE_SCOPE'
   effectiveDate?: string
   deletedDate?: string
   replacedBy?: string
@@ -36,7 +36,7 @@ export const EWASTE_CODES: Record<string, BaselCodeEntry> = {
       'Waste electrical and electronic equipment containing or contaminated with Annex I constituents to an extent that the waste exhibits an Annex III characteristic, or with hazardous components',
     hazardous: true,
     picRequired: true,
-    banAmendmentApplies: true,
+    article4AStatus: 'POTENTIAL_SCOPE',
     effectiveDate: '2025-01-01',
     notes: 'Replaces A1180. See para 47 of UNEP/CHW.16/INF/10/Rev.1',
   },
@@ -48,9 +48,9 @@ export const EWASTE_CODES: Record<string, BaselCodeEntry> = {
       'Waste electrical and electronic equipment not containing and not contaminated with Annex I constituents to hazardous extent, with no hazardous components',
     hazardous: false,
     picRequired: true,
-    banAmendmentApplies: false,
+    article4AStatus: 'OUTSIDE_SCOPE',
     effectiveDate: '2025-01-01',
-    notes: 'New Annex II entry. PIC required but Ban Amendment does not apply. See para 48',
+    notes: 'New Annex II entry. PIC required; Article 4A does not apply to Annex II wastes. See paras 44 and 48',
   },
   A1180: {
     code: 'A1180',
@@ -59,7 +59,7 @@ export const EWASTE_CODES: Record<string, BaselCodeEntry> = {
     description: 'Former entry for hazardous e-waste',
     hazardous: true,
     picRequired: true,
-    banAmendmentApplies: true,
+    article4AStatus: 'POTENTIAL_SCOPE',
     deletedDate: '2025-01-01',
     replacedBy: 'A1181',
     notes: 'DELETED effective 1 January 2025. Use A1181 instead',
@@ -71,7 +71,7 @@ export const EWASTE_CODES: Record<string, BaselCodeEntry> = {
     description: 'Former entry for non-hazardous e-waste assemblies destined for direct reuse',
     hazardous: false,
     picRequired: false,
-    banAmendmentApplies: false,
+    article4AStatus: 'OUTSIDE_SCOPE',
     deletedDate: '2025-01-01',
     notes:
       'DELETED effective 1 January 2025. Non-hazardous e-waste now falls under Y49 (Annex II) and requires PIC',
@@ -89,7 +89,7 @@ export const BATTERY_CODES: Record<string, BaselCodeEntry> = {
     description: 'Waste lead-acid batteries, whole or crushed',
     hazardous: true,
     picRequired: true,
-    banAmendmentApplies: true,
+    article4AStatus: 'POTENTIAL_SCOPE',
     notes: 'The correct code for waste lead-acid batteries (ULAB). NOT Y31.',
   },
   A1170: {
@@ -100,7 +100,7 @@ export const BATTERY_CODES: Record<string, BaselCodeEntry> = {
       'Unsorted waste batteries excluding mixtures solely of list B batteries, plus waste batteries not specified on list B containing Annex I constituents to hazardous extent',
     hazardous: true,
     picRequired: true,
-    banAmendmentApplies: true,
+    article4AStatus: 'POTENTIAL_SCOPE',
     notes: 'Covers unsorted batteries and hazardous battery types not on list B',
   },
   B1090: {
@@ -111,7 +111,7 @@ export const BATTERY_CODES: Record<string, BaselCodeEntry> = {
       'Waste batteries conforming to a specification, excluding those made with lead, cadmium, or mercury',
     hazardous: false,
     picRequired: false,
-    banAmendmentApplies: false,
+    article4AStatus: 'OUTSIDE_SCOPE',
     notes: 'Non-hazardous batteries only. Lead, cadmium, mercury batteries excluded.',
   },
 }
