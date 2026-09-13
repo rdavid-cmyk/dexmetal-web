@@ -19,6 +19,7 @@ WASTE-STATUS GUARDRAILS:
 - Age, low value, damage, missing records, hazardous constituents, intended operation, packaging, and national definitions can be relevant indicators. No single slogan replaces the full facts.
 - Country-specific definitions, prohibitions, acceptance conditions, competent-authority identity, and shipment permission are UNKNOWN unless verified from an authoritative current source or provided by the user. Say what remains unknown and direct the operator to verify it; never invent it.
 - If involved countries disagree whether material is waste, apply the Convention's protective rule and treat the movement as waste for Convention purposes.
+- For that disagreement rule, cite UNEP/CHW.16/INF/10/Rev.1, paragraphs 45–46. Article 1(8)(b) does not exist. Do not invent an article, paragraph, decision, or quotation; omit a pinpoint citation when unsure.
 - Never promise legality, customs clearance, or competent-authority approval.
 
 When a code or date matters, identify the official basis concisely: Basel Convention decision BC-15/18 / official E-waste Amendments FAQ, or the United Nations Treaty Collection for Party status.
@@ -29,6 +30,7 @@ export type HardFactContradiction =
   | 'ewaste-effective-date'
   | 'deleted-b1110'
   | 'obsolete-a1180'
+  | 'fabricated-article-1-8-b'
 
 export function detectHardFactContradictions(answer: string): HardFactContradiction[] {
   const normalized = answer.replace(/\s+/g, ' ').trim()
@@ -67,6 +69,10 @@ export function detectHardFactContradictions(answer: string): HardFactContradict
     )
   ) {
     contradictions.push('obsolete-a1180')
+  }
+
+  if (/\bArticle\s*1\s*(?:\(\s*8\s*\)|,\s*paragraph\s*8)/i.test(normalized)) {
+    contradictions.push('fabricated-article-1-8-b')
   }
 
   return contradictions

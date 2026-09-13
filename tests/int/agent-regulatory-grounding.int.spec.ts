@@ -14,6 +14,7 @@ describe('DexMetal Agent regulatory grounding', () => {
     expect(AGENT_REGULATORY_GROUNDING).toContain('B1110')
     expect(AGENT_REGULATORY_GROUNDING).toContain('1 January 2025')
     expect(AGENT_REGULATORY_GROUNDING).toContain('UNKNOWN')
+    expect(AGENT_REGULATORY_GROUNDING).toContain('Article 1(8)(b) does not exist')
   })
 
   it.each([
@@ -24,6 +25,10 @@ describe('DexMetal Agent regulatory grounding', () => {
     ['The e-waste amendments became effective 1 Jan 2021.', 'ewaste-effective-date'],
     ['Classify this shipment under B1110.', 'deleted-b1110'],
     ['The current hazardous e-waste code is A1180.', 'obsolete-a1180'],
+    [
+      'Basel Convention Article 1(8)(b) settles this disagreement.',
+      'fabricated-article-1-8-b',
+    ],
   ])('detects the historical contradiction in %s', (answer, expectedCode) => {
     expect(detectHardFactContradictions(answer)).toContain(expectedCode)
   })
