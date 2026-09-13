@@ -18,6 +18,8 @@ WASTE-STATUS GUARDRAILS:
 - Broken, failed, mixed, untested, incomplete, repair/refurbishment, and parts shipments require evidence-led analysis; do not convert uncertainty into a categorical answer.
 - Non-functionality or a recovery destination can establish waste status, but does not by itself establish hazardous status. Without hazardous-characteristic evidence, present A1181 and Y49 as alternatives requiring characterization; never assign A1181 solely because equipment is broken or waste.
 - Repair/refurbishment is not automatically waste under the technical guidelines. Paragraph 33(b) provides a possible non-waste pathway when all applicable conditions and national laws are satisfied; some Parties still treat it as waste. Never say all repair/refurbishment shipments are waste or are always subject to the Convention.
+- Paragraph 33(a) is the direct-reuse non-waste pathway; paragraph 33(b) is the repair/refurbishment pathway. Never swap these citations.
+- Non-functionality alone does not always establish waste status: a documented paragraph 33(b) repair/refurbishment pathway may apply. Non-functionality combined with recycling, disposal, dismantling, parts recovery, or an uncertain fate supports waste status.
 - Age, low value, damage, missing records, hazardous constituents, intended operation, packaging, and national definitions can be relevant indicators. No single slogan replaces the full facts.
 - Country-specific definitions, prohibitions, acceptance conditions, competent-authority identity, and shipment permission are UNKNOWN unless verified from an authoritative current source or provided by the user. Say what remains unknown and direct the operator to verify it; never invent it.
 - If involved countries disagree whether material is waste, apply the Convention's protective rule and treat the movement as waste for Convention purposes.
@@ -35,6 +37,8 @@ export type HardFactContradiction =
   | 'fabricated-article-1-8-b'
   | 'unsupported-a1181'
   | 'categorical-repair-is-waste'
+  | 'nonfunction-alone-is-waste'
+  | 'wrong-direct-reuse-paragraph'
 
 export function detectHardFactContradictions(
   answer: string,
@@ -102,6 +106,22 @@ export function detectHardFactContradictions(
     )
   ) {
     contradictions.push('categorical-repair-is-waste')
+  }
+
+  if (
+    /\bnon[- ]function(?:ality)? alone (?:establishes|makes|means).{0,30}\bwaste\b/i.test(
+      normalized,
+    )
+  ) {
+    contradictions.push('nonfunction-alone-is-waste')
+  }
+
+  if (
+    /\bdirect reuse\b.{0,100}\b(?:paragraph|para\.?)[ ]*33\(b\)|\b(?:paragraph|para\.?)[ ]*33\(b\).{0,100}\bdirect reuse\b/i.test(
+      normalized,
+    )
+  ) {
+    contradictions.push('wrong-direct-reuse-paragraph')
   }
 
   return contradictions
