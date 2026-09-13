@@ -41,6 +41,16 @@ describe('DexMetal Agent regulatory grounding', () => {
       'categorical-repair-is-waste',
       'The buyer will repair some televisions.',
     ],
+    [
+      'The 20 failed units: non-function alone establishes waste status.',
+      'nonfunction-alone-is-waste',
+      'I have 20 failed laptops in the shipment.',
+    ],
+    [
+      'For direct reuse, paragraph 33(b) sets the conditions.',
+      'wrong-direct-reuse-paragraph',
+      'What proves equipment is exported for direct reuse?',
+    ],
   ])('detects the historical contradiction in %s', (answer, expectedCode, question) => {
     expect(detectHardFactContradictions(answer, question)).toContain(expectedCode)
   })
