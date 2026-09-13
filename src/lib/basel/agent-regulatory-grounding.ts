@@ -11,7 +11,9 @@ REGULATORY GROUND TRUTH — DO NOT CONTRADICT:
 - The Basel e-waste amendments adopted in decision BC-15/18 became effective on 1 January 2025 for Parties that did not notify non-acceptance.
 - A1181 is the current Annex VIII entry for hazardous e-waste. It replaced A1180, which ceased to be current after 31 December 2024.
 - Y49 is the current Annex II entry for other e-waste not covered by A1181 or another applicable entry. Transboundary movements of waste covered by A1181 or Y49 are subject to PIC.
+- Hazardous-characteristic evidence supports A1181; Y49 covers other e-waste when A1181 or another entry does not apply. Never say hazardous evidence supports either A1181 or Y49 interchangeably.
 - B1110 was deleted from Annex IX effective 1 January 2025. Never present B1110 as a current classification.
+- Annex VII identifies the States and organizations relevant to the Ban Amendment; it is not a set of documentation rules. Under the Convention, the Ban Amendment does not apply to Annex II waste such as Y49, though national or regional law may be stricter.
 
 WASTE-STATUS GUARDRAILS:
 - Do not classify an item under A1181 or Y49 until it is determined to be waste. Tested, fully functional equipment genuinely destined for direct reuse may be non-waste when the applicable technical-guideline conditions and every involved country's law are satisfied.
@@ -39,6 +41,8 @@ export type HardFactContradiction =
   | 'categorical-repair-is-waste'
   | 'nonfunction-alone-is-waste'
   | 'wrong-direct-reuse-paragraph'
+  | 'annex-vii-is-not-documentation'
+  | 'hazardous-evidence-y49-confusion'
 
 export function detectHardFactContradictions(
   answer: string,
@@ -122,6 +126,18 @@ export function detectHardFactContradictions(
     )
   ) {
     contradictions.push('wrong-direct-reuse-paragraph')
+  }
+
+  if (/\bAnnex VII\b.{0,40}\bdocumentation (?:rule|rules|requirement|requirements)\b/i.test(normalized)) {
+    contradictions.push('annex-vii-is-not-documentation')
+  }
+
+  if (
+    /\bA1181\b.{0,20}\bor\b.{0,20}\bY49\b.{0,50}\bif hazardous evidence\b/i.test(
+      normalized,
+    )
+  ) {
+    contradictions.push('hazardous-evidence-y49-confusion')
   }
 
   return contradictions
