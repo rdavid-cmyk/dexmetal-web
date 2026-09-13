@@ -223,7 +223,7 @@ export async function POST(request: NextRequest) {
 
     cta = detectWorkflowIntent(message);
     let answer = await getGLMResponse(message, history);
-    let contradictions = detectHardFactContradictions(answer);
+    let contradictions = detectHardFactContradictions(answer, message);
 
     if (contradictions.length > 0) {
       console.warn(`Blocked Agent hard-fact contradiction(s): ${contradictions.join(", ")}`);
@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
         history,
         `Your prior draft contradicted these hard-fact checks: ${contradictions.join(", ")}. Rewrite the answer from scratch using the regulatory ground truth.`,
       );
-      contradictions = detectHardFactContradictions(answer);
+      contradictions = detectHardFactContradictions(answer, message);
       if (contradictions.length > 0) {
         console.error(`Agent retry still contradicted hard facts: ${contradictions.join(", ")}`);
         answer = hardFactSafetyFallback();

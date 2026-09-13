@@ -21,16 +21,28 @@ describe('DexMetal Agent regulatory grounding', () => {
     [
       "Trinidad and Tobago specifically — it's a non-Party to Basel.",
       'trinidad-and-tobago-party-status',
+      '',
     ],
-    ['The e-waste amendments became effective 1 Jan 2021.', 'ewaste-effective-date'],
-    ['Classify this shipment under B1110.', 'deleted-b1110'],
-    ['The current hazardous e-waste code is A1180.', 'obsolete-a1180'],
+    ['The e-waste amendments became effective 1 Jan 2021.', 'ewaste-effective-date', ''],
+    ['Classify this shipment under B1110.', 'deleted-b1110', ''],
+    ['The current hazardous e-waste code is A1180.', 'obsolete-a1180', ''],
     [
       'Basel Convention Article 1(8)(b) settles this disagreement.',
       'fabricated-article-1-8-b',
+      '',
     ],
-  ])('detects the historical contradiction in %s', (answer, expectedCode) => {
-    expect(detectHardFactContradictions(answer)).toContain(expectedCode)
+    [
+      'The dead laptops fall under A1181 and trigger PIC.',
+      'unsupported-a1181',
+      'Forty laptops do not turn on and will be stripped for parts.',
+    ],
+    [
+      'Repair/refurbishment shipments are still subject to the Convention.',
+      'categorical-repair-is-waste',
+      'The buyer will repair some televisions.',
+    ],
+  ])('detects the historical contradiction in %s', (answer, expectedCode, question) => {
+    expect(detectHardFactContradictions(answer, question)).toContain(expectedCode)
   })
 
   it('allows accurate historical explanations of deleted codes', () => {
