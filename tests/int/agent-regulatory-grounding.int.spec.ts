@@ -51,6 +51,16 @@ describe('DexMetal Agent regulatory grounding', () => {
       'wrong-direct-reuse-paragraph',
       'What proves equipment is exported for direct reuse?',
     ],
+    [
+      'Y49 plus Annex VII documentation rules apply differently.',
+      'annex-vii-is-not-documentation',
+      'What determines PIC?',
+    ],
+    [
+      'Characterize against A1181 or Y49 if hazardous evidence exists.',
+      'hazardous-evidence-y49-confusion',
+      'Which current e-waste code applies?',
+    ],
   ])('detects the historical contradiction in %s', (answer, expectedCode, question) => {
     expect(detectHardFactContradictions(answer, question)).toContain(expectedCode)
   })
