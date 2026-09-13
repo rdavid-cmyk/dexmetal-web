@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
+import {
+  AGENT_REGULATORY_GROUNDING,
+  detectHardFactContradictions,
+  hardFactSafetyFallback,
+} from "@/lib/basel/agent-regulatory-grounding";
 
 interface ToolCTA {
   toolName: string;
@@ -116,7 +121,9 @@ SERVICE UPSELL TRIGGERS:
 
 Never invent regulatory details. If uncertain, say so and direct to dexmetal.com/contact.
 Never refer to yourself as Vera, Basel Copilot, or Basil. You are the DexMetal Agent.
-Keep responses under 150 words. Be direct. No bullet-point walls.`;
+Keep responses under 150 words. Be direct. No bullet-point walls.
+
+${AGENT_REGULATORY_GROUNDING}`;
 
 // Generic error raised when the LLM backend is down (quota, auth, 5xx, etc.)
 // so the POST handler can distinguish it from a true internal error and degrade gracefully.
@@ -130,7 +137,8 @@ class LLMBackendError extends Error {}
 // integration. Verified directly via curl before this code was written.
 async function getGLMResponse(
   message: string,
-  history: { role: string; content: string }[]
+  history: { role: string; content: string }[],
+  correction?: string,
 ): Promise<string> {
   const apiKey = process.env.GLM_API_KEY;
 
@@ -149,7 +157,7 @@ async function getGLMResponse(
     body: JSON.stringify({
       model: "glm-5.2",
       max_tokens: 600,
-      system: SYSTEM_PROMPT,
+      system: correction ? `${SYSTEM_PROMPT}\n\n${correction}` : SYSTEM_PROMPT,
       messages: [
         ...history.map((h) => ({ role: h.role, content: h.content })),
         { role: "user", content: message },
@@ -214,7 +222,22 @@ export async function POST(request: NextRequest) {
     }
 
     cta = detectWorkflowIntent(message);
-    const answer = await getGLMResponse(message, history);
+    let answer = await getGLMResponse(message, history);
+    let contradictions = detectHardFactContradictions(answer);
+
+    if (contradictions.length > 0) {
+      console.warn(`Blocked Agent hard-fact contradiction(s): ${contradictions.join(", ")}`);
+      answer = await getGLMResponse(
+        message,
+        history,
+        `Your prior draft contradicted these hard-fact checks: ${contradictions.join(", ")}. Rewrite the answer from scratch using the regulatory ground truth.`,
+      );
+      contradictions = detectHardFactContradictions(answer);
+      if (contradictions.length > 0) {
+        console.error(`Agent retry still contradicted hard facts: ${contradictions.join(", ")}`);
+        answer = hardFactSafetyFallback();
+      }
+    }
 
     return NextResponse.json({
       answer,
