@@ -6,12 +6,11 @@ export const metadata = {
 
 
 import ShipmentEligibilityChecker from '@/components/tools/ShipmentEligibilityChecker'
-import EmailGate from '@/components/EmailGate'
 import ToolRelatedReading from '@/components/tools/ToolRelatedReading'
 
 export default function ShipmentEligibilityCheckerPage() {
   return (
-    <EmailGate toolName="shipment-eligibility-checker">
+    <>
       <ShipmentEligibilityChecker />
       <ToolRelatedReading
         postSlug="the-140000-phone-call"
@@ -19,6 +18,6 @@ export default function ShipmentEligibilityCheckerPage() {
         episodeNum={8}
         teaser="What Basel non-compliance actually costs — and the seven checks that prevent it."
       />
-    </EmailGate>
+    </>
   )
 }
