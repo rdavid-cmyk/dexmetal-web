@@ -6,12 +6,11 @@ export const metadata = {
 
 
 import EWasteMaterialRecovery from '@/components/tools/EWasteMaterialRecovery'
-import EmailGate from '@/components/EmailGate'
 import ToolRelatedReading from '@/components/tools/ToolRelatedReading'
 
 export default function EWasteMaterialRecoveryPage() {
   return (
-    <EmailGate toolName="ewaste-material-recovery">
+    <>
       <EWasteMaterialRecovery />
       <ToolRelatedReading
         postSlug="urban-mine-the-hunt"
@@ -19,6 +18,6 @@ export default function EWasteMaterialRecoveryPage() {
         episodeNum={2}
         teaser="Source control, chain of custody, and the compliance checks that protect urban mining operations."
       />
-    </EmailGate>
+    </>
   )
 }
