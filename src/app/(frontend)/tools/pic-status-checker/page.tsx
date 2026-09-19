@@ -6,12 +6,11 @@ export const metadata = {
 
 
 import PICStatusChecker from '@/components/tools/PICStatusChecker'
-import EmailGate from '@/components/EmailGate'
 import ToolRelatedReading from '@/components/tools/ToolRelatedReading'
 
 export default function PICStatusCheckerPage() {
   return (
-    <EmailGate toolName="pic-status-checker">
+    <>
       <PICStatusChecker />
       <ToolRelatedReading
         postSlug="basel-pic-2025-guide"
@@ -19,6 +18,6 @@ export default function PICStatusCheckerPage() {
         episodeNum={3}
         teaser="Prior Informed Consent is government authorization. Here is what operators get wrong."
       />
-    </EmailGate>
+    </>
   )
 }
