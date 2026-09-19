@@ -78,6 +78,7 @@ test.describe('premium homepage compliance hero', () => {
       await expect(page.locator('a[href="/playbook"]')).not.toHaveCount(0)
       await expect(page.getByRole('heading', { name: 'Basel guidance and resources' })).toBeVisible()
       await expect(page.getByText('How DexMetal Works', { exact: true })).toBeVisible()
+      await expect(page.locator('body')).toContainText('20+ years of Basel operator experience')
     })
   }
 
