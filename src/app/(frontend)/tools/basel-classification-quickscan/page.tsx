@@ -6,12 +6,11 @@ export const metadata = {
 
 
 import BaselClassificationQuickscan from '@/components/tools/BaselClassificationQuickscan'
-import EmailGate from '@/components/EmailGate'
 import ToolRelatedReading from '@/components/tools/ToolRelatedReading'
 
 export default function BaselClassificationQuickscanPage() {
   return (
-    <EmailGate toolName="basel-classification-quickscan">
+    <>
       <BaselClassificationQuickscan />
       <ToolRelatedReading
         postSlug="billion-dollar-ewaste-industry-opportunity"
@@ -19,6 +18,6 @@ export default function BaselClassificationQuickscanPage() {
         episodeNum={1}
         teaser="How compliant operators classify, price, and extract value from e-waste streams legally."
       />
-    </EmailGate>
+    </>
   )
 }
