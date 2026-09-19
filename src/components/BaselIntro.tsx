@@ -20,19 +20,6 @@ export default function BaselIntro() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [stageIndex, setStageIndex] = useState(0)
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!isInView) return
-    let n = 0
-    const timer = setInterval(() => {
-      n++
-      setCount(n)
-      if (n >= 20) clearInterval(timer)
-    }, 60)
-    return () => clearInterval(timer)
-  }, [isInView])
-
   useEffect(() => {
     const interval = setInterval(() => {
       setStageIndex(i => (i + 1) % stages.length)
@@ -76,7 +63,7 @@ export default function BaselIntro() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
-            {count} years
+            20+ years
           </span>{' '}
           of Basel operator experience —<br />built into every tool.
         </motion.h2>
