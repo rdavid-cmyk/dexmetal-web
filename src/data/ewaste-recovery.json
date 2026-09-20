@@ -1,0 +1,240 @@
+{
+  "wasteStreams": [
+    {
+      "id": "ulab",
+      "name": "ULAB (Used Lead Acid Batteries)",
+      "description": "Lead-acid batteries from automotive and industrial sources",
+      "materials": [
+        {
+          "id": "lead",
+          "name": "Lead",
+          "percentageWeight": 0.6,
+          "recoveryRate": 0.9,
+          "lmeReference": "lead",
+          "unit": "USD/tonne",
+          "dataNote": "Recovery rate 85-95% per UNEP StEP Initiative estimates. Using 90% mid-point."
+        },
+        {
+          "id": "sulphuric_acid",
+          "name": "Sulphuric Acid",
+          "percentageWeight": 0.15,
+          "recoveryRate": 0.7,
+          "valuePerTonne": 50,
+          "unit": "USD/tonne",
+          "dataNote": "Usually neutralized or sent to specialty recyclers. Low recovery value."
+        },
+        {
+          "id": "polypropylene",
+          "name": "Polypropylene (Plastic)",
+          "percentageWeight": 0.05,
+          "recoveryRate": 0.8,
+          "valuePerTonne": 300,
+          "unit": "USD/tonne",
+          "dataNote": "Clean PP cases have moderate value. Source: ISRI Scrap specifications."
+        }
+      ]
+    },
+    {
+      "id": "mixed_ewaste",
+      "name": "Mixed E-Waste",
+      "description": "Computers, monitors, mixed electronic equipment",
+      "materials": [
+        {
+          "id": "copper",
+          "name": "Copper",
+          "percentageWeightMin": 0.05,
+          "percentageWeightMax": 0.2,
+          "recoveryRate": 0.9,
+          "lmeReference": "copper",
+          "unit": "USD/tonne",
+          "dataNote": "Typical range 5-20% by weight. UNEP estimates 90% recovery in formal sector."
+        },
+        {
+          "id": "gold",
+          "name": "Gold",
+          "percentageWeightMin": 0.00001,
+          "percentageWeightMax": 0.00035,
+          "recoveryRate": 0.95,
+          "lmeReference": "gold",
+          "unit": "USD/kg",
+          "dataNote": "0.001-0.035% typical. e-Waste Academy reports 95% recovery in precious metal refineries."
+        },
+        {
+          "id": "silver",
+          "name": "Silver",
+          "percentageWeightMin": 0.0001,
+          "percentageWeightMax": 0.002,
+          "recoveryRate": 0.9,
+          "lmeReference": "silver",
+          "unit": "USD/kg",
+          "dataNote": "0.01-0.2% typical. ISRI estimates 90% recovery."
+        },
+        {
+          "id": "aluminium",
+          "name": "Aluminium",
+          "percentageWeightMin": 0.1,
+          "percentageWeightMax": 0.15,
+          "recoveryRate": 0.85,
+          "lmeReference": "aluminium",
+          "unit": "USD/tonne",
+          "dataNote": "10-15% typical. UNEP StEP reports 85% recovery rate."
+        },
+        {
+          "id": "iron_steel",
+          "name": "Iron/Steel",
+          "percentageWeightMin": 0.2,
+          "percentageWeightMax": 0.3,
+          "recoveryRate": 0.9,
+          "valuePerTonne": 380,
+          "unit": "USD/tonne",
+          "dataNote": "20-30% typical. Scrap steel price reference."
+        },
+        {
+          "id": "plastics_mixed",
+          "name": "Mixed Plastics",
+          "percentageWeightMin": 0.15,
+          "percentageWeightMax": 0.3,
+          "recoveryRate": 0.4,
+          "valuePerTonne": 150,
+          "unit": "USD/tonne",
+          "dataNote": "Low recovery due to mixed streams. UNEP estimates 40% formal recovery."
+        }
+      ]
+    },
+    {
+      "id": "crts",
+      "name": "CRTs (Cathode Ray Tubes)",
+      "description": "Old television and computer monitors",
+      "materials": [
+        {
+          "id": "lead_glass",
+          "name": "Lead Glass",
+          "percentageWeight": 0.65,
+          "recoveryRate": 0,
+          "valuePerTonne": -200,
+          "unit": "USD/tonne",
+          "dataNote": "Hazardous. Typically disposed at licensed facilities. Negative value = disposal cost."
+        },
+        {
+          "id": "copper_yoke",
+          "name": "Copper Yoke",
+          "percentageWeight": 0.015,
+          "recoveryRate": 0.9,
+          "lmeReference": "copper",
+          "unit": "USD/tonne",
+          "dataNote": "1-2% copper yoke has high recovery value."
+        },
+        {
+          "id": "plastics_crt",
+          "name": "CRT Plastics",
+          "percentageWeight": 0.1,
+          "recoveryRate": 0.5,
+          "valuePerTonne": 100,
+          "unit": "USD/tonne",
+          "dataNote": "Moderate recovery value if sorted cleanly."
+        }
+      ]
+    },
+    {
+      "id": "pcb",
+      "name": "Circuit Boards (PCBs)",
+      "description": "Printed circuit boards from electronics",
+      "materials": [
+        {
+          "id": "gold_pcb",
+          "name": "Gold",
+          "percentageWeightMin": 0.0003,
+          "percentageWeightMax": 0.0035,
+          "recoveryRate": 0.95,
+          "lmeReference": "gold",
+          "unit": "USD/kg",
+          "dataNote": "0.03-0.35% in PCBs. Highest gold concentration in e-waste streams."
+        },
+        {
+          "id": "silver_pcb",
+          "name": "Silver",
+          "percentageWeightMin": 0.001,
+          "percentageWeightMax": 0.005,
+          "recoveryRate": 0.9,
+          "lmeReference": "silver",
+          "unit": "USD/kg",
+          "dataNote": "0.1-0.5% in PCBs. ISRI estimates 90% recovery."
+        },
+        {
+          "id": "copper_pcb",
+          "name": "Copper",
+          "percentageWeightMin": 0.1,
+          "percentageWeightMax": 0.3,
+          "recoveryRate": 0.9,
+          "lmeReference": "copper",
+          "unit": "USD/tonne",
+          "dataNote": "10-30% copper content in PCBs."
+        },
+        {
+          "id": "palladium",
+          "name": "Palladium",
+          "percentageWeightMin": 0.00005,
+          "percentageWeightMax": 0.0002,
+          "recoveryRate": 0.85,
+          "valuePerTonne": 65000,
+          "unit": "USD/kg",
+          "dataNote": "Trace amounts. Recovery rate estimated at 85% in precious metal refineries."
+        }
+      ]
+    },
+    {
+      "id": "whole_units",
+      "name": "Whole Units for Refurbishment",
+      "description": "Complete devices for testing and refurbishment",
+      "materials": [],
+      "isRefurbishment": true,
+      "resaleValues": [
+        {
+          "deviceType": "Laptops (working)",
+          "valueMin": 50,
+          "valueMax": 200,
+          "unit": "USD/unit"
+        },
+        {
+          "deviceType": "Desktop Computers",
+          "valueMin": 30,
+          "valueMax": 120,
+          "unit": "USD/unit"
+        },
+        {
+          "deviceType": "Monitors (working)",
+          "valueMin": 20,
+          "valueMax": 80,
+          "unit": "USD/unit"
+        },
+        {
+          "deviceType": "Mobile Phones",
+          "valueMin": 5,
+          "valueMax": 50,
+          "unit": "USD/unit"
+        },
+        {
+          "deviceType": "Tablets",
+          "valueMin": 20,
+          "valueMax": 100,
+          "unit": "USD/unit"
+        }
+      ],
+      "dataNote": "Value is refurbishment margin, not material recovery. Prices vary by condition and market."
+    }
+  ],
+  "lmePrices": {
+    "lead": 2000,
+    "copper": 9500,
+    "gold": 60000,
+    "silver": 850,
+    "aluminium": 2400,
+    "steel_scrap": 380
+  },
+  "processingCostPercent": 0.15,
+  "conditionMultipliers": {
+    "Good": 1,
+    "Average": 0.9,
+    "Poor": 0.75
+  }
+}
