@@ -156,39 +156,67 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
         <div
           className={`agent-panel${embedded ? ' agent-panel-embedded' : ''}`}
           data-homepage-agent={embedded ? '' : undefined}
+          role={embedded ? 'region' : undefined}
+          aria-label={embedded ? 'DexMetal shipment guidance console' : undefined}
           style={{
             position: embedded ? 'relative' : 'fixed',
             bottom: embedded ? undefined : '96px',
             right: embedded ? undefined : '24px',
             width: embedded ? '100%' : '390px',
-            maxWidth: embedded ? '760px' : undefined,
+            maxWidth: embedded ? '1040px' : undefined,
             maxHeight: embedded ? undefined : '560px',
             margin: embedded ? '0 auto' : undefined,
-            backgroundColor: '#1C1B18',
-            border: '1px solid #2a2a28',
-            borderRadius: embedded ? '24px' : '16px',
+            background: embedded
+              ? 'linear-gradient(145deg, rgba(30,30,26,0.97), rgba(17,18,15,0.98))'
+              : '#1C1B18',
+            border: embedded ? '1px solid rgba(194,116,69,0.38)' : '1px solid #2a2a28',
+            borderRadius: embedded ? '20px' : '16px',
             display: 'flex',
             flexDirection: 'column',
             zIndex: 9999,
-            boxShadow: '0 16px 44px rgba(0,0,0,0.52)',
+            boxShadow: embedded
+              ? '0 30px 80px rgba(0,0,0,0.46), 0 0 0 1px rgba(29,158,117,0.08) inset'
+              : '0 16px 44px rgba(0,0,0,0.52)',
             overflow: 'hidden',
           }}
         >
           {/* Header */}
           {embedded ? (
             <div style={{
-              padding: '18px 20px 16px',
-              borderBottom: '1px solid #2a2a28',
+              padding: '15px 18px 14px',
+              borderBottom: '1px solid rgba(255,255,255,0.08)',
+              background: 'linear-gradient(90deg, rgba(194,116,69,0.08), rgba(29,158,117,0.05))',
             }}>
-              <h1 style={{
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '7px',
+                color: '#a9a79f',
+                fontSize: '10px',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}>
+                <span style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: '#1D9E75',
+                  boxShadow: '0 0 0 4px rgba(29,158,117,0.12)',
+                }} />
+                DexMetal Agent
+                <span style={{ marginLeft: 'auto', color: '#797872' }}>Operator console</span>
+              </div>
+              <h2 style={{
                 color: '#fff',
                 fontWeight: 700,
-                fontSize: 'clamp(1.75rem, 5vw, 3.25rem)',
-                lineHeight: 1.08,
+                fontSize: 'clamp(1.35rem, 3vw, 1.85rem)',
+                lineHeight: 1.15,
                 margin: 0,
               }}>
                 Tell us about your shipment
-              </h1>
+              </h2>
             </div>
           ) : (
             <div style={{
@@ -224,7 +252,7 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
           <div style={{
             flex: 1,
             overflowY: 'auto',
-            padding: '16px',
+            padding: embedded ? '14px 16px 12px' : '16px',
             display: 'flex',
             flexDirection: 'column',
             gap: '12px',
@@ -233,10 +261,11 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
               <div key={i} style={{
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 maxWidth: '86%',
-                backgroundColor: msg.role === 'user' ? '#FF5C00' : '#2a2a28',
+                backgroundColor: msg.role === 'user' ? '#B86435' : embedded ? '#272722' : '#2a2a28',
                 color: '#fff',
                 padding: '10px 14px',
-                borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
+                border: embedded && msg.role !== 'user' ? '1px solid rgba(255,255,255,0.055)' : undefined,
                 fontSize: '13px',
                 lineHeight: '1.5',
                 whiteSpace: 'pre-wrap',
@@ -289,7 +318,7 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
           {/* Welcome chips */}
           {showChips && (
             <div style={{
-              padding: '0 16px 10px 16px',
+              padding: '0 16px 12px',
               display: 'flex',
               flexWrap: 'wrap',
               gap: '6px',
@@ -302,9 +331,9 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
                   style={{
                     padding: '6px 12px',
                     borderRadius: '14px',
-                    backgroundColor: '#2a2a28',
-                    color: '#fff',
-                    border: '1px solid #3a3a38',
+                    backgroundColor: embedded ? 'rgba(255,255,255,0.035)' : '#2a2a28',
+                    color: embedded ? '#ddd9cf' : '#fff',
+                    border: embedded ? '1px solid rgba(255,255,255,0.12)' : '1px solid #3a3a38',
                     fontSize: '12px',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
@@ -317,9 +346,10 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
           {/* Input */}
           <div style={{
             padding: '12px',
-            borderTop: '1px solid #2a2a28',
+            borderTop: embedded ? '1px solid rgba(255,255,255,0.08)' : '1px solid #2a2a28',
             display: 'flex',
             gap: '8px',
+            background: embedded ? 'rgba(7,8,7,0.28)' : undefined,
           }}>
             <input
               value={input}
@@ -331,9 +361,9 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
                 flex: 1,
                 padding: '10px 12px',
                 borderRadius: '8px',
-                backgroundColor: '#2a2a28',
+                backgroundColor: embedded ? '#23241f' : '#2a2a28',
                 color: '#fff',
-                border: '1px solid #3a3a38',
+                border: embedded ? '1px solid rgba(255,255,255,0.13)' : '1px solid #3a3a38',
                 fontSize: '13px',
                 outline: 'none',
                 minWidth: 0,
@@ -345,7 +375,7 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
               style={{
                 padding: '10px 16px',
                 borderRadius: '8px',
-                backgroundColor: '#FF5C00',
+                backgroundColor: embedded ? '#B86435' : '#FF5C00',
                 color: '#fff',
                 border: 'none',
                 fontSize: '14px',

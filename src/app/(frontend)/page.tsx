@@ -156,25 +156,112 @@ export default async function HomePage() {
       <LMETicker />
 
       {/* ── HERO + AGENT START ── */}
-      <section className="relative overflow-hidden border-b border-[#2f2f2b]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(29,158,117,0.18),_transparent_45%),linear-gradient(180deg,_rgba(255,92,0,0.08),_transparent_40%)]" />
-        <div className="container relative py-10 md:py-14">
-          <div className="mx-auto mb-6 max-w-[760px] text-center md:mb-8">
-            <h2 className="font-display text-2xl font-bold leading-tight text-white md:text-3xl">
-              Basel compliance for cross-border e-waste trade
-            </h2>
-            <p className="mt-3 text-sm leading-6 md:text-base" style={{ color: '#c8c4bc' }}>
+      <section
+        data-homepage-hero
+        className="relative border-b border-[#35312c] bg-[#12130f]"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 24%, rgba(255,255,255,0.035), transparent 54%), linear-gradient(180deg, #171812 0%, #10110f 70%, #191713 100%)',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.1]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+            backgroundSize: '72px 72px',
+            maskImage: 'linear-gradient(to bottom, black, transparent 82%)',
+          }}
+        />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <img
+            data-world-map
+            src="/images/world-map.png"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="pointer-events-none absolute left-1/2 top-10 w-[560px] max-w-none -translate-x-1/2 opacity-[0.22] mix-blend-screen invert grayscale brightness-125 md:top-5 md:w-[1180px] md:opacity-[0.18]"
+          />
+        </div>
+        <svg
+          data-route-map
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-8 h-[430px] w-full md:top-0 md:h-[560px]"
+          viewBox="0 0 1440 560"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M-50 370 C 160 190, 300 450, 505 260 S 840 110, 1035 285 S 1260 430, 1490 190"
+            fill="none"
+            stroke="rgba(194,116,69,0.28)"
+            strokeDasharray="4 12"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M70 160 C 280 340, 425 80, 650 225 S 1015 410, 1375 145"
+            fill="none"
+            stroke="rgba(79,145,119,0.2)"
+            strokeDasharray="2 16"
+            strokeLinecap="round"
+            strokeWidth="1.25"
+          />
+          {[
+            { cx: 118, cy: 308, fill: '#C27445' },
+            { cx: 503, cy: 261, fill: '#1D9E75' },
+            { cx: 1035, cy: 285, fill: '#C27445' },
+            { cx: 1326, cy: 181, fill: '#1D9E75' },
+          ].map(({ cx, cy, fill }) => (
+            <g key={`${cx}-${cy}`}>
+              <circle cx={cx} cy={cy} fill={String(fill)} opacity="0.18" r="12" />
+              <circle cx={cx} cy={cy} fill={String(fill)} r="3.5" />
+            </g>
+          ))}
+        </svg>
+
+        <div className="container relative pb-0 pt-12 md:pt-20">
+          <div className="mx-auto max-w-[1060px] text-center">
+            <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#4fd1a3] md:text-xs">
+              Global compliance intelligence
+            </p>
+            <h1 className="font-display text-[2.625rem] font-bold leading-[1.04] tracking-[-0.035em] text-white md:text-[3.75rem]">
+              Basel compliance for cross-border
+              <span className="block whitespace-nowrap">e-Waste trade</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-[800px] text-base leading-7 text-[#c8c4bc] md:text-lg md:leading-8">
               Navigate classification, Prior Informed Consent, competent authorities, and
               cross-border shipment requirements with operator-focused guidance.
             </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5 text-xs font-medium text-[#d9d5cc] md:gap-3 md:text-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#c27445]/35 bg-[#211b17]/75 px-3.5 py-2 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#c27445]" />
+                <strong className="font-semibold text-white">182 jurisdictions</strong>
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#1d9e75]/35 bg-[#14201b]/75 px-3.5 py-2 backdrop-blur-sm">
+                <span className="flex h-4 w-4 items-center justify-center rounded-full border border-[#4fd1a3]/60 text-[0.6rem] text-[#4fd1a3]">✓</span>
+                <strong className="font-semibold text-white">Official Basel sources</strong>
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3.5 py-2 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#d8d3c8]" />
+                Operator-built guidance
+              </span>
+            </div>
           </div>
-          <DexMetalAgent embedded />
+
+          <div className="relative z-10 mt-9 translate-y-8 md:mt-12 md:translate-y-10">
+            <DexMetalAgent embedded />
+          </div>
         </div>
       </section>
 
       {/* ── FREE TOOLS SHOWCASE ── */}
       <section className="border-b border-[#2f2f2b]" style={{ background: '#1C1B18' }}>
-        <div className="container py-14 md:py-16">
+        <div className="container pb-14 pt-24 md:pb-16 md:pt-28">
           <div className="mb-3 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em]" style={{ color: '#1D9E75' }}>
