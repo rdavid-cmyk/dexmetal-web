@@ -212,11 +212,11 @@ export default async function HomePage() {
             strokeWidth="1.25"
           />
           {[
-            [118, 308, '#C27445'],
-            [503, 261, '#1D9E75'],
-            [1035, 285, '#C27445'],
-            [1326, 181, '#1D9E75'],
-          ].map(([cx, cy, fill]) => (
+            { cx: 118, cy: 308, fill: '#C27445' },
+            { cx: 503, cy: 261, fill: '#1D9E75' },
+            { cx: 1035, cy: 285, fill: '#C27445' },
+            { cx: 1326, cy: 181, fill: '#1D9E75' },
+          ].map(({ cx, cy, fill }) => (
             <g key={`${cx}-${cy}`}>
               <circle cx={cx} cy={cy} fill={String(fill)} opacity="0.18" r="12" />
               <circle cx={cx} cy={cy} fill={String(fill)} r="3.5" />
