@@ -1,4 +1,7 @@
+import * as Sentry from '@sentry/nextjs'
 import posthog from "posthog-js"
+
+import './sentry.client.config'
 
 const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
 const host = process.env.NEXT_PUBLIC_POSTHOG_HOST
@@ -12,3 +15,5 @@ if (key) {
     capture_pageleave: true,
   })
 }
+
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart

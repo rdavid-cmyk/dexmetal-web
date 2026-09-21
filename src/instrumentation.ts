@@ -19,8 +19,11 @@
  * This file runs once on server startup via Next.js instrumentation API
  * (stable since Next.js 14.1, fully supported in Next.js 16).
  */
+import * as Sentry from '@sentry/nextjs'
+
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
+    await import('../sentry.server.config')
     process.on('unhandledRejection', (reason: unknown) => {
       if (
         reason instanceof Error &&
@@ -41,4 +44,10 @@ export async function register() {
       // Do not suppress genuine crashes.
     })
   }
+
+  if (process.env.NEXT_RUNTIME === 'edge') {
+    await import('../sentry.edge.config')
+  }
 }
+
+export const onRequestError = Sentry.captureRequestError

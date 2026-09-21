@@ -1,5 +1,6 @@
 'use client'
 
+import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 
 const STALE_ACTION_KEYWORDS = [
@@ -22,8 +23,8 @@ export default function Error({
   )
 
   useEffect(() => {
-    console.error('DexMetal Error Boundary:', error)
-  }, [error])
+    if (!isStaleAction) Sentry.captureException(error)
+  }, [error, isStaleAction])
 
   return (
     <div
