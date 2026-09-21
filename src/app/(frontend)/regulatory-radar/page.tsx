@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { RegulatoryFilterBar } from './filter-client'
 
 export const metadata: Metadata = {
-  title: 'Basel Regulatory Radar | DexMetal',
+  title: 'Basel Regulatory Radar',
   description:
     'Track COP decisions, Ban Amendment updates, and Basel listing changes affecting cross-border e-waste and hazardous waste operations.',
   alternates: { canonical: 'https://dexmetal.com/regulatory-radar' },

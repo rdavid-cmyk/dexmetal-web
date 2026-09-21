@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Privacy Policy | DexMetal',
+  title: 'Privacy Policy',
   description:
     'How DexMetal LLC collects, uses, protects, and shares information submitted through dexmetal.com.',
 }

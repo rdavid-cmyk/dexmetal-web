@@ -4,6 +4,15 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
+// SEO fix 2026-08-12: this page never exported its own metadata, so it fell
+// through to the root layout's default and rendered the homepage's exact
+// title/description -- a real duplicate-title match, not a crawler artifact.
+export const metadata = {
+  title: 'Basel & E-Waste Regulatory News',
+  description:
+    'Curated Basel Convention, e-waste, and hazardous waste regulatory news from sources worldwide, tracked for DexMetal\'s compliance intelligence.',
+}
+
 const TAG_LABELS: Record<string, string> = {
   basel: 'Basel',
   ewaste: 'E-Waste',

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Basel Shipment Triage | DexMetal',
+  title: 'Basel Shipment Triage',
   description: 'Your shipment file checked against every required Basel element -- notification form, movement document, annexes, and consent letters -- with a written checklist of gaps before customs sees it.',
   alternates: { canonical: 'https://dexmetal.com/services/shipment-compliance-review' },
   openGraph: {
@@ -36,7 +36,7 @@ export default function ShipmentTriagePage() {
             <span className="font-body text-sm px-3 py-1 rounded-full" style={{ backgroundColor: '#2c2c2a', color: '#a0a09a' }}>48-hour turnaround</span>
           </div>
           <p className="font-body text-lg leading-relaxed" style={{ color: '#a0a09a' }}>
-            Send your shipment file. We check it against every required Basel element -- notification form, movement document, annexes, consent letters -- and send back a written checklist of what's missing or incomplete, before customs or the competent authority sees it.
+            Your shipment file, checked against every required Basel element -- notification form, movement document, annexes, consent letters -- with a written checklist of what's missing or incomplete sent back to you, before customs or the competent authority sees it.
           </p>
         </div>
 
@@ -62,6 +62,16 @@ export default function ShipmentTriagePage() {
         </section>
 
         <section className="rounded-xl p-7 mb-8" style={{ backgroundColor: '#2c2c2a', border: '1px solid #3a3a37' }}>
+          <h2 className="font-display font-bold text-white text-xl mb-4">Who reviews your file</h2>
+          <p className="font-body leading-relaxed mb-4" style={{ color: '#a0a09a' }}>
+            Every triage is reviewed personally by <span className="font-semibold text-white">Richard David</span>, founder of DexMetal LLC, based in Trinidad &amp; Tobago.
+          </p>
+          <p className="font-body leading-relaxed" style={{ color: '#a0a09a' }}>
+            Richard has 20+ years of hands-on Caribbean hazardous waste operations, including managing full Basel notification chains from Caribbean islands to destination smelters -- the same notification forms, movement documents, and annex packages this checklist is built against.
+          </p>
+        </section>
+
+        <section className="rounded-xl p-7 mb-8" style={{ backgroundColor: '#2c2c2a', border: '1px solid #3a3a37' }}>
           <h2 className="font-display font-bold text-white text-xl mb-4">Who this is for</h2>
           <p className="font-body leading-relaxed" style={{ color: '#a0a09a' }}>
             Operators who have assembled a notification file themselves and want it checked against the full requirement list before submission. Also useful before repeat shipments to a new destination, or after a prior rejection by a competent authority.
@@ -80,15 +90,20 @@ export default function ShipmentTriagePage() {
 
         <section className="rounded-xl p-7 mb-10" style={{ backgroundColor: '#1a2e27', border: '1px solid #1D9E75' }}>
           <h2 className="font-display font-bold text-white text-xl mb-3">Ready to get started?</h2>
+          <p className="font-body mb-4" style={{ color: '#a8c4bb' }}>
+            Shipment files contain confidential commercial information. In line with our{' '}
+            <Link href="/security" className="underline" style={{ color: '#1D9E75' }}>security policy</Link>
+            , do not send your shipment file or any sensitive documents through the open contact form.
+          </p>
           <p className="font-body mb-5" style={{ color: '#a8c4bb' }}>
-            Send us your shipment file or describe what you have assembled so far. We will confirm scope and turnaround within 24 hours.
+            Instead, send us a short note describing what you have assembled so far. We will confirm scope and turnaround within 24 hours, and agree a secure transfer method for your documents before anything is sent.
           </p>
           <Link
             href="/contact"
             className="inline-block font-body font-semibold text-sm px-6 py-3 rounded-lg transition-opacity hover:opacity-90"
             style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}
           >
-            Enquire about this service →
+            Start the conversation →
           </Link>
         </section>
 

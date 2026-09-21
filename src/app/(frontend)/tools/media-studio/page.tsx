@@ -1,7 +1,7 @@
 import MediaStudioClient from './page.client'
 
 export const metadata = {
-  title: 'Media Studio | DexMetal',
+  title: 'Media Studio',
   description:
     'Private DexMetal workspace for turning blog posts into video scripts, thumbnail prompts, and AI media assets.',
 }

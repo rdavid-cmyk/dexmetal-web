@@ -3,11 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Services | DexMetal',
-  description: 'Free Basel Convention compliance tools, a paid document checklist, and B2B API access for cross-border e-waste and metal exporters.',
+  description: 'Free Basel Convention compliance tools, shipment triage, and B2B REST API plus MCP access for cross-border e-waste and metal workflows.',
   alternates: { canonical: 'https://dexmetal.com/services' },
   openGraph: {
     title: 'Services -- DexMetal',
-    description: 'Free compliance tools, Basel Shipment Triage, and API access for freight forwarders and institutional partners.',
+    description: 'Free compliance tools, Basel Shipment Triage, and one Basel data layer available through REST API and MCP.',
     url: 'https://dexmetal.com/services',
     siteName: 'DexMetal',
   },
@@ -24,7 +24,7 @@ export default function ServicesPage() {
             Services
           </p>
           <h1 className="font-display font-bold text-white mb-6" style={{ fontSize: '2.75rem', lineHeight: 1.15 }}>
-            Tools, a checklist,<br />and API access
+            Tools, a checklist,<br />and API + MCP access
           </h1>
           <p className="font-body text-lg leading-relaxed max-w-2xl" style={{ color: '#a0a09a' }}>
             DexMetal is a resource platform, not a consultancy. Everything here equips you to run
@@ -65,17 +65,21 @@ export default function ServicesPage() {
           </Link>
         </section>
 
-        {/* B2B / API */}
+        {/* B2B / API / MCP */}
         <section className="rounded-xl p-8 mb-16" style={{ backgroundColor: '#1a2e27', border: '1px solid #1D9E75' }}>
           <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>03</span>
-          <h2 className="font-display font-bold text-white text-2xl mb-3">B2B API Access</h2>
+          <h2 className="font-display font-bold text-white text-2xl mb-3">B2B API &amp; MCP Access</h2>
           <p className="font-body leading-relaxed mb-6" style={{ color: '#a8c4bb' }}>
-            Freight platforms, institutional partners, and compliance software teams can integrate
-            verified competent authority data and waste classification directly via the Basel CA API.
+            One verified Basel data layer, two integration paths. Software teams can use the REST API;
+            AI assistants and agent workflows can use the DexMetal Basel CA MCP. Both access the same
+            182-country competent authority dataset -- the MCP does not maintain a separate copy.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/basel-ca-api" className="inline-block font-body font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>
-              View API docs →
+            <Link href="/developers" className="inline-block font-body font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>
+              Explore API + MCP →
+            </Link>
+            <Link href="/basel-ca-api" className="inline-block font-body text-sm px-5 py-2.5 rounded-lg border transition-colors hover:opacity-80" style={{ borderColor: '#1D9E75', color: '#a8c4bb' }}>
+              REST API details
             </Link>
             <Link href="/contact" className="inline-block font-body text-sm px-5 py-2.5 rounded-lg border transition-colors hover:opacity-80" style={{ borderColor: '#1D9E75', color: '#a8c4bb' }}>
               Enquire about integration

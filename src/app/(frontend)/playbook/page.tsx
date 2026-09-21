@@ -2,7 +2,7 @@ import AssetGate from '@/components/AssetGate'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'eWaste Trade Compliance: Operator’s Playbook | DexMetal',
+  title: 'eWaste Trade Compliance: Operator’s Playbook',
   description: 'Free 45-card practitioner\'s guide to Basel Convention compliance, eWaste trade, and the circular economy. Download now.',
   openGraph: {
     title: 'eWaste Trade Compliance: Operator\'s Playbook',

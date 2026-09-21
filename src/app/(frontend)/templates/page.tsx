@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Free Basel Convention Templates | DexMetal',
+  title: 'Free Basel Convention Templates',
   description: 'Download free Basel Convention compliance templates — vCOP8 notification forms, movement documents, and operator checklists. Built by practitioners with 20+ years of experience.',
 }
 

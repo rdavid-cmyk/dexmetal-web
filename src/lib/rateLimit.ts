@@ -5,7 +5,7 @@ redis.connect().catch(() => console.warn('[RateLimit] Redis unavailable, falling
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
-export async function checkRateLimit(ip: string, limit = 20, windowMs = 60_000): Promise<boolean> {
+export async function checkRateLimit(ip: string, limit = 5, windowMs = 60_000): Promise<boolean> {
   const key = `rl:${ip}`;
   const now = Date.now();
 

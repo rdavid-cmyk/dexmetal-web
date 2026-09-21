@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Changelog | DexMetal',
+  title: 'Changelog',
   description: 'What we have shipped — new tools, platform updates, and improvements to dexmetal.com.',
   alternates: { canonical: 'https://dexmetal.com/changelog' },
   openGraph: {

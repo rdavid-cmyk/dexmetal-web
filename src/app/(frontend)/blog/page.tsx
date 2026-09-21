@@ -8,9 +8,16 @@ import type { Category, Media as MediaType } from '@/payload-types'
 export const revalidate = 60
 
 export const metadata = {
-  title: 'Blog | DexMetal',
+  title: 'Blog',
   description:
     'Basel Convention compliance insights, e-waste trade analysis, and circular economy perspectives from DexMetal.',
+  // SEO fix 2026-08-12: this page ignores all query params (always renders
+  // the same 24-post listing regardless of ?page=N), so arbitrary query
+  // strings were being crawled as separate duplicate-content URLs. Canonical
+  // tells search engines every variant is the same authoritative page.
+  alternates: {
+    canonical: 'https://dexmetal.com/blog',
+  },
 }
 
 function getCategoryTitle(category: number | Category | null | undefined) {

@@ -5,7 +5,12 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, company, question } = await req.json()
+    const { name, email, company, question, website } = await req.json()
+
+    // Honeypot — hidden field only bots fill in. Silently accept, do nothing.
+    if (website) {
+      return NextResponse.json({ success: true })
+    }
 
     if (!name || !email || !question) {
       return NextResponse.json({ error: 'Name, email and question are required.' }, { status: 400 })

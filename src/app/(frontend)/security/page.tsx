@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Security | DexMetal',
+  title: 'Security',
   description: 'DexMetal security practices and responsible reporting contact path.',
 }
 

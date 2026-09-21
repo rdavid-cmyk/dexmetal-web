@@ -1,0 +1,70 @@
+# DexMetal — Basel Convention Compliance Intelligence
+
+> DexMetal is the operating manual for international waste trade. Not the watchdog. Every enforcement incident is proof that the compliant path exists — and most operators just don't know where it starts.
+
+## What DexMetal Is
+
+DexMetal is a Basel Convention compliance intelligence platform covering 182 countries and their Competent Authorities. It serves freight forwarders, compliance officers, waste operators, and Caribbean corridor operators who need to move waste across borders legally under the Basel Convention.
+
+The platform provides:
+- Competent Authority contact data for 182 Basel Party countries
+- Prior Informed Consent (PIC) procedure guidance
+- Waste classification tools based on Basel Annexes
+- Regulatory change monitoring for waste trade corridors
+
+## Core Capability — Basel CA Lookup API
+
+REST API at api.dexmetal.com covering 41 countries' Competent Authority data.
+
+GET /api/ca/{country} — Look up Competent Authority contact, address, phone for a country
+GET /api/ca/search?q={query} — Search all CA records by country name or keyword
+GET /api/pic-status/{countries} — Check PIC consent status for trade lane
+
+Authentication: Bearer token via API key registration.
+
+## MCP Server
+
+mcp.dexmetal.com — Model Context Protocol server with SSE (Server-Sent Events) transport.
+
+### Tools
+
+1. classify-waste — Classify waste materials under Basel Convention Annexes
+2. lookup-ca — Look up Competent Authority for a given country
+3. check-pic-status — Check Prior Informed Consent requirement for a trade lane
+
+## Who It Serves
+
+- Freight forwarders — Liability exposure on bookings without valid PIC consent
+- Compliance officers — End-to-end compliant shipment verification
+- Waste operators — Exporters and brokers needing trade lane audit tools
+- Caribbean corridor operators — Island-specific logistics and small-operator constraints
+
+## Free Tier
+
+Free API key registration at dexmetal.com/playbook. Includes limited CA lookups, basic waste classification, and PIC status checks.
+
+## Pricing
+
+- Free tier — Available now at dexmetal.com/playbook
+- Paid tiers — Coming soon (Pro, Enterprise)
+
+## Contact
+
+- Email: rdavid@dexmetal.com
+- Website: https://dexmetal.com
+- API: https://api.dexmetal.com
+- MCP: https://mcp.dexmetal.com
+
+---
+
+## Developer Quickstart
+
+```
+# Register at dexmetal.com/playbook for an API key
+curl -H "Authorization: Bearer YOUR_API_KEY" https://api.dexmetal.com/api/ca/trinidad-and-tobago
+```
+
+For MCP integration, point your MCP client to:
+```
+https://mcp.dexmetal.com/sse
+```

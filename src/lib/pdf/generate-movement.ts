@@ -88,7 +88,10 @@ export async function generateMovementPdf(formData: FormProject): Promise<Uint8A
   const pages = pdfDoc.getPages();
   const fontSize = 10;
 
-  const mv = formData as unknown as Record<string, Record<string, unknown>> | null | undefined;
+  // The route passes the full request body (which nests movement blocks under
+  // .movement, matching how handleMovementPDF builds its payload). Unwrap to
+  // the block map. Fall back to top-level for callers that pass blocks directly.
+  const mv = (formData.movement ?? formData) as unknown as Record<string, Record<string, unknown>> | null | undefined;
   if (!mv) return new Uint8Array(await pdfDoc.save());
 
   // Flatten nested block_8 carriers and block_9 generators into a flat data map

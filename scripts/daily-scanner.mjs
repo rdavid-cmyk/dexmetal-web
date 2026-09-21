@@ -7,7 +7,7 @@
 
 import tls from 'tls';
 import { execSync, exec } from 'child_process';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync, writeFileSync } from 'fs';
 import { promisify } from 'util';
 import { runSeoChecks } from '/var/www/dexmetal-monitor/seo-checks.mjs';
 
@@ -47,13 +47,13 @@ const ENDPOINTS = [
 
 const DOM_CHECKS = [
   { url: 'https://dexmetal.com', checks: ['copilot', 'tools-nav', 'images'] },
-  { url: 'https://dexmetal.com/tools/basel-classification-quickscan', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/ewaste-material-recovery', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/ewaste-route-mapper', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/pic-status-checker', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/shipment-eligibility-checker', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/ulab-export-calculator', checks: ['copilot', 'form', 'email-gate'] },
-  { url: 'https://dexmetal.com/tools/basel-navigator', checks: ['copilot', 'form', 'email-gate', 'no-js-errors'] },
+  { url: 'https://dexmetal.com/tools/basel-classification-quickscan', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/ewaste-material-recovery', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/ewaste-route-mapper', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/pic-status-checker', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/shipment-eligibility-checker', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/ulab-export-calculator', checks: ['copilot', 'form'] },
+  { url: 'https://dexmetal.com/tools/basel-navigator', checks: ['copilot', 'form', 'no-js-errors'] },
 ];
 
 const SSL_DOMAINS = ['dexmetal.com', 'api.dexmetal.com', 'mcp.dexmetal.com'];
@@ -73,6 +73,7 @@ const results = {
     ssl: {},
     pm2Memory: 0,
     diskPct: 0,
+    coverageChecks: 0,
   },
 };
 
@@ -216,18 +217,6 @@ async function checkDom() {
       const url = pageConfig.url;
 
       for (const check of pageConfig.checks) {
-        if (check === 'copilot') {
-          const el = await page.$('.vera-host').catch(() => null);
-          const hasCopilot = el || html.includes('vera-host');
-          if (!hasCopilot) {
-            results.warnings.push({ item: url, detail: 'VeraCopilot widget not found in DOM' });
-            results.stats.issuesFound++;
-            console.log(`  ⚠️  ${url} → VeraCopilot missing`);
-          } else {
-            console.log(`  ✅ ${url} → VeraCopilot present`);
-          }
-        }
-
         if (check === 'tools-nav') {
           const hasTools =
             html.includes('>Tools<') ||
@@ -271,6 +260,17 @@ async function checkDom() {
           }
         }
 
+        // 'email-gate' check DISABLED 2026-08-14 (Chairman): this check never
+        // walked each tool's real question flow before looking for the gate,
+        // so it checked for a literal "Unlock Results" button that has never
+        // been the real CTA text on any tool -- guaranteed false positive
+        // every single day since it was added. The check that actually
+        // matters (is a tool gated on load, locking out real first-time
+        // visitors) is covered correctly and separately by
+        // /var/www/dexmetal-monitor/check-tools-health.py (real Playwright
+        // click-test, runs daily). Removed from every tool's checks[] above
+        // rather than deleting this handler, in case a real per-tool
+        // click-through check gets built here later.
         if (check === 'email-gate') {
           let hasEmail = await page.$('input[type="email"]').catch(() => null);
           if (!hasEmail) {
@@ -427,30 +427,82 @@ async function checkDisk() {
   }
 }
 
-// ─── 3 — VeraCopilot presence check ─────────────────────────────────────────
 
-async function checkVeraCopilot() {
-  const layoutPath = `${APP_ROOT}/src/app/(frontend)/layout.tsx`;
+// ─── 2F — BROAD SYSTEM COVERAGE (GEO-1 V2) ──────────────────────────────────
+
+async function checkSystemCoverage() {
+  console.log('\n[2F] Running GEO-1 broad system coverage...');
   try {
-    const content = readFileSync(layoutPath, 'utf8');
-    const hasImport = content.includes("from '@/components/VeraCopilot'");
-    const hasRender = content.includes('<VeraCopilot');
-    if (!hasImport || !hasRender) {
-      results.critical.push({
-        item: 'layout.tsx',
-        detail: 'VeraCopilot import or render tag missing',
-      });
-      results.stats.issuesFound++;
-      console.log('\n[3] ⚠️  VeraCopilot missing from layout.tsx — flagged CRITICAL');
-    } else {
-      console.log('\n[3] ✅ VeraCopilot present in layout.tsx');
+    const { stdout } = await execAsync(
+      '/usr/bin/python3 /var/www/dexmetal-monitor/geo1-coverage-scan.py',
+      { timeout: 60000 }
+    );
+    const coverage = JSON.parse(stdout);
+    results.stats.coverageChecks = coverage.total || 0;
+    for (const c of coverage.checks || []) {
+      const item = 'GEO-1 ' + c.name;
+      if (c.status === 'CRITICAL') {
+        results.critical.push({ item, detail: c.detail });
+        results.stats.issuesFound++;
+      } else if (c.status === 'WARN') {
+        results.warnings.push({ item, detail: c.detail });
+        results.stats.issuesFound++;
+      } else {
+        results.healthy.push(item + ' -> ' + c.detail);
+      }
     }
+    console.log('  Coverage: ' + coverage.pass + '/' + coverage.total + ' pass, ' + coverage.warn + ' warn, ' + coverage.critical + ' critical');
   } catch (err) {
-    console.log('\n[3] Could not read layout.tsx:', err.message);
+    results.warnings.push({ item: 'GEO-1 broad coverage', detail: 'Coverage scan failed: ' + err.message });
+    results.stats.issuesFound++;
+    console.log('  GEO-1 coverage scan failed: ' + err.message);
   }
 }
 
 // ─── 4 — TELEGRAM REPORT ─────────────────────────────────────────────────────
+// Warning throttling (added 2026-08-14, Chairman): a warning that's already
+// known, understood, and unchanged in kind (e.g. the contained restart-count
+// pattern) used to get printed in full every single day forever. This
+// tracks how many days in a row each warning "signature" (item + detail with
+// digits stripped, so a count ticking 30->32 still matches) has fired, and
+// collapses it to a short line after REPEAT_THRESHOLD days instead of
+// repeating the full detail. CRITICAL items are never throttled - only
+// warnings, which are explicitly the "monitor, don't panic" tier already.
+const SCANNER_STATE_FILE = '/var/www/dexmetal-web/scripts/.scanner-warning-state.json';
+const WARNING_REPEAT_THRESHOLD = 3;
+
+function loadScannerState() {
+  try {
+    if (existsSync(SCANNER_STATE_FILE)) return JSON.parse(readFileSync(SCANNER_STATE_FILE, 'utf8'));
+  } catch {}
+  return {};
+}
+function saveScannerState(state) {
+  try { writeFileSync(SCANNER_STATE_FILE, JSON.stringify(state, null, 2)); } catch {}
+}
+function throttleWarnings(warnings) {
+  const state = loadScannerState();
+  const currentSigs = new Set();
+  const fresh = [];
+  const collapsed = [];
+  for (const w of warnings) {
+    const sig = `${w.item}::${w.detail.replace(/\d+/g, '#')}`;
+    currentSigs.add(sig);
+    const timesShown = (state[sig] || 0) + 1;
+    state[sig] = timesShown;
+    if (timesShown <= WARNING_REPEAT_THRESHOLD) {
+      fresh.push(w);
+    } else {
+      collapsed.push(w);
+    }
+  }
+  // drop signatures that didn't fire today (resolved) so they start fresh if they ever recur
+  for (const sig of Object.keys(state)) {
+    if (!currentSigs.has(sig)) delete state[sig];
+  }
+  saveScannerState(state);
+  return { fresh, collapsed };
+}
 
 async function sendTelegram() {
   const token = getTelegramToken();
@@ -469,8 +521,12 @@ async function sendTelegram() {
     results.critical.forEach((c) => (msg += `- ${c.item}: ${c.detail}\n`));
   }
   if (results.warnings.length) {
+    const { fresh, collapsed } = throttleWarnings(results.warnings);
     msg += `\n⚠️ WARNINGS (monitor):\n`;
-    results.warnings.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
+    fresh.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
+    if (collapsed.length) {
+      msg += `- + ${collapsed.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (see STATE.md / yesterday's scan for detail)\n`;
+    }
   }
   if (results.autoFixed.length) {
     msg += `\n🔧 AUTO-FIXED:\n`;
@@ -480,6 +536,7 @@ async function sendTelegram() {
   msg += `\n📊 STATS:\n`;
   msg += `- Endpoints checked: ${results.stats.endpointsChecked}\n`;
   msg += `- Pages scanned: ${results.stats.pagesScanned}\n`;
+  msg += `- System coverage checks: ${results.stats.coverageChecks}\n`;
   msg += `- Issues found: ${results.stats.issuesFound}\n`;
   msg += `- Auto-fixed: ${results.stats.autoFixed}\n`;
   msg += `- SSL days remaining: ${sslLine}\n`;
@@ -633,7 +690,7 @@ async function main() {
   await checkSsl();
   await checkPm2();
   await checkDisk();
-  await checkVeraCopilot();
+  await checkSystemCoverage();
   await checkSecurity();
   await checkDom();
   await checkSeo();

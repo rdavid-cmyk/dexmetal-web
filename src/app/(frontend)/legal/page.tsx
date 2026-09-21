@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Legal | DexMetal',
+  title: 'Legal',
   description:
     'Legal notices, informational-use disclaimer, and terms for using DexMetal content and tools.',
 }

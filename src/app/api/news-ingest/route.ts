@@ -65,6 +65,43 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Title-dedup-on-insert (added 2026-08-10, reopens tasks #666/#668):
+    // the route previously only deduped on `url`. That misses the duplicate-
+    // by-title/different-URL case (task #593 evidence: 60/66, 61/69, 62/64
+    // were exact-title pairs from different upstream sources). Reject the
+    // candidate here BEFORE the create() call.
+    const normTitle = (article.title || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9 ]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+    if (normTitle) {
+      try {
+        const titleHits = await payload.find({
+          collection: 'news-articles',
+          where: {},
+          limit: 500,
+          depth: 0,
+          overrideAccess: true,
+        })
+        const dupe = titleHits.docs.find(
+          (d) =>
+            (d.title || "")
+              .toLowerCase()
+              .replace(/[^a-z0-9 ]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim() === normTitle,
+        )
+        if (dupe) {
+          skipped++
+          continue
+        }
+      } catch (err) {
+        console.error('[news-ingest] title-dedup check error:', err)
+        // non-fatal: fall through to url-dedup below
+      }
+    }
+
     try {
       const existing = await payload.find({
         collection: 'news-articles',

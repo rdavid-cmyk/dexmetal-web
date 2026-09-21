@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import NavigatorInternalGate from '@/components/NavigatorInternalGate'
+import { BaselCopilot } from '@/components/BaselCopilot'
 import JSZip from 'jszip'
 import ShepherdTour, { TourStep } from '@/components/tools/ShepherdTour'
 
@@ -320,7 +321,7 @@ function BaselFormAssistantPageContent() {
 
   const handleMovementPDFClick = useCallback(() => {
     if (gateUnlocked) {
-      handleGeneratePDF()
+      handleMovementPDF()
     } else {
       setShowMovementPdfGate(true)
     }
@@ -711,7 +712,7 @@ const handleGeneratePDF = async () => {
       const response = await fetch('/api/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formProject)
+        body: JSON.stringify({ ...formProject, documentType: 'notification' })
       })
 
       if (!response.ok) {
@@ -789,7 +790,7 @@ const handleGeneratePDF = async () => {
       const response = await fetch('/api/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formProject)
+        body: JSON.stringify({ ...formProject, documentType: 'movement' })
       })
 
       if (!response.ok) {
@@ -1516,11 +1517,33 @@ const handleGeneratePDF = async () => {
   }
 
   if (selectedDoc === 'notification' && activeTab === 'fill') {
-    return renderNotificationForm()
+    return (
+      <>
+        {renderNotificationForm()}
+        <NavigatorInternalGate
+          showModal={showNotificationPdfGate}
+          setShowModal={setShowNotificationPdfGate}
+          onUnlock={handleGateUnlock}
+          label="Notification PDF Generation"
+          description="Enter your email to generate the final Notification PDF draft. We will also send you a copy of the Basel vCOP8 Notification filled with your data."
+        />
+      </>
+    )
   }
 
   if (selectedDoc === 'movement' && activeTab === 'fill') {
-    return renderMovementForm()
+    return (
+      <>
+        {renderMovementForm()}
+        <NavigatorInternalGate
+          showModal={showMovementPdfGate}
+          setShowModal={setShowMovementPdfGate}
+          onUnlock={handleGateUnlock}
+          label="Movement PDF Generation"
+          description="Enter your email to generate the final Movement Document PDF draft. We will also send you a copy of the Basel vCOP8 Movement Document filled with your data."
+        />
+      </>
+    )
   }
 
   if (activeTab === 'submission') {
@@ -1841,6 +1864,7 @@ export default function BaselFormAssistantPage() {
   return (
     <>
       <BaselFormAssistantPageContent />
+      <BaselCopilot />
       {/* page-level metadata wrapper slot kept simple — no outer gate. */}
     </>
   )

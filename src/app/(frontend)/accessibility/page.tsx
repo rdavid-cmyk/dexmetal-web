@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Accessibility | DexMetal',
+  title: 'Accessibility',
   description: 'DexMetal accessibility statement and contact path for website accessibility issues.',
 }
 

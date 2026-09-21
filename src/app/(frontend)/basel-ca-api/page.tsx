@@ -1,7 +1,7 @@
 import BaselCaApiClient from './page.client'
 
 export const metadata = {
-  title: 'Basel CA API | DexMetal',
+  title: 'Basel CA API',
   description: 'Free Basel Convention Competent Authority API — look up national Basel contacts for 182 countries. No login required.',
 }
 

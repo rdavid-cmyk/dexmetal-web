@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
-  title: 'Contact | DexMetal',
+  title: 'Contact',
   description: 'Get Basel compliance help from DexMetal. Ask a question, request async consulting, or reach out directly.',
   alternates: { canonical: 'https://dexmetal.com/contact' },
   openGraph: {

@@ -7,7 +7,7 @@ type State = 'idle' | 'loading' | 'success' | 'error'
 export default function ContactForm() {
   const [state, setState] = useState<State>('idle')
   const [error, setError] = useState('')
-  const [form, setForm] = useState({ name: '', email: '', company: '', question: '' })
+  const [form, setForm] = useState({ name: '', email: '', company: '', question: '', website: '' })
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -51,6 +51,10 @@ export default function ContactForm() {
     <section className="mb-10 p-6 rounded-xl" style={{ backgroundColor: '#2c2c2a' }}>
       <h2 className="font-display font-bold text-white text-lg mb-6">Submit a Question</h2>
       <form onSubmit={submit} className="space-y-4">
+        <div style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true" role="presentation">
+          <label htmlFor="website">Leave this field empty</label>
+          <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handle} />
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label className={labelClass} htmlFor="name">Your Name *</label>

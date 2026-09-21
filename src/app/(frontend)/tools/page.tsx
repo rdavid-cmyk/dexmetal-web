@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Compliance Tools | DexMetal',
+  title: 'Compliance Tools',
   description: 'Basel compliance tools — checklists, templates, waste code lookup, movement document guides, and more.',
 }
 
