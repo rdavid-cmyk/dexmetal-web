@@ -1,5 +1,8 @@
 'use client'
 
+import * as Sentry from '@sentry/nextjs'
+import { useEffect } from 'react'
+
 export default function GlobalError({
   error,
   reset,
@@ -10,6 +13,10 @@ export default function GlobalError({
   const isStaleAction =
     error.message?.includes('Failed to find Server Action') ||
     error.message?.includes('older or newer deployment')
+
+  useEffect(() => {
+    if (!isStaleAction) Sentry.captureException(error)
+  }, [error, isStaleAction])
 
   return (
     <html lang="en" style={{ backgroundColor: '#1C1B18' }}>

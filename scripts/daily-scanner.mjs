@@ -74,6 +74,8 @@ const results = {
     pm2Memory: 0,
     diskPct: 0,
     coverageChecks: 0,
+    sentryIssues24h: 0,
+    sentryRegressions24h: 0,
   },
 };
 
@@ -94,6 +96,28 @@ function getTelegramToken() {
     }
   } catch {}
   return null;
+}
+
+function getSentryToken() {
+  if (process.env.SENTRY_GEO1_AUTH_TOKEN) return process.env.SENTRY_GEO1_AUTH_TOKEN;
+  try {
+    const env = readFileSync(`${APP_ROOT}/.env.local`, 'utf8');
+    const match = env.match(/^SENTRY_GEO1_AUTH_TOKEN=(.+)$/m);
+    if (match) return match[1].trim().replace(/^['"]|['"]$/g, '');
+  } catch {}
+  return null;
+}
+
+async function fetchSentryIssues(token, query) {
+  const url = new URL('https://sentry.io/api/0/projects/dexmetal/dexmetal-web/issues/');
+  url.searchParams.set('query', query);
+  url.searchParams.set('limit', '100');
+  url.searchParams.set('sort', 'freq');
+  const { res } = await fetchWithTimeout(url, {
+    headers: { Authorization: `Bearer ${token}`, 'User-Agent': 'DexMetal-GEO1/1.0' },
+  });
+  if (!res.ok) throw new Error(`Sentry API HTTP ${res.status}`);
+  return res.json();
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
@@ -542,6 +566,8 @@ async function sendTelegram() {
   msg += `- SSL days remaining: ${sslLine}\n`;
   msg += `- PM2 memory: ${results.stats.pm2Memory}MB\n`;
   msg += `- Disk: ${results.stats.diskPct}% used\n`;
+  msg += `- Sentry unresolved (24h): ${results.stats.sentryIssues24h}\n`;
+  msg += `- Sentry regressions (24h): ${results.stats.sentryRegressions24h}\n`;
   msg += `\n🕐 Next scan: tomorrow 06:00 AST`;
 
   console.log('\n─── TELEGRAM REPORT ───────────────────────────────────');
@@ -679,6 +705,40 @@ async function checkSeo() {
   }
 }
 
+async function checkSentry() {
+  console.log('\n[SENTRY] Checking production errors and regressions...');
+  const token = getSentryToken();
+  if (!token) {
+    results.warnings.push({ item: 'Sentry', detail: 'GEO-1 read-only token is not configured' });
+    results.stats.issuesFound++;
+    return;
+  }
+
+  try {
+    const [recent, regressed] = await Promise.all([
+      fetchSentryIssues(token, 'is:unresolved lastSeen:-24h'),
+      fetchSentryIssues(token, 'is:unresolved is:regressed lastSeen:-24h'),
+    ]);
+    results.stats.sentryIssues24h = recent.length;
+    results.stats.sentryRegressions24h = regressed.length;
+    if (recent.length === 0) {
+      results.healthy.push('Sentry → no unresolved production issues in 24h');
+    } else {
+      const count = recent.length === 100 ? '100+' : String(recent.length);
+      results.warnings.push({ item: 'Sentry', detail: `${count} unresolved production issue(s) seen in 24h` });
+      results.stats.issuesFound++;
+    }
+    if (regressed.length > 0) {
+      const count = regressed.length === 100 ? '100+' : String(regressed.length);
+      results.critical.push({ item: 'Sentry regression', detail: `${count} regressed issue(s) seen in 24h` });
+      results.stats.issuesFound++;
+    }
+  } catch (err) {
+    results.warnings.push({ item: 'Sentry', detail: `Read-only API check failed: ${err.message}` });
+    results.stats.issuesFound++;
+  }
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -694,6 +754,7 @@ async function main() {
   await checkSecurity();
   await checkDom();
   await checkSeo();
+  await checkSentry();
   await sendTelegram();
 
   console.log('\n✅ Scanner complete.');

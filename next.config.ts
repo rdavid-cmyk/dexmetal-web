@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -65,7 +66,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https:",
-              "connect-src 'self' https://api.groq.com https://api.dexmetal.com https://mcp.dexmetal.com https://*.posthog.com",
+              "connect-src 'self' https://api.groq.com https://api.dexmetal.com https://mcp.dexmetal.com https://*.posthog.com https://*.ingest.sentry.io https://*.ingest.us.sentry.io",
               "worker-src 'self' blob: data:",
               "frame-src 'self' https://gamma.app https://*.posthog.com",
             ].join('; '),
@@ -76,4 +77,12 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withSentryConfig(
+  withPayload(nextConfig, { devBundleServerPackages: false }),
+  {
+    org: 'dexmetal',
+    project: 'dexmetal-web',
+    silent: true,
+    widenClientFileUpload: false,
+  },
+)
