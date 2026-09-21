@@ -58,6 +58,7 @@
     "payload": "3.81.0",
     "pdf-lib": "^1.17.1",
     "pg": "^8.20.0",
+    "posthog-js": "^1.434.2",
     "prism-react-renderer": "^2.3.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
