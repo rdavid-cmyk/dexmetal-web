@@ -1,6 +1,5 @@
 import { defineConfig, devices } from "@playwright/test"
 import "dotenv/config"
-import { createChecklyReporter } from "@checkly/playwright-reporter"
 
 const checklyEnabled = Boolean(process.env.CHECKLY_API_KEY && process.env.CHECKLY_ACCOUNT_ID)
 
@@ -9,7 +8,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: checklyEnabled ? [["html"], createChecklyReporter()] : "html",
+  reporter: checklyEnabled ? [["html"], ["@checkly/playwright-reporter", {}]] : "html",
   use: {
     trace: "on-first-retry",
   },
