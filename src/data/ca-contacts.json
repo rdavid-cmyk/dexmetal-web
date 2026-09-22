@@ -1,0 +1,170 @@
+{
+  "BE": {
+    "name": "FPS Health, Food Chain Safety and Environment",
+    "email": "env.transports@health.fgov.be"
+  },
+  "DE": {
+    "name": "Federal Environment Agency (UBA)",
+    "email": "grenzueberschreitende-abfallverbringung@uba.de"
+  },
+  "JP": {
+    "name": "Ministry of the Environment \u2014 Waste and Recycling Dept.",
+    "email": null
+  },
+  "KR": {
+    "name": "Ministry of Environment \u2014 Basel Secretariat",
+    "email": null
+  },
+  "IN": {
+    "name": "Ministry of Environment, Forest and Climate Change (MoEFCC)",
+    "email": "secy-moef@nic.in"
+  },
+  "NG": {
+    "name": "Federal Ministry of Environment \u2014 Hazardous Substances Dept.",
+    "email": null
+  },
+  "GH": {
+    "name": "Environmental Protection Agency Ghana",
+    "email": "info@epa.gov.gh"
+  },
+  "NL": {
+    "name": "Dutch Emissions Authority",
+    "email": "info@emissieautoriteit.nl"
+  },
+  "GB": {
+    "name": "Environment Agency UK",
+    "email": "enquiries@environment-agency.gov.uk"
+  },
+  "IT": {
+    "name": "Ministry of Environment Italy",
+    "email": "dgr@minambiente.it"
+  },
+  "AT": {
+    "name": "Federal Ministry Austria",
+    "email": "post@bmdw.gv.at"
+  },
+  "SE": {
+    "name": "Swedish Chemicals Agency",
+    "email": "kansli@kemi.se"
+  },
+  "NO": {
+    "name": "Norwegian Environment Agency",
+    "email": "post@miljodir.no"
+  },
+  "CH": {
+    "name": "FOEN",
+    "email": "info@bafu.admin.ch"
+  },
+  "AU": {
+    "name": "Department of Environment",
+    "email": "bcp@environment.gov.au"
+  },
+  "NZ": {
+    "name": "Ministry for the Environment",
+    "email": "enquiries@mfe.govt.nz"
+  },
+  "ES": {
+    "name": "MITECO",
+    "email": "residuos@miteco.es"
+  },
+  "PT": {
+    "name": "APA",
+    "email": "geral@apambiente.pt"
+  },
+  "PL": {
+    "name": "Chief Inspectorate",
+    "email": "gios@gios.gov.pl"
+  },
+  "CZ": {
+    "name": "CENIA",
+    "email": "cenia@mzp.cz"
+  },
+  "SG": {
+    "name": "NEA",
+    "email": "nea-unesc@nies.net"
+  },
+  "TH": {
+    "name": "Pollution Control Dept",
+    "email": "pcd@pcd.go.th"
+  },
+  "VN": {
+    "name": "Vietnam Environment Admin",
+    "email": "vea@vea.gov.vn"
+  },
+  "PH": {
+    "name": "EMB",
+    "email": "embc@emb.gov.ph"
+  },
+  "ID": {
+    "name": "Ministry of Environment",
+    "email": "hubungi@kemenlhk.go.id"
+  },
+  "MY": {
+    "name": "DOE",
+    "email": "jpnkl@doe.gov.my"
+  },
+  "HK": {
+    "name": "EPD",
+    "email": "epd@epd.gov.hk"
+  },
+  "TW": {
+    "name": "EPA Taiwan",
+    "email": "epa@epa.gov.tw"
+  },
+  "MX": {
+    "name": "SEMARNAT",
+    "email": "dgirm@semarnat.gob.mx"
+  },
+  "CO": {
+    "name": "Min Ambiente",
+    "email": "basel@minambiente.gov.co"
+  },
+  "BR": {
+    "name": "IBAMA",
+    "email": "ibama@ibama.gov.br"
+  },
+  "CL": {
+    "name": "SMA",
+    "email": "sma@sma.gob.cl"
+  },
+  "PE": {
+    "name": "SENACE",
+    "email": "pcg@senace.gob.pe"
+  },
+  "AR": {
+    "name": "MAyDS",
+    "email": "residuos@ambiente.gob.ar"
+  },
+  "ZA": {
+    "name": "DEA",
+    "email": "documents@environment.gov.za"
+  },
+  "KE": {
+    "name": "NEMA",
+    "email": "nema@nema.go.ke"
+  },
+  "EG": {
+    "name": "EEAA",
+    "email": "eeaa@eeaa.gov.eg"
+  },
+  "MA": {
+    "name": "MEM",
+    "email": "minep@environment.gov.ma"
+  },
+  "TT": {
+    "name": "EMA",
+    "email": "ema@ema.co.tt"
+  },
+  "JM": {
+    "name": "NEPA",
+    "email": "nepa@jamaica-eis.org"
+  },
+  "BB": {
+    "name": "EPD",
+    "email": "epd@barbados.gov.bb"
+  },
+  "US": {
+    "name": "EPA",
+    "email": "complianceinfo@epa.gov"
+  }
+}
