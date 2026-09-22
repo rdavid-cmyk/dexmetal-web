@@ -30,3 +30,5 @@ data/
 HETZNER-AUDIT.md
 _ARCHIVE_UNCOMMITTED_*/
 public/previews/
+tsconfig.tsbuildinfo
+scripts/.scanner-warning-state.json
