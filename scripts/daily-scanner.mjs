@@ -719,7 +719,8 @@ async function checkSentry() {
       fetchSentryIssues(token, 'is:unresolved lastSeen:-24h'),
       fetchSentryIssues(token, 'is:unresolved is:regressed lastSeen:-24h'),
     ]);
-    const isVerification = (issue) => String(issue.title || '').startsWith('DexMetal Sentry production verification ');
+    const isVerification = (issue) =>
+      /^DexMetal Sentry (?:production|server|browser) verification /.test(String(issue.title || ''));
     const recent = recentRaw.filter((issue) => !isVerification(issue));
     const regressed = regressedRaw.filter((issue) => !isVerification(issue));
     results.stats.sentryIssues24h = recent.length;
