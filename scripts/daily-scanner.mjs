@@ -405,12 +405,13 @@ async function checkPm2() {
     }
 
     const restarts = web.pm2_env.restart_time ?? 0;
-    if (restarts > 5) {
-      results.warnings.push({ item: 'dexmetal-web', detail: `High restart count: ${restarts}` });
+    const unstableRestarts = web.pm2_env.unstable_restarts ?? 0;
+    if (unstableRestarts > 0) {
+      results.warnings.push({ item: 'dexmetal-web', detail: `Unstable restarts: ${unstableRestarts} (lifetime restarts: ${restarts})` });
       results.stats.issuesFound++;
-      console.log(`  ⚠️  Restart count: ${restarts} (>5 threshold)`);
+      console.log(`  ⚠️  Unstable restarts: ${unstableRestarts}; lifetime restarts: ${restarts}`);
     } else {
-      console.log(`  ✅ Restart count: ${restarts}`);
+      console.log(`  ✅ Restart stability: 0 unstable; lifetime restarts: ${restarts}`);
     }
   } catch (err) {
     results.warnings.push({ item: 'PM2', detail: `pm2 jlist failed: ${err.message}` });
