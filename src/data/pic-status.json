@@ -2,28 +2,28 @@
   "picProcedureSteps": [
     {
       "step": 1,
-      "title": "File notification with your national Competent Authority",
-      "detail": "Prepare and submit the Basel notification document to your country's CA \u2014 include waste type, quantities, proposed route, receiving facility permit, and financial guarantee details."
+      "title": "Confirm classification and States concerned",
+      "detail": "Confirm whether the material is waste, its current Basel entry, and every State of export, import and planned transit. For e-waste, use A1181/Y49 where applicable and check current OECD/national controls."
     },
     {
       "step": 2,
-      "title": "CA transmits notification to destination (and transit) CAs",
-      "detail": "Your national CA forwards the complete notification package to the importing country CA and any transit country CAs within the required timeframe."
+      "title": "File through the competent authority of export",
+      "detail": "Submit the required notification package through the State of export in accordance with Article 6 and applicable national procedures."
     },
     {
       "step": 3,
-      "title": "Destination CA acknowledges receipt",
-      "detail": "The importing country CA issues a formal acknowledgement of receipt. This starts the consent clock under Article 6(2). Keep a copy \u2014 it is part of your compliance record."
+      "title": "Authorities of import and transit review",
+      "detail": "The State of import and each relevant State of transit apply the consent, objection or waiver rules that actually govern that route. Do not assume one universal OECD consent procedure."
     },
     {
       "step": 4,
-      "title": "Written consent (or tacit approval) received",
-      "detail": "For explicit PIC: the destination CA issues written consent specifying conditions. For OECD tacit consent (C(2001)107): 30 days' silence after acknowledgement = deemed approval."
+      "title": "Record the required consents or lawful waivers",
+      "detail": "Do not move until the required written consents, applicable lawful tacit-consent conditions, or transit waivers are established for the specific route."
     },
     {
       "step": 5,
-      "title": "Documentation complete \u2014 shipment may proceed",
-      "detail": "Retain all consent letters with your movement documents. Shipment must begin within the validity period specified in the consent. Movement documents must accompany the waste at all times."
+      "title": "Verify conditions immediately before movement",
+      "detail": "Confirm consent validity, national conditions, route, carrier and movement-document requirements before shipment. Re-check any authority contact or rule that may have changed."
     }
   ],
   "countryRequirements": {
@@ -808,7 +808,7 @@
       "notes": "Confirm consent type with destination CA"
     },
     "CI": {
-      "country_name": "C\u00f4te d'Ivoire",
+      "country_name": "Côte d'Ivoire",
       "consent_type": "unknown",
       "response_deadline_days": 90,
       "competent_authority_required": true,
