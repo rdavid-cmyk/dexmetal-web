@@ -23,10 +23,10 @@ Optional:
 - Known Basel code
 - Route notes / receiving-facility context
 
-No document uploads in V1. Do not collect notification files, contracts, IDs, permits, or other sensitive attachments through this form.
+No document uploads in V1. Do not collect notification files, contracts, IDs, permits, or other sensitive attachments through this form. Each submission is retained in the private server-side Route Check store before alerts are attempted.
 ## Fulfillment sequence
 
-1. Open the private Route Check email using the submission reference SRC-YYYYMMDD-XXXXXX.
+1. Open the private Route Check submission record using the reference SRC-YYYYMMDD-XXXXXX. Richard receives an immediate Telegram alert.
 2. Run the submitted facts through the four existing corrected DexMetal tools — do not build or use a separate route engine:
    - Basel Classification QuickScan
    - Shipment Eligibility Checker
