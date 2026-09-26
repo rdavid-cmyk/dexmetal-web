@@ -45,9 +45,27 @@ export default function ServicesPage() {
           </Link>
         </section>
 
+        {/* Shipment Route Check */}
+        <section className="rounded-xl p-8 mb-6" style={{ backgroundColor: '#1a2e27', border: '1px solid #1D9E75' }}>
+          <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>02</span>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+            <h2 className="font-display font-bold text-white text-2xl">Shipment Route Check</h2>
+            <div className="text-right shrink-0">
+              <div className="font-display font-bold text-white text-2xl">$99</div>
+              <div className="font-body text-sm" style={{ color: '#a8c4bb' }}>Human-verified one-page report</div>
+            </div>
+          </div>
+          <p className="font-body leading-relaxed mb-5" style={{ color: '#a8c4bb' }}>
+            Submit the route and material facts. We run the existing DexMetal classification, eligibility, PIC and route-risk tools, then verify the material conclusions against current primary sources before issuing a one-page Route Check.
+          </p>
+          <Link href="/services/shipment-route-check" className="inline-block font-body font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>
+            Request a Route Check →
+          </Link>
+        </section>
+
         {/* Basel Shipment Triage */}
         <section className="rounded-xl p-8 mb-6" style={{ backgroundColor: '#2c2c2a', border: '1px solid #3a3a37' }}>
-          <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>02</span>
+          <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>03</span>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
             <h2 className="font-display font-bold text-white text-2xl">Basel Shipment Triage</h2>
             <div className="text-right shrink-0">
@@ -67,7 +85,7 @@ export default function ServicesPage() {
 
         {/* B2B / API / MCP */}
         <section className="rounded-xl p-8 mb-16" style={{ backgroundColor: '#1a2e27', border: '1px solid #1D9E75' }}>
-          <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>03</span>
+          <span className="font-body text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: '#1D9E75' }}>04</span>
           <h2 className="font-display font-bold text-white text-2xl mb-3">B2B API &amp; MCP Access</h2>
           <p className="font-body leading-relaxed mb-6" style={{ color: '#a8c4bb' }}>
             One verified Basel data layer, two integration paths. Software teams can use the REST API;
