@@ -46,15 +46,10 @@
   ],
   "nonParties": [
     "US",
-    "AF",
-    "IR",
-    "IQ",
-    "BY"
+    "HT"
   ],
   "wasteCategoryHazardous": [
     "ULAB",
-    "E-waste",
-    "Hazardous Waste",
-    "Mixed Municipal Waste"
+    "Hazardous Waste"
   ]
 }
