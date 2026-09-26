@@ -287,7 +287,7 @@
       "value": "WholeUnits",
       "label": "Whole Units for Refurbishment",
       "hazardous": false,
-      "code": "B1110"
+      "code": "NON-WASTE CHECK / Y49 or A1181 if waste"
     }
   ],
   "purposes": [
@@ -336,10 +336,10 @@
   },
   "complianceSteps": {
     "banned": [
-      "Shipment is PROHIBITED under Basel Ban Amendment — do not proceed",
-      "Confirm classification: is the waste truly hazardous? If B1110 applies (tested-working), ban may not apply",
-      "Explore alternative destination countries in Annex VII (OECD/EU)",
-      "Consult a Basel compliance specialist before any further action"
+      "Do not ship until the origin Competent Authority confirms whether the Ban Amendment or national law prohibits the movement",
+      "Confirm whether the material is hazardous waste (A1181 for hazardous e-waste; Y49 for other e-waste)",
+      "Confirm the origin State's current Ban Amendment status and national export restrictions",
+      "If prohibited, use a lawful alternative route/destination or do not proceed"
     ],
     "high": [
       "Obtain waste characterization and hazardous constituent analysis",
@@ -360,18 +360,17 @@
       "Carrier must hold appropriate transboundary waste transport authorization"
     ],
     "low": [
-      "Confirm waste code and hazard status for customs documentation",
-      "Notify your national CA per OECD Decision C(2001)107 if required",
-      "Allow 30-day tacit consent period for OECD-to-OECD shipments",
-      "Maintain movement documents with waste throughout journey",
-      "Ensure receiving facility holds appropriate recovery/reuse authorization"
+      "Document the waste/non-waste determination and evidence of functionality where used equipment is claimed as non-waste",
+      "Check current national controls in export, import and every transit State",
+      "For e-waste that is waste, verify A1181/Y49 control requirements before shipment",
+      "Retain competent-authority confirmations and movement documentation required for the route"
     ]
   },
   "transitWarnings": {
-    "Caribbean-to-Europe": "Caribbean routes to Europe typically transit through US ports. The US is not a Basel party — US port transit does not constitute Basel export to the US, but carrier must ensure no deconsolidation or storage in US territory.",
-    "Caribbean-to-Asia": "Caribbean to Asia routes commonly transit through Panama Canal. Panama is a Basel party. If waste is offloaded or stored in transit, PIC from Panama CA is required.",
-    "WestAfrica-to-Europe": "Direct West Africa to Western Europe routes available via major shipping lines. Transit through North African ports (Morocco, Egypt) may require additional CAs if cargo is transshipped.",
-    "Asia-to-Europe": "Asia to Europe commonly transits Suez Canal / Egyptian ports. If waste is offloaded in Egypt, Egyptian CA consent is required.",
-    "default": "Verify your shipping route with your freight forwarder. If cargo is offloaded or stored in any transit country, Prior Informed Consent from that country's CA is required under Article 6."
+    "Caribbean-to-Europe": "Identify every planned State of transit. Under Basel Article 6(4), prior written transit consent is required unless that Party has waived it; national definitions and maritime practices can differ, so confirm the route with each relevant Competent Authority.",
+    "Caribbean-to-Asia": "Identify every planned State of transit. Under Basel Article 6(4), prior written transit consent is required unless that Party has waived it; national definitions and maritime practices can differ, so confirm the route with each relevant Competent Authority.",
+    "WestAfrica-to-Europe": "Identify every planned State of transit. Under Basel Article 6(4), prior written transit consent is required unless that Party has waived it; national definitions and maritime practices can differ, so confirm the route with each relevant Competent Authority.",
+    "Asia-to-Europe": "Identify every planned State of transit. Under Basel Article 6(4), prior written transit consent is required unless that Party has waived it; national definitions and maritime practices can differ, so confirm the route with each relevant Competent Authority.",
+    "default": "Identify every planned State of transit. Under Basel Article 6(4), prior written transit consent is required unless that Party has waived it; national definitions and maritime practices can differ, so confirm the route with each relevant Competent Authority."
   }
 }
