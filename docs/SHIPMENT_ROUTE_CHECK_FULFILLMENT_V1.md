@@ -11,8 +11,10 @@ Required:
 4. Condition
 5. Origin country
 6. Destination country
-7. Intended operation
-8. Planned transit countries / route — customer must state countries, "Unknown", or "None"
+7. Dispatch location (city / region where the shipment starts)
+8. Receiving facility / location (facility name + city / region, or "Not selected")
+9. Intended operation
+10. Planned transit countries / route — customer must state countries, "Unknown", or "None"
 
 Optional:
 - Company / organisation

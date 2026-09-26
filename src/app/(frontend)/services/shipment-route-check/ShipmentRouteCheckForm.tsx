@@ -27,7 +27,7 @@ const operationOptions = [
 ]
 const initialForm = {
   name: '', email: '', company: '', wasteType: '', condition: '',
-  origin: '', destination: '', operation: '', transit: '', quantity: '',
+  origin: '', destination: '', originLocation: '', destinationFacility: '', operation: '', transit: '', quantity: '',
   targetDate: '', knownCode: '', notes: '', website: '',
 }
 
@@ -110,6 +110,10 @@ export default function ShipmentRouteCheckForm() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div><label className={labelClass}>Origin country *</label><input required placeholder="e.g. Trinidad and Tobago" className={inputClass} style={inputStyle} value={form.origin} onChange={(e) => setField('origin', e.target.value)} /></div>
           <div><label className={labelClass}>Destination country *</label><input required placeholder="e.g. Germany" className={inputClass} style={inputStyle} value={form.destination} onChange={(e) => setField('destination', e.target.value)} /></div>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div><label className={labelClass}>Dispatch location *</label><input required placeholder="City / region where shipment starts" className={inputClass} style={inputStyle} value={form.originLocation} onChange={(e) => setField('originLocation', e.target.value)} /></div>
+          <div><label className={labelClass}>Receiving facility / location *</label><input required placeholder="Facility name + city / region, or Not selected" className={inputClass} style={inputStyle} value={form.destinationFacility} onChange={(e) => setField('destinationFacility', e.target.value)} /></div>
         </div>
 
         <div>

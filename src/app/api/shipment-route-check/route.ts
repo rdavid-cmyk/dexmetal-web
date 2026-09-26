@@ -7,7 +7,7 @@ const routeCheckInbox = process.env.ROUTE_CHECK_INBOX || 'richard@dexmetal.com'
 
 const REQUIRED_FIELDS = [
   'name', 'email', 'wasteType', 'condition', 'origin',
-  'destination', 'operation', 'transit',
+  'destination', 'originLocation', 'destinationFacility', 'operation', 'transit',
 ] as const
 
 function escapeHtml(value: unknown) {
@@ -49,6 +49,8 @@ export async function POST(req: NextRequest) {
       condition: clean(body.condition, 120),
       origin: clean(body.origin, 120),
       destination: clean(body.destination, 120),
+      originLocation: clean(body.originLocation, 200),
+      destinationFacility: clean(body.destinationFacility, 240),
       operation: clean(body.operation, 120),
       transit: clean(body.transit, 500),
       quantity: clean(body.quantity, 120),
@@ -66,6 +68,8 @@ export async function POST(req: NextRequest) {
       ['Condition', submission.condition],
       ['Origin', submission.origin],
       ['Destination', submission.destination],
+      ['Dispatch location', submission.originLocation],
+      ['Receiving facility / location', submission.destinationFacility],
       ['Intended operation', submission.operation],
       ['Transit countries / route', submission.transit],
       ['Approx. quantity', submission.quantity || '—'],
