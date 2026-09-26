@@ -263,7 +263,7 @@
       "value": "ULAB",
       "label": "ULAB / Lead-Acid Batteries",
       "hazardous": true,
-      "code": "Y31"
+      "code": "A1160 / Y31 (Y34 where relevant)"
     },
     {
       "value": "MixedEWaste",
