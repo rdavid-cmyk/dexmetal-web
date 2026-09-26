@@ -13,8 +13,8 @@ const NON_PARTIES: string[] = eligibilityData.nonParties
 const HAZARDOUS_WASTE: string[] = eligibilityData.wasteCategoryHazardous
 
 const WASTE_CATEGORIES = [
-  { value: 'ULAB', label: 'Used Lead-Acid Batteries (ULAB)', annex: 'Annex II (Y31/Y32)' },
-  { value: 'E-waste', label: 'E-waste / Electronic Scrap', annex: 'Annex I (Y10)' },
+  { value: 'ULAB', label: 'Used Lead-Acid Batteries (ULAB)', annex: 'Annex VIII A1160; Annex I Y31/Y34' },
+  { value: 'E-waste', label: 'E-waste / Electronic Scrap', annex: 'A1181 or Y49 — classification required' },
   { value: 'Mixed Municipal Waste', label: 'Mixed Municipal Waste', annex: 'Annex II (Y46)' },
   { value: 'Hazardous Waste', label: 'Hazardous Waste (general)', annex: 'Annex I / Annex III' },
   { value: 'Plastic Waste', label: 'Plastic Waste', annex: 'Annex II / Annex IX (B3011)' },
@@ -159,15 +159,40 @@ function checkEligibility(waste: string, origin: string, dest: string): Eligibil
   const destA7 = ANNEX_VII.includes(dest)
   const isHazardous = HAZARDOUS_WASTE.includes(waste)
 
-  // Basel Ban Amendment: Annex VII → non-Annex VII, hazardous waste
+  // Generic e-waste cannot be treated as automatically hazardous.
+  // Since 1 Jan 2025, e-waste that is waste is classified under A1181 (hazardous)
+  // or Y49 (other e-waste); B1110/A1180 are no longer current Basel entries.
+  if (waste === 'E-waste') {
+    return {
+      status: 'RESTRICTED',
+      reason:
+        'Classification required before a route ruling. E-waste that is waste falls under A1181 (hazardous) or Y49 (other e-waste). Both are controlled under the Basel e-waste amendments for Parties bound by them. For OECD routes, current national e-waste controls must also be checked.',
+      annex: 'BC-15/18 — A1181 / Y49 (effective 1 January 2025)',
+      pic: true,
+      documents: [
+        'Waste/non-waste determination and functionality evidence where reuse is claimed',
+        'A1181 versus Y49 classification record',
+        'Current export/import/transit country control check',
+        'Basel notification and consent documents where applicable',
+        'Receiving facility authorization',
+      ],
+    }
+  }
+
+  // Basel Ban Amendment: do not infer prohibition from Annex VII membership alone.
   if (originA7 && !destA7 && isHazardous) {
     return {
-      status: 'NOT_ELIGIBLE',
+      status: 'HIGH_RISK',
       reason:
-        'Destination country has banned hazardous waste imports from OECD/EU countries under the Basel Ban Amendment (Article 4A). This shipment is prohibited.',
-      annex: 'Annex VII / Article 4A (Basel Ban Amendment)',
-      pic: false,
-      documents: [],
+        'Potential Basel Ban Amendment prohibition. Article 4A binds Annex VII Parties that have consented to be bound, and national law may impose equivalent or additional restrictions. Verify the origin State’s current Ban Amendment status and national export law before treating the shipment as permitted or prohibited.',
+      annex: 'Article 4A / Annex VII — verification required',
+      pic: true,
+      documents: [
+        'Current Ban Amendment status for the State of export',
+        'Origin-country export restriction check',
+        'Destination-country import restriction check',
+        'Basel notification/PIC documents if the route remains legally available',
+      ],
     }
   }
 
@@ -191,22 +216,21 @@ function checkEligibility(waste: string, origin: string, dest: string): Eligibil
     }
   }
 
-  // Both Annex VII (OECD–OECD)
+  // Both Annex VII / OECD-area route. Controls still depend on the waste and national rules.
   if (originA7 && destA7) {
     return {
       status: 'RESTRICTED',
       reason:
-        'OECD Decision C(2001)107/FINAL applies — hazardous waste trade permitted between OECD countries with prior notification and written consent from both Competent Authorities.',
-      annex: 'OECD Decision C(2001)107 / Annex IX',
+        'An OECD-area route does not by itself establish a single consent rule. Apply OECD/LEGAL/0266 where relevant, then check current national controls, specific national controls and any pre-consent arrangements for the waste and countries involved.',
+      annex: 'OECD/LEGAL/0266 — national controls may apply',
       pic: true,
       documents: [
-        'OECD notification form (Annex 1A)',
-        'Written consent from both Competent Authorities',
-        'Waste characterization and analysis report',
+        'Current OECD/national control check for both countries',
+        'Applicable notification and movement documents',
+        'Waste characterization and classification record',
         'Carrier authorization certificate',
-        'Financial guarantee / insurance',
+        'Financial guarantee / insurance where required',
         'Recovery or disposal facility permit',
-        'Movement document',
       ],
     }
   }
@@ -216,17 +240,17 @@ function checkEligibility(waste: string, origin: string, dest: string): Eligibil
     return {
       status: 'RESTRICTED',
       reason:
-        'Used Lead-Acid Batteries are classified under Annex II (Y31/Y32) — transboundary movement requires Prior Informed Consent from the destination Competent Authority.',
-      annex: 'Annex II (Y31 / Y32) / Article 6',
+        'Used lead-acid batteries are listed under Basel entry A1160. Y31 applies to lead/lead compounds and Y34 may also apply to the acidic electrolyte. Transboundary movement is controlled and requires the applicable PIC process.',
+      annex: 'Annex VIII A1160; Annex I Y31/Y34; Article 6',
       pic: true,
       documents: [
         'Basel notification document',
         'PIC consent from destination Competent Authority',
-        'UN3077 / UN3090 transport declaration',
+        'Applicable dangerous-goods declaration (for example UN2794/UN2800; drained batteries may be UN3077 depending on condition)',
         'Waste characterization and composition report',
         'Carrier authorization (road/sea/air as applicable)',
         'Financial guarantee / insurance certificate',
-        'Recovery facility permit (R4/R5 operation)',
+        'Recovery facility permit',
         'Exporter/generator declaration',
       ],
     }
