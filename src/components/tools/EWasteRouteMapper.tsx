@@ -74,9 +74,9 @@ function assessRoute(waste: string, origin: string, dest: string, purpose: strin
       banTriggered: false,
       banExplanation: '',
       picRequired: false,
-      picNote: `${nonParty} is not a Basel Convention party. No PIC framework applies — any agreement would be bilateral under Article 11.`,
+      picNote: `${nonParty} is not a Basel Convention Party. Article 4(5) generally prohibits a movement between a Party and a non-Party unless an Article 11 bilateral, multilateral or regional agreement or arrangement applies.`,
       complexity: 'HIGH',
-      complexityReason: `${nonParty} operates outside the Basel Convention framework, creating significant legal uncertainty.`,
+      complexityReason: `Verify any applicable Article 11 arrangement and the national laws of every State concerned before planning the movement.`,
       riskLevel: 'RED',
       transitWarning,
       complianceSteps: routeData.complianceSteps.high,
@@ -87,39 +87,36 @@ function assessRoute(waste: string, origin: string, dest: string, purpose: strin
     }
   }
 
-  // Basel Ban Amendment: Annex VII → non-Annex VII, hazardous waste
-  const banTriggered = originIsAnnexVII && !destIsAnnexVII && isHazardous && purpose !== 'refurbishment' && waste !== 'WholeUnits'
-
-  // WholeUnits for refurbishment — generally lower barrier
+  // Whole used equipment for repair/refurbishment must first pass a waste/non-waste determination.
+  // B1110 was deleted from Basel Annex IX effective 1 January 2025.
   if (waste === 'WholeUnits' && purpose === 'refurbishment') {
-    const complexity: Complexity = (!originIsAnnexVII || !destIsAnnexVII) ? 'MEDIUM' : 'LOW'
     return {
       banTriggered: false,
       banExplanation: '',
-      picRequired: !originIsAnnexVII || !destIsAnnexVII,
-      picNote: 'Tested-working equipment for refurbishment may qualify as B1110 (non-hazardous). PIC may not apply, but destination CA notification is recommended.',
-      complexity,
-      complexityReason: complexity === 'LOW'
-        ? 'B1110 classification for tested-working units significantly reduces compliance burden between OECD countries.'
-        : 'Non-OECD route requires explicit notification and confirmation that units are genuinely tested-working.',
-      riskLevel: complexity === 'LOW' ? 'GREEN' : 'YELLOW',
+      picRequired: false,
+      picNote: 'Conditional. If the equipment is genuinely non-waste, Basel waste PIC does not apply. If it is waste, classify it under Y49 or A1181 and apply the relevant Basel/OECD/national controls.',
+      complexity: 'MEDIUM',
+      complexityReason: 'Repair/refurbishment does not automatically make used equipment non-waste. The determination is case-specific and must be supported by functionality, destination and other evidence required by the States concerned.',
+      riskLevel: 'YELLOW',
       transitWarning,
-      complianceSteps: routeData.complianceSteps[complexity.toLowerCase() as 'low' | 'medium'],
-      wasteCode: 'B1110',
+      complianceSteps: routeData.complianceSteps.low,
+      wasteCode: 'NON-WASTE CHECK / Y49 or A1181 if waste',
       originIsAnnexVII,
       destIsAnnexVII,
       nonPartyInvolved: null,
     }
   }
 
-  if (banTriggered) {
+  // Annex VII membership alone does not prove that the Ban Amendment binds the origin State.
+  // Flag the route for verification rather than issuing an automatic prohibition.
+  if (originIsAnnexVII && !destIsAnnexVII && isHazardous) {
     return {
-      banTriggered: true,
-      banExplanation: `Basel Ban Amendment (Article 4A) prohibits hazardous waste exports from Annex VII (OECD/EU) countries to non-Annex VII countries. ${origin} is Annex VII; ${dest} is not. This shipment is prohibited.`,
-      picRequired: false,
-      picNote: 'PIC cannot be obtained for a prohibited shipment.',
+      banTriggered: false,
+      banExplanation: `Potential Ban Amendment prohibition: ${origin} is in Annex VII and ${dest} is not. Verify whether the State of export is currently bound by Article 4A or applies equivalent national law before treating the route as permitted or prohibited.`,
+      picRequired: true,
+      picNote: 'If the route is not prohibited, determine the applicable PIC/control requirements with the relevant Competent Authorities.',
       complexity: 'HIGH',
-      complexityReason: 'Shipment is prohibited — no compliance pathway exists without changing origin, destination, or waste classification.',
+      complexityReason: 'A current Ban Amendment status and national-law check is required before a definitive route ruling.',
       riskLevel: 'RED',
       transitWarning,
       complianceSteps: routeData.complianceSteps.banned,
@@ -139,12 +136,12 @@ function assessRoute(waste: string, origin: string, dest: string, purpose: strin
       banExplanation: '',
       picRequired: true,
       picNote: waste === 'CRTs'
-        ? 'CRTs always require PIC — lead glass makes them permanently hazardous regardless of OECD status.'
-        : 'OECD Decision C(2001)107 applies — 30-day tacit consent period. Notification required.',
+        ? 'Hazardous e-waste is controlled. Confirm A1181 classification and the current national control procedure for both OECD countries.'
+        : 'For e-waste, OECD members retain national controls under OECD/LEGAL/0266. Do not assume a universal 30-day tacit-consent rule; check the latest national e-waste controls.',
       complexity,
       complexityReason: waste === 'CRTs'
         ? 'CRTs require additional processing documentation and specialist disposal — higher complexity even on OECD routes.'
-        : 'OECD-to-OECD route with established notification framework. Documentation required but pathway is well-defined.',
+        : 'OECD-to-OECD e-waste controls are country-specific; the route requires a current national-control check.',
       riskLevel: complexity === 'HIGH' ? 'RED' : 'YELLOW',
       transitWarning,
       complianceSteps: routeData.complianceSteps[complexity.toLowerCase() as 'high' | 'medium'],
@@ -439,15 +436,15 @@ export default function EWasteRouteMapper() {
                 {/* Ban */}
                 <div style={{ backgroundColor: '#1C1B18', borderRadius: '8px', padding: '12px 14px' }}>
                   <p style={{ color: '#a0a09a', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>Basel Ban</p>
-                  <p style={{ fontSize: '13px', fontWeight: 700, color: result.banTriggered ? '#FF5C00' : '#1D9E75' }}>
-                    {result.banTriggered ? 'TRIGGERED' : 'NOT TRIGGERED'}
+                  <p style={{ fontSize: '13px', fontWeight: 700, color: result.banTriggered ? '#FF5C00' : result.banExplanation ? '#f5c518' : '#1D9E75' }}>
+                    {result.banTriggered ? 'TRIGGERED' : result.banExplanation ? 'VERIFY' : 'NOT INDICATED'}
                   </p>
                 </div>
                 {/* PIC */}
                 <div style={{ backgroundColor: '#1C1B18', borderRadius: '8px', padding: '12px 14px' }}>
                   <p style={{ color: '#a0a09a', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>PIC Required</p>
                   <p style={{ fontSize: '13px', fontWeight: 700, color: result.picRequired ? '#f5c518' : '#1D9E75' }}>
-                    {result.nonPartyInvolved ? 'N/A' : result.picRequired ? 'YES' : 'NO'}
+                    {result.nonPartyInvolved ? 'N/A' : waste === 'WholeUnits' ? 'CONDITIONAL' : result.picRequired ? 'YES / CHECK' : 'NO'}
                   </p>
                 </div>
                 {/* Complexity */}
@@ -460,9 +457,9 @@ export default function EWasteRouteMapper() {
               </div>
 
               {/* Explanation */}
-              {result.banTriggered && (
+              {result.banExplanation && (
                 <div style={{ padding: '12px 14px', backgroundColor: '#3a1200', borderRadius: '8px', borderLeft: '3px solid #FF5C00', marginBottom: '12px' }}>
-                  <p style={{ color: '#FF5C00', fontSize: '12px', fontWeight: 700, marginBottom: '3px' }}>Ban Amendment Triggered</p>
+                  <p style={{ color: '#FF5C00', fontSize: '12px', fontWeight: 700, marginBottom: '3px' }}>{result.banTriggered ? 'Ban Amendment Triggered' : 'Ban Amendment Verification Required'}</p>
                   <p style={{ color: '#e0a080', fontSize: '13px', lineHeight: 1.5 }}>{result.banExplanation}</p>
                 </div>
               )}
