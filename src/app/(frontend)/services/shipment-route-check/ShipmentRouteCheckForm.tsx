@@ -144,7 +144,7 @@ export default function ShipmentRouteCheckForm() {
           {status === 'loading' ? 'Submitting…' : 'Request the $99 Route Check →'}
         </button>
         <p className="text-center font-body text-xs" style={{ color: '#77736b' }}>
-          No payment is collected on this page. Submission goes to a private DexMetal inbox and triggers an internal alert.
+          No payment is collected on this page. Submission is retained privately by DexMetal and triggers an internal alert.
         </p>
       </form>
     </section>
