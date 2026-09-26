@@ -11,7 +11,7 @@ const ANNEX_VII: string[] = eligibilityData.annexVII
 const NON_PARTIES: string[] = eligibilityData.nonParties
 
 const WASTE_CATEGORIES = [
-  { value: 'ULAB', label: 'Used Lead-Acid Batteries (ULAB)', annex: 'Annex II (Y31/Y32)', hazardous: true },
+  { value: 'ULAB', label: 'Used Lead-Acid Batteries (ULAB)', annex: 'Annex VIII A1160; Annex I Y31/Y34', hazardous: true },
   { value: 'E-waste-A1181', label: 'E-waste — Hazardous (A1181)', annex: 'Annex VIII (A1181)', hazardous: true },
   { value: 'E-waste-Y49', label: 'E-waste — Non-Hazardous (Y49)', annex: 'Annex II (Y49)', hazardous: false },
   { value: 'Plastic Waste', label: 'Plastic Waste', annex: 'Annex II / Annex IX (B3011)', hazardous: false },
@@ -142,10 +142,10 @@ function checkPIC(waste: string, origin: string, dest: string): PICResult {
     return {
       status: 'HIGH_RISK',
       badge: 'HIGH RISK',
-      explanation: `${which} country is not a Basel Convention party. No PIC framework applies — any agreement would be bilateral only (Article 11).`,
-      article: 'Article 11',
-      timeline: 'Variable — no Basel framework applies',
-      transitNote: 'Transit country consents are also unenforceable under Basel.',
+      explanation: `${which} country is not a Basel Convention Party. Article 4(5) generally prohibits movements between a Party and a non-Party unless an Article 11 bilateral, multilateral or regional agreement or arrangement applies.`,
+      article: 'Articles 4(5) and 11',
+      timeline: 'Verify applicable Article 11 arrangement and national law',
+      transitNote: 'Transit requirements remain route- and jurisdiction-specific; verify every planned State of transit.',
     }
   }
 
@@ -154,43 +154,44 @@ function checkPIC(waste: string, origin: string, dest: string): PICResult {
   const wasteEntry = WASTE_CATEGORIES.find((w) => w.value === waste)
   const isHazardous = wasteEntry?.hazardous ?? true
 
-  // Annex VII → non-Annex VII: hazardous waste → NOT ELIGIBLE (Ban Amendment)
+  // Annex VII → non-Annex VII hazardous waste: verify whether the origin is bound by
+  // the Ban Amendment (or applies equivalent national law) before declaring prohibition.
   if (originA7 && !destA7 && isHazardous) {
     return {
-      status: 'NOT_ELIGIBLE',
-      badge: 'NOT ELIGIBLE',
+      status: 'HIGH_RISK',
+      badge: 'BAN CHECK REQUIRED',
       explanation:
-        'Basel Ban Amendment (Article 4A) prohibits hazardous waste exports from OECD/EU countries to non-Annex VII countries. PIC cannot be obtained because the shipment is prohibited.',
-      article: 'Article 4A / Annex VII (Basel Ban Amendment)',
-      timeline: 'Not permitted',
-      transitNote: 'Not applicable — shipment is prohibited.',
+        'Potential Ban Amendment prohibition. Annex VII membership alone is not enough to determine that Article 4A binds the State of export; confirm current Ban Amendment status and national export law.',
+      article: 'Article 4A / Annex VII',
+      timeline: 'Verify before shipment planning',
+      transitNote: 'If the route is legally available, identify and verify every planned State of transit.',
     }
   }
 
   // Annex VII → Annex VII (OECD-to-OECD)
   if (originA7 && destA7) {
-    // Y49 non-hazardous e-waste: explicit PIC required since Jan 1 2025
-    if (waste === 'E-waste-Y49') {
+    // OECD members did not reach consensus on one common control for A1181/Y49.
+    if (waste === 'E-waste-Y49' || waste === 'E-waste-A1181') {
       return {
         status: 'PIC_REQUIRED',
-        badge: 'PIC REQUIRED',
+        badge: 'CONTROL CHECK',
         explanation:
-          'Non-hazardous e-waste (Y49) now requires explicit written consent as of 1 January 2025 — the previous OECD tacit consent exemption has been removed for Y49.',
-        article: 'Annex II (Y49) — Basel Amendment effective 2025',
-        timeline: 'Allow 60–90 days',
-        transitNote: 'Transit country consents required if routing through non-Annex VII countries.',
+          'Since 1 January 2025, Basel entries A1181/Y49 govern e-waste for Parties bound by the amendments. Within the OECD system there is no single universal e-waste control rule: each member retains national controls. Check the latest OECD e-waste controls and the relevant Competent Authorities before relying on explicit or tacit consent.',
+        article: 'BC-15/18 + OECD/LEGAL/0266',
+        timeline: 'Country-specific — verify current national controls',
+        transitNote: 'Identify every planned State of transit; prior written transit consent is required under Basel unless the transit Party has waived it.',
       }
     }
-    // Plastic waste: explicit PIC
+    // OECD members also retain national controls for Basel B3011/Y48 plastic waste.
     if (waste === 'Plastic Waste') {
       return {
         status: 'PIC_REQUIRED',
-        badge: 'PIC REQUIRED',
+        badge: 'CONTROL CHECK',
         explanation:
-          'Plastic waste exports require explicit Prior Informed Consent under the Basel Plastic Waste Amendments (effective January 2021).',
-        article: 'Annex II / Annex IX B3011 (Plastic Waste Amendments 2021)',
-        timeline: 'Allow 60–90 days',
-        transitNote: 'Transit country consents required if routing through non-OECD countries.',
+          'Plastic-waste controls on OECD routes are country-specific because OECD members did not adopt one uniform control for Basel B3011/Y48. Check the latest OECD national-control table and relevant national law.',
+        article: 'Basel plastic amendments + OECD/LEGAL/0266',
+        timeline: 'Country-specific',
+        transitNote: 'Identify every planned State of transit and verify its applicable control.',
       }
     }
     // All other hazardous: OECD tacit consent
@@ -198,10 +199,10 @@ function checkPIC(waste: string, origin: string, dest: string): PICResult {
       status: 'TACIT_CONSENT',
       badge: 'TACIT CONSENT',
       explanation:
-        'OECD Decision C(2001)107 applies — notification required, but 30 days of silence from the destination CA constitutes tacit approval.',
+        'For wastes subject to the OECD Amber control procedure, tacit consent can apply under OECD/LEGAL/0266, subject to the applicable national controls and any specific conditions.',
       article: 'OECD Decision C(2001)107/FINAL',
-      timeline: 'Allow 30 days (silence = approval)',
-      transitNote: 'Transit OECD countries also operate under tacit consent. Non-OECD transit requires explicit consent.',
+      timeline: 'OECD procedure may use a 30-day objection period — verify the current country controls',
+      transitNote: 'Transit treatment is not determined solely by OECD membership; verify each planned State of transit.',
     }
   }
 
