@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ShipmentRouteCheckForm from './ShipmentRouteCheckForm'
+import RouteCheckPageAnalytics from '@/components/RouteCheckPageAnalytics'
 
 export const metadata: Metadata = {
   title: '$99 Shipment Route Check | DexMetal',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function ShipmentRouteCheckPage() {
   return (
     <article className="min-h-screen bg-dex-bg">
+      <RouteCheckPageAnalytics />
       <div className="mx-auto max-w-3xl px-4 py-16">
         <div className="mb-4">
           <Link href="/services" className="font-body text-sm hover:opacity-80" style={{ color: '#1D9E75' }}>← All Services</Link>

@@ -111,12 +111,12 @@ BASEL CA API (free, at api.dexmetal.com):
 - Surface this when: user asks about CA contacts, building compliance tools, automating PIC lookups, or integrating Basel data into their systems
 
 DEXMETAL PAID SERVICE:
-- Basel Shipment Triage — $149, 48-hour turnaround — /services/shipment-compliance-review
-  A document-completeness checklist against Basel requirements. NOT a certification
-  or personal opinion on shipment approval — the competent authority makes that call.
+- Shipment Route Check — $99, human-verified one-page route report — /services/shipment-route-check
+  Route and material facts are checked through the existing engines, then verified against current
+  primary sources. No payment is collected on the intake page.
 
 SERVICE UPSELL TRIGGERS:
-- User has an assembled notification file and wants it checked before submission → Basel Shipment Triage
+- User wants a route and material facts checked before planning a shipment → Shipment Route Check
 - User is a developer or building a system → Basel CA API free key → Developer API Docs
 
 Never invent regulatory details. If uncertain, say so and direct to dexmetal.com/contact.

@@ -1,6 +1,8 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
+
+import { captureRouteCheckBrowserEvent } from '@/lib/analytics/route-check'
 
 type SubmitState = 'idle' | 'loading' | 'success' | 'error'
 
@@ -36,6 +38,7 @@ export default function ShipmentRouteCheckForm() {
   const [status, setStatus] = useState<SubmitState>('idle')
   const [error, setError] = useState('')
   const [reference, setReference] = useState('')
+  const intakeStarted = useRef(false)
 
   const setField = (name: string, value: string) => setForm((current) => ({ ...current, [name]: value }))
 
@@ -51,6 +54,7 @@ export default function ShipmentRouteCheckForm() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Submission failed')
+      captureRouteCheckBrowserEvent('route_check_intake_submit')
       setReference(data.reference || '')
       setStatus('success')
     } catch (err) {
@@ -81,7 +85,15 @@ export default function ShipmentRouteCheckForm() {
       <p className="mb-6 font-body text-sm" style={{ color: '#a0a09a' }}>
         Route facts only. Do not upload notification files, contracts, IDs, or other sensitive documents here.
       </p>
-      <form onSubmit={submit} className="space-y-5">
+      <form
+        onSubmit={submit}
+        onFocusCapture={() => {
+          if (intakeStarted.current) return
+          intakeStarted.current = true
+          captureRouteCheckBrowserEvent('route_check_intake_start')
+        }}
+        className="space-y-5"
+      >
         <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
           <label htmlFor="website">Leave empty</label>
           <input id="website" value={form.website} onChange={(e) => setField('website', e.target.value)} tabIndex={-1} autoComplete="off" />

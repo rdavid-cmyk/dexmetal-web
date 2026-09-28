@@ -163,19 +163,6 @@ export default function TemplatesPage() {
           </Link>
         </div>
 
-        {/* Service upsell */}
-        <div style={{ borderTop: '1px solid #2a2a28', paddingTop: '40px' }}>
-          <p style={{ color: '#77736b', fontSize: '13px', margin: '0 0 16px' }}>
-            Want your finished file checked before you submit it?
-          </p>
-          <Link
-            href="/services/shipment-compliance-review"
-            style={{ color: '#FF5C00', fontSize: '14px', fontWeight: 600, textDecoration: 'none' }}
-          >
-            Basel Shipment Triage — $149 →
-          </Link>
-        </div>
-
       </div>
     </main>
   )

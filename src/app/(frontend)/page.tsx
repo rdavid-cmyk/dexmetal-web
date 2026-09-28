@@ -7,6 +7,7 @@ import AssetGate from '@/components/AssetGate'
 import { LMETicker } from '@/components/LMETicker'
 import BaselIntro from '@/components/BaselIntro'
 import { DexMetalAgent } from '@/components/DexMetalAgent'
+import RouteCheckCtaLink from '@/components/RouteCheckCtaLink'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [
@@ -40,7 +41,7 @@ const FREE_TOOLS = [
   {
     title: 'Shipment Eligibility Check',
     problem: 'Is my shipment restricted under Basel?',
-    href: '/tools',
+    href: '/tools/shipment-eligibility-checker',
     accent: '#1D9E75',
     emoji: '🔍',
   },
@@ -54,21 +55,21 @@ const FREE_TOOLS = [
   {
     title: 'PIC Status Checker',
     problem: 'Does my destination country require Prior Informed Consent?',
-    href: '/tools',
+    href: '/tools/pic-status-checker',
     accent: '#FF5C00',
     emoji: '✅',
   },
   {
     title: 'Waste Classification Tool',
     problem: 'Which Basel Annex does my material fall under?',
-    href: '/tools',
+    href: '/tools/basel-classification-quickscan',
     accent: '#FF5C00',
     emoji: '🏷️',
   },
   {
     title: 'ULAB Calculator',
     problem: 'How do I calculate ULAB batch weights for notification?',
-    href: '/tools',
+    href: '/tools/ulab-export-calculator',
     accent: '#1D9E75',
     emoji: '🔋',
   },
@@ -256,6 +257,31 @@ export default async function HomePage() {
           <div className="relative z-10 mt-9 translate-y-8 md:mt-12 md:translate-y-10">
             <DexMetalAgent embedded />
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#2f2f2b]" style={{ background: '#171613' }}>
+        <div className="container py-8 md:py-10">
+          <RouteCheckCtaLink
+            source="homepage"
+            className="flex flex-col gap-4 rounded-2xl border p-5 transition-colors hover:border-[#4fd1a3] md:flex-row md:items-center md:justify-between md:p-6"
+            style={{ backgroundColor: '#1a2e27', borderColor: '#1D9E75' }}
+          >
+            <div>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: '#4fd1a3' }}>
+                Need a person to check your route?
+              </p>
+              <p className="font-display text-xl font-bold text-white md:text-2xl">
+                $99 Shipment Route Check
+              </p>
+              <p className="mt-1 text-sm" style={{ color: '#a8c4bb' }}>
+                Human-verified against current Basel and national sources.
+              </p>
+            </div>
+            <span className="inline-flex shrink-0 items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#1D9E75' }}>
+              Request a Route Check →
+            </span>
+          </RouteCheckCtaLink>
         </div>
       </section>
 

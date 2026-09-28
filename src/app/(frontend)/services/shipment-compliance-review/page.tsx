@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Basel Shipment Triage',
+  robots: { index: false, follow: false },
   description: 'Your shipment file checked against every required Basel element -- notification form, movement document, annexes, and consent letters -- with a written checklist of gaps before customs sees it.',
   alternates: { canonical: 'https://dexmetal.com/services/shipment-compliance-review' },
   openGraph: {

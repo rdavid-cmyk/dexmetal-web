@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import routeData from '@/data/ewaste-routes.json'
 import Link from 'next/link'
+import RouteCheckCtaLink from '@/components/RouteCheckCtaLink'
 
 type RiskLevel = 'RED' | 'YELLOW' | 'GREEN'
 type Complexity = 'HIGH' | 'MEDIUM' | 'LOW'
@@ -500,16 +501,33 @@ export default function EWasteRouteMapper() {
                 justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap',
               }}>
                 <div>
-                  <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Get your full route compliance report</p>
-                  <p style={{ color: '#a0a09a', fontSize: '12px' }}>Step-by-step compliance checklist · CA contacts · Detailed risk notes</p>
+                  <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Email me this free route checklist</p>
+                  <p style={{ color: '#a0a09a', fontSize: '12px' }}>Route checklist · CA contacts · Risk notes</p>
                 </div>
                 <button onClick={() => setShowGate(true)}
                   style={{ padding: '10px 20px', backgroundColor: '#FF5C00', color: '#ffffff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}
                 >
-                  Get Full Report →
+                  Email me the free checklist →
                 </button>
               </div>
             )}
+
+            <div style={{
+              backgroundColor: '#14201b', borderRadius: '12px', padding: '20px 28px',
+              border: '1px solid #1D9E75', display: 'flex', justifyContent: 'space-between',
+              alignItems: 'center', gap: '16px', flexWrap: 'wrap',
+            }}>
+              <div>
+                <p style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Want this route checked by a person?</p>
+                <p style={{ color: '#a8c4bb', fontSize: '12px', lineHeight: 1.5 }}>Human-verified with current primary sources cited — not automated.</p>
+              </div>
+              <RouteCheckCtaLink
+                source="route_mapper"
+                style={{ padding: '10px 20px', backgroundColor: '#1D9E75', color: '#ffffff', borderRadius: '8px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
+              >
+                Get this route checked by a person — $99 Shipment Route Check →
+              </RouteCheckCtaLink>
+            </div>
 
             {/* Gated content */}
             {gateUnlocked && (
@@ -620,10 +638,10 @@ export default function EWasteRouteMapper() {
           >
             <div style={{ backgroundColor: '#2c2c2a', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '440px', border: '1px solid #3a3a38' }}>
               <h2 className="font-display font-bold" style={{ color: '#ffffff', fontSize: '1.3rem', marginBottom: '8px' }}>
-                Get Your Full Route Compliance Report
+                Get Your Free Route Checklist
               </h2>
               <p style={{ color: '#a0a09a', fontSize: '13px', lineHeight: 1.6, marginBottom: '24px' }}>
-                Enter your email to unlock the step-by-step compliance checklist, Competent Authority contacts, and detailed risk notes for this route. Free — no spam.
+                Enter your email to receive the route checklist, Competent Authority contacts, and risk notes for this route. Free — no spam.
               </p>
               <form onSubmit={handleGateSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <input type="text" placeholder="Your name" value={gateName} onChange={(e) => setGateName(e.target.value)}
