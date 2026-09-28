@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { FormEvent, useRef, useState } from 'react'
 
 import { captureRouteCheckBrowserEvent } from '@/lib/analytics/route-check'
@@ -156,7 +157,8 @@ export default function ShipmentRouteCheckForm() {
           {status === 'loading' ? 'Submitting…' : 'Request the $99 Route Check →'}
         </button>
         <p className="text-center font-body text-xs" style={{ color: '#77736b' }}>
-          No payment is collected on this page. Submission is retained privately by DexMetal and triggers an internal alert.
+          No payment is collected on this page. Submission is retained privately by DexMetal and triggers an internal alert.{' '}
+          <Link href="/privacy-policy" className="underline hover:opacity-80">Privacy Policy</Link>
         </p>
       </form>
     </section>
