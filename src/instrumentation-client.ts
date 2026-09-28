@@ -54,6 +54,22 @@ if (projectToken && !window.location.pathname.startsWith('/admin')) {
       maskTextSelector: '*',
     },
   })
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return
+    const cta = event.target.closest<HTMLElement>('[data-route-check-source]')
+    const source = cta?.dataset.routeCheckSource
+    if (!source) return
+
+    posthog.capture(
+      'route_check_cta_click',
+      {
+        internal_test: new URLSearchParams(window.location.search).get('internal_test') === '1',
+        source,
+      },
+      { send_instantly: true },
+    )
+  })
 }
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart

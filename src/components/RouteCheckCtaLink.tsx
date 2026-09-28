@@ -4,10 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
-import {
-  captureRouteCheckBrowserEvent,
-  type RouteCheckCtaSource,
-} from '@/lib/analytics/route-check'
+import type { RouteCheckCtaSource } from '@/lib/analytics/route-check'
 
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'onClick'> & {
   source: RouteCheckCtaSource
@@ -24,10 +21,9 @@ export default function RouteCheckCtaLink({ source, children, internalTest = fal
   return (
     <Link
       href={href}
+      data-route-check-source={source}
       {...props}
       onClick={(event) => {
-        captureRouteCheckBrowserEvent('route_check_cta_click', { source })
-
         // Keep internal verification traffic on the Route Check page without
         // changing the server-rendered link during hydration.
         if (
