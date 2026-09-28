@@ -41,7 +41,8 @@ export async function POST(req: NextRequest) {
     try {
       const telegramToken = process.env.TELEGRAM_BOT_TOKEN
       const telegramChatId = process.env.HERMES_CHAT_ID
-      if (!telegramToken || !telegramChatId) return NextResponse.json({ success: true })\n      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
+      if (!telegramToken || !telegramChatId) return NextResponse.json({ success: true })
+      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
       await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
