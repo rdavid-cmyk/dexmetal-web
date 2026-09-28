@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-const { capture } = vi.hoisted(() => ({ capture: vi.fn() }))
+const { capture, flush } = vi.hoisted(() => ({ capture: vi.fn(), flush: vi.fn() }))
 
 vi.mock('posthog-js', () => ({
-  default: { capture },
+  default: { capture, flush },
 }))
 
 import { captureRouteCheckEvent, getRouteCheckEventProperties } from '../../src/lib/analytics/route-check'
@@ -25,5 +25,6 @@ describe('Route Check analytics', () => {
       internal_test: true,
       source: 'homepage',
     })
+    expect(flush).toHaveBeenCalledOnce()
   })
 })
