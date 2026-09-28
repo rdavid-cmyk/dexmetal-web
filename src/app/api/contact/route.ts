@@ -39,9 +39,9 @@ export async function POST(req: NextRequest) {
 
     // Telegram alert — new lead notification
     try {
-      const telegramToken = process.env.TELEGRAM_BOT_TOKEN || '8746639445:AAFz99g3z4QDvOPfWKpKZ1xWjQEm-L2Kuqs'
-      const telegramChatId = process.env.HERMES_CHAT_ID || '1894405483'
-      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
+      const telegramToken = process.env.TELEGRAM_BOT_TOKEN
+      const telegramChatId = process.env.HERMES_CHAT_ID
+      if (!telegramToken || !telegramChatId) return NextResponse.json({ success: true })\n      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
       await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
