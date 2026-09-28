@@ -19,9 +19,11 @@ export function captureRouteCheckEvent(
   search: string,
   properties: Record<string, unknown> = {},
 ) {
-  posthog.capture(event, getRouteCheckEventProperties(search, properties))
-  const posthogWithFlush = posthog as typeof posthog & { flush?: () => void }
-  posthogWithFlush.flush?.()
+  posthog.capture(
+    event,
+    getRouteCheckEventProperties(search, properties),
+    { send_instantly: true },
+  )
 }
 
 export function captureRouteCheckBrowserEvent(
