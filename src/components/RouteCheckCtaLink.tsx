@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
@@ -15,6 +16,7 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'onClick'> &
 }
 
 export default function RouteCheckCtaLink({ source, children, ...props }: Props) {
+  const router = useRouter()
   const [href, setHref] = useState('/services/shipment-route-check')
 
   useEffect(() => {
@@ -27,7 +29,25 @@ export default function RouteCheckCtaLink({ source, children, ...props }: Props)
     <Link
       href={href}
       {...props}
-      onClick={() => captureRouteCheckBrowserEvent('route_check_cta_click', { source })}
+      onClick={(event) => {
+        captureRouteCheckBrowserEvent('route_check_cta_click', { source })
+
+        // The effect above normally updates the href, but a fast click can
+        // arrive before it runs. Keep internal verification traffic on the
+        // Route Check page even in that first render window.
+        if (
+          typeof window !== 'undefined' &&
+          event.button === 0 &&
+          !event.metaKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey &&
+          new URLSearchParams(window.location.search).get('internal_test') === '1'
+        ) {
+          event.preventDefault()
+          router.push('/services/shipment-route-check?internal_test=1')
+        }
+      }}
     >
       {children}
     </Link>
