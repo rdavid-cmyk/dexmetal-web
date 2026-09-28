@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 type State = 'idle' | 'loading' | 'success' | 'error'
@@ -93,7 +94,8 @@ export default function ContactForm() {
         </button>
       </form>
       <p className="mt-4 font-body text-xs text-center" style={{ color: '#a0a09a' }}>
-        Response within 24 hours · No commitment required
+        Response within 24 hours · No commitment required ·{' '}
+        <Link href="/privacy-policy" className="underline hover:opacity-80">Privacy Policy</Link>
       </p>
     </section>
   )
