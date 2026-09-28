@@ -37,7 +37,6 @@ export default function RouteCheckCtaLink({ source, children, ...props }: Props)
         // Route Check page even in that first render window.
         if (
           typeof window !== 'undefined' &&
-          event.button === 0 &&
           !event.metaKey &&
           !event.ctrlKey &&
           !event.shiftKey &&
