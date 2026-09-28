@@ -123,6 +123,7 @@ export async function POST(req: NextRequest) {
     }
 
     let alerted = false
+    let alertMessageId: number | null = null
     try {
       const token = process.env.TELEGRAM_BOT_TOKEN
       const chatId = process.env.HERMES_CHAT_ID
@@ -140,9 +141,13 @@ export async function POST(req: NextRequest) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chat_id: chatId, text }),
         })
+        const telegramBody = await telegram.json().catch(() => null)
         alerted = telegram.ok
+        if (telegram.ok && Number.isInteger(telegramBody?.result?.message_id)) {
+          alertMessageId = telegramBody.result.message_id
+        }
         if (!telegram.ok) {
-          console.error('Route Check Telegram alert failed:', telegram.status, await telegram.text())
+          console.error('Route Check Telegram alert failed:', telegram.status, telegramBody)
         }
       } else {
         console.error('Route Check Telegram alert skipped: missing TELEGRAM_BOT_TOKEN or HERMES_CHAT_ID')
@@ -151,7 +156,7 @@ export async function POST(req: NextRequest) {
       console.error('Route Check Telegram alert error:', err)
     }
 
-    return NextResponse.json({ success: true, reference, alerted })
+    return NextResponse.json({ success: true, reference, alerted, alertMessageId })
   } catch (err) {
     console.error('Shipment Route Check submission error:', err)
     return NextResponse.json({ error: 'Submission failed. Please email support@dexmetal.com.' }, { status: 500 })
