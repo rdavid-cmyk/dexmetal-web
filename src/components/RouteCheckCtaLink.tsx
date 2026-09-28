@@ -12,14 +12,18 @@ import {
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'onClick'> & {
   source: RouteCheckCtaSource
   children: ReactNode
+  internalTest?: boolean
 }
 
-export default function RouteCheckCtaLink({ source, children, ...props }: Props) {
+export default function RouteCheckCtaLink({ source, children, internalTest = false, ...props }: Props) {
   const router = useRouter()
+  const href = internalTest
+    ? '/services/shipment-route-check?internal_test=1'
+    : '/services/shipment-route-check'
 
   return (
     <Link
-      href="/services/shipment-route-check"
+      href={href}
       {...props}
       onClick={(event) => {
         captureRouteCheckBrowserEvent('route_check_cta_click', { source })
@@ -32,7 +36,7 @@ export default function RouteCheckCtaLink({ source, children, ...props }: Props)
           !event.ctrlKey &&
           !event.shiftKey &&
           !event.altKey &&
-          new URLSearchParams(window.location.search).get('internal_test') === '1'
+          (internalTest || new URLSearchParams(window.location.search).get('internal_test') === '1')
         ) {
           event.preventDefault()
           router.push('/services/shipment-route-check?internal_test=1')

@@ -120,7 +120,13 @@ function formatNewsDate(dateStr: string | null | undefined) {
   })
 }
 
-export default async function HomePage() {
+type HomePageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const params = searchParams ? await searchParams : {}
+  const internalTest = params.internal_test === '1'
   const payload = await getPayload({ config: configPromise })
 
   const [postsResult, newsResult] = await Promise.all([
@@ -264,6 +270,7 @@ export default async function HomePage() {
         <div className="container py-8 md:py-10">
           <RouteCheckCtaLink
             source="homepage"
+            internalTest={internalTest}
             className="flex flex-col gap-4 rounded-2xl border p-5 transition-colors hover:border-[#4fd1a3] md:flex-row md:items-center md:justify-between md:p-6"
             style={{ backgroundColor: '#1a2e27', borderColor: '#1D9E75' }}
           >

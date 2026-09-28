@@ -14,7 +14,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ServicesPage() {
+type ServicesPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function ServicesPage({ searchParams }: ServicesPageProps) {
+  const params = searchParams ? await searchParams : {}
+  const internalTest = params.internal_test === '1'
+
   return (
     <article className="min-h-screen bg-dex-bg">
       <div className="max-w-4xl mx-auto px-4 py-16">
@@ -59,7 +66,7 @@ export default function ServicesPage() {
           <p className="font-body leading-relaxed mb-5" style={{ color: '#a8c4bb' }}>
             Submit the route and material facts. We run the existing DexMetal classification, eligibility, PIC and route-risk tools, then verify the material conclusions against current primary sources before issuing a one-page Route Check.
           </p>
-          <RouteCheckCtaLink source="services" className="inline-block font-body font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>
+          <RouteCheckCtaLink source="services" internalTest={internalTest} className="inline-block font-body font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors" style={{ backgroundColor: '#1D9E75', color: '#ffffff' }}>
             Request a Route Check →
           </RouteCheckCtaLink>
         </section>
