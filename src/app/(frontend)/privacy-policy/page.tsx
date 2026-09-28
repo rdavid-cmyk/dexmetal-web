@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <h1 className="font-display text-4xl font-bold md:text-5xl">Privacy Policy</h1>
         <p className="mt-4 font-body text-sm" style={{ color: '#a0a09a' }}>
-          Last updated: May 24, 2026
+          Last updated: September 28, 2026
         </p>
 
         <div className="mt-10 space-y-8 font-body text-base leading-8" style={{ color: '#d8d4cc' }}>
@@ -46,22 +46,46 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="mb-3 font-display text-2xl font-bold text-white">How We Use Information</h2>
             <p>
-              We use information to respond to questions, provide requested resources, improve our
-              tools and content, protect the site, measure audience interest, maintain records of
-              user requests, and develop DexMetal services. We do not sell personal information.
+              We use information to respond to questions, provide requested resources, operate and
+              improve our tools, protect the site, measure audience interest, maintain records of
+              user requests, and provide requested DexMetal services. We do not knowingly sell
+              personal information for money. We do use service providers described below to host,
+              secure, measure, and communicate through the service.
             </p>
           </section>
 
           <section>
             <h2 className="mb-3 font-display text-2xl font-bold text-white">Cookies and Third Parties</h2>
             <p>
-              DexMetal may use cookies or similar technologies for site functionality, analytics,
-              security, and performance. Third-party services such as hosting providers, email
-              services, payment or donation processors, analytics tools, embedded media, and API
-              providers may process information under their own terms and privacy policies.
+              DexMetal uses PostHog for limited product analytics on selected pages, including the
+              Shipment Route Check. That implementation respects Do Not Track and masks form inputs
+              and page text in session recordings. We use Sentry for error and performance monitoring
+              with default personal-information collection disabled and request bodies, cookies,
+              headers, query strings, and user fields removed before events are sent. We do not
+              currently use Google Analytics or Meta Pixel in the production application.
+            </p>
+            <p className="mt-4">
+              Resend processes email addresses and message delivery data when we send requested
+              resources, confirmations, or replies. Certain download forms may also record the name,
+              email address, source, and timestamp in a DexMetal-controlled Google Sheet. Route Check
+              requests are stored in a private server-side record and may trigger internal alerts
+              through Telegram. Hosting and infrastructure providers necessarily process ordinary
+              server and network logs to operate and secure the service.
             </p>
           </section>
 
+
+
+          <section>
+            <h2 className="mb-3 font-display text-2xl font-bold text-white">Legal Basis and International Users</h2>
+            <p>
+              Where data-protection law such as the GDPR applies, DexMetal processes personal data
+              as needed to respond to your request or provide a requested service, for legitimate
+              interests such as security, troubleshooting, service improvement, and business record
+              keeping, or with consent where consent is required. If you are in a jurisdiction that
+              gives you additional privacy rights, you may contact us to exercise those rights.
+            </p>
+          </section>
           <section>
             <h2 className="mb-3 font-display text-2xl font-bold text-white">Compliance and Shipment Information</h2>
             <p>
@@ -87,14 +111,15 @@ export default function PrivacyPolicyPage() {
             <p>
               You may request access, correction, deletion, or limitation of personal information
               you have provided, subject to legal and operational limits. You may also unsubscribe
-              from marketing communications where an unsubscribe option is provided.
+              from marketing communications. We do not currently offer recurring paid subscriptions
+              through dexmetal.com.
             </p>
           </section>
 
           <section>
             <h2 className="mb-3 font-display text-2xl font-bold text-white">Contact</h2>
             <p>
-              Questions about this policy can be sent through the{' '}
+              Questions or privacy requests can be sent to info@dexmetal.com or through the{' '}
               <Link href="/contact" className="font-medium" style={{ color: '#1D9E75' }}>
                 contact page
               </Link>
