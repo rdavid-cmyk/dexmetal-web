@@ -47,12 +47,13 @@ if (projectToken && !window.location.pathname.startsWith('/admin')) {
   posthog.init(projectToken, {
     api_host: apiHost,
     defaults: '2026-05-30',
-    person_profiles: 'identified_only',
+    person_profiles: 'never',
     respect_dnt: true,
-    session_recording: {
-      maskAllInputs: true,
-      maskTextSelector: '*',
-    },
+    cookieless_mode: 'always',
+    disable_session_recording: true,
+    autocapture: false,
+    capture_pageview: false,
+    capture_pageleave: false,
   })
 
   document.addEventListener('click', (event) => {
