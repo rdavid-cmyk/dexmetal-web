@@ -15,7 +15,7 @@ export default function LegalPage() {
         </p>
         <h1 className="font-display text-4xl font-bold md:text-5xl">Legal Notice and Terms of Use</h1>
         <p className="mt-4 font-body text-sm" style={{ color: '#a0a09a' }}>
-          Last updated: May 24, 2026
+          Last updated: September 28, 2026
         </p>
 
         <div className="mt-10 space-y-8 font-body text-base leading-8" style={{ color: '#d8d4cc' }}>
@@ -54,6 +54,34 @@ export default function LegalPage() {
               Tool results may be incomplete, outdated, jurisdiction-specific, or dependent on the
               facts you provide. They should be treated as screening support, not a final legal or
               regulatory determination.
+            </p>
+          </section>
+
+
+          <section>
+            <h2 className="mb-3 font-display text-2xl font-bold text-white">Shipment Route Check — One-Time Service Terms</h2>
+            <p>
+              The Shipment Route Check is a one-time, human-reviewed screening service intended for
+              business and professional users. It is not a subscription, recurring service, legal
+              opinion, permit, certification, or guarantee of regulatory approval.
+            </p>
+            <p className="mt-4">
+              Payment is not currently collected on the public intake form. If payment is enabled,
+              DexMetal will confirm that the request is suitable for the service before paid work
+              proceeds and will state the expected delivery timing at that point.
+            </p>
+            <p className="mt-4">
+              If DexMetal declines the request or cannot provide the service after payment, the
+              payment will be refunded. A customer may cancel for a full refund before substantive
+              review work begins. After substantive review work has begun, any refund will reflect
+              the work already completed. After the completed report is delivered, refunds are not
+              normally available except for duplicate charges, non-delivery, or a material failure
+              to provide the service as described.
+            </p>
+            <p className="mt-4">
+              These terms do not limit any non-waivable rights that apply under applicable consumer
+              protection law. Where mandatory law gives a customer additional cancellation or
+              refund rights, those rights control.
             </p>
           </section>
 
