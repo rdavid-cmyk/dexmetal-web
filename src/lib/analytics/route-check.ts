@@ -24,13 +24,14 @@ function ensureRouteCheckAnalyticsReady(search: string) {
   runtime.init(projectToken, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
     defaults: '2026-05-30',
-    person_profiles: 'identified_only',
+    person_profiles: 'never',
     respect_dnt: true,
     opt_out_useragent_filter: internalTest,
-    session_recording: {
-      maskAllInputs: true,
-      maskTextSelector: '*',
-    },
+    cookieless_mode: 'always',
+    disable_session_recording: true,
+    autocapture: false,
+    capture_pageview: false,
+    capture_pageleave: false,
   })
 }
 
