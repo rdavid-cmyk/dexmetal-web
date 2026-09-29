@@ -58,8 +58,10 @@ export default function PrivacyPolicyPage() {
             <h2 className="mb-3 font-display text-2xl font-bold text-white">Cookies and Third Parties</h2>
             <p>
               DexMetal uses PostHog for limited product analytics on selected pages, including the
-              Shipment Route Check. That implementation respects Do Not Track and masks form inputs
-              and page text in session recordings. We use Sentry for error and performance monitoring
+              Shipment Route Check. PostHog is configured in cookieless mode for this use, with
+              person profiles disabled, session recording disabled, automatic capture disabled,
+              and Do Not Track respected. DexMetal currently sends these analytics events to
+              PostHog's U.S. cloud endpoint. We use Sentry for error and performance monitoring
               with default personal-information collection disabled and request bodies, cookies,
               headers, query strings, and user fields removed before events are sent. We do not
               currently use Google Analytics or Meta Pixel in the production application.
