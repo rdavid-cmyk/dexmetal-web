@@ -2,15 +2,43 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const WINDOW_MS = 10 * 60 * 1000
+const MAX_REQUESTS = 5
+const hits = new Map<string, number[]>()
+
+function clientIp(request: NextRequest) {
+  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+}
+
+function allowed(ip: string) {
+  const now = Date.now()
+  const recent = (hits.get(ip) || []).filter((ts) => now - ts < WINDOW_MS)
+  if (recent.length >= MAX_REQUESTS) {
+    hits.set(ip, recent)
+    return false
+  }
+  recent.push(now)
+  hits.set(ip, recent)
+  return true
+}
+
+function clean(value: unknown, max: number) {
+  return typeof value === 'string' ? value.trim().slice(0, max) : ''
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, company, question, website } = await req.json()
-
-    // Honeypot — hidden field only bots fill in. Silently accept, do nothing.
-    if (website) {
-      return NextResponse.json({ success: true })
+    if (!allowed(clientIp(req))) {
+      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
     }
+
+    const body = await req.json()
+    if (body.website) return NextResponse.json({ success: true })
+
+    const name = clean(body.name, 120)
+    const email = clean(body.email, 254)
+    const company = clean(body.company, 160)
+    const question = clean(body.question, 4000)
 
     if (!name || !email || !question) {
       return NextResponse.json({ error: 'Name, email and question are required.' }, { status: 400 })
@@ -25,33 +53,40 @@ export async function POST(req: NextRequest) {
       from: 'DexMetal Contact <noreply@dexmetal.com>',
       to: 'info@dexmetal.com',
       replyTo: email,
-      subject: `New Basel Compliance Enquiry — ${name}${company ? ` (${company})` : ''}`,
-      html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#1C1B18;color:#c8c4bc;padding:32px;border-radius:8px"><div style="border-left:4px solid #FF5C00;padding-left:16px;margin-bottom:24px"><h1 style="color:#ffffff;font-size:20px;margin:0 0 4px">New Consulting Enquiry</h1><p style="color:#a0a09a;font-size:13px;margin:0">Submitted via dexmetal.com/contact</p></div><table style="width:100%;border-collapse:collapse;margin-bottom:24px"><tr><td style="padding:8px 0;color:#a0a09a;width:120px;font-size:13px">Name</td><td style="padding:8px 0;color:#ffffff;font-size:13px">${name}</td></tr><tr><td style="padding:8px 0;color:#a0a09a;font-size:13px">Email</td><td style="padding:8px 0;font-size:13px"><a href="mailto:${email}" style="color:#1D9E75">${email}</a></td></tr>${company ? `<tr><td style="padding:8px 0;color:#a0a09a;font-size:13px">Company</td><td style="padding:8px 0;color:#ffffff;font-size:13px">${company}</td></tr>` : ''}</table><div style="background:#2c2c2a;border-radius:6px;padding:16px;margin-bottom:24px"><p style="color:#a0a09a;font-size:11px;text-transform:uppercase;letter-spacing:2px;margin:0 0 10px">Question</p><p style="color:#ffffff;font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap">${question}</p></div><p style="color:#77736b;font-size:12px;margin:0">Reply directly to this email to respond to ${name}.</p></div>`,
+      subject: 'New Basel Compliance Enquiry',
+      text: [
+        'New DexMetal enquiry',
+        `Name: ${name}`,
+        company ? `Company: ${company}` : '',
+        `Email: ${email}`,
+        '',
+        'Question:',
+        question,
+      ].filter(Boolean).join('\n'),
     })
 
     await resend.emails.send({
       from: 'Richard David — DexMetal <noreply@dexmetal.com>',
       to: email,
       subject: 'Your DexMetal enquiry — received',
-      html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#1C1B18;color:#c8c4bc;padding:32px;border-radius:8px"><div style="border-left:4px solid #1D9E75;padding-left:16px;margin-bottom:24px"><h1 style="color:#ffffff;font-size:20px;margin:0 0 4px">Enquiry received, ${name.split(' ')[0]}.</h1><p style="color:#a0a09a;font-size:13px;margin:0">DexMetal — Basel Convention Compliance</p></div><p style="color:#c8c4bc;font-size:14px;line-height:1.7">Your question has been received. A practitioner-drafted response — grounded in 20+ years of operational Basel compliance experience — will be in your inbox within 24 hours.</p><div style="background:#2c2c2a;border-radius:6px;padding:16px;margin:24px 0"><p style="color:#a0a09a;font-size:11px;text-transform:uppercase;letter-spacing:2px;margin:0 0 10px">Your question</p><p style="color:#ffffff;font-size:13px;line-height:1.7;margin:0;white-space:pre-wrap">${question}</p></div><p style="color:#c8c4bc;font-size:14px;line-height:1.7">While you wait, the <a href="https://dexmetal.com/tools" style="color:#1D9E75">free compliance tools</a> on DexMetal may be useful for your situation.</p><hr style="border:none;border-top:1px solid #3a3a38;margin:24px 0"/><p style="color:#77736b;font-size:12px;margin:0">DexMetal LLC · <a href="https://dexmetal.com" style="color:#77736b">dexmetal.com</a></p></div>`,
+      text: `Enquiry received, ${name.split(/\s+/)[0]}.\n\nYour question has been received. A practitioner-drafted response will be in your inbox within 24 hours.\n\nYour question:\n${question}\n\nDexMetal LLC · https://dexmetal.com`,
     })
 
-
-    // Telegram alert — new lead notification
     try {
       const telegramToken = process.env.TELEGRAM_BOT_TOKEN
       const telegramChatId = process.env.HERMES_CHAT_ID
-      if (!telegramToken || !telegramChatId) return NextResponse.json({ success: true })
-      const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}\n\nReply: richard@dexmetal.com`
-      await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: telegramChatId, text: telegramMsg }),
-      })
-    } catch (_) {}
+      if (telegramToken && telegramChatId) {
+        const telegramMsg = `🔔 NEW LEAD — DexMetal Contact\n\nName: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nQuestion:\n${question.slice(0, 300)}${question.length > 300 ? '...' : ''}`
+        await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: telegramChatId, text: telegramMsg }),
+        })
+      }
+    } catch {}
 
     return NextResponse.json({ success: true })
-  } catch (err: any) {
+  } catch (err) {
     console.error('Contact form error:', err)
     return NextResponse.json({ error: 'Failed to send. Please email info@dexmetal.com directly.' }, { status: 500 })
   }
