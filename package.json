@@ -111,5 +111,8 @@
       "esbuild",
       "unrs-resolver"
     ]
+  },
+  "overrides": {
+    "undici": "7.29.1"
   }
 }
