@@ -202,7 +202,7 @@ async function checkDom() {
   console.log('\n[2B] Running DOM checks via Playwright...');
 
   try {
-    execSync('npx playwright install chromium --with-deps', {
+    execSync('node node_modules/playwright/cli.js install chromium --with-deps', {
       cwd: APP_ROOT,
       stdio: 'pipe',
       timeout: 120000,
@@ -550,7 +550,7 @@ async function sendTelegram() {
     msg += `\n⚠️ WARNINGS (monitor):\n`;
     fresh.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
     if (collapsed.length) {
-      msg += `- + ${collapsed.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (see STATE.md / yesterday's scan for detail)\n`;
+      msg += `- + ${collapsed.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (details retained in scanner log; no founder action unless promoted)\n`;
     }
   }
   if (results.autoFixed.length) {
@@ -574,6 +574,11 @@ async function sendTelegram() {
   console.log('\n─── TELEGRAM REPORT ───────────────────────────────────');
   console.log(msg);
   console.log('───────────────────────────────────────────────────────');
+
+  if (process.env.DEXMETAL_SCANNER_DRY_RUN === '1') {
+    console.log('🧪 Scanner dry run — Telegram send suppressed');
+    return;
+  }
 
   if (!token) {
     console.log('⚠️  TELEGRAM_BOT_TOKEN not set — report printed to log only');
@@ -688,11 +693,18 @@ async function checkSeo() {
       console.log(p);
     }
     for (const w of warnings) {
-      results.warnings.push({ check: 'SEO', detail: w });
+      if (String(w).trim().startsWith('ℹ️')) {
+        results.healthy.push(`SEO info → ${w}`);
+        console.log(w);
+        continue;
+      }
+      results.warnings.push({ item: 'SEO', detail: w });
+      results.stats.issuesFound++;
       console.log(w);
     }
     for (const i of issues) {
-      results.critical.push({ check: 'SEO', detail: i });
+      results.critical.push({ item: 'SEO', detail: i });
+      results.stats.issuesFound++;
       console.error(i);
     }
     if (issues.length === 0) {
