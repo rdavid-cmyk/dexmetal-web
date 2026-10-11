@@ -545,12 +545,12 @@ async function sendTelegram() {
     msg += `\n🔴 CRITICAL (action required):\n`;
     results.critical.forEach((c) => (msg += `- ${c.item}: ${c.detail}\n`));
   }
+  const { fresh: freshWarnings, collapsed: collapsedWarnings } = throttleWarnings(results.warnings);
   if (results.warnings.length) {
-    const { fresh, collapsed } = throttleWarnings(results.warnings);
     msg += `\n⚠️ WARNINGS (monitor):\n`;
-    fresh.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
-    if (collapsed.length) {
-      msg += `- + ${collapsed.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (details retained in scanner log; no founder action unless promoted)\n`;
+    freshWarnings.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
+    if (collapsedWarnings.length) {
+      msg += `- + ${collapsedWarnings.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (details retained in scanner log; no founder action unless promoted)\n`;
     }
   }
   if (results.autoFixed.length) {
@@ -693,7 +693,7 @@ async function checkSeo() {
       console.log(p);
     }
     for (const w of warnings) {
-      if (String(w).trim().startsWith('ℹ️')) {
+      if (String(w).includes('ℹ️ DRAFT:') || String(w).trim().startsWith('ℹ️')) {
         results.healthy.push(`SEO info → ${w}`);
         console.log(w);
         continue;
@@ -734,8 +734,16 @@ async function checkSentry() {
     ]);
     const isVerification = (issue) =>
       /^DexMetal Sentry (?:production|server|browser) verification /.test(String(issue.title || ''));
-    const recent = recentRaw.filter((issue) => !isVerification(issue));
-    const regressed = regressedRaw.filter((issue) => !isVerification(issue));
+    const isKnownInvalidRootPostProbe = (issue) =>
+      String(issue.title || '') === 'TypeError: Failed to parse body as FormData.' &&
+      String(issue.culprit || '') === 'POST /(frontend)/page';
+    const isFounderNoise = (issue) => isVerification(issue) || isKnownInvalidRootPostProbe(issue);
+    const recent = recentRaw.filter((issue) => !isFounderNoise(issue));
+    const regressed = regressedRaw.filter((issue) => !isFounderNoise(issue));
+    const filteredNoise = recentRaw.filter(isFounderNoise).length;
+    if (filteredNoise > 0) {
+      console.log(`  ℹ️  Sentry: filtered ${filteredNoise} verification/invalid-root-POST probe issue(s) from founder alerts`);
+    }
     results.stats.sentryIssues24h = recent.length;
     results.stats.sentryRegressions24h = regressed.length;
     if (recent.length === 0) {
