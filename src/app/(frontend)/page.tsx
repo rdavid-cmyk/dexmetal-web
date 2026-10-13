@@ -234,15 +234,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div className="container relative pb-0 pt-12 md:pt-20">
           <div className="mx-auto max-w-[1060px] text-center">
             <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#4fd1a3] md:text-xs">
-              Global compliance intelligence
+              Built by a Caribbean Operator, 20+ years
             </p>
             <h1 className="font-display text-[2.625rem] font-bold leading-[1.04] tracking-[-0.035em] text-white md:text-[3.75rem]">
-              Basel compliance for cross-border
-              <span className="block whitespace-nowrap">e-Waste trade</span>
+              Recycling Compliance for e-Waste and Batteries
             </h1>
             <p className="mx-auto mt-5 max-w-[800px] text-base leading-7 text-[#c8c4bc] md:text-lg md:leading-8">
-              Navigate classification, Prior Informed Consent, competent authorities, and
-              cross-border shipment requirements with operator-focused guidance.
+              Shipment Pre-Check. 182 Countries Worldwide.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5 text-xs font-medium text-[#d9d5cc] md:gap-3 md:text-sm">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#c27445]/35 bg-[#211b17]/75 px-3.5 py-2 backdrop-blur-sm">
