@@ -234,10 +234,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div className="container relative pb-0 pt-12 md:pt-20">
           <div className="mx-auto max-w-[1060px] text-center">
             <p className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#4fd1a3] md:text-xs">
-              Built by a Caribbean Operator, 20+ years
+              Built by a Caribbean Operator with 20+ Years’ Experience
             </p>
             <h1 className="font-display text-[2.625rem] font-bold leading-[1.04] tracking-[-0.035em] text-white md:text-[3.75rem]">
-              Recycling Compliance for e-Waste and Batteries
+              Recycling Compliance For e-Waste and Batteries
             </h1>
             <p className="mx-auto mt-5 max-w-[800px] text-base leading-7 text-[#c8c4bc] md:text-lg md:leading-8">
               Shipment Pre-Check. 182 Countries Worldwide.
