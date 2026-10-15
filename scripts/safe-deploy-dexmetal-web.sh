@@ -35,6 +35,10 @@ if ! pm2 restart "$PM2_APP"; then
   exit 1
 fi
 
+# Record that this restart went through the safe-deploy script (the 15-minute scan compares it with
+# the site process start time and the last build to spot deploys that bypassed this script).
+printf '{"deployed_at":"%s","by":"safe-deploy-dexmetal-web.sh"}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "${MARKER_FILE:-/var/www/dexmetal-monitor/last-safe-deploy.json}" 2>/dev/null || true
+
 echo "Waiting up to ${WAIT_SECONDS}s for HTTP 200 from $SITE_URL ..."
 deadline=$((SECONDS + WAIT_SECONDS))
 code="000"
