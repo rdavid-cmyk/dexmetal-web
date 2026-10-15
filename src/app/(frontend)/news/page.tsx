@@ -1,6 +1,7 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import Link from 'next/link'
+import { decodeEntities } from '@/utilities/decodeEntities'
 
 export const dynamic = 'force-dynamic'
 
@@ -129,7 +130,7 @@ export default async function NewsPage({
                       rel="noopener noreferrer"
                       className="font-display text-xl font-bold text-white hover:text-[#1D9E75] transition-colors leading-snug"
                     >
-                      {article.title as string}
+                      {decodeEntities(article.title as string)}
                     </a>
                     <ScoreBadge score={article.relevance_score as number | null} />
                   </div>
@@ -145,7 +146,7 @@ export default async function NewsPage({
 
                   {article.summary && (
                     <p className="mb-4 line-clamp-3 text-sm leading-7" style={{ color: '#c8c4bc' }}>
-                      {article.summary as string}
+                      {decodeEntities(article.summary as string)}
                     </p>
                   )}
 

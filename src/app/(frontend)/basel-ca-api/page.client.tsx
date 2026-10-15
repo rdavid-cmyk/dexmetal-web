@@ -66,7 +66,7 @@ const FAQS = [
   {
     question: 'What countries are currently covered?',
     answer:
-      'The product messaging and on-page references have been updated to 182 countries. This page intentionally replaces earlier 41-country wording.',
+      'The Basel API covers competent authority records for 182 countries.',
   },
   {
     question: 'How quickly can it be integrated?',

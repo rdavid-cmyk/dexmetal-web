@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { NewsArticle } from '@/payload-types'
+import { decodeEntities } from '@/utilities/decodeEntities'
 
 export const dynamic = 'force-dynamic'
 
@@ -115,10 +116,10 @@ export async function POST(req: NextRequest) {
         .map((t) => ({ tag: t }))
 
       const data = {
-        title: article.title,
+        title: decodeEntities(article.title),
         url: article.url,
         source: article.source || null,
-        summary: article.summary || null,
+        summary: article.summary ? decodeEntities(article.summary) : null,
         relevance_score: article.relevance_score ?? null,
         published_at: article.published_at || null,
         tags,

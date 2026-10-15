@@ -252,7 +252,7 @@ export default function BaselClassificationQuickscan() {
     setGateSubmitting(false)
   }
 
-  const currentQ = QUESTIONS[step]
+  const currentQ = QUESTIONS[Math.min(step, QUESTIONS.length - 1)]
   const gatedData = result ? classificationData.codeDescriptions[result.code as keyof typeof classificationData.codeDescriptions] : null
 
   return (
@@ -276,7 +276,7 @@ export default function BaselClassificationQuickscan() {
             Answer three questions to identify the correct Basel waste code for your e-waste or battery shipment.
           </p>
           <div style={{ marginTop: '12px' }}>
-            <button id="tour-load-example" onClick={() => { setAnswers({ type: 'ULAB', condition: 'Scrap', use: 'Recycling' }); setStep(3); setGateUnlocked(false); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button id="tour-load-example" onClick={() => { const ex = { type: 'ULAB', condition: 'Scrap', use: 'Recycling' }; setAnswers(ex); setResult(classify(ex.type, ex.condition, ex.use)); setStep(QUESTIONS.length - 1); setGateUnlocked(false); }} style={{ padding: '6px 14px', backgroundColor: 'transparent', color: '#1D9E75', border: '1px solid #1D9E75', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
               Load example: ULAB T&T → Germany (recycling) →
             </button>
           </div>
