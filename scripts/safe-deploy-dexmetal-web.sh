@@ -14,13 +14,19 @@ BUILD_LOG="$(mktemp /tmp/dexmetal-build.XXXXXX.log)"
 
 cd "$APP_DIR" || { echo "DEPLOY FAILED: cannot cd to $APP_DIR. Nothing was restarted." >&2; exit 1; }
 
+# Keep the last good build so a failed build cannot leave the site without one.
+rm -rf .next.prev
+if [ -d .next ]; then cp -a .next .next.prev; fi
+
 echo "Building in $APP_DIR ..."
 if ! npm run build >"$BUILD_LOG" 2>&1; then
+  if [ -d .next.prev ]; then rm -rf .next && mv .next.prev .next && echo "Previous build restored." >&2; fi
   echo "DEPLOY FAILED: build failed. pm2 was NOT touched; the running site is unchanged." >&2
   echo "---- last 60 lines of build output (full log: $BUILD_LOG) ----" >&2
   tail -n 60 "$BUILD_LOG" >&2
   exit 1
 fi
+rm -rf .next.prev
 echo "Build succeeded."
 
 echo "Restarting $PM2_APP ..."
