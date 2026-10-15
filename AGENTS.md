@@ -1,3 +1,5 @@
+> **DEPLOY RULE (dexmetal-web):** The only approved way to deploy is `/usr/local/bin/safe-deploy-dexmetal-web.sh` (source: `scripts/safe-deploy-dexmetal-web.sh`). It builds first and restarts pm2 only if the build succeeds. Never run `pm2 restart dexmetal-web` directly.
+
 # Payload CMS Development Rules
 
 You are an expert Payload CMS developer. When working with Payload projects, follow these rules:

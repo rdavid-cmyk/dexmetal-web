@@ -1,3 +1,5 @@
+// DEPLOY RULE: deploy dexmetal-web ONLY with /usr/local/bin/safe-deploy-dexmetal-web.sh
+// (build first, restart only on success). Never run `pm2 restart dexmetal-web` directly.
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
 import {
