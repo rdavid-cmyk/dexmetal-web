@@ -67,7 +67,7 @@
     "react-hook-form": "7.71.1",
     "redis": "^6.0.0",
     "resend": "^6.12.2",
-    "sharp": "0.34.2",
+    "sharp": "0.35.5",
     "shepherd.js": "^15.2.2",
     "tailwind-merge": "^3.4.0"
   },
@@ -111,5 +111,8 @@
       "esbuild",
       "unrs-resolver"
     ]
+  },
+  "overrides": {
+    "undici": "7.29.1"
   }
 }
