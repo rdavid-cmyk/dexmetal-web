@@ -199,9 +199,8 @@ async function getGLMResponse(
   return text;
 }
 
-// Backup model (added 2026-10-15): free-tier Groq (gpt-oss-120b). Only used when the
-// primary (GLM) fails, so the visitor chat degrades to a second model instead of
-// an error page. Same system prompt and the same hard-fact checks apply to it.
+// Chat model (Groq, gpt-oss-120b; sole model since 2026-10-15). Same system prompt
+// and the same hard-fact checks apply.
 async function getGroqResponse(
   message: string,
   history: { role: string; content: string }[],
@@ -241,19 +240,15 @@ async function getGroqResponse(
   return text;
 }
 
-// Primary first, backup second. Throws LLMBackendError only if both fail.
+// Groq only (2026-10-15): GLM is removed from the chat flow. getGLMResponse is
+// intentionally kept above, unused, in case it is needed again later.
+// Throws LLMBackendError if Groq fails.
 async function getAnswer(
   message: string,
   history: { role: string; content: string }[],
   correction?: string,
 ): Promise<string> {
-  try {
-    return await getGLMResponse(message, history, correction);
-  } catch (primaryError) {
-    if (!(primaryError instanceof LLMBackendError)) throw primaryError;
-    console.warn("Primary chat model failed; using backup model");
-    return await getGroqResponse(message, history, correction);
-  }
+  return await getGroqResponse(message, history, correction);
 }
 
 export async function POST(request: NextRequest) {
