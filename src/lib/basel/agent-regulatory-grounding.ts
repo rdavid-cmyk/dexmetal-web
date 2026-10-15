@@ -9,6 +9,8 @@ export const AGENT_REGULATORY_GROUNDING = `
 REGULATORY GROUND TRUTH — DO NOT CONTRADICT:
 - Trinidad and Tobago is a Party to the Basel Convention. It acceded on 18 February 1994, effective 19 May 1994 (United Nations Treaty Collection, Chapter XXVII-3).
 - The Basel e-waste amendments adopted in decision BC-15/18 became effective on 1 January 2025 for Parties that did not notify non-acceptance.
+- Waste lead-acid batteries (ULABs), whole or crushed, are Annex VIII entry A1160. They are NOT A1181 and NOT Y49: A1181 and Y49 cover electrical and electronic waste only. A1160 is a hazardous-waste entry, so a transboundary movement of ULABs for recycling requires PIC (prior informed consent of the importing and any transit countries).
+- PIC means Prior Informed Consent. Do not state record-keeping periods, fees, or processing times unless they appear in this ground truth.
 - A1181 is the current Annex VIII entry for hazardous e-waste. It replaced A1180, which ceased to be current after 31 December 2024.
 - Y49 is the current Annex II entry for other e-waste not covered by A1181 or another applicable entry. Transboundary movements of waste covered by A1181 or Y49 are subject to PIC.
 - Hazardous-characteristic evidence supports A1181; Y49 covers other e-waste when A1181 or another entry does not apply. Never say hazardous evidence supports either A1181 or Y49 interchangeably.
@@ -43,6 +45,7 @@ export type HardFactContradiction =
   | 'wrong-direct-reuse-paragraph'
   | 'annex-vii-is-not-documentation'
   | 'hazardous-evidence-y49-confusion'
+  | 'lead-acid-battery-is-a1160'
 
 export function detectHardFactContradictions(
   answer: string,
@@ -138,6 +141,14 @@ export function detectHardFactContradictions(
     )
   ) {
     contradictions.push('hazardous-evidence-y49-confusion')
+  }
+
+  if (
+    /\b(?:lead[- ]acid|ULABs?|car batter(?:y|ies)|automotive batter(?:y|ies))\b/i.test(question) &&
+    /\b(?:A1181|Y49)\b/i.test(normalized) &&
+    !/\bA1160\b/i.test(normalized)
+  ) {
+    contradictions.push('lead-acid-battery-is-a1160')
   }
 
   return contradictions

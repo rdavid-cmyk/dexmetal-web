@@ -199,6 +199,63 @@ async function getGLMResponse(
   return text;
 }
 
+// Backup model (added 2026-10-15): free-tier Groq (gpt-oss-120b). Only used when the
+// primary (GLM) fails, so the visitor chat degrades to a second model instead of
+// an error page. Same system prompt and the same hard-fact checks apply to it.
+async function getGroqResponse(
+  message: string,
+  history: { role: string; content: string }[],
+  correction?: string,
+): Promise<string> {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) {
+    console.error("GROQ_API_KEY is not set in the environment");
+    throw new LLMBackendError("missing backup API key");
+  }
+
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "openai/gpt-oss-120b",
+      max_tokens: 700,
+      reasoning_effort: "low",
+      messages: [
+        { role: "system", content: correction ? `${SYSTEM_PROMPT}\n\n${correction}` : SYSTEM_PROMPT },
+        ...history.map((h) => ({ role: h.role, content: h.content })),
+        { role: "user", content: message },
+      ],
+    }),
+  });
+
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    console.error(`Groq API error [${response.status}]: ${data?.error?.message || "unknown"}`);
+    throw new LLMBackendError(`Groq (${response.status})`);
+  }
+  const text = data?.choices?.[0]?.message?.content;
+  if (typeof text !== "string" || text.trim().length === 0) {
+    console.error("Groq returned empty content");
+    throw new LLMBackendError("Groq returned no content");
+  }
+  return text;
+}
+
+// Primary first, backup second. Throws LLMBackendError only if both fail.
+async function getAnswer(
+  message: string,
+  history: { role: string; content: string }[],
+  correction?: string,
+): Promise<string> {
+  try {
+    return await getGLMResponse(message, history, correction);
+  } catch (primaryError) {
+    if (!(primaryError instanceof LLMBackendError)) throw primaryError;
+    console.warn("Primary chat model failed; using backup model");
+    return await getGroqResponse(message, history, correction);
+  }
+}
+
 export async function POST(request: NextRequest) {
   let cta: ToolCTA | null = null;
   try {
@@ -222,12 +279,12 @@ export async function POST(request: NextRequest) {
     }
 
     cta = detectWorkflowIntent(message);
-    let answer = await getGLMResponse(message, history);
+    let answer = await getAnswer(message, history);
     let contradictions = detectHardFactContradictions(answer, message);
 
     if (contradictions.length > 0) {
       console.warn(`Blocked Agent hard-fact contradiction(s): ${contradictions.join(", ")}`);
-      answer = await getGLMResponse(
+      answer = await getAnswer(
         message,
         history,
         `Your prior draft contradicted these hard-fact checks: ${contradictions.join(", ")}. Rewrite the answer from scratch using the regulatory ground truth.`,
