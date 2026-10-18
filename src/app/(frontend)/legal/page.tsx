@@ -15,7 +15,7 @@ export default function LegalPage() {
         </p>
         <h1 className="font-display text-4xl font-bold md:text-5xl">Legal Notice and Terms of Use</h1>
         <p className="mt-4 font-body text-sm" style={{ color: '#a0a09a' }}>
-          Last updated: September 28, 2026
+          Last updated: October 18, 2026
         </p>
 
         <div className="mt-10 space-y-8 font-body text-base leading-8" style={{ color: '#d8d4cc' }}>
@@ -58,7 +58,7 @@ export default function LegalPage() {
           </section>
 
 
-          <section>
+          <section id="shipment-route-check">
             <h2 className="mb-3 font-display text-2xl font-bold text-white">Shipment Route Check — One-Time Service Terms</h2>
             <p>
               The Shipment Route Check is a one-time, human-reviewed screening service intended for
@@ -66,9 +66,14 @@ export default function LegalPage() {
               opinion, permit, certification, or guarantee of regulatory approval.
             </p>
             <p className="mt-4">
-              Payment is not currently collected on the public intake form. If payment is enabled,
-              DexMetal will confirm that the request is suitable for the service before paid work
-              proceeds and will state the expected delivery timing at that point.
+              No payment is collected on the public intake form. After we review your request and
+              confirm it is suitable for the service, we will email you the expected delivery timing
+              and a secure PayPal payment link for the USD 99 fee. Paid work begins after payment is
+              confirmed. If we decline the request, we will not ask you to pay.
+            </p>
+            <p className="mt-4">
+              Your request is accepted when we confirm it by email. By paying the fee, you agree to
+              these Shipment Route Check Service Terms.
             </p>
             <p className="mt-4">
               If DexMetal declines the request or cannot provide the service after payment, the
@@ -82,6 +87,13 @@ export default function LegalPage() {
               These terms do not limit any non-waivable rights that apply under applicable consumer
               protection law. Where mandatory law gives a customer additional cancellation or
               refund rights, those rights control.
+            </p>
+            <p className="mt-4">
+              To the extent permitted by law, DexMetal LLC&apos;s total liability arising out of or
+              relating to a Shipment Route Check is limited to the fee paid for that service.
+              DexMetal LLC is not liable for indirect or consequential losses, including shipment
+              delay, demurrage, storage charges, penalties, or the rejection or return of a
+              shipment. Nothing in these terms limits liability that cannot lawfully be limited.
             </p>
           </section>
 

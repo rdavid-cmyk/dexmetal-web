@@ -15,7 +15,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <h1 className="font-display text-4xl font-bold md:text-5xl">Privacy Policy</h1>
         <p className="mt-4 font-body text-sm" style={{ color: '#a0a09a' }}>
-          Last updated: September 28, 2026
+          Last updated: October 18, 2026
         </p>
 
         <div className="mt-10 space-y-8 font-body text-base leading-8" style={{ color: '#d8d4cc' }}>
@@ -72,7 +72,10 @@ export default function PrivacyPolicyPage() {
               email address, source, and timestamp in a DexMetal-controlled Google Sheet. Route Check
               requests are stored in a private server-side record and may trigger internal alerts
               through Telegram. Hosting and infrastructure providers necessarily process ordinary
-              server and network logs to operate and secure the service.
+              server and network logs to operate and secure the service. Text and history you type
+              into the DexMetal Agent chat on the homepage are sent to a third-party AI provider to
+              generate replies. Do not include confidential business information, personal data or
+              documents in the chat. For a reviewed request, use the Route Check form.
             </p>
           </section>
 

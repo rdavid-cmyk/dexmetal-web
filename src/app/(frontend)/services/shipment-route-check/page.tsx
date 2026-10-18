@@ -51,6 +51,22 @@ export default function ShipmentRouteCheckPage() {
           </p>
         </section>
 
+        <section className="mb-8 rounded-xl p-7" style={{ backgroundColor: '#2c2c2a', border: '1px solid #3a3a37' }}>
+          <h2 className="mb-4 font-display text-xl font-bold text-white">How it works</h2>
+          <ol className="list-decimal space-y-3 pl-5 font-body text-sm" style={{ color: '#c0c0ba' }}>
+            <li>Send the route and material facts using the form below. No payment is taken at this step.</li>
+            <li>We review the request for fit and reply by email with the next step, or tell you plainly if we cannot take it on, at no charge.</li>
+            <li>If we accept it, we confirm the expected delivery timing and send a secure PayPal payment link for the $99 fee. Work starts after payment is confirmed.</li>
+            <li>You receive a one-page report after the checks and a human review against current primary sources.</li>
+          </ol>
+          <p className="mt-5 font-body text-xs leading-relaxed" style={{ color: '#77736b' }}>
+            Refunds and cancellation are covered in the{' '}
+            <Link href="/legal#shipment-route-check" className="underline hover:opacity-80">Route Check Service Terms</Link>.
+            How we handle the information you submit is described in the{' '}
+            <Link href="/privacy-policy" className="underline hover:opacity-80">Privacy Policy</Link>.
+          </p>
+        </section>
+
         <ShipmentRouteCheckForm />
       </div>
     </article>

@@ -160,7 +160,7 @@ export default function ShipmentRouteCheckForm() {
           No payment is collected on this page. Submission is retained privately by DexMetal and triggers an internal alert.{' '}
           <Link href="/privacy-policy" className="underline hover:opacity-80">Privacy Policy</Link>
           {' · '}
-          <Link href="/legal" className="underline hover:opacity-80">Service Terms</Link>
+          <Link href="/legal#shipment-route-check" className="underline hover:opacity-80">Service Terms</Link>
         </p>
       </form>
     </section>

@@ -34,7 +34,7 @@ export default function ContactPage() {
             </h2>
           </div>
           <p className="font-body text-sm leading-relaxed mb-4" style={{ color: '#a0a09a' }}>
-            Submit your question. A practitioner-drafted response — grounded in 20+ years of operational Basel compliance experience — delivered to your inbox within 24 hours. No commitment, no billing until demand is proven.
+            Submit your question. A practitioner-drafted response — grounded in 20+ years of operational Basel compliance experience — delivered to your inbox within 24 hours. No commitment. Submitting a question is free. The $99 Shipment Route Check is a separate paid service.
           </p>
           <p className="font-body text-sm leading-relaxed" style={{ color: '#a0a09a' }}>
             This covers notification questions, movement document issues, PIC workflow guidance, country-specific requirements, waste code classification, and more.

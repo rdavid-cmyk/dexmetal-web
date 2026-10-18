@@ -159,6 +159,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, reference, alerted, alertMessageId })
   } catch (err) {
     console.error('Shipment Route Check submission error:', err)
-    return NextResponse.json({ error: 'Submission failed. Please email support@dexmetal.com.' }, { status: 500 })
+    return NextResponse.json({ error: 'Submission failed. Please email info@dexmetal.com.' }, { status: 500 })
   }
 }
