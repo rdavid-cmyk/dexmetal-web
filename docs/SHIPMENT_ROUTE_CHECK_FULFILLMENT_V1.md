@@ -1,6 +1,8 @@
 # DexMetal $99 Shipment Route Check — Fulfillment V1
 
-Status: minimum manual fulfillment loop. Payment intentionally excluded until one route check completes cleanly end-to-end.
+**Status:** ACTIVE — REVIEW FIRST -> PAYMENT -> FULFILLMENT  
+**Canonical commercial record:** `rdavid-cmyk/DexMetal-PKM/00_SYSTEM_CONTROL/commerce/SHIPMENT_ROUTE_CHECK_SERVICE_V1.md`  
+**Locked output template:** `docs/SHIPMENT_ROUTE_CHECK_REPORT_TEMPLATE_V1.md`
 
 ## Exact customer intake fields
 
@@ -24,19 +26,24 @@ Optional:
 - Route notes / receiving-facility context
 
 No document uploads in V1. Do not collect notification files, contracts, IDs, permits, or other sensitive attachments through this form. Each submission is retained in the private server-side Route Check store before alerts are attempted.
+
 ## Fulfillment sequence
 
-1. Open the private Route Check submission record using the reference SRC-YYYYMMDD-XXXXXX. Richard receives an immediate Telegram alert.
-2. Run the submitted facts through the four existing corrected DexMetal tools — do not build or use a separate route engine:
+1. Customer submits the live Shipment Route Check intake. The API creates an `SRC-YYYYMMDD-XXXXXX` reference and stores the record privately.
+2. Richard reviews the submission for fit. No payment is collected at intake.
+3. If accepted, send the current PayPal payment link from the canonical commercial record. If clarification is required or the request is not a fit, do not request payment.
+4. Begin fulfillment only after USD 99 payment is confirmed.
+5. Open the private Route Check submission using the SAME intake reference.
+6. Run the submitted facts through the four existing corrected DexMetal tools — do not build or use a separate route engine:
    - Basel Classification QuickScan
    - Shipment Eligibility Checker
    - PIC Status Checker
    - E-Waste Export Route Risk Mapper
-3. Capture the four tool outputs in working notes.
-4. Perform the mandatory human/current-primary-source verification gate below.
-5. Draft the one-page Route Check report using the template below.
-6. Human reviewer signs off with reviewer name and verification date.
-7. Deliver the one-page report to the customer by email.
+7. Capture the four tool outputs in working notes.
+8. Perform the mandatory human/current-primary-source verification gate below.
+9. Draft the customer report using `docs/SHIPMENT_ROUTE_CHECK_REPORT_TEMPLATE_V1.md`. The report reference must match the intake reference exactly.
+10. Human reviewer signs off internally; place the verification date in the approved report footer.
+11. Deliver the one-page US-Legal portrait report to the customer by email.
 
 ## Mandatory human / current-primary-source verification gate
 
@@ -52,37 +59,28 @@ Minimum checks:
 - Competent authority contact: current official Basel directory and/or national authority page.
 
 For every source record: title, issuing authority, URL, date accessed, and the specific conclusion it supports. If a material point cannot be verified, mark it **UNRESOLVED — authority confirmation required**.
-## One-page customer report template
 
-**DexMetal Shipment Route Check**  
-Reference: [SRC-…]  
-Verification date: [date]  
-Reviewer: [name]
+## Locked customer report
 
-### 1. Shipment snapshot
-[Waste/material] · [condition] · [origin] → [destination] · [intended operation]  
-Transit: [countries / unknown / none] · Quantity: [if supplied] · Target date: [if supplied]
-
-### 2. Route finding
-- Likely Basel classification: [code / classification + short basis]
-- Shipment eligibility/control status: [finding]
-- PIC pathway: [finding]
-- Transit / Ban / non-Party flags: [finding]
-
-### 3. What must happen next
-1. [highest-priority action]
-2. [second action]
-3. [third action]
-
-### 4. Current primary sources checked
-- [Authority — source title — URL — accessed date]
-- [Authority — source title — URL — accessed date]
-- [Authority — source title — URL — accessed date]
-
-**Limit:** This is a route-screening report, not legal advice, a permit, or a guarantee of approval. Applicable competent authorities and national law determine the final requirements.
+The approved customer-facing output is defined only by `docs/SHIPMENT_ROUTE_CHECK_REPORT_TEMPLATE_V1.md`. Do not substitute the older inline text skeleton or change the page size/layout without Richard approval.
 
 ## Acceptance gate
 
-PASS only when: intake is complete; all four existing engines were run; current primary sources were checked for every material conclusion; unresolved points are explicitly labelled; one-page report fits the template; human reviewer name and verification date are present.
+PASS only when:
+- intake is complete;
+- the report reference exactly matches the intake reference;
+- payment has been confirmed for an accepted case;
+- all four existing engines were run;
+- current primary sources were checked for every material conclusion;
+- unresolved points are explicitly labelled;
+- the report uses the locked one-page US-Legal portrait template;
+- human review is recorded and the verification date is present.
 
-FAIL / HOLD when: transit is unknown and materially affects the route; waste/non-waste status is unresolved; a current national rule cannot be verified; or a tool output conflicts with an authoritative current source. In a conflict, the authoritative current source controls and the conflict is logged for engine remediation separately from customer fulfillment.
+FAIL / HOLD when:
+- transit is unknown and materially affects the route;
+- waste/non-waste status is unresolved;
+- a current national rule cannot be verified;
+- payment is not confirmed for an accepted case; or
+- a tool output conflicts with an authoritative current source.
+
+In a conflict, the authoritative current source controls and the conflict is logged for engine remediation separately from customer fulfillment.
