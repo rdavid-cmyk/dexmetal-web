@@ -7,7 +7,6 @@ import AssetGate from '@/components/AssetGate'
 import { LMETicker } from '@/components/LMETicker'
 import BaselIntro from '@/components/BaselIntro'
 import { DexMetalAgent } from '@/components/DexMetalAgent'
-import RouteCheckCtaLink from '@/components/RouteCheckCtaLink'
 import type { Category, Media as MediaType } from '@/payload-types'
 
 const CIRCULAR_STAGES = [
@@ -120,13 +119,7 @@ function formatNewsDate(dateStr: string | null | undefined) {
   })
 }
 
-type HomePageProps = {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>
-}
-
-export default async function HomePage({ searchParams }: HomePageProps) {
-  const params = searchParams ? await searchParams : {}
-  const internalTest = params.internal_test === '1'
+export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
   const [postsResult, newsResult] = await Promise.all([
@@ -261,32 +254,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <div className="relative z-10 mt-9 translate-y-8 md:mt-12 md:translate-y-10">
             <DexMetalAgent embedded />
           </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#2f2f2b]" style={{ background: '#171613' }}>
-        <div className="container py-8 md:py-10">
-          <RouteCheckCtaLink
-            source="homepage"
-            internalTest={internalTest}
-            className="flex flex-col gap-4 rounded-2xl border p-5 transition-colors hover:border-[#4fd1a3] md:flex-row md:items-center md:justify-between md:p-6"
-            style={{ backgroundColor: '#1a2e27', borderColor: '#1D9E75' }}
-          >
-            <div>
-              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: '#4fd1a3' }}>
-                Need a person to check your route?
-              </p>
-              <p className="font-display text-xl font-bold text-white md:text-2xl">
-                $99 Shipment Route Check
-              </p>
-              <p className="mt-1 text-sm" style={{ color: '#a8c4bb' }}>
-                Human-verified against current Basel and national sources.
-              </p>
-            </div>
-            <span className="inline-flex shrink-0 items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#1D9E75' }}>
-              Request a Route Check →
-            </span>
-          </RouteCheckCtaLink>
         </div>
       </section>
 
