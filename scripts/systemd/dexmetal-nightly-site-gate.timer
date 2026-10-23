@@ -1,0 +1,10 @@
+[Unit]
+Description=Run DexMetal site gate nightly at 23:15 AST
+
+[Timer]
+OnCalendar=*-*-* 23:15:00 America/Port_of_Spain
+Persistent=true
+Unit=dexmetal-nightly-site-gate.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=DexMetal nightly homepage, sitemap, and PostHog gate
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/var/www/dexmetal-web
+ExecStart=/usr/bin/node /var/www/dexmetal-web/scripts/nightly-site-gate.mjs
+TimeoutStartSec=120
+Nice=10

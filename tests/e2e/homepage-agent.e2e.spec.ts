@@ -43,6 +43,8 @@ test.describe('premium homepage compliance hero', () => {
       await expect(agent.getByRole('heading', { level: 2 })).toHaveText(
         'Tell us about your shipment',
       )
+      await expect(agent).not.toContainText('$99')
+      await expect(agent).not.toContainText('third-party AI service')
       await expect(agent.locator('img[alt="DexMetal"]')).toHaveCount(0)
 
       const input = agent.getByPlaceholder('Describe your shipment or compliance scenario...')

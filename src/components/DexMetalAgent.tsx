@@ -217,10 +217,6 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
               }}>
                 Tell us about your shipment
               </h2>
-              <p style={{ color: '#9a9992', fontSize: '12px', lineHeight: 1.5, margin: '8px 0 0' }}>
-                Replies use a third-party AI service. Avoid confidential business information, personal data and documents.
-                For a human-reviewed $99 Route Check, <a href="/services/shipment-route-check" style={{ color: '#1D9E75', textDecoration: 'underline' }}>use the request form</a>.
-              </p>
             </div>
           ) : (
             <div style={{
