@@ -532,56 +532,26 @@ function throttleWarnings(warnings) {
 async function sendTelegram() {
   const token = getTelegramToken();
 
-  const sslLine = SSL_DOMAINS.map((d) => {
-    const v = results.stats.ssl[d] ?? 'err';
-    const label = d.replace('.dexmetal.com', '').replace('dexmetal.com', 'main');
-    return `${label}=${v}d`;
-  }).join(' ');
-
-  let msg = `🤖 DexMetal Daily Scan — ${SCAN_DATE} AST\n`;
-  msg += `✅ HEALTHY (${results.healthy.length} checks passed)\n`;
-
-  if (results.critical.length) {
-    msg += `\n🔴 CRITICAL (action required):\n`;
-    results.critical.forEach((c) => (msg += `- ${c.item}: ${c.detail}\n`));
-  }
-  const { fresh: freshWarnings, collapsed: collapsedWarnings } = throttleWarnings(results.warnings);
-  if (results.warnings.length) {
-    msg += `\n⚠️ WARNINGS (monitor):\n`;
-    freshWarnings.forEach((w) => (msg += `- ${w.item}: ${w.detail}\n`));
-    if (collapsedWarnings.length) {
-      msg += `- + ${collapsedWarnings.length} known warning(s) unchanged, already flagged ${WARNING_REPEAT_THRESHOLD}+ days running (details retained in scanner log; no founder action unless promoted)\n`;
-    }
-  }
-  if (results.autoFixed.length) {
-    msg += `\n🔧 AUTO-FIXED:\n`;
-    results.autoFixed.forEach((f) => (msg += `- ${f}\n`));
+  if (!results.critical.length) {
+    console.log('Telegram suppressed — no CRITICAL findings');
+    return;
   }
 
-  msg += `\n📊 STATS:\n`;
-  msg += `- Endpoints checked: ${results.stats.endpointsChecked}\n`;
-  msg += `- Pages scanned: ${results.stats.pagesScanned}\n`;
-  msg += `- System coverage checks: ${results.stats.coverageChecks}\n`;
-  msg += `- Issues found: ${results.stats.issuesFound}\n`;
-  msg += `- Auto-fixed: ${results.stats.autoFixed}\n`;
-  msg += `- SSL days remaining: ${sslLine}\n`;
-  msg += `- PM2 memory: ${results.stats.pm2Memory}MB\n`;
-  msg += `- Disk: ${results.stats.diskPct}% used\n`;
-  msg += `- Sentry unresolved (24h): ${results.stats.sentryIssues24h}\n`;
-  msg += `- Sentry regressions (24h): ${results.stats.sentryRegressions24h}\n`;
-  msg += `\n🕐 Next scan: tomorrow 06:00 AST`;
+  let msg = `🔴 DEXMETAL CRITICAL SCAN — ${SCAN_DATE} AST\n`;
+  msg += `CRITICAL: ${results.critical.length}\n`;
+  results.critical.forEach((c) => (msg += `- ${c.item}: ${c.detail}\n`));
 
-  console.log('\n─── TELEGRAM REPORT ───────────────────────────────────');
+  console.log('\n─── CRITICAL TELEGRAM ALERT ───────────────────────────');
   console.log(msg);
   console.log('───────────────────────────────────────────────────────');
 
   if (process.env.DEXMETAL_SCANNER_DRY_RUN === '1') {
-    console.log('🧪 Scanner dry run — Telegram send suppressed');
+    console.log('Scanner dry run — Telegram send suppressed');
     return;
   }
 
   if (!token) {
-    console.log('⚠️  TELEGRAM_BOT_TOKEN not set — report printed to log only');
+    console.log('TELEGRAM_BOT_TOKEN not set — critical alert printed to log only');
     return;
   }
 
@@ -593,12 +563,12 @@ async function sendTelegram() {
     });
     const data = await res.json();
     if (data.ok) {
-      console.log('✅ Telegram report sent successfully');
+      console.log('Critical Telegram alert sent successfully');
     } else {
-      console.log('❌ Telegram send failed:', data.description);
+      console.log('Telegram send failed:', data.description);
     }
   } catch (err) {
-    console.log('❌ Telegram send error:', err.message);
+    console.log('Telegram send error:', err.message);
   }
 }
 
