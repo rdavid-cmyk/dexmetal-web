@@ -1,0 +1,8 @@
+[Unit]
+Description=Telegram alert when the DexMetal nightly site gate fails
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/bin/bash /var/www/dexmetal-web/scripts/site-gate-alert.sh
+TimeoutStartSec=60

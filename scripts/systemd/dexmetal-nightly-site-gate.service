@@ -2,6 +2,7 @@
 Description=DexMetal nightly homepage, sitemap, and PostHog gate
 After=network-online.target
 Wants=network-online.target
+OnFailure=dexmetal-site-gate-alert.service
 
 [Service]
 Type=oneshot
