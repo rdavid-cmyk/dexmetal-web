@@ -31,9 +31,17 @@ const SECTION_META: Record<string, { title: string; description: string }> = {
 // Leaf-page SEO overrides — keyed by full slug as stored in DB.
 // Takes priority over DB metaTitle/metaDescription for zero-click / high-impression pages.
 const PAGE_META: Record<string, { title: string; description: string }> = {
-  'e-waste-materials-reference': {
-    title: 'E-Waste Materials Reference Guide | Basel Convention',
-    description: 'Complete reference for e-waste materials under the Basel Convention — classifications, codes, and handling requirements for recyclers and exporters.',
+  'country/us-export-requirements': {
+    title: 'Amber-List & Basel Waste Export Permits (US)',
+    description: 'What US exporters need before amber-listed or Basel-controlled waste ships: permits, written consent, and the documents to have ready.',
+  },
+  'reference/e-waste-materials-reference': {
+    title: 'E-Waste Composition & Hazardous Materials',
+    description: 'What e-waste is made of, including PCBs and hazardous materials like lead and mercury, and how materials map to Basel codes such as A1181, B1010 and Y49.',
+  },
+  'ewaste/y49-vs-a1181-classification-guide': {
+    title: 'Y49 vs A1181: Classifying E-Waste Under Basel',
+    description: 'Y49 or A1181? A plain guide to classifying e-waste under the 2025 Basel amendments, and what each code means for consent before you ship.',
   },
   '2025-basel-e-waste-changes': {
     title: '2025 Basel E-Waste Changes Explained',
