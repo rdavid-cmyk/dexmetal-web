@@ -60,6 +60,16 @@ function collectLinks(node, out = []) {
   return out
 }
 
+function firstLink(node) {
+  if (!node) return null
+  if (node.type === 'link') return node
+  if (node.root) return firstLink(node.root)
+  if (Array.isArray(node.children)) for (const child of node.children) { const found = firstLink(child); if (found) return found }
+  if (Array.isArray(node.fields?.children)) for (const child of node.fields.children) { const found = firstLink(child); if (found) return found }
+  if (node.fields?.content) return firstLink(node.fields.content)
+  return null
+}
+
 function routeParagraph() {
   return {
     type: 'paragraph',
@@ -72,11 +82,15 @@ function routeParagraph() {
     children: [{
       type: 'link',
       fields: {
-        id: null,
-        linkType: 'custom',
-        newTab: false,
         url: ROUTE_URL,
-        children: [{
+        newTab: false,
+        linkType: 'custom',
+      },
+      format: '',
+      indent: 0,
+      version: 3,
+      direction: 'ltr',
+      children: [{
           type: 'text',
           detail: 0,
           format: 0,
@@ -84,24 +98,44 @@ function routeParagraph() {
           style: '',
           text: ROUTE_TEXT,
           version: 1,
-        }],
-      },
-      direction: 'ltr',
-      format: '',
-      indent: 0,
-      version: 2,
+      }],
     }],
   }
+}
+
+function normalizeRouteLinks(node) {
+  if (!node || typeof node !== 'object') return node
+  if (node.type === 'link' && node.fields?.url === ROUTE_URL) {
+    return {
+      ...node,
+      fields: {
+        url: ROUTE_URL,
+        newTab: node.fields.newTab ?? false,
+        linkType: node.fields.linkType ?? 'custom',
+      },
+      format: node.format ?? '',
+      indent: node.indent ?? 0,
+      version: 3,
+      direction: node.direction ?? 'ltr',
+      children: node.children ?? node.fields.children ?? [],
+    }
+  }
+  const result = { ...node }
+  if (Array.isArray(node.children)) result.children = node.children.map(normalizeRouteLinks)
+  if (node.root) result.root = normalizeRouteLinks(node.root)
+  if (node.fields?.content) result.fields = { ...node.fields, content: normalizeRouteLinks(node.fields.content) }
+  return result
 }
 
 function withRouteLink(content) {
   const value = content && typeof content === 'object' ? structuredClone(content) : {
     root: { type: 'root', format: '', indent: 0, version: 1, direction: 'ltr', children: [] },
   }
-  const children = value.root?.children ?? []
-  if (hasRouteLink(value)) return { content: value, added: false }
-  value.root = { ...value.root, children: [...children, routeParagraph()] }
-  return { content: value, added: true }
+  const normalized = normalizeRouteLinks(value)
+  const children = normalized.root?.children ?? []
+  if (hasRouteLink(normalized)) return { content: normalized, added: false }
+  normalized.root = { ...normalized.root, children: [...children, routeParagraph()] }
+  return { content: normalized, added: true }
 }
 
 function brief(doc, key, collection) {
@@ -112,6 +146,8 @@ function brief(doc, key, collection) {
     key,
     id: doc.id,
     slug: doc.slug,
+    status: doc._status ?? null,
+    updatedAt: doc.updatedAt ?? null,
     title: doc.title,
     metaTitle: collection === 'posts' ? doc.meta?.title ?? null : doc.metaTitle ?? null,
     metaDescription: collection === 'posts' ? doc.meta?.description ?? null : doc.metaDescription ?? null,
@@ -133,7 +169,7 @@ async function main() {
     where: { slug: { in: Object.keys(targets.knowledgeHub) } },
     limit: 20,
     pagination: false,
-    draft: false,
+    draft: true,
     overrideAccess: true,
   })
   const postResult = await payload.find({
@@ -144,6 +180,66 @@ async function main() {
     draft: false,
     overrideAccess: true,
   })
+
+  if (mode === 'repair-us') {
+    const doc = await payload.findByID({ collection: 'knowledge-hub-pages', id: 17, draft: true, overrideAccess: true })
+    if (!doc) throw new Error('Knowledge-hub page id=17 not found')
+    const route = withRouteLink(doc.content)
+    await payload.update({
+      collection: 'knowledge-hub-pages',
+      id: doc.id,
+      data: { slug: 'country/us-export-requirements', content: route.content, _status: 'published' },
+      draft: false,
+      overrideAccess: true,
+      context: { disableRevalidate: true },
+    })
+    console.log(JSON.stringify({ collection: 'knowledge-hub-pages', id: doc.id, oldSlug: doc.slug, slug: 'country/us-export-requirements', routeLinkAdded: route.added }))
+    process.exit(0)
+  }
+
+  if (mode === 'country') {
+    const result = await payload.find({
+      collection: 'knowledge-hub-pages',
+      where: { slug: { like: 'country/' } },
+      limit: 200,
+      pagination: false,
+      draft: true,
+      overrideAccess: true,
+      select: { id: true, slug: true, title: true, _status: true, updatedAt: true },
+    })
+    for (const doc of result.docs) console.log(JSON.stringify(doc))
+    process.exit(0)
+  }
+
+  if (mode === 'find-us') {
+    for (const draft of [false, true]) {
+      const result = await payload.find({
+        collection: 'knowledge-hub-pages',
+        where: { slug: { equals: 'country/us-export-requirements' } },
+        limit: 20,
+        pagination: false,
+        draft,
+        overrideAccess: true,
+      })
+      console.log(JSON.stringify({ draft, docs: result.docs.map((doc) => ({ id: doc.id, slug: doc.slug, status: doc._status, title: doc.title })) }))
+    }
+    process.exit(0)
+  }
+
+  if (mode === 'find-all') {
+    const result = await payload.find({ collection: 'knowledge-hub-pages', limit: 1000, pagination: false, draft: true, overrideAccess: true, select: { id: true, slug: true, title: true, _status: true } })
+    for (const doc of result.docs) {
+      if (String(doc.id) === '17' || String(doc.title ?? '').toLowerCase().includes('us export')) console.log(JSON.stringify(doc))
+    }
+    console.log(JSON.stringify({ total: result.docs.length }))
+    process.exit(0)
+  }
+
+  if (mode === 'dump-link') {
+    const doc = await payload.findByID({ collection: 'knowledge-hub-pages', id: 8, draft: false, overrideAccess: true })
+    console.log(JSON.stringify(firstLink(doc.content)))
+    process.exit(0)
+  }
 
   if (mode === 'inspect') {
     for (const doc of khResult.docs) console.log(JSON.stringify(brief(doc, doc.slug, 'knowledge-hub-pages')))
@@ -159,7 +255,8 @@ async function main() {
     await payload.update({
       collection: 'knowledge-hub-pages',
       id: doc.id,
-      data: { content: route.content },
+      data: { content: route.content, _status: 'published' },
+      draft: false,
       overrideAccess: true,
       context: { disableRevalidate: true },
     })
@@ -181,6 +278,7 @@ async function main() {
         },
         content: route.content,
       },
+      draft: false,
       overrideAccess: true,
       context: { disableRevalidate: true },
     })
