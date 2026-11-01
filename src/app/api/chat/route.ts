@@ -3,6 +3,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { normalizeChatRequest } from "@/lib/chat/request-safety";
+import { selectBaselEvidence, officialEvidenceContext, officialEvidenceReferences } from "@/lib/basel/official-evidence";
+import { requestedCACountry, readOnlyCALookup, formatCAResponse } from "@/lib/basel/agent-ca-tool";
 import {
   AGENT_REGULATORY_GROUNDING,
   detectHardFactContradictions,
@@ -251,7 +253,8 @@ async function getAnswer(
   history: { role: string; content: string }[],
   correction?: string,
 ): Promise<string> {
-  return await getGroqResponse(message, history, correction);
+  const evidence = officialEvidenceContext(selectBaselEvidence(message));
+  return await getGroqResponse(message, history, [evidence, correction].filter(Boolean).join("\n\n"));
 }
 
 export async function POST(request: NextRequest) {
@@ -277,6 +280,16 @@ export async function POST(request: NextRequest) {
     const { message, history } = safeRequest;
 
     cta = detectWorkflowIntent(message);
+    const caCountry = requestedCACountry(message);
+    if (caCountry) {
+      const contacts = await readOnlyCALookup(caCountry);
+      return NextResponse.json({
+        answer: formatCAResponse(contacts, caCountry),
+        source: "ai",
+        cta: cta || undefined,
+      });
+    }
+
     let answer = await getAnswer(message, history);
     let contradictions = detectHardFactContradictions(answer, message);
 
@@ -294,6 +307,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // The model cannot mint its own citations: reference URLs come only from
+    // the verified, versioned Basel source list chosen outside the model.
+    answer += officialEvidenceReferences(selectBaselEvidence(message));
     return NextResponse.json({
       answer,
       source: "ai",
