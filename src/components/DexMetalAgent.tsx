@@ -79,7 +79,7 @@ export function DexMetalAgent({ embedded = false }: { embedded?: boolean }) {
     setMessages(prev => [...prev, { role: 'user', content: text }])
     setIsThinking(true)
     try {
-      const history = messages.map(m => ({ role: m.role, content: m.content }))
+      const history = messages.slice(-12).map(m => ({ role: m.role, content: m.content.slice(0, 2000) }))
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
