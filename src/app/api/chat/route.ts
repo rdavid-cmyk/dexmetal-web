@@ -2,6 +2,7 @@
 // (build first, restart only on success). Never run `pm2 restart dexmetal-web` directly.
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { normalizeChatRequest } from "@/lib/chat/request-safety";
 import {
   AGENT_REGULATORY_GROUNDING,
   detectHardFactContradictions,
@@ -269,11 +270,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { message, history = [] } = body;
-
-    if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+    const safeRequest = normalizeChatRequest(body);
+    if (!safeRequest) {
+      return NextResponse.json({ error: "Invalid chat request" }, { status: 400 });
     }
+    const { message, history } = safeRequest;
 
     cta = detectWorkflowIntent(message);
     let answer = await getAnswer(message, history);
