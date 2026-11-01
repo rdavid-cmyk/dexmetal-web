@@ -9,7 +9,7 @@ export type CAContact = {
 
 export function requestedCACountry(message: string): string | null {
   const trimmed = message.trim()
-  const match = trimmed.match(/^(?:(?:please\s+)?(?:find|show|get|look up|lookup)\s+|(?:who|what|which)\s+is\s+)?(?:the\s+)?(?:basel\s+)?(?:competent authority|ca contact|authority contact|ca)(?:\s+contact)?\s+(?:for|in|of)\s+([a-zA-Z][a-zA-Z .'-]{1,69})[?.!]?$/i)
+  const match = trimmed.match(/^(?:(?:please\s+)?(?:find|show|get|look up|lookup)\s+|(?:who|what|which)\s+is\s+)?(?:the\s+)?(?:basel\s+)?(?:competent authority|ca contacts?|authority contacts?|ca)(?:\s+contacts?)?\s+(?:for|in|of)\s+([a-zA-Z][a-zA-Z .'-]{1,69})[?.!]?$/i)
   if (!match) return null
   const country = match[1].trim().replace(/[?.!]$/, '').trim()
   return country.length >= 2 && country.length <= 70 ? country : null
