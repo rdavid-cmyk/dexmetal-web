@@ -32,17 +32,18 @@ export async function readOnlyCALookup(country: string): Promise<CAContact[] | n
     if (!data || typeof data !== 'object') return null
     const items = (data as { items?: unknown }).items
     if (!Array.isArray(items)) return null
-    const requested = country.toLowerCase()
+    const normalizeName = (text: string) => text.replace(/\s*&\s*/g, ' and ').replace(/\s+/g, ' ').trim().toLowerCase()
+    const requested = normalizeName(country)
     const matched = items.filter((item) => {
       if (!item || typeof item !== 'object') return false
       const row = item as Record<string, unknown>
-      return String(row.country_name || '').toLowerCase() === requested ||
-        (requested.length === 2 && String(row.country_code || '').toLowerCase() === requested)
+      return normalizeName(String(row.country_name || '')) === requested ||
+        (requested.length === 2 && String(row.country_code || '').trim().toLowerCase() === requested)
     })
     return matched.slice(0, 3).map((row: Record<string, unknown>) => ({
-      country: String(row.country_name || '').slice(0, 100),
-      code: String(row.country_code || '').slice(0, 5),
-      authority_name: String(row.ca_name || 'Not supplied').slice(0, 180),
+      country: String(row.country_name || '').trim().slice(0, 100),
+      code: String(row.country_code || '').trim().slice(0, 5),
+      authority_name: String(row.ca_name || 'Not supplied').trim().slice(0, 180),
       website: /^https?:\/\//i.test(String(row.website || '')) ? String(row.website).slice(0, 300) : undefined,
       last_verified: String(row.last_verified_date || '').slice(0, 30) || undefined,
     }))
