@@ -28,6 +28,40 @@ function clean(value: unknown, max = 1000) {
   return String(value ?? '').trim().slice(0, max)
 }
 
+/**
+ * Anonymous event emitted only after durable intake persistence. This counts a
+ * received enquiry, NOT a qualified prospect, payment or completed service.
+ * Never send submitted route details or personal information to analytics.
+ */
+async function reportPersistedIntake(internalTest: boolean) {
+  const key = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN
+  if (!key) return
+  try {
+    const configured = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com'
+    const endpoint = new URL('/capture/', configured)
+    if (endpoint.protocol !== 'https:') return
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        api_key: key,
+        event: 'route_check_intake_persisted',
+        distinct_id: randomUUID(),
+        properties: {
+          internal_test: internalTest,
+          source: 'server',
+          $process_person_profile: false,
+        },
+      }),
+      signal: AbortSignal.timeout(3500),
+      cache: 'no-store',
+    })
+    if (!response.ok) console.warn('Route Check analytics capture not accepted:', response.status)
+  } catch {
+    console.warn('Route Check analytics capture temporarily unavailable')
+  }
+}
+
 async function persistSubmission(submission: Record<string, string>) {
   await mkdir(dirname(routeCheckStore), { recursive: true, mode: 0o700 })
   await appendFile(
@@ -77,6 +111,7 @@ export async function POST(req: NextRequest) {
     // The private server-side record is the system of record for V1.
     // Alert channels are secondary and may fail without losing the submission.
     await persistSubmission(submission)
+    await reportPersistedIntake(new URL(req.url).searchParams.get('internal_test') === '1')
 
     const rows = [
       ['Reference', submission.reference],
